@@ -25,7 +25,7 @@ PDFs.prototype.fillAvvisoPubblicazione = function(document_name, destination, np
       destinationPDF = destination+'/noname.pdf';
   }
   var shouldFlatten = true;
-  pdfFormFiller.fillPDF(sourcePDF, destinationPDF, data, true, callback);
+  pdfFormFiller.fillPDF(sourcePDF, destinationPDF, data, false, callback);
 }
 
 module.exports = PDFs;
