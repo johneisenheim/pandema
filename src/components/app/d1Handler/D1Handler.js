@@ -60,7 +60,7 @@ class D1Handler extends React.Component{
 
   _next (){
     //alert(this.props.params.id);
-    if(this.state.stepIndex == 0){
+    /*if(this.state.stepIndex == 0){
       var formData = new FormData();
       formData.append('entity', 'a');
       formData.append('city', global.city);
@@ -88,7 +88,7 @@ class D1Handler extends React.Component{
           }
       });
       return;
-    }
+    }*/
     if(this.state.stepIndex == 5){
       if( this.props.params.id != 'k'){
         alert('Pratica D1 per n.pratica '+this.props.params.id +' inserita correttamente!');
