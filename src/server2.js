@@ -33,7 +33,7 @@ app2.use(function (req, res, next) {
     next();
 
 
-    
+
 });
 
 app2.use(bodyParser.json());// to support JSON-encoded bodies
@@ -125,11 +125,8 @@ app2.listen(8001, ()=> {
   middleware = new Middleware();
   if(middleware.connect()){
     console.log('Base: '+__base);
-    fs.access(__base+'/documents', fs.constants.R_OK, (err) => {
-      if(err){
+    if( !fs.existsSync(__base+'/documents'))
         fs.mkdirSync(__base+'/documents');
-      }
-    });
 
     middleware.getAllComuni(function(data){
         if( data == null )
