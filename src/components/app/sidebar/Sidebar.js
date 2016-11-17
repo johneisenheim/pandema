@@ -82,6 +82,7 @@ class Sidebar extends React.Component{
                   onMouseEnter={this._onMouseEnter.bind(this,2)}
                   onMouseLeave={this._onMouseLeave.bind(this,2)}
                 />
+              <Link to="/gestioneabusi" style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}>
               <ListItem primaryText="Gestione Abusi"
                   style={{backgroundColor:this.state.values[3]!==''  ? this.state.values[3] : '', fontSize:'14px', fontWeight:'500', height:'60px'}}
                   innerDivStyle = {{paddingLeft:'65px', paddingTop:'21px'}}
@@ -90,14 +91,7 @@ class Sidebar extends React.Component{
                   onMouseEnter={this._onMouseEnter.bind(this,3)}
                   onMouseLeave={this._onMouseLeave.bind(this,3)}
                 />
-                <ListItem primaryText="Inbox"
-                  style={{backgroundColor:this.state.values[4]!=='' ? this.state.values[4] : '', fontSize:'14px', fontWeight:'500', height:'60px'}}
-                  innerDivStyle = {{paddingLeft:'65px', paddingTop:'21px'}}
-                  leftIcon={<ContentInbox style={{fill:'#FFFFFF', marginTop:'17px'}}/>}
-                  onClick={this._onClick.bind(this, 4)}
-                  onMouseEnter={this._onMouseEnter.bind(this,4)}
-                  onMouseLeave={this._onMouseLeave.bind(this,4)}
-                />
+              </Link>
               </List>
           </div>
     )

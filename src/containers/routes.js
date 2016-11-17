@@ -16,6 +16,9 @@ import Admin from '../components/admin/Admin';
 import AvvisoDiniego from '../components/app/forms/AvvisoDiniego';
 import AvvisoPubblicazione from '../components/app/forms/AvvisoPubblicazione';
 import NuovaPratica from '../components/app/forms/NuovaPratica';
+import GestioneAbusi from '../components/app/abusi/GestioneAbusi';
+import HandleGestioneAbusi from '../components/app/abusi/HandleGestioneAbusi';
+import NuovaPraticaAbusi from '../components/app/forms/NuovaPraticaAbusi';
 /**
  * The React Router routes for both the server and the client.
  */
@@ -44,6 +47,9 @@ module.exports = (
 			<Route path='/avvisodiniego' component={AvvisoDiniego} />
 			<Route path='/avvisopubblicazione' component={AvvisoPubblicazione} />
 			<Route path='/nuovapratica' component={NuovaPratica} />
+			<Route path='/nuovapraticaabusi' component={NuovaPraticaAbusi} />
+			<Route path='/gestioneabusi' component={GestioneAbusi} />
+			<Route path='/handlegestioneabusi/:id' component={HandleGestioneAbusi} />
 		</Route>
 	</Router>
 );
