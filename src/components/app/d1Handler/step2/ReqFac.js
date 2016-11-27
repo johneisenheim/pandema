@@ -53,7 +53,7 @@ class ReqFac extends React.Component{
     return(
       <div>
         <div style={{width:'100%', marginTop:'30px'}}>
-          <Box flow alignItems='flex-end' justifyContent='flex-end' style={{marginRight:'20px'}}>
+          <Box alignItems='flex-end' justifyContent='flex-end' style={{marginRight:'20px'}}>
               <RaisedButton icon={<Attach/>} label="Allega nuovo documento" primary={true} labelStyle={{color:'#FFFFFF'}}/>
           </Box>
         </div>

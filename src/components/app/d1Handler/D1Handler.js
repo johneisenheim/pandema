@@ -194,6 +194,16 @@ class D1Handler extends React.Component{
                 opened : false
               })
           }
+          if(this.state.modalContent == 'avvisoistruzioni'){
+              //global.greatObject.d1.pdfs['avvisopubblicazione'] = json;
+              global.greatObject.d1['pdfs'] = {};
+              global.greatObject.d1['pdfs']['avvisopubblicazione'] = json;
+              this.refs.step1._avvisoIstruzioniCheckColor(true);
+              this.setState({
+                ...this.state,
+                opened : false
+              })
+          }
         break;
       }
   }
