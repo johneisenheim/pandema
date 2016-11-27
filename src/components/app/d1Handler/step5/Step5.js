@@ -5,16 +5,20 @@ import Check from 'material-ui/svg-icons/action/check-circle';
 
 class Step5 extends React.Component{
 
-  state = {
-    currentCheck : greatObject.d1.diniego !== undefined ? ( !greatObject.d1.diniego ? 'calculate' : 'deny') : 'deny',
-    buttonDisabled : false
+  constructor(props,context){
+    super(props, context);
+    this.state = {
+      currentCheck : greatObject.d1.diniego !== undefined ? ( greatObject.d1.diniego === false ? 'calculate' : 'deny') : 'deny',
+      buttonDisabled : false
+    }
+    this.state.currentCheck === 'deny' ? greatObject.d1.diniego = false : greatObject.d1.diniego = true;
   }
 
   _onRadioChange(e,v){
     this.state.currentCheck = v;
     this.state.buttonDisabled = false;
     this.setState(this.state);
-    v === 'deny' ? greatObject.d1.diniego = false : greatObject.d1.diniego = true;
+    v === 'deny' ? greatObject.d1.diniego = true : greatObject.d1.diniego = false;
   }
 
   //chiamata dal padre
@@ -29,7 +33,7 @@ class Step5 extends React.Component{
           Inserire esito della compatibilità con il piano di utilizzo della costa o altri atti di pianificazione:
         </p>
         <div style={{marginTop:'30px'}}>
-          <RadioButtonGroup name="step5" defaultSelected="deny" onChange={this._onRadioChange.bind(this)}>
+          <RadioButtonGroup name="step5" defaultSelected={this.state.currentCheck} onChange={this._onRadioChange.bind(this)}>
             <RadioButton
               value="deny"
               label="Diniego per struttura favorevole"

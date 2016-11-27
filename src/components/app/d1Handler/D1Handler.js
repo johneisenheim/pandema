@@ -89,7 +89,7 @@ class D1Handler extends React.Component{
       });
       return;
     }*/
-    if(this.state.stepIndex == 5){
+    if(this.state.stepIndex == 4){
       /*if( this.props.params.id != 'k'){
         alert('Pratica D1 per n.pratica '+this.props.params.id +' inserita correttamente!');
       }*/
@@ -97,7 +97,7 @@ class D1Handler extends React.Component{
         alert('Diniego inoltrato!');
         return;
       }
-      
+
     }
     this.setState({
       ...this.state,
