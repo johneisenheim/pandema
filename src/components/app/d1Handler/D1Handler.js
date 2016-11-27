@@ -90,10 +90,14 @@ class D1Handler extends React.Component{
       return;
     }*/
     if(this.state.stepIndex == 5){
-      if( this.props.params.id != 'k'){
+      /*if( this.props.params.id != 'k'){
         alert('Pratica D1 per n.pratica '+this.props.params.id +' inserita correttamente!');
+      }*/
+      if( this.refs.step5.getDiniego() === 'deny' ){
+        alert('Diniego inoltrato!');
+        return;
       }
-      return;
+      
     }
     this.setState({
       ...this.state,
@@ -151,7 +155,7 @@ class D1Handler extends React.Component{
         return <Step4 tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 4:
-        return <Step5 tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        return <Step5 ref="step5" tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 5:
         return <Step6 tellMeModalContent={this.tellMeModalContent.bind(this)}/>;

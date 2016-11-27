@@ -6,7 +6,7 @@ import Check from 'material-ui/svg-icons/action/check-circle';
 class Step5 extends React.Component{
 
   state = {
-    currentCheck : '',
+    currentCheck : greatObject.d1.diniego !== undefined ? ( !greatObject.d1.diniego ? 'calculate' : 'deny') : 'deny',
     buttonDisabled : false
   }
 
@@ -14,15 +14,12 @@ class Step5 extends React.Component{
     this.state.currentCheck = v;
     this.state.buttonDisabled = false;
     this.setState(this.state);
+    v === 'deny' ? greatObject.d1.diniego = false : greatObject.d1.diniego = true;
   }
 
-  _onConfirm(){
-    if(this.state.currentCheck !== 'calculate'){
-      alert('Diniego inoltrato');
-    }else{
-      this.state.buttonDisabled = true;
-      this.setState(this.state);
-    }
+  //chiamata dal padre
+  getDiniego(){
+    return this.state.currentCheck;
   }
 
   render(){
@@ -46,17 +43,6 @@ class Step5 extends React.Component{
           </RadioButtonGroup>
         </div>
         <br/>
-        <RaisedButton
-          label="Conferma"
-          linkButton={false}
-          href=""
-          primary={true}
-          icon={<Check />}
-          labelStyle={{color:'#FFFFFF'}}
-          disabled={this.state.buttonDisabled}
-          style={{marginTop:'10px'}}
-          onClick={this._onConfirm.bind(this)}
-        /><br/>
       </div>
     )
   }

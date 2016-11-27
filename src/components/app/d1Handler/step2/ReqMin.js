@@ -169,7 +169,7 @@ class ReqMin extends React.Component{
               <TableRowColumn><span style={this.state.a == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.a}</span></TableRowColumn>
               <TableRowColumn>
                 <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                    <input type="file" style={styles.inputFile} ref="file1" onChange={this._onFileInputChange.bind(this, 'visuracamerale')}/>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'visuracamerale')}/>
                 </FlatButton>
                 { this.state.a !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'a')} icon={<Delete/>}/>: null}
               </TableRowColumn>
@@ -179,7 +179,7 @@ class ReqMin extends React.Component{
               <TableRowColumn><span style={this.state.b == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.b}</span></TableRowColumn>
               <TableRowColumn>
                 <FlatButton label="Allega file" backgroundColor='#FFFFFF' >
-                  <input type="file" style={styles.inputFile} ref="file2" onChange={this._onFileInputChange.bind(this, 'carichipenali')}/>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'carichipenali')}/>
                 </FlatButton>
                 { this.state.b !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'b')} icon={<Delete/>}/>: null}
               </TableRowColumn>
@@ -189,7 +189,7 @@ class ReqMin extends React.Component{
               <TableRowColumn><span style={this.state.c == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.c}</span></TableRowColumn>
               <TableRowColumn>
                 <FlatButton label="Allega file" backgroundColor='#FFFFFF' >
-                  <input type="file" style={styles.inputFile} ref="file3" onChange={this._onFileInputChange.bind(this, 'casellariogiudiziale')}/>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'casellariogiudiziale')}/>
                 </FlatButton>
                 { this.state.c !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'c')} icon={<Delete/>}/>: null}
               </TableRowColumn>
@@ -199,7 +199,7 @@ class ReqMin extends React.Component{
               <TableRowColumn><span style={this.state.d == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.d}</span></TableRowColumn>
               <TableRowColumn>
                 <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                  <input type="file" style={styles.inputFile} ref="file4" onChange={this._onFileInputChange.bind(this, 'durc')}/>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file4" onChange={this._onFileInputChange.bind(this, 'durc')}/>
                 </FlatButton>
                 { this.state.d !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'d')} icon={<Delete/>}/>: null}
               </TableRowColumn>
@@ -209,7 +209,7 @@ class ReqMin extends React.Component{
               <TableRowColumn><span style={this.state.e == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.e}</span></TableRowColumn>
               <TableRowColumn>
                 <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                  <input type="file" style={styles.inputFile} ref="file5" onChange={this._onFileInputChange.bind(this, 'certificatofallimentare')}/>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file5" onChange={this._onFileInputChange.bind(this, 'certificatofallimentare')}/>
                 </FlatButton>
                 { this.state.e !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'e')} icon={<Delete/>}/>: null}
               </TableRowColumn>
@@ -219,7 +219,7 @@ class ReqMin extends React.Component{
               <TableRowColumn><span style={this.state.f == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.f}</span></TableRowColumn>
               <TableRowColumn>
                 <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                  <input type="file" style={styles.inputFile} ref="file6" onChange={this._onFileInputChange.bind(this, 'certificatoantimafia')}/>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file6" onChange={this._onFileInputChange.bind(this, 'certificatoantimafia')}/>
                 </FlatButton>
                 { this.state.f !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'f')} icon={<Delete/>}/>: null}
               </TableRowColumn>
