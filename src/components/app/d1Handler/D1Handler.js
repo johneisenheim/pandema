@@ -99,6 +99,38 @@ class D1Handler extends React.Component{
       }
 
     }
+    if( this.state.stepIndex == 5){
+      console.log(this.refs.step6._getCanoneValues());
+      //Fine processo
+      /*console.log(greatObject.d1);
+      console.log('Sto inviando...');
+      var formData = new FormData();
+      formData.append('entity', 'a');
+      formData.append('city', global.city);
+      formData.append('npratica', 'n39');
+      for ( var key in global.greatObject.d1.files ){
+        formData.append(key, global.greatObject.d1.files[key]);
+      }
+
+      for ( var key in global.greatObject.d1.pdfs ){
+        formData.append(key, JSON.stringify(global.greatObject.d1.pdfs[key]));
+      }
+
+      $.ajax({
+          type: 'POST',
+          data: formData,
+          url: 'http://127.0.0.1:8001/handled1',
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            console.log(data);
+          },
+          error : function(err){
+            console.log(err);
+          }
+      });*/
+      return;
+    }
     this.setState({
       ...this.state,
       stepIndex : this.state.stepIndex+1,
@@ -158,7 +190,7 @@ class D1Handler extends React.Component{
         return <Step5 ref="step5" tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 5:
-        return <Step6 tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        return <Step6 ref="step6" tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       default:
 
