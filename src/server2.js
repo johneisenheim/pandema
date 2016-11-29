@@ -121,7 +121,7 @@ app2.post('/handled1', function(req, res){
       }
       //if per i vari pdf
       if( name === 'canone'){
-          toDB['canone'] = value;
+          toDB['canone'] = JSON.parse(value);
       }
       if( name === 'diniego'){
         toDB['diniego'] = value;

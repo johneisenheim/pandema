@@ -25,13 +25,13 @@ class Step6 extends React.Component{
   //chiamata dal padre
   _getCanoneValues(){
     var toReturn = {};
-    toReturn['Usi vari'] = this.refs.usivari.getValue() === '' ? 0.0 : this.refs.usivari.getValue();
-    toReturn['Turistico e diporto'] = this.refs.turisticoediporto.getValue() === '' ? 0.0 : this.refs.turisticoediporto.getValue();
-    toReturn['Pesca, acqua e cantieri'] = this.refs.pesca.getValue() === '' ? 0.0 : this.refs.pesca.getValue();
-    toReturn['Regione Campania'] = this.refs.regione.getValue() === '' ? 0.0 : this.refs.regione.getValue();
-    toReturn['Pertinenza Demaniale'] = this.refs.pertinenza.getValue() === '' ? 0.0 : this.refs.pertinenza.getValue();
+    toReturn['usi_vari'] = this.refs.usivari.getValue() === '' ? 0.0 : this.refs.usivari.getValue();
+    toReturn['turistico_e_diporto'] = this.refs.turisticoediporto.getValue() === '' ? 0.0 : this.refs.turisticoediporto.getValue();
+    toReturn['pesca_acqua_cantieri'] = this.refs.pesca.getValue() === '' ? 0.0 : this.refs.pesca.getValue();
+    toReturn['regione_campania'] = this.refs.regione.getValue() === '' ? 0.0 : this.refs.regione.getValue();
+    toReturn['pertinenza_demaniale'] = this.refs.pertinenza.getValue() === '' ? 0.0 : this.refs.pertinenza.getValue();
 
-    return toReturn;
+    return JSON.stringify(toReturn);
   }
 
   render(){

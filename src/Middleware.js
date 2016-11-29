@@ -140,42 +140,49 @@ class Middleware{
       if(_self.fields.canone === undefined)
         return;
 
-      console.log(JSON.stringify(_self.fields.canone));
+        console.log(_self.fields.canone);
 
       async.forEachOfSeries(_self.fields.canone, function(value, key, callback){
+        console.log(value);
+        if(parseFloat(value) > 0)
+          async.waterfall([
+            function(_callback) {
+                _self.connection.query("SELECT id FROM tipo_canone WHERE descrizione="+_self.connection.escape(key), function(err, rows){
+                  if(err){
+                    console.log('Err in eachof2 '+ err);
+                    return _callback(err);
+                  }
+                  console.log(rows);
+                  _callback(null, rows[0].id);
+                });
 
-        async.waterfall([
-          function(_callback) {
-              _self.connection.query("SELECT id FROM tipo_canone WHERE descrizione="+_self.connection.escape(key), function(err, rows){
-                if(err){
-                  console.log('Err in eachof2 '+ err);
-                  return callback(err);
-                }
-                _callback(null, rows[0].id);
-              });
+            },
+            function(id, _callback) {
+              console.log("INSERT INTO canone (valore, tipo_canone_id) VALUES("+_self.connection.escape(_self.fields.canone[key])+","+_self.connection.escape(id)+")")
+                _self.connection.query("INSERT INTO canone (valore, tipo_canone_id) VALUES("+_self.connection.escape(_self.fields.canone[key])+","+_self.connection.escape(id)+")", function(err, rows){
+                  if(err){
+                    console.log('Err in eachof3 '+ err);
+                    return _callback(err);
+                  }
+                  _callback(null, rows.insertId);
+                });
+            },
+            function(canone_id, _callback) {
+                var floated = parseFloat(canone_id);
+                console.log("INSERT INTO pratica_has_canone (pratica_id, pratica_pandema_id, canone_id) VALUES("+_self.connection.escape(_self.insertedPraticaID)+","+_self.connection.escape(_self.fields['npratica'])+","+_self.connection.escape(floated)+")")
+                _self.connection.query("INSERT INTO pratica_has_canone (pratica_id, pratica_pandema_id, canone_id) VALUES("+_self.connection.escape(_self.insertedPraticaID)+","+_self.connection.escape(_self.fields['npratica'])+","+_self.connection.escape(floated)+")", function(err, rows){
+                  if(err){
+                    console.log('Err in eachof4 '+ err);
+                    return _callback(err);
+                  }
+                });
+                _callback(null, 'three');
+            }
+          ], function (err, result) {
+              callback();
+          });
 
-          },
-          function(id, _callback) {
-              _self.connection.query("INSERT INTO canone (valore, tipo_canone_id) VALUES("+_self.connection.escape(_self.fields.canone[key])+","+_self.connection.escape(id)+")", function(err, rows){
-                if(err){
-                  return callback(err);
-                }
-                _callback(null, rows.insertId);
-              });
-          },
-          ,
-          function(canone_id, _callback) {
-              var floated = parseFloat(canone_id);
-              _self.connection.query("INSERT INTO pratica_has_canone (pratica_id, pratica_pandema_id, canone_id) VALUES("+_self.connection.escape(_self.insertedPraticaID)+","+_self.connection.escape(_self.fields['npratica'])+","+_self.connection.escape(floated)+")", function(err, rows){
-                if(err){
-                  return callback(err);
-                }
-              });
-              _callback(null, 'three');
-          }
-        ], function (err, result) {
-            callback();
-        });
+          else callback();
       }, function (err) {
           if (err) console.error(err.message);
           // documentsFromTable is now a map of JSON data
