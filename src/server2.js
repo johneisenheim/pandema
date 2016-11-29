@@ -81,26 +81,36 @@ app2.post('/handled1', function(req, res){
   var city = null;
   var folder = null;
   var npratica = null;
+  var toDB = {};
 
   form.parse(req);
 
   form.on('fileBegin', function(name, file){
     file.path = folder+'/'+name+'_'+npratica+'.pdf';
     console.log('new file path is : '+file.path);
+    if(toDB['files'] !== undefined)
+      toDB['files'][name] = file.path;
+    else{
+      toDB['files'] = {};
+      toDB['files'][name] = file.path;
+    }
   });
 
-  form.on('file', function(name, file) {
-  });
+  form.on('file', function(name, file) {});
 
   form.on('field', function(name, value){
     console.log('Received a field with name '+name+' and value '+value);
     if( name === 'city'){
       city = crypto.createHash('md5').update(value+'pandemanellotalassa').digest("hex");
+      toDB['citta'] = value;
     }else if(name == 'npratica'){
       folder = __base+'/documents/'+city+'/'+value+'/d1';
       npratica = value;
-      fs.mkdirSync(__base+'/documents/'+city+'/'+value);
-      fs.mkdirSync(folder);
+      toDB['npratica'] = value;
+      if(!fs.existsSync(__base+'/documents/'+city+'/'+value))
+        fs.mkdirSync(__base+'/documents/'+city+'/'+value);
+      if(!fs.existsSync(folder))
+        fs.mkdirSync(folder);
     }else{
       if( name == 'avvisopubblicazione'){
         console.log('Handle PDF '+name);
@@ -109,11 +119,23 @@ app2.post('/handled1', function(req, res){
         };
         pdfs.fillAvvisoPubblicazione(name, folder, npratica, 'D1', JSON.parse(value), cllb);
       }
+      //if per i vari pdf
+      if( name === 'canone'){
+          toDB['canone'] = value;
+      }
+      if( name === 'diniego'){
+        toDB['diniego'] = value;
+      }
+      if( name === 'compatibility'){
+        toDB['compatibility'] = value;
+      }
     }
   });
 
   form.on('end', function(){
-    res.end('Ok!');
+    //console.log(toDB);
+    middleware.d1DBOperations(res, toDB);
+    //res.end('Ok!');
   })
 
 });

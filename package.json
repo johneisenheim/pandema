@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "animakit-rotator": "^2.0.0",
+    "async": "^2.1.4",
     "babel-polyfill": "6.16.0",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",

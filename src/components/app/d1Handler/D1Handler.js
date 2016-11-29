@@ -100,14 +100,23 @@ class D1Handler extends React.Component{
 
     }
     if( this.state.stepIndex == 5){
-      console.log(this.refs.step6._getCanoneValues());
+      greatObject.d1['canone'] = this.refs.step6._getCanoneValues(); //lo memorizziamo in greatObject.d1.canone
+      console.log(greatObject);
+      console.log(greatObject.d1.canone);
+      var webStorage = new WebStorage(
+        window.localStorage ||
+        window.sessionStorage
+      );
+      console.log(webStorage.getItem("city"));
       //Fine processo
-      /*console.log(greatObject.d1);
+      console.log(greatObject.d1);
       console.log('Sto inviando...');
       var formData = new FormData();
       formData.append('entity', 'a');
       formData.append('city', global.city);
       formData.append('npratica', 'n39');
+      formData.append('compatibility', greatObject.d1.compatibility);
+      formData.append('canone', greatObject.d1.canone);
       for ( var key in global.greatObject.d1.files ){
         formData.append(key, global.greatObject.d1.files[key]);
       }
@@ -128,7 +137,7 @@ class D1Handler extends React.Component{
           error : function(err){
             console.log(err);
           }
-      });*/
+      });
       return;
     }
     this.setState({
