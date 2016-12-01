@@ -14,6 +14,7 @@ import Attach from 'material-ui/svg-icons/editor/attach-file';
 import NextIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import PrevIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import Check from 'material-ui/svg-icons/action/check-circle';
+import Delete from 'material-ui/svg-icons/action/delete';
 
 //D4D4D4
 
@@ -24,15 +25,15 @@ class Step3 extends React.Component{
   }
 
   state = {
-    a : 'Non caricato',
-    b : 'Non caricato',
-    c : 'Non caricato',
-    d : 'Non caricato',
-    e : 'Non caricato',
-    f : 'Non caricato',
-    g : 'Non caricato',
-    h : 'Non caricato',
-    i : 'Non caricato',
+    a : greatObject.d2.files !== undefined ? (greatObject.d2.files['agenziadogana'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    b : greatObject.d2.files !== undefined ? (greatObject.d2.files['agenziademanio'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    c : greatObject.d2.files !== undefined ? (greatObject.d2.files['pareretecnico'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    d : greatObject.d2.files !== undefined ? (greatObject.d2.files['parereurbanistico'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    e : greatObject.d2.files !== undefined ? (greatObject.d2.files['pareresopraintendenza'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    f : greatObject.d2.files !== undefined ? (greatObject.d2.files['pareresic'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    g : greatObject.d2.files !== undefined ? (greatObject.d2.files['parereautoritamarittima'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    h : greatObject.d2.files !== undefined ? (greatObject.d2.files['pareresopraintendenzaarcheologica'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    i : greatObject.d2.files !== undefined ? (greatObject.d2.files['parereautoritabacino'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
     l : 'Non caricato',
     currentTitle : '',
     currentLetter : '',
@@ -40,11 +41,132 @@ class Step3 extends React.Component{
     open : false
   }
 
-  _onFileInputChange(index, who, letter){
-    this.state.open = true;
-    this.state.currentTitle = who;
-    this.state.currentLetter = letter;
-    this.setState(this.state);
+  _onFileInputChange(e){
+    console.log(e);
+    switch(e){
+      case 'agenziadogana':
+        greatObject.d2['files']['agenziadogana'] = this.refs.file1.files[0];
+        this.setState({
+          ...this.state,
+          a : 'Caricato'
+        });
+      break;
+      case 'agenziademanio':
+        greatObject.d2['files']['agenziademanio'] = this.refs.file2.files[0];
+        this.setState({
+          ...this.state,
+          b : 'Caricato'
+        });
+      break;
+      case 'pareretecnico':
+        greatObject.d2['files']['pareretecnico'] = this.refs.file3.files[0];
+        this.setState({
+          ...this.state,
+          c : 'Caricato'
+        });
+      break;
+      case 'parereurbanistico':
+        greatObject.d2['files']['parereurbanistico'] = this.refs.file4.files[0];
+        this.setState({
+          ...this.state,
+          d : 'Caricato'
+        });
+      break;
+      case 'pareresopraintendenza':
+        greatObject.d2['files']['pareresopraintendenza'] = this.refs.file5.files[0];
+        this.setState({
+          ...this.state,
+          e : 'Caricato'
+        });
+      break;
+      case 'pareresic':
+        greatObject.d2['files']['pareresic'] = this.refs.file6.files[0];
+        this.setState({
+          ...this.state,
+          f : 'Caricato'
+        });
+      break;
+      case 'parereautoritamarittima':
+        greatObject.d2['files']['parereautoritamarittima'] = this.refs.file7.files[0];
+        this.setState({
+          ...this.state,
+          g : 'Caricato'
+        });
+      break;
+      case 'pareresopraintendenzaarcheologica':
+        greatObject.d2['files']['pareresopraintendenzaarcheologica'] = this.refs.file8.files[0];
+        this.setState({
+          ...this.state,
+          h : 'Caricato'
+        });
+      break;
+      case 'parereautoritabacino':
+        greatObject.d2['files']['parereautoritabacino'] = this.refs.file9.files[0];
+        this.setState({
+          ...this.state,
+          i : 'Caricato'
+        });
+      break;
+    }
+  }
+
+  onDisallega(letter, who){
+    switch(letter){
+      case 'a':
+        this.setState({
+          a : 'Non caricato'
+        });
+        greatObject.d2['files']['agenziadogana'] = undefined;
+      break;
+      case 'b':
+        this.setState({
+          b : 'Non caricato'
+        });
+        greatObject.d2['files']['agenziademanio'] = undefined;
+      break;
+      case 'c':
+        this.setState({
+          c : 'Non caricato'
+        });
+        greatObject.d2['files']['pareretecnico'] = undefined;
+      break;
+      case 'd':
+        this.setState({
+          d : 'Non caricato'
+        });
+        greatObject.d2['files']['parereurbanistico'] = undefined;
+      break;
+      case 'e':
+        this.setState({
+          e : 'Non caricato'
+        });
+        greatObject.d2['files']['pareresopraintendenza'] = undefined;
+      break;
+      case 'f':
+        this.setState({
+          f : 'Non caricato'
+        });
+        greatObject.d2['files']['pareresic'] = undefined;
+      break;
+      case 'g':
+        this.setState({
+          g : 'Non caricato'
+        });
+        greatObject.d2['files']['parereautoritamarittima'] = undefined;
+      break;
+      case 'h':
+        this.setState({
+          h : 'Non caricato'
+        });
+        greatObject.d2['files']['pareresopraintendenzaarcheologica'] = undefined;
+      break;
+      case 'i':
+        this.setState({
+          i : 'Non caricato'
+        });
+        greatObject.d2['files']['parereautoritabacino'] = undefined;
+      break;
+    }
   }
 
   _onFileSelection(){
@@ -96,72 +218,90 @@ class Step3 extends React.Component{
                 <TableRowColumn>Agenzia della dogana</TableRowColumn>
                 <TableRowColumn><span style={this.state.a == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.a}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this, 0,'Agenzia della dogana', 'a')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'agenziadogana')}/>
                   </FlatButton>
+                  { this.state.a !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'a')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Agenzia del demanio</TableRowColumn>
                 <TableRowColumn><span style={this.state.b == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.b}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,1,'Agenzia del demanio', 'b')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'ageziademanio')}/>
                   </FlatButton>
+                  { this.state.b !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'b')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Parere tecnico</TableRowColumn>
                 <TableRowColumn><span style={this.state.c == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.c}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,2,'Parere tecnico','c')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'pareretecnico')}/>
                   </FlatButton>
+                  { this.state.c !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'c')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Parere urbanistico</TableRowColumn>
                 <TableRowColumn><span style={this.state.d == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.d}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,3,'Parere urbanistico','d')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file4" onChange={this._onFileInputChange.bind(this, 'parereurbanistico')}/>
                   </FlatButton>
+                  { this.state.d !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'d')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Parere sopraintendenza beni paesaggistici</TableRowColumn>
                 <TableRowColumn><span style={this.state.e == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.e}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,4,'Parere sopraintendenza dei beni paesaggistici','e')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file5" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenza')}/>
                   </FlatButton>
+                  { this.state.e !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'e')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Parere in aree SIC</TableRowColumn>
                 <TableRowColumn><span style={this.state.f == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.f}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,5,'Parere in aree SIC','f')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file6" onChange={this._onFileInputChange.bind(this, 'pareresic')}/>
                   </FlatButton>
+                  { this.state.f !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'f')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Parere autorità marittima</TableRowColumn>
                 <TableRowColumn><span style={this.state.g == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.g}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,6,'Parere autorità marittime','g')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file7" onChange={this._onFileInputChange.bind(this, 'parereautoritamarittima')}/>
                   </FlatButton>
+                  { this.state.g !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'g')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Parere sopraintendenza archeologica</TableRowColumn>
                 <TableRowColumn><span style={this.state.h == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.h}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,7,'Parere sopraintendenza archeologica','h')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file8" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenzaarcheologica')}/>
                   </FlatButton>
+                  { this.state.h !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'h')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
                 <TableRowColumn>Parere autorità bacino</TableRowColumn>
                 <TableRowColumn><span style={this.state.i == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.i}</span></TableRowColumn>
                 <TableRowColumn>
-                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this,8,'Parere autorità bacino','i')}>
+                  <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
+                    <input type="file" style={styles.inputFile} accept="application/pdf" ref="file9" onChange={this._onFileInputChange.bind(this, 'parereautoritabacino')}/>
                   </FlatButton>
+                  { this.state.i !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'i')} icon={<Delete/>}/>: null}
                 </TableRowColumn>
               </TableRow>
             </TableBody>

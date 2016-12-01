@@ -39,22 +39,72 @@ import Step5b from './step5b/Step5b';
 
 import actions from '../../../actions/actions';
 
+import { browserHistory } from 'react-router';
+import $ from 'jquery';
+
 
 class D2Handler extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-  }
-
-  state = {
-    stepIndex : 0,
-    finished: false,
-    isCompatible : true
+    /*if(greatObject.entity.name === undefined)
+      browserHistory.push('/nuovapratica');*/
+    global.greatObject.d2 = {};
+    this.state = {
+      stepIndex : 0,
+      finished: false,
+      isCompatible : true
+    }
   }
 
   _next (){
     if(this.state.stepIndex == 4){
-      window.open('https://drive.google.com/open?id=0B5KalOy4omiKWFBWZnhQeWt2Szg');
+      //window.open('https://drive.google.com/open?id=0B5KalOy4omiKWFBWZnhQeWt2Szg');
+      greatObject.d2['canone'] = this.refs.step6._getCanoneValues(); //lo memorizziamo in greatObject.d1.canone
+      var webStorage = new WebStorage(
+        window.localStorage ||
+        window.sessionStorage
+      );
+      console.log(webStorage.getItem("city"));
+      //Fine processo
+      console.log(greatObject.d1);
+      console.log('Sto inviando...');
+      var formData = new FormData();
+      formData.append('entity', 'a');
+      formData.append('city', global.city);
+      formData.append('npratica', greatObject.entity.nPratica);
+      formData.append('compatibility', greatObject.d2.compatibility);
+      formData.append('nome', greatObject.entity.name);
+      formData.append('cognome', greatObject.entity.surname);
+      formData.append('cf', greatObject.entity.cf);
+      formData.append('uso', greatObject.entity.uso);
+      formData.append('tipodocumento', greatObject.entity.tipoDocumento);
+      for ( var key in global.greatObject.d2.files ){
+        formData.append(key, global.greatObject.d2.files[key]);
+      }
+
+      for ( var key in global.greatObject.d2.pdfs ){
+        formData.append(key, JSON.stringify(global.greatObject.d2.pdfs[key]));
+      }
+
+      $.ajax({
+          type: 'POST',
+          data: formData,
+          url: 'http://127.0.0.1:8001/handled2',
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            toggleLoader.emit('toggleLoader');
+            browserHistory.push('/');
+            //alert('Pratica inviata con successo!');
+          },
+          error : function(err){
+            toggleLoader.emit('toggleLoader');
+            alert('Errore : '+err);
+            console.log(err);
+          }
+      });
+      toggleLoader.emit('toggleLoader');
       this.setState({
         ...this.state,
         stepIndex : 5
@@ -98,7 +148,7 @@ class D2Handler extends React.Component{
         return <Step4 />;
         break;
       case 4:
-        return <Step6 />;
+        return <Step6 ref="step6"/>;
         break;
       case 5:
         if(this.state.isCompatible === 'compatibile')

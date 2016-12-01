@@ -5,6 +5,7 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import Attach from 'material-ui/svg-icons/editor/attach-file';
 import Check from 'material-ui/svg-icons/action/check-circle';
+import Delete from 'material-ui/svg-icons/action/delete';
 
 class Step4 extends React.Component{
 
@@ -13,20 +14,61 @@ class Step4 extends React.Component{
   }
 
   state = {
-    'a' : 'Non caricato',
-    'b' : 'Non caricato',
-    'c' : 'Non caricato',
+    'a' : greatObject.d2.files !== undefined ? (greatObject.d2.files['determina'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    'b' : greatObject.d2.files !== undefined ? (greatObject.d2.files['delibera'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
+    'c' : greatObject.d2.files !== undefined ? (greatObject.d2.files['visto'] !== undefined ? 'Caricato' : 'Non caricato') : 'Non caricato',
     currentTitle : '',
     currentLetter : '',
     checkColor : '#D6D6D6',
     open : false
   }
 
-  _onFileInputChange(index, who, letter){
-    this.state.open = true;
-    this.state.currentTitle = who;
-    this.state.currentLetter = letter;
-    this.setState(this.state);
+  _onFileInputChange(e){
+    switch(e){
+      case 'determina':
+        greatObject.d2['files']['determina'] = this.refs.file1.files[0];
+        this.setState({
+          ...this.state,
+          a : 'Caricato'
+        });
+      break;
+      case 'delibera':
+        greatObject.d2['files']['delibera'] = this.refs.file2.files[0];
+        this.setState({
+          ...this.state,
+          b : 'Caricato'
+        });
+      break;
+      case 'visto':
+        greatObject.d2['files']['visto'] = this.refs.file3.files[0];
+        this.setState({
+          ...this.state,
+          c : 'Caricato'
+        });
+      break;
+    }
+  }
+  onDisallega(letter, who){
+    switch(letter){
+      case 'a':
+        this.setState({
+          a : 'Non caricato'
+        });
+        greatObject.d2['files']['determina'] = undefined;
+      break;
+      case 'b':
+        this.setState({
+          b : 'Non caricato'
+        });
+        greatObject.d2['files']['delibera'] = undefined;
+      break;
+      case 'c':
+        this.setState({
+          c : 'Non caricato'
+        });
+        greatObject.d2['files']['visto'] = undefined;
+      break;
+    }
   }
 
   _onFileSelection(){
@@ -77,24 +119,30 @@ class Step4 extends React.Component{
               <TableRowColumn>Determina</TableRowColumn>
               <TableRowColumn><span style={this.state.a == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.a}</span></TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this, 0,'Determina', 'a')}>
+                <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'determina')}/>
                 </FlatButton>
+                { this.state.a !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'a')} icon={<Delete/>}/>: null}
               </TableRowColumn>
             </TableRow>
             <TableRow>
               <TableRowColumn>Delibera di giunta o consiglio comunale</TableRowColumn>
               <TableRowColumn><span style={this.state.b == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.b}</span></TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this, 1,'Delibera di giunta o consiglio comunale', 'b')}>
+                <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'delibera')}/>
                 </FlatButton>
+                { this.state.b !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'b')} icon={<Delete/>}/>: null}
               </TableRowColumn>
             </TableRow>
             <TableRow>
               <TableRowColumn>Visto registrazione Corte dei Conti</TableRowColumn>
               <TableRowColumn><span style={this.state.c == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.c}</span></TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this, 2,'Visto registrazione Corte dei Conti', 'c')}>
+                <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
+                  <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'visto')}/>
                 </FlatButton>
+                { this.state.c !== 'Non caricato' ? <FlatButton label="Elimina file" backgroundColor='#FFFFFF' onClick={this.onDisallega.bind(this,'c')} icon={<Delete/>}/>: null}
               </TableRowColumn>
             </TableRow>
           </TableBody>

@@ -8,8 +8,6 @@ class Step6 extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-    console.log(props);
-    console.log(context);
   }
 
   state = {}
@@ -24,18 +22,31 @@ class Step6 extends React.Component{
     }
   }
 
+  //chiamata dal padre
+  _getCanoneValues(){
+    var toReturn = {};
+    toReturn['usi_vari'] = this.refs.usivari.getValue() === '' ? 0.0 : this.refs.usivari.getValue();
+    toReturn['turistico_e_diporto'] = this.refs.turisticoediporto.getValue() === '' ? 0.0 : this.refs.turisticoediporto.getValue();
+    toReturn['pesca_acqua_cantieri'] = this.refs.pesca.getValue() === '' ? 0.0 : this.refs.pesca.getValue();
+    toReturn['regione_campania'] = this.refs.regione.getValue() === '' ? 0.0 : this.refs.regione.getValue();
+    toReturn['pertinenza_demaniale'] = this.refs.pertinenza.getValue() === '' ? 0.0 : this.refs.pertinenza.getValue();
+    toReturn['tasse_di_registro'] = this.refs.tasse_registro.getValue() === '' ? 0.0 : this.refs.tasse_registro.getValue();
+    toReturn['oneri_accessori'] = this.refs.oneri_accessori.getValue() === '' ? 0.0 : this.refs.oneri_accessori.getValue();
+    return JSON.stringify(toReturn);
+  }
+
   render(){
     return(
       <div style={{marginLeft:'20px'}}>
           <p>Seleziona la tipologia del canone per visualizzare il foglio di calcolo: </p>
-          <FlatButton label="Usi vari" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/><TextField hintText="0.00" style={{width:'90px', marginLeft:'20px'}}/><br/>
-          <FlatButton label="Turistico e diporto" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00" style={{width:'90px', marginLeft:'20px'}}/><br/>
-          <FlatButton label="Pesca, acqua e cantieri" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00"  style={{width:'90px', marginLeft:'20px'}}/><br/>
-          <FlatButton label="Regione Campania" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00"  style={{width:'90px', marginLeft:'20px'}}/><br/>
-          <FlatButton label="Pertinenza Demaniale" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00"  style={{width:'90px', marginLeft:'20px'}}/><br/>
+            <FlatButton label="Usi vari" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/><TextField hintText="0.00" ref="usivari" style={{width:'90px', marginLeft:'20px'}}/><br/>
+            <FlatButton label="Turistico e diporto" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00" style={{width:'90px', marginLeft:'20px'}} ref="turisticoediporto"/><br/>
+            <FlatButton label="Pesca, acqua e cantieri" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00"  style={{width:'90px', marginLeft:'20px'}} ref="pesca"/><br/>
+            <FlatButton label="Regione Campania" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00"  style={{width:'90px', marginLeft:'20px'}} ref="regione"/><br/>
+            <FlatButton label="Pertinenza Demaniale" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00"  style={{width:'90px', marginLeft:'20px'}} ref="pertinenza"/><br/>
           <br/><p>Fornisci inoltre informazioni su:</p>
-          <p style={{marginLeft:'20px'}}>Tasse di registro: <TextField hintText="0.00" style={{ marginLeft:'20px', width:'90px'}}/></p>
-          <p style={{marginLeft:'20px'}}>Oneri accessori: <TextField hintText="0.00" style={{ marginLeft:'20px', width:'90px'}}/></p>
+          <p style={{marginLeft:'20px'}}>Tasse di registro: <TextField hintText="0.00" ref="tasse_registro" style={{ marginLeft:'20px', width:'90px'}}/></p>
+          <p style={{marginLeft:'20px'}}>Oneri accessori: <TextField hintText="0.00" ref="oneri_accessori" style={{ marginLeft:'20px', width:'90px'}}/></p>
           <br/><br/>
       </div>
     );

@@ -240,7 +240,7 @@ class Step1 extends React.Component{
            labelStyle={{color:'#FFFFFF'}}
            style={{marginTop:'10px'}}
          />
-       <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoDiniegoDefinitivo}/>
+          <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoDiniegoDefinitivo}/>
         </Box>
       </div>
     );

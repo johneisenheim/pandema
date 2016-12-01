@@ -23,6 +23,7 @@ import Attach from 'material-ui/svg-icons/editor/attach-file';
 import NextIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import PrevIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import {Link} from "react-router";
+import CheckIcon from 'material-ui/svg-icons/action/check-circle';
 
 var data = {
     "prot1" : "32",
@@ -35,12 +36,17 @@ class Step1 extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-  }
-
-  state = {
-    compatibility : 1,
-    istruttoriaIndex : 0,
-    npraticaTextFieldEnabled : false
+    this.state = {
+      compatibility : greatObject.d2.compatibility !== undefined ? ( greatObject.d2.compatibility === 'compatibile' ? 1 : 0) : 1,
+      istruttoriaIndex : 0,
+      npraticaTextFieldEnabled : false,
+      checkColorAvvisoPubblicazione : greatObject.d2.pdfs !== undefined ? (greatObject.d2.pdfs['avvisopubblicazione'] !== undefined ? 'green' : '#979797') : '#979797',
+      checkColorDomandeOccorrenza : greatObject.d2.files !== undefined ? (greatObject.d2.files['domandeoccorrenza'] !== undefined ? 'green' : '#979797') : '#979797',
+      checkColorAllegaOpposizioni : greatObject.d2.files !== undefined ? (greatObject.d2.files['opposizioni'] !== undefined ? 'green' : '#979797') : '#979797',
+      checkColorDocumentazioneAlternativa : greatObject.d2.files !== undefined ? (greatObject.d2.files['documetazionealternativa'] !== undefined ? 'green' : '#979797') : '#979797',
+      checkColorAvvisoDiniego : greatObject.d2.pdfs !== undefined ? (greatObject.d2.pdfs['avvisodiniego'] !== undefined ? 'green' : '#979797') : '#979797',
+      checkColorAvvisoDiniegoDefinitivo : greatObject.d2.pdfs !== undefined ? (greatObject.d2.pdfs['avvisodiniegodefinitivo'] !== undefined ? 'green' : '#979797') : '#979797',
+    }
   }
 
   _handleIstruttoriaChange(event, index, value){
@@ -61,41 +67,95 @@ class Step1 extends React.Component{
   _onFirstCheckCange (e,v){
     //console.log('State before:', this.state.compatibility);
     this.setState({
+      ...this.state,
       compatibility : 1 ? this.state.compatibility == 0 : 0,
       istruttoriaIndex : this.state.istruttoriaIndex,
-      npraticaTextFieldEnabled : this.state.npraticaTextFieldEnabled
+      npraticaTextFieldEnabled : this.state.npraticaTextFieldEnabled,
+      checkColorAvvisoPubblicazione : '#979797',
+      checkColorDomandeOccorrenza : '#979797',
+      checkColorAllegaOpposizioni : '#979797',
+      checkColorDocumentazioneAlternativa : '#979797',
+      checkColorAvvisoDiniego : '#979797',
+      checkColorAvvisoDiniegoDefinitivo : '#979797'
     });
-    this.props.compatibility(v);
+    //this.props.compatibility(v);
+    global.greatObject.d2['compatibility'] = v;
+    global.greatObject.d2['files'] = {};
+    global.greatObject.d2['pdfs'] = {};
     //console.log('State after:', this.state.compatibility);
   }
 
-  fillPDF(){
-    console.log('fille');
-    fill();
+  _domandeOccorrenzaFileHandler(){
+    this.setState({
+        ...this.state,
+        checkColorDomandeOccorrenza : 'green'
+    });
+    if( typeof global.greatObject.d2['files'] !== 'undefined'){
+      global.greatObject.d2['files']['domandeoccorrenza'] = this.refs.file1.files[0];
+    } else {
+      global.greatObject.d2['files'] = {};
+      global.greatObject.d2['files']['domandeoccorrenza'] = this.refs.file1.files[0];
+    }
+  }
+
+  _allegaOpposizioniFileHandler(){
+    this.setState({
+        ...this.state,
+        checkColorAllegaOpposizioni : 'green'
+    });
+    if( typeof global.greatObject.d2['files'] !== 'undefined'){
+      global.greatObject.d2['files']['opposizioni'] = this.refs.file2.files[0];
+    } else {
+      global.greatObject.d2['files'] = {};
+      global.greatObject.d2['files']['opposizioni'] = this.refs.file2.files[0];
+    }
+  }
+
+  _allegaDocumentazioneAlternativa(){
+    this.setState({
+        ...this.state,
+        checkColorDocumentazioneAlternativa : 'green'
+    });
+    if( typeof global.greatObject.d2['files'] !== 'undefined'){
+      global.greatObject.d2['files']['documetazionealternativa'] = this.refs.file3.files[0];
+    } else {
+      global.greatObject.d2['files'] = {};
+      global.greatObject.d2['files']['documetazionealternativa'] = this.refs.file3.files[0];
+    }
   }
 
   renderFirstStepAddings (){
     if( this.state.compatibility )
       return (
         <div style={styles.firstStepAddingsStyle}>
-          <RaisedButton
-            label="Compila Avviso di Pubblicazione"
-            href=""
-            primary={true}
-            icon={<Compile />}
-            labelStyle={{color:'#FFFFFF'}}
-            style={{marginTop:'10px'}}
-          /><br/>
-        <FlatButton label="Allega Domande in occorrenza" icon={<Attach />} style={{marginTop:'10px'}}>
-           <input type="file" style={styles.inputFile} />
-         </FlatButton><br/>
-         <FlatButton label="Allega Opposizioni" icon={<Attach />} style={{marginTop:'10px'}}>
-            <input type="file" style={styles.inputFile} />
-          </FlatButton><br/>
+          <Box justifyContent="flex-start" alignItems="center">
+            <RaisedButton
+              label="Compila Avviso di Pubblicazione"
+              href=""
+              primary={true}
+              icon={<Compile />}
+              labelStyle={{color:'#FFFFFF'}}
+              style={{marginTop:'10px'}}
+            />
+            <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoPubblicazione}/>
+          </Box>
+          <Box justifyContent="flex-start" alignItems="center">
+            <FlatButton label="Allega Domande in occorrenza" icon={<Attach />} style={{marginTop:'10px'}}>
+              <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._domandeOccorrenzaFileHandler.bind(this)} />
+            </FlatButton>
+            <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorDomandeOccorrenza}/>
+          </Box>
+          <Box justifyContent="flex-start" alignItems="center">
+           <FlatButton label="Allega Opposizioni" icon={<Attach />} style={{marginTop:'10px'}}>
+              <input type="file" style={styles.inputFile} ref="file2" accept="application/pdf" onChange={this._allegaOpposizioniFileHandler.bind(this)}/>
+            </FlatButton>
+            <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAllegaOpposizioni}/>
+          </Box>
         </div>
       );
     else return (
       <div style={styles.firstStepAddingsStyle}>
+        <Box justifyContent="flex-start" alignItems="center">
           <RaisedButton
           label="Compila Avviso di Diniego"
           primary={true}
@@ -103,10 +163,16 @@ class Step1 extends React.Component{
           labelStyle={{color:'#FFFFFF'}}
           style={{marginTop:'10px'}}
           containerElement={<Link to="/avvisodiniego"></Link>}
-        /><br/>
-        <FlatButton label="Documentazione alternativa avviso di diniego" icon={<Attach />} style={{marginTop:'10px'}}>
-           <input type="file" style={styles.inputFile} />
-         </FlatButton><br/>
+        />
+        <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoDiniego}/>
+        </Box>
+        <Box justifyContent="flex-start" alignItems="center">
+          <FlatButton label="Documentazione alternativa avviso di diniego" icon={<Attach />} style={{marginTop:'10px'}}>
+             <input type="file" style={styles.inputFile} accept="application/pdf" onChange={this._allegaDocumentazioneAlternativa.bind(this)} ref="file3"/>
+          </FlatButton>
+          <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorDocumentazioneAlternativa}/>
+        </Box>
+        <Box justifyContent="flex-start" alignItems="center">
          <RaisedButton
            label="Compila Diniego definitivo"
            href=""
@@ -114,7 +180,9 @@ class Step1 extends React.Component{
            icon={<Compile />}
            labelStyle={{color:'#FFFFFF'}}
            style={{marginTop:'10px'}}
-         /><br/>
+         />
+          <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoDiniegoDefinitivo}/>
+         </Box>
       </div>
     );
   }

@@ -150,7 +150,7 @@ class Home extends React.Component{
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn>
-                      <Link to={`/home/d1handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+                      <Link to={`/d1handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
                     </TableRowColumn>
                   </TableRow>
                   <TableRow>
@@ -166,7 +166,7 @@ class Home extends React.Component{
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn>
-                      <Link to={`/home/d1handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+                      <Link to={`/d1handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
                     </TableRowColumn>
                   </TableRow>
                   <TableRow>
@@ -182,7 +182,7 @@ class Home extends React.Component{
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn>
-                      <Link to={`/home/d2handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+                      <Link to={`/d2handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
                     </TableRowColumn>
                   </TableRow>
                   <TableRow>
@@ -198,7 +198,7 @@ class Home extends React.Component{
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn>
-                      <Link to={`/home/d3handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+                      <Link to={`/d3handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
                     </TableRowColumn>
                   </TableRow>
                   <TableRow>
@@ -214,7 +214,7 @@ class Home extends React.Component{
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn>
-                      <Link to={`/home/d4handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+                      <Link to={`/d4handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
                     </TableRowColumn>
                   </TableRow>
                   <TableRow>
@@ -230,7 +230,7 @@ class Home extends React.Component{
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn>
-                      <Link to={`/home/d5handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+                      <Link to={`/d5handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
                     </TableRowColumn>
                   </TableRow>
                   <TableRow>
@@ -246,7 +246,7 @@ class Home extends React.Component{
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn>
-                      <Link to={`/home/d6handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+                      <Link to={`/d6handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
                     </TableRowColumn>
                   </TableRow>
                 </TableBody>
