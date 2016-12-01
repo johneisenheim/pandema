@@ -192,7 +192,7 @@ class Middleware{
     };
 
     //console.log("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso, tipo_documento_id, stato_pratica_id, data, cf, compatibile) VALUES ("+this.connection.escape(comune_id)+","+this.connection.escape(pandema_id)+","+this.connection.escape(nome)+","+this.connection.escape(cognome)+","+this.connection.escape(codice_uso)+","+this.connection.escape(tipo_documento)+","+this.connection.escape(stato_pratica_id)+",NOW(),"+this.connection.escape(cf)+","+this.connection.escape(compatibility)+")");
-    this.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso, tipo_documento_id, stato_pratica_id, data, cf, compatibile) VALUES ("+this.connection.escape(comune_id)+","+this.connection.escape(pandema_id)+","+this.connection.escape(nome)+","+this.connection.escape(cognome)+","+this.connection.escape(codice_uso)+","+this.connection.escape(tipo_documento)+","+this.connection.escape(stato_pratica_id)+",NOW(),"+this.connection.escape(cf)+","+this.connection.escape(compatibility)+")", function(err, rows, fields){
+    this.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso, tipo_documento_id, stato_pratica_id, data, cf, compatibile) VALUES ("+this.connection.escape(comune_id)+","+this.connection.escape(fields.npratica)+","+this.connection.escape(fields.nome)+","+this.connection.escape(fields.cognome)+","+this.connection.escape(fields.uso)+","+this.connection.escape(fields.tipodocumento)+","+this.connection.escape(stato_pratica_id)+",NOW(),"+this.connection.escape(fields.cf)+","+this.connection.escape(compatibility)+")", function(err, rows, fields){
         if(err){
           console.log('[d1DBOperations] error: '+ err);
           res.end('Ko');

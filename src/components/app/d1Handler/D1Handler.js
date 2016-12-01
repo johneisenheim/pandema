@@ -114,9 +114,14 @@ class D1Handler extends React.Component{
       var formData = new FormData();
       formData.append('entity', 'a');
       formData.append('city', global.city);
-      formData.append('npratica', 'n39');
+      formData.append('npratica', greatObject.entity.nPratica);
       formData.append('compatibility', greatObject.d1.compatibility);
       formData.append('canone', greatObject.d1['canone']);
+      formData.append('nome', greatObject.entity.name);
+      formData.append('cognome', greatObject.entity.surname);
+      formData.append('cf', greatObject.entity.cf);
+      formData.append('uso', greatObject.entity.uso);
+      formData.append('tipodocumento', greatObject.entity.tipoDocumento);
       for ( var key in global.greatObject.d1.files ){
         formData.append(key, global.greatObject.d1.files[key]);
       }

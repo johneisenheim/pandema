@@ -129,6 +129,24 @@ app2.post('/handled1', function(req, res){
       if( name === 'compatibility'){
         toDB['compatibility'] = value;
       }
+      if( name === 'nome' ){
+        toDB['nome'] = value;
+      }
+      if(name === 'cognome'){
+        toDB['cognome'] = value;
+      }
+      if( name === 'cf'){
+        toDB['cf'] = value;
+      }
+      if(name === 'npratica'){
+        toDB['npratica'] = value;
+      }
+      if(name === 'uso'){
+        toDB['uso'] = value;
+      }
+      if(name === 'tipodocumento'){
+        toDB['tipodocumento'] = parseInt(value);
+      }
     }
   });
 

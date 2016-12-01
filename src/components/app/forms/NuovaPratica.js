@@ -67,22 +67,26 @@ class NuovaPratica extends React.Component{
           uso : _uso
       });
 
-      greatObject.entity.nPratica = _nPratica;
-      greatObject.entity.date = _date;
-      greatObject.entity.surname = _surname;
-      greatObject.entity.name = _name;
-      greatObject.entity.cf = _cf;
-      greatObject.entity.uso = _uso;
+      greatObject.entity.nPratica = this.refs.npratica.getValue();
+      greatObject.entity.date = this.refs.date.value;
+      greatObject.entity.surname = this.refs.surname.getValue();
+      greatObject.entity.name = this.refs.name.getValue();
+      greatObject.entity.cf = this.refs.cf.getValue();
+      greatObject.entity.uso = this.refs.uso.getValue();
+
+      console.log(greatObject.entity.nPratica);
 
       switch(this.state.value){
         case 1:
+          greatObject.entity.tipoDocumento = 1;
           browserHistory.push('d1handler/'+this.refs.npratica.getValue());
         break;
         case 2:
-          browserHistory.push('d2handler/k');
+          greatObject.entity.tipoDocumento = 2;
+          //browserHistory.push('d2handler/k');
         break;
         case 3:
-          browserHistory.push('d3handler/k');
+          //browserHistory.push('d3handler/k');
           //081 519 8152
         break;
         case 4:
