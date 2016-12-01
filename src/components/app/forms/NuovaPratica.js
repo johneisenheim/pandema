@@ -83,6 +83,7 @@ class NuovaPratica extends React.Component{
         break;
         case 2:
           greatObject.entity.tipoDocumento = 2;
+          browserHistory.push('d2handler/'+this.refs.npratica.getValue());
           //browserHistory.push('d2handler/k');
         break;
         case 3:

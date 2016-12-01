@@ -38,6 +38,7 @@ import Step6 from './step6/Step6';
 import Step5b from './step5b/Step5b';
 
 import actions from '../../../actions/actions';
+import WebStorage from 'react-webstorage';
 
 import { browserHistory } from 'react-router';
 import $ from 'jquery';
@@ -67,7 +68,7 @@ class D2Handler extends React.Component{
       );
       console.log(webStorage.getItem("city"));
       //Fine processo
-      console.log(greatObject.d1);
+      console.log(greatObject.d2);
       console.log('Sto inviando...');
       var formData = new FormData();
       formData.append('entity', 'a');
@@ -79,6 +80,7 @@ class D2Handler extends React.Component{
       formData.append('cf', greatObject.entity.cf);
       formData.append('uso', greatObject.entity.uso);
       formData.append('tipodocumento', greatObject.entity.tipoDocumento);
+      formData.append('canone', greatObject.d2['canone']);
       for ( var key in global.greatObject.d2.files ){
         formData.append(key, global.greatObject.d2.files[key]);
       }

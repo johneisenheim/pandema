@@ -47,6 +47,7 @@ class Step1 extends React.Component{
       checkColorAvvisoDiniego : greatObject.d2.pdfs !== undefined ? (greatObject.d2.pdfs['avvisodiniego'] !== undefined ? 'green' : '#979797') : '#979797',
       checkColorAvvisoDiniegoDefinitivo : greatObject.d2.pdfs !== undefined ? (greatObject.d2.pdfs['avvisodiniegodefinitivo'] !== undefined ? 'green' : '#979797') : '#979797',
     }
+    greatObject.d2['compatibility'] = this.state.compatibility ? 'compatibile' : 'non_compatibile';
   }
 
   _handleIstruttoriaChange(event, index, value){
