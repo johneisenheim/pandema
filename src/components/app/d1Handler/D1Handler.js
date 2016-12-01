@@ -41,21 +41,23 @@ import actions from '../../../actions/actions';
 import WebStorage from 'react-webstorage';
 
 import AvvisoPubblicazione from '../forms/AvvisoPubblicazione';
+import { browserHistory } from 'react-router';
 import $ from 'jquery';
 
 class D1Handler extends React.Component{
 
   constructor(props, context) {
     super(props, context);
+    if(greatObject.entity.name === undefined)
+      browserHistory.push('/nuovapratica');
     global.greatObject.d1 = {};
-  }
-
-  state = {
-    stepIndex : 0,
-    opened : false,
-    finished: false,
-    modalContent : null,
-    modalTitle : ''
+    this.state = {
+      stepIndex : 0,
+      opened : false,
+      finished: false,
+      modalContent : null,
+      modalTitle : ''
+    }
   }
 
   _next (){
@@ -94,15 +96,58 @@ class D1Handler extends React.Component{
         alert('Pratica D1 per n.pratica '+this.props.params.id +' inserita correttamente!');
       }*/
       if( this.refs.step5.getDiniego() === 'deny' ){
-        alert('Diniego inoltrato!');
+        var webStorage = new WebStorage(
+          window.localStorage ||
+          window.sessionStorage
+        );
+        console.log(webStorage.getItem("city"));
+        //Fine processo
+        console.log(greatObject.d1);
+        console.log('Sto inviando...');
+        var formData = new FormData();
+        formData.append('entity', 'a');
+        formData.append('city', global.city);
+        formData.append('npratica', greatObject.entity.nPratica);
+        formData.append('compatibility', greatObject.d1.compatibility);
+        formData.append('nome', greatObject.entity.name);
+        formData.append('cognome', greatObject.entity.surname);
+        formData.append('cf', greatObject.entity.cf);
+        formData.append('uso', greatObject.entity.uso);
+        formData.append('tipodocumento', greatObject.entity.tipoDocumento);
+        for ( var key in global.greatObject.d1.files ){
+          formData.append(key, global.greatObject.d1.files[key]);
+        }
+
+        for ( var key in global.greatObject.d1.pdfs ){
+          formData.append(key, JSON.stringify(global.greatObject.d1.pdfs[key]));
+        }
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: 'http://127.0.0.1:8001/handled1',
+            processData: false,
+            contentType: false,
+            success: function(data) {
+              toggleLoader.emit('toggleLoader');
+              browserHistory.push('/');
+              //alert('Pratica inviata con successo!');
+            },
+            error : function(err){
+              toggleLoader.emit('toggleLoader');
+              alert('Errore : '+err);
+              console.log(err);
+            }
+        });
+        toggleLoader.emit('toggleLoader');
         return;
       }
 
     }
     if( this.state.stepIndex == 5){
       greatObject.d1['canone'] = this.refs.step6._getCanoneValues(); //lo memorizziamo in greatObject.d1.canone
-      console.log(greatObject);
-      console.log(greatObject.d1.canone);
+      //console.log(greatObject);
+      //console.log(greatObject.d1.canone);
       var webStorage = new WebStorage(
         window.localStorage ||
         window.sessionStorage
@@ -137,12 +182,14 @@ class D1Handler extends React.Component{
           processData: false,
           contentType: false,
           success: function(data) {
-            console.log(data);
+            toggleLoader.emit('toggleLoader');
           },
           error : function(err){
+            toggleLoader.emit('toggleLoader');
             console.log(err);
           }
       });
+      toggleLoader.emit('toggleLoader');
       return;
     }
     this.setState({

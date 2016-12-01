@@ -137,10 +137,13 @@ class Middleware{
 
     var thirdStep = function(){
       //Inserimento canone
-      if(_self.fields.canone === undefined)
+      if(_self.fields.canone === undefined){
+        res.end(JSON.stringify({response:true}));
         return;
+      }
 
-        console.log(_self.fields.canone);
+
+      console.log(_self.fields.canone);
 
       async.forEachOfSeries(_self.fields.canone, function(value, key, callback){
         console.log(value);
@@ -184,7 +187,11 @@ class Middleware{
 
           else callback();
       }, function (err) {
-          if (err) console.error(err.message);
+          if (err) {
+            console.error(err.message);
+            res.end(JSON.stringify({response:false, error : err}));
+          }
+          res.end(JSON.stringify({response:true}));
           // documentsFromTable is now a map of JSON data
           //thirdStep(); //(documentsFromTable)
       });

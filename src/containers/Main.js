@@ -10,6 +10,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Login from "../components/login/Login";
 import App from "../components/app/App";
 import WebStorage from 'react-webstorage';
+import Loadable from 'react-loading-overlay';
+var EventEmitter2 = require('eventemitter2').EventEmitter2;
 
 injectTapEventPlugin();
 
@@ -21,7 +23,8 @@ export default class Main extends React.Component {
 	constructor(props, context){
 		super(props,context);
 		this.state = {
-			logged : null
+			logged : null,
+			loading : false
 		}
 		this.logged = null;
 	}
@@ -36,6 +39,7 @@ export default class Main extends React.Component {
 
 		if (__CLIENT__) {
 			console.log("Hello client");
+			global.toggleLoader = new EventEmitter2();
 			global.myGlobalVariable = 'Cane';
 			//webStorage.setItem('chiave', 'valore');
 			global.tryy = 'Hello guys!';
@@ -58,9 +62,23 @@ export default class Main extends React.Component {
 			window.localStorage ||
 			window.sessionStorage
 		);
+		var _self = this;
 		//webStorage.setItem('_pandema', 'false');
 		var ws = webStorage.getItem('_pandema');
 		webStorage.setItem('city', 'Nola'); //johneisenheim
+		toggleLoader.on('toggleLoader', function(){
+			if(_self.state.loading){
+				_self.setState({
+					..._self.state,
+					loading : false
+				})
+			}else{
+				_self.setState({
+					..._self.state,
+					loading : true
+				})
+			}
+		})
 		global.city = webStorage.getItem('city');
 		if(ws === 'true'){
 			this.logged = true;
@@ -93,7 +111,20 @@ export default class Main extends React.Component {
 		if( this.logged == null )
  		 return <div></div>;
  	 	else if(this.logged)
- 			return <div><App {...this.props}/></div>;
+ 			return (
+				<div>
+					<Loadable
+						active={this.state.loading}
+						spinner
+						text=''
+						background='rgba(0,0,0,0.6)'
+						color='#4CA7D0'
+						zIndex={3000}
+						>
+						<App {...this.props}/>
+					</Loadable>
+				</div>
+		);
  	 	else return (<div><Login {...this.props} handler={this.logMeIn.bind(this)} /></div>);
 	}
 }
