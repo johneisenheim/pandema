@@ -48,8 +48,8 @@ class D1Handler extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-    if(greatObject.entity.name === undefined)
-      browserHistory.push('/nuovapratica');
+    /*if(greatObject.entity.name === undefined)
+      browserHistory.push('/nuovapratica');*/
     global.greatObject.d1 = {};
     this.state = {
       stepIndex : 0,
@@ -236,7 +236,7 @@ class D1Handler extends React.Component{
   getStepContent(index){
     switch (index) {
       case 0:
-        return <Step1 ref="step1" tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        return <Step1 ref="step1" pid={this.props.params.pid} dbid={this.props.params.dbid} tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 1:
         return <Step2 tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
@@ -326,8 +326,8 @@ class D1Handler extends React.Component{
 
     return (
       <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <div>
-          <Box justifyContent="center" alignItems="center" style={{height:'100%'}}>
+        <div style={{width : '100%'}}>
+          <Box justifyContent="center" alignItems="center" style={{height:'100%', width: '100%'}}>
             <Paper zDepth={1} style={styles.paper}>
               <Box justifyContent="center" alignItems="center">
                 <Stepper

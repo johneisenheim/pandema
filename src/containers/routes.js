@@ -19,6 +19,8 @@ import NuovaPratica from '../components/app/forms/NuovaPratica';
 import GestioneAbusi from '../components/app/abusi/GestioneAbusi';
 import HandleGestioneAbusi from '../components/app/abusi/HandleGestioneAbusi';
 import NuovaPraticaAbusi from '../components/app/forms/NuovaPraticaAbusi';
+import GestisciAllegati from '../components/app/complementars/GestisciAllegati';
+import PDFView from '../components/app/complementars/PDFView';
 /**
  * The React Router routes for both the server and the client.
  */
@@ -38,13 +40,14 @@ module.exports = (
 		<Route path="/admin" component={Admin} />
 		<Route path="/" component={Main}>
 			<IndexRoute component={Home}/>
-			<Route path='d1handler/:id' component={D1Handler} />
+			<Route path='d1handler/:pid/:dbid' component={D1Handler} />
 			<Route path='d2handler/:id' component={D2Handler} />
 			<Route path='d3handler/:id' component={D3Handler} />
 			<Route path='d4handler/:id' component={D4Handler} />
 			<Route path='d5handler/:id' component={D5Handler} />
 			<Route path='d6handler/:id' component={D6Handler} />
 			<Route path='/avvisodiniego' component={AvvisoDiniego} />
+			<Route path='/gestisciallegati/:id' component={GestisciAllegati} />
 			<Route path='/avvisopubblicazione' component={AvvisoPubblicazione} />
 			<Route path='/nuovapratica' component={NuovaPratica} />
 			<Route path='/nuovapraticaabusi' component={NuovaPraticaAbusi} />

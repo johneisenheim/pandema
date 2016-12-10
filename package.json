@@ -67,6 +67,7 @@
     "react-layout-components": "^3.0.0",
     "react-loading-overlay": "^0.2.3",
     "react-router": "3.0.0",
+    "react-router-link-target": "^0.13.43",
     "react-router-transition": "0.0.6",
     "react-router-transitions": "^2.0.0",
     "react-tap-event-plugin": "^2.0.1",

@@ -20,6 +20,9 @@ import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
 import { browserHistory } from 'react-router';
 
+import CircularProgress from 'material-ui/CircularProgress';
+import $ from 'jquery';
+
 class NuovaPratica extends React.Component{
   constructor(props, context){
     super(props, context);
@@ -30,13 +33,39 @@ class NuovaPratica extends React.Component{
         surname : '',
         name : '',
         cf : '',
-        uso : ''
+        uso : '',
+        isLoading : true,
+        usoscopo : null,
+        usoscopovalue : 0
     }
     global.greatObject.entity = {};
   }
 
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:8001/getusoscopo',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          _self.setState({
+              ..._self.state,
+              usoscopo : parsed,
+              usoscopovalue : parsed[0].id,
+              isLoading : false
+          });
+        },
+        error : function(err){
+          console.log(err);
+        }
+    });
+  }
+
   onSubmit(){
     let _nPratica = '', _date = '', _surname = '', _name = '', _cf = '', _uso = '';
+    let _self = this;
 
     if(this.refs.npratica.getValue() == ''){
       _nPratica = 'Questo campo è richiesto!';
@@ -53,9 +82,12 @@ class NuovaPratica extends React.Component{
     if(this.refs.cf.getValue() == ''){
       _cf = 'Questo campo è richiesto!'
     }
-    if(this.refs.uso.getValue() == ''){
-      _uso = 'Questo campo è richiesto!'
+
+    if(this.refs.date.state == undefined){
+      alert("Per favore, seleziona la data");
+      return;
     }
+
     if( _nPratica == '' && _date == '' && _surname == '' && _name == '' && _cf == '' && _uso == ''){
       this.setState({
           ...this.state,
@@ -67,39 +99,48 @@ class NuovaPratica extends React.Component{
           uso : _uso
       });
 
-      greatObject.entity.nPratica = this.refs.npratica.getValue();
-      greatObject.entity.date = this.refs.date.value;
-      greatObject.entity.surname = this.refs.surname.getValue();
-      greatObject.entity.name = this.refs.name.getValue();
-      greatObject.entity.cf = this.refs.cf.getValue();
-      greatObject.entity.uso = this.refs.uso.getValue();
-
-      console.log(greatObject.entity.nPratica);
-
-      switch(this.state.value){
-        case 1:
-          greatObject.entity.tipoDocumento = 1;
-          browserHistory.push('d1handler/'+this.refs.npratica.getValue());
-        break;
-        case 2:
-          greatObject.entity.tipoDocumento = 2;
-          browserHistory.push('d2handler/'+this.refs.npratica.getValue());
-          //browserHistory.push('d2handler/k');
-        break;
-        case 3:
-          //browserHistory.push('d3handler/k');
-          //081 519 8152
-        break;
-        case 4:
-          alert("Not implemented yet");
-        break;
-        case 5:
-          alert("Not implemented yet");
-        break;
-        case 6:
-          alert("Not implemented yet");
-        break;
-      }
+      $.ajax({
+          type: 'POST',
+          data: JSON.stringify({comune_id: 1, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}),
+          url: 'http://127.0.0.1:8001/insertnewpratica',
+          processData: false,
+          contentType: 'application/json',
+          success: function(data) {
+            greatObject.entity.nPratica = _self.refs.npratica.getValue();
+            var parsed = JSON.parse(data);
+            greatObject.entity.praticaID = parsed.id;
+            toggleLoader.emit('toggleLoader');
+            switch(_self.state.value){
+              case 1:
+                greatObject.entity.tipoDocumento = 1;
+                browserHistory.push('d1handler/'+_self.refs.npratica.getValue());
+              break;
+              case 2:
+                greatObject.entity.tipoDocumento = 2;
+                browserHistory.push('d2handler/'+_self.refs.npratica.getValue());
+                //browserHistory.push('d2handler/k');
+              break;
+              case 3:
+                //browserHistory.push('d3handler/k');
+                //081 519 8152
+              break;
+              case 4:
+                alert("Not implemented yet");
+              break;
+              case 5:
+                alert("Not implemented yet");
+              break;
+              case 6:
+                alert("Not implemented yet");
+              break;
+            }
+          },
+          error : function(err){
+            toggleLoader.emit('toggleLoader');
+            console.log(err);
+          }
+      });
+      toggleLoader.emit('toggleLoader');
     }
 
   }
@@ -111,90 +152,109 @@ class NuovaPratica extends React.Component{
     })
   }
 
+  handleChangeUso(event, index, value){
+    this.setState({
+      ...this.state,
+      usoscopovalue : value
+    })
+  }
+
   render(){
-    return(
-      <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <Box column justifyContent="center" alignItems="center" style={{height:'100%'}}>
-          <Paper zDepth={1} style={styles.paper}>
-            <h3 style={{textAlign:'center', width : '100%'}}>Inserimento nuova pratica</h3>
-            <Box justifyContent="center" alignItems="center">
-              <div style={{width:'30%', height : '1px', backgroundColor : '#4CA7D0'}}></div>
-            </Box>
-            <Box column justifyContent="center" alignItems="flex-start" style={{marginTop:'20px', marginLeft:'20px'}}>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}><span>Numero Pratica:</span></p>
-                <TextField
-                    id="npratica"
-                    ref="npratica"
-                    hintText = "Inserisci il numero della pratica"
-                    style={{marginLeft:'30px'}}
-                    errorText={this.state.nPratica}
-                  />
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}>Tipo:</p>
-                <DropDownMenu value={this.state.value} onChange={this.handleChange.bind(this)} style={{marginTop:'0px'}}>
-                  <MenuItem value={1} primaryText="D1" />
-                  <MenuItem value={2} primaryText="D2" />
-                  <MenuItem value={3} primaryText="D3" />
-                  <MenuItem value={4} primaryText="D4" />
-                  <MenuItem value={5} primaryText="D5" />
-                  <MenuItem value={6} primaryText="D6" />
-                </DropDownMenu>
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                <p>Data Ricezione:</p>
-                <DatePicker hintText="Data di Ricezione" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"/>
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                <p style={{marginTop:'30px'}}><span>Cognome Richiedente:</span></p>
-                <TextField
-                    id="cognome"
-                    hintText = "Inserisci il cognome del richiedente"
-                    style={{marginLeft:'30px'}}
-                    ref="surname"
-                    errorText={this.state.surname}
-                  />
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                <p style={{marginTop:'30px'}}><span>Nome Richiedente:</span></p>
-                <TextField
-                    id="nome"
-                    hintText = "Inserisci il nome del richiedente"
-                    style={{marginLeft:'30px'}}
-                    ref="name"
-                    errorText={this.state.name}
-                  />
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                <p style={{marginTop:'30px'}}><span>Codice Fiscale:</span></p>
-                <TextField
-                    id="cf"
-                    hintText = "Inserisci il CF del richiedente"
-                    style={{marginLeft:'30px'}}
-                    ref="cf"
-                    errorText={this.state.cf}
-                  />
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px', marginBottom:'30px'}}>
-                <p style={{marginTop:'30px'}}><span>Codice Uso-Scopo:</span></p>
-                <TextField
-                    id="uso"
-                    hintText = "Inserisci il codice uso/scopo"
-                    style={{marginLeft:'30px'}}
-                    ref="uso"
-                    errorText={this.state.uso}
-                  />
-              </Box>
-            </Box>
-          </Paper>
-          <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'20px'}}>
-            <RaisedButton label="Annulla" primary={false} labelStyle={{color:'#FFFFFF'}} />
-            <RaisedButton label="Procedi" primary={true} labelStyle={{color:'#FFFFFF'}} style={{marginLeft:'20px'}} onClick={this.onSubmit.bind(this)}/>
-          </Box>
+    var usoscopo = [];
+    if( this.state.usoscopo !== null){
+      for(var i = 0; i < this.state.usoscopo.length; i++ ){
+        usoscopo.push(
+          <MenuItem key={i} value={this.state.usoscopo[i].id} primaryText={this.state.usoscopo[i].descrizione_com} />
+        );
+      }
+    }
+    if(this.state.isLoading){
+      return (
+        <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
+          <CircularProgress size={30}/>
         </Box>
-      </MuiThemeProvider>
-    );
+      );
+    }else{
+      return(
+        <MuiThemeProvider muiTheme={lightBaseTheme} >
+          <Box column justifyContent="center" alignItems="center" style={{height:'100%', width : '100%'}}>
+            <Paper zDepth={1} style={styles.paper}>
+              <h3 style={{textAlign:'center', width : '100%'}}>Inserimento nuova pratica</h3>
+              <Box justifyContent="center" alignItems="center">
+                <div style={{width:'30%', height : '1px', backgroundColor : '#4CA7D0'}}></div>
+              </Box>
+              <Box column justifyContent="center" alignItems="flex-start" style={{marginTop:'20px', marginLeft:'20px'}}>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>Numero Pratica:</span></p>
+                  <TextField
+                      id="npratica"
+                      ref="npratica"
+                      hintText = "Inserisci il numero della pratica"
+                      style={{marginLeft:'30px'}}
+                      errorText={this.state.nPratica}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}>Tipo:</p>
+                  <DropDownMenu value={this.state.value} onChange={this.handleChange.bind(this)} style={{marginTop:'0px'}}>
+                    <MenuItem value={1} primaryText="D1" />
+                    <MenuItem value={2} primaryText="D2" />
+                    <MenuItem value={3} primaryText="D3" />
+                    <MenuItem value={4} primaryText="D4" />
+                    <MenuItem value={5} primaryText="D5" />
+                    <MenuItem value={6} primaryText="D6" />
+                  </DropDownMenu>
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p>Data Ricezione:</p>
+                  <DatePicker hintText="Data di Ricezione" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"/>
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Cognome Richiedente:</span></p>
+                  <TextField
+                      id="cognome"
+                      hintText = "Inserisci il cognome del richiedente"
+                      style={{marginLeft:'30px'}}
+                      ref="surname"
+                      errorText={this.state.surname}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Nome Richiedente:</span></p>
+                  <TextField
+                      id="nome"
+                      hintText = "Inserisci il nome del richiedente"
+                      style={{marginLeft:'30px'}}
+                      ref="name"
+                      errorText={this.state.name}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Codice Fiscale:</span></p>
+                  <TextField
+                      id="cf"
+                      hintText = "Inserisci il CF del richiedente"
+                      style={{marginLeft:'30px'}}
+                      ref="cf"
+                      errorText={this.state.cf}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px', marginBottom:'30px'}}>
+                  <p style={{marginTop:'30px'}}><span>Codice Uso-Scopo:</span></p>
+                    <DropDownMenu value={this.state.usoscopovalue} onChange={this.handleChangeUso.bind(this)} style={{marginTop:'0px'}}>
+                        {usoscopo}
+                    </DropDownMenu>
+                </Box>
+              </Box>
+            </Paper>
+            <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'20px'}}>
+              <RaisedButton label="Annulla" primary={false} labelStyle={{color:'#FFFFFF'}} />
+              <RaisedButton label="Procedi" primary={true} labelStyle={{color:'#FFFFFF'}} style={{marginLeft:'20px'}} onClick={this.onSubmit.bind(this)}/>
+            </Box>
+          </Box>
+        </MuiThemeProvider>
+      );
+    }
   }
 }
 
@@ -202,8 +262,7 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : 'inherit',
-    minWidth : '100%',
+    width : '70%',
     minHeight : '450px',
     height : 'auto'
   }

@@ -2,8 +2,7 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : 'inherit',
-    minWidth : '100%',
+    width : '100%',
     minHeight : '450px',
     height : 'auto'
   },

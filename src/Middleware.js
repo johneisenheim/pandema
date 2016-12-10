@@ -1,5 +1,8 @@
 import mysql from 'mysql';
 import async from "async";
+import fs from 'fs';
+import crypto from 'crypto';
+require('magic-globals');
 
 class Middleware{
   constructor(){
@@ -213,8 +216,6 @@ class Middleware{
 
   }
 
-
-
   d2DBOperations(res, fields){
     var comune_id = 1; //Nola è 1
     var pandema_id = 'n39'; //Numero pratica
@@ -368,6 +369,161 @@ class Middleware{
         return;
     });
 
+  }
+
+  getAllegatiPratica(req, res){
+    var _self = this;
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id, pratica_ha_allegato.pratica_id, pratica_ha_allegato.pratica_pandema_id, allegato.path, allegato.data_creazione, tipo_allegato.descrizione_com AS descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.praticaID)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pandemaPraticaID), function(err,rows){
+        if(err)
+          console.log(err);
+        res.end(JSON.stringify(rows));
+    });
+  }
+
+  viewDocument(id, callback){
+    this.connection.query("SELECT path FROM allegato WHERE id="+this.connection.escape(id), function(err, rows){
+      if(err)
+        console.log(err);
+      callback(rows[0].path);
+    });
+  }
+
+  deleteDocument(path, id, res){
+    var _self = this;
+    this.connection.query("DELETE FROM allegato WHERE id="+this.connection.escape(id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response : false, error : err}));
+      }
+      res.end(JSON.stringify({response : true}));
+      fs.unlinkSync(path);
+    });
+  }
+
+  addExternalAllegato(){
+    async.waterfall([
+      function(){
+        this.connection.query("INSERT INTO ")
+      },
+      function(){
+
+      }
+    ]);
+  }
+
+  //////NUOVO
+
+  getusoscopo(res){
+    this.connection.query("SELECT id,descrizione_com FROM codice_uso_scopo", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response : false, err : err}));
+      }
+      res.end(JSON.stringify(rows));
+    });
+  }
+
+  insertnewpratica(data,res){
+    var stato_pratica_id = 1;
+    var _self = this;
+
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT citta FROM comune WHERE comune.id="+_self.connection.escape(data.comune_id), function(err, rows){
+          var hash = crypto.createHash('md5').update(rows[0].citta+'pandemanellotalassa').digest("hex");
+          _callback(null, hash);
+        })
+      },
+      function(hash, _callback){
+        _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, hash) VALUES ("+_self.connection.escape(data.comune_id)+","+_self.connection.escape(data.npratica)+","+_self.connection.escape(data.nome)+","+_self.connection.escape(data.cognome)+","+_self.connection.escape(data.uso)+","+_self.connection.escape(data.tipodocumento)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(data.cf)+","+_self.connection.escape(data.data)+","+_self.connection.escape(hash)+")", function(err, rows, fields){
+            if(err){
+              console.log('[d1DBOperations] error: '+ err);
+              res.end(JSON.stringify({response : false, err: err}))
+              return;
+            }
+            res.end(JSON.stringify({response : true, id: rows.insertId}))
+            _callback(null, hash, data.tipodocumento, data.npratica);
+        });
+      },
+      function(hash,tipodocumento,npratica, _callback){
+        _self.connection.query("SELECT descrizione FROM tipo_documento WHERE id="+_self.connection.escape(tipodocumento), function(err, rows, fields){
+            if(err){
+              console.log('[d1DBOperations] error: '+ err);
+              return;
+            }
+            var path1 = __base+'/'+hash+'/'+npratica;
+            var path2 = path1 + '/'+ rows[0].descrizione;
+            if(!fs.existsSync(path1)){
+              console.log('non esiste path1');
+              fs.mkdirSync(path1);
+            }
+            if(!fs.existsSync(path2)){
+              fs.mkdirSync(path2);
+            }
+            _callback(null);
+        });
+
+      }
+    ]);
+  }
+
+  handled1s1(req,res){
+    this.connection.query("SELECT pratica.compatibile, allegato.id, allegato.path, allegato.tipo_allegato_id FROM pratica LEFT JOIN pratica_ha_allegato ON pratica.id = pratica_ha_allegato.pratica_id AND pratica.pandema_id = pratica_ha_allegato.pratica_pandema_id LEFT JOIN allegato ON pratica_ha_allegato.pratica_id = allegato.id WHERE pratica.id="+this.connection.escape(req.query.id)+" AND pratica.pandema_id="+this.connection.escape(req.query.pandema_id)+" AND allegato.tipo_allegato_id = 2 AND allegato.tipo_allegato_id = 3 AND allegato.tipo_allegato_id = 27", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+  }
+
+  getgeneralinfos(res){
+    this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+  }
+
+  d1domandeconcorrenza(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id, allegato.id, allegato.data_caricamento, allegato.descrizione, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=2", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  d1opposizioni(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id, allegato.id, allegato.data_caricamento, allegato.descrizione, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=3", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  getComuneFromID(dbid, callback){
+    var _self = this;
+    this.connection.query("SELECT comune.citta FROM pratica LEFT JOIN comune ON pratica.comune_id = comune.id WHERE pratica.id="+this.connection.escape(dbid), function(err, rows){
+      if(err){
+        console.log('Err in 1 '+ err);
+        return callback(err);
+      }
+      callback(rows.citta);
+    });
   }
 
 }

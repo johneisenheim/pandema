@@ -38,6 +38,10 @@ import styles from './Home.css.js';
 import Box from 'react-layout-components';
 import {Link} from "react-router";
 
+import CircularProgress from 'material-ui/CircularProgress';
+import $ from 'jquery';
+
+
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
 
@@ -60,201 +64,158 @@ class Home extends React.Component{
       d5 : {},
       d6 : {}
     };
+
+    this.state = {
+      isLoading : true,
+      data : undefined
+    }
+  }
+
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:8001/getgeneralinfos',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          _self.setState({
+              ..._self.state,
+              isLoading : false,
+              data : parsed.results
+          });
+          console.log(parsed);
+        },
+        error : function(err){
+          console.log(err);
+        }
+    });
   }
 
   render (){
-    return (
-      <MuiThemeProvider muiTheme={lightBaseTheme}>
-        <Box column>
-          <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
-            <RaisedButton
-              label="Aggiungi nuova pratica"
-              containerElement={<Link to="/nuovapratica"/>}
-              backgroundColor ='#4CA7D0'
-              icon={<ContentAdd />}
-              labelStyle={{color:'#FFFFFF'}}
-              style={{marginTop:'10px'}}
-            />
-          </Box>
-            <Paper zDepth={1} style={styles.paper}>
-              <Toolbar style={{backgroundColor:'#4CA7D0'}}>
-                <ToolbarTitle text="Licenze, Concessioni e Autorizzazioni" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
-                <ToolbarGroup>
-                  <FontIcon className="muidocs-icon-custom-sort" />
-                  <ToolbarSeparator style={{backgroundColor:'rgba(255,255,255,0.4)'}}/>
+    var tableContents = [];
+    if( this.state.isLoading ){
+      return (
+        <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
+          <CircularProgress size={30}/>
+        </Box>
+      );
+    }else{
+      if(this.state.data.length == 0){
+        tableContents.push(
+          <TableRow>
+            <TableRowColumn style={{width:'100%', textAlign:'center'}}>Non ci sono pratiche inserite.</TableRowColumn>
+          </TableRow>
+        );
+      }else{
+        for( var i = 0; i < this.state.data.length; i++ ){
+          var linkToD = 0;
+          switch(this.state.data[i].tipo_documento_id){
+            case 1 :
+              linkToD = '/d1handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
+              console.log(linkToD);
+            break;
+            case 2:
+              linkToD = '/d2handler';
+            break;
+            case 3:
+              linkToD = '/d3handler';
+            break;
+            case 4:
+              linkToD = '/d4handler';
+            break;
+            case 5:
+              linkToD = '/d5handler';
+            break;
+            case 6:
+              linkToD = '/d6handler';
+            break;
+          }
+          tableContents.push(
+            <TableRow key={i}>
+              <TableRowColumn>{this.state.data[0].pandema_id}</TableRowColumn>
+              <TableRowColumn>{this.state.data[0].descrizione}</TableRowColumn>
+              <TableRowColumn>{this.state.data[0].stato_pratica_desc}</TableRowColumn>
+              <TableRowColumn>{new Date(this.state.data[0].data).toLocaleDateString()}</TableRowColumn>
+              <TableRowColumn>{this.state.data[0].nome} {this.state.data[0].cognome}</TableRowColumn>
+              <TableRowColumn>{this.state.data[0].descrizione_com}</TableRowColumn>
+              <TableRowColumn>
+                <IconButton containerElement={<Link to={`/gestisciallegati/n39`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>
+              </TableRowColumn>
+              <TableRowColumn>
+                <Link to={linkToD} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
+              </TableRowColumn>
+            </TableRow>
+          );
+        }
+      }
+      return (
+        <MuiThemeProvider muiTheme={lightBaseTheme}>
+          <Box column>
+            <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
+              <RaisedButton
+                label="Aggiungi nuova pratica"
+                containerElement={<Link to="/nuovapratica"/>}
+                backgroundColor ='#4CA7D0'
+                icon={<ContentAdd />}
+                labelStyle={{color:'#FFFFFF'}}
+                style={{marginTop:'10px'}}
+              />
+            </Box>
+              <Paper zDepth={1} style={styles.paper}>
+                <Toolbar style={{backgroundColor:'#4CA7D0'}}>
+                  <ToolbarTitle text="Licenze, Concessioni e Autorizzazioni" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                   <ToolbarGroup>
-                    <IconMenu
-                      iconButtonElement={<IconButton><Sort /></IconButton>}
-                      value={1}
-                      iconStyle={{width:'28px', height:'28px', fill:'#FFFFFF'}}
-                      style={{marginLeft:'15px'}}
-                    >
-                      <MenuItem value="1" primaryText="N°Pratica" />
-                      <MenuItem value="2" primaryText="Tipo" />
-                      <MenuItem value="3" primaryText="Stato" />
-                      <MenuItem value="4" primaryText="Data Ricezione" />
-                      <MenuItem value="5" primaryText="Cognome Richiedente" />
-                      <MenuItem value="5" primaryText="Codice uso/scopo" />
-                    </IconMenu>
-                      <Search color={'#FFFFFF'} style={{marginTop:'14px', width:'25px', height: '25px', marginRight:'10px', marginLeft:'20px'}}/>
-                        <TextField
-                          hintText="Cerca"
-                          hintStyle = {styles.searchHintStyle}
-                          inputStyle = {styles.searchInputStyle}
-                          underlineFocusStyle = {styles.searchUnderlineFocusStyle}
-                          id={'search'}
-                        />
+                    <FontIcon className="muidocs-icon-custom-sort" />
+                    <ToolbarSeparator style={{backgroundColor:'rgba(255,255,255,0.4)'}}/>
+                    <ToolbarGroup>
+                      <IconMenu
+                        iconButtonElement={<IconButton><Sort /></IconButton>}
+                        value={1}
+                        iconStyle={{width:'28px', height:'28px', fill:'#FFFFFF'}}
+                        style={{marginLeft:'15px'}}
+                      >
+                        <MenuItem value="1" primaryText="N°Pratica" />
+                        <MenuItem value="2" primaryText="Tipo" />
+                        <MenuItem value="3" primaryText="Stato" />
+                        <MenuItem value="4" primaryText="Data Ricezione" />
+                        <MenuItem value="5" primaryText="Cognome Richiedente" />
+                        <MenuItem value="5" primaryText="Codice uso/scopo" />
+                      </IconMenu>
+                        <Search color={'#FFFFFF'} style={{marginTop:'14px', width:'25px', height: '25px', marginRight:'10px', marginLeft:'20px'}}/>
+                          <TextField
+                            hintText="Cerca"
+                            hintStyle = {styles.searchHintStyle}
+                            inputStyle = {styles.searchInputStyle}
+                            underlineFocusStyle = {styles.searchUnderlineFocusStyle}
+                            id={'search'}
+                          />
+                    </ToolbarGroup>
                   </ToolbarGroup>
-                </ToolbarGroup>
-              </Toolbar>
-              <Table selectable={false}>
-                <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                  <TableRow>
-                    <TableHeaderColumn>N°Pratica</TableHeaderColumn>
-                    <TableHeaderColumn>Tipo</TableHeaderColumn>
-                    <TableHeaderColumn>Stato</TableHeaderColumn>
-                    <TableHeaderColumn>Data Ricezione</TableHeaderColumn>
-                    <TableHeaderColumn>Richiedente</TableHeaderColumn>
-                    <TableHeaderColumn>Codice uso/scopo</TableHeaderColumn>
-                    <TableHeaderColumn>Allegati</TableHeaderColumn>
-                    <TableHeaderColumn></TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody displayRowCheckbox={false} selectable={false}>
-                  <TableRow>
-                    <TableRowColumn>N8977</TableRowColumn>
-                    <TableRowColumn>D1</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>25/06/2016</TableRowColumn>
-                    <TableRowColumn>Mario Rossi</TableRowColumn>
-                    <TableRowColumn>E418</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d1handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn>K8J77</TableRowColumn>
-                    <TableRowColumn>D1</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>20/06/2016</TableRowColumn>
-                    <TableRowColumn>Giovanni Verdi</TableRowColumn>
-                    <TableRowColumn>988Y</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d1handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn>M1556</TableRowColumn>
-                    <TableRowColumn>D1</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>01/07/2016</TableRowColumn>
-                    <TableRowColumn>Marco Esposito</TableRowColumn>
-                    <TableRowColumn>E998</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d1handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn>P233</TableRowColumn>
-                    <TableRowColumn>D2</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>01/07/2016</TableRowColumn>
-                    <TableRowColumn>Enzo Miriano</TableRowColumn>
-                    <TableRowColumn>9998</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d2handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn>N39</TableRowColumn>
-                    <TableRowColumn>D3</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>13/09/2016</TableRowColumn>
-                    <TableRowColumn>Francesco Polese</TableRowColumn>
-                    <TableRowColumn>93822</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d3handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn>N39</TableRowColumn>
-                    <TableRowColumn>D4</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>13/09/2016</TableRowColumn>
-                    <TableRowColumn>Francesco Polese</TableRowColumn>
-                    <TableRowColumn>93822</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d4handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn>N39</TableRowColumn>
-                    <TableRowColumn>D5</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>13/09/2016</TableRowColumn>
-                    <TableRowColumn>Francesco Polese</TableRowColumn>
-                    <TableRowColumn>93822</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d5handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn>N39</TableRowColumn>
-                    <TableRowColumn>D6</TableRowColumn>
-                    <TableRowColumn>Attesa</TableRowColumn>
-                    <TableRowColumn>13/09/2016</TableRowColumn>
-                    <TableRowColumn>Francesco Polese</TableRowColumn>
-                    <TableRowColumn>93822</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Link to={`/d6handler/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
-                    </TableRowColumn>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Paper>
-          </Box>
-      </MuiThemeProvider>
-    )
+                </Toolbar>
+                <Table selectable={false}>
+                  <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                    <TableRow>
+                      <TableHeaderColumn>N°Pratica</TableHeaderColumn>
+                      <TableHeaderColumn>Tipo</TableHeaderColumn>
+                      <TableHeaderColumn>Stato</TableHeaderColumn>
+                      <TableHeaderColumn>Data Ricezione</TableHeaderColumn>
+                      <TableHeaderColumn>Richiedente</TableHeaderColumn>
+                      <TableHeaderColumn>Codice uso/scopo</TableHeaderColumn>
+                      <TableHeaderColumn>Allegati</TableHeaderColumn>
+                      <TableHeaderColumn></TableHeaderColumn>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody displayRowCheckbox={false} selectable={false}>
+                    {tableContents}
+                  </TableBody>
+                </Table>
+              </Paper>
+            </Box>
+        </MuiThemeProvider>
+      )
+    }
   }
 
 }

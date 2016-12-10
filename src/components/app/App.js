@@ -24,24 +24,27 @@ class App extends React.Component{
 
   //{this.props.children}
 
+  /*
+  <EasyTransition
+      path={this.props.location.pathname}
+      initialStyle={{opacity: 0, transform: 'translateX(100%)'}}
+      transition="opacity 0.2s ease-in, transform 0.3s ease-in-out 0.3s"
+      finalStyle={{opacity: 1, transform: 'translateX(0%)'}}
+      leaveStyle={{opacity: 0.9, transform: 'translateX(100%)'}}
+      style={{height:'100%', width : '100%'}}
+  >*/
+
   render(){
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <Box style={{height:"100vh", overflowX:'hidden'}}>
+        <Box style={{flex:1, height:'100vh'}}>
           <Sidebar/>
           <RightContent>
-            <div id="pre" style={{width:'100%', height:'100%', overflow:"scroll"}}>
-              <EasyTransition
-                  path={this.props.location.pathname}
-                  initialStyle={{opacity: 0, transform: 'translateX(100%)'}}
-                  transition="opacity 0.2s ease-in, transform 0.3s ease-in-out 0.3s"
-                  finalStyle={{opacity: 1, transform: 'translateX(0%)'}}
-                  leaveStyle={{opacity: 0.9, transform: 'translateX(100%)'}}
-                  style={{height:'100%'}}
-              >
+            <Box style={{flex:1}}>
+
               {this.props.children}
-              </EasyTransition>
-            </div>
+              
+            </Box>
           </RightContent>
         </Box>
       </MuiThemeProvider>

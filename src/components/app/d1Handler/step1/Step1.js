@@ -24,31 +24,53 @@ import CheckIcon from 'material-ui/svg-icons/action/check-circle';
 import {Link} from "react-router";
 import $ from 'jquery';
 
-var data = {
-    "prot1" : "32",
-    "prot2" : "3233A",
-    "demanio1" : "Jan 1",
-    "demanio2" : "Off"
-};
+import CircularProgress from 'material-ui/CircularProgress';
+
+import DomandeConcorrenza from './DomandeConcorrenza';
+import Opposizioni from './Opposizioni';
 
 class Step1 extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-
     this.state = {
-      compatibility : greatObject.d1.compatibility !== undefined ? ( greatObject.d1.compatibility === 'compatibile' ? 1 : 0) : 1,
-      istruttoriaIndex : 0,
-      npraticaTextFieldEnabled : false,
-      checkColorAvvisoPubblicazione : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisopubblicazione'] !== undefined ? 'green' : '#979797') : '#979797',
-      checkColorDomandeOccorrenza : greatObject.d1.files !== undefined ? (greatObject.d1.files['domandeoccorrenza'] !== undefined ? 'green' : '#979797') : '#979797',
-      checkColorAllegaOpposizioni : greatObject.d1.files !== undefined ? (greatObject.d1.files['opposizioni'] !== undefined ? 'green' : '#979797') : '#979797',
-      checkColorAvvisoIstruzioni : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisoistruzioni'] !== undefined ? 'green' : '#979797') : '#979797',
-      checkColorDocumentazioneAlternativa : greatObject.d1.files !== undefined ? (greatObject.d1.files['documetazionealternativa'] !== undefined ? 'green' : '#979797') : '#979797',
-      checkColorAvvisoDiniego : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniego'] !== undefined ? 'green' : '#979797') : '#979797',
-      checkColorAvvisoDiniegoDefinitivo : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniegodefinitivo'] !== undefined ? 'green' : '#979797') : '#979797',
-    }
-    greatObject.d1['compatibility'] = this.state.compatibility ? 'compatibile' : 'non_compatibile';
+      isLoading : true
+    };
+  }
+
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: 'http://127.0.0.1:8001/handled1s1?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          var state = {
+            compatibility : parsed.length > 0 ? parsed.compatibile : -1,
+            istruttoriaIndex : 0,
+            npraticaTextFieldEnabled : false,
+            checkColorAvvisoPubblicazione : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisopubblicazione'] !== undefined ? 'green' : '#979797') : '#979797',
+            checkColorDomandeConcorrenza : greatObject.d1.files !== undefined ? (greatObject.d1.files['domandeconcorrenza'] !== undefined ? 'green' : '#979797') : '#979797',
+            checkColorAllegaOpposizioni : greatObject.d1.files !== undefined ? (greatObject.d1.files['opposizioni'] !== undefined ? 'green' : '#979797') : '#979797',
+            checkColorAvvisoIstruzioni : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisoistruzioni'] !== undefined ? 'green' : '#979797') : '#979797',
+            checkColorDocumentazioneAlternativa : greatObject.d1.files !== undefined ? (greatObject.d1.files['documetazionealternativa'] !== undefined ? 'green' : '#979797') : '#979797',
+            checkColorAvvisoDiniego : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniego'] !== undefined ? 'green' : '#979797') : '#979797',
+            checkColorAvvisoDiniegoDefinitivo : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniegodefinitivo'] !== undefined ? 'green' : '#979797') : '#979797',
+          };
+          _self.setState({
+            ..._self.state,
+            isLoading : false,
+            compatibility : -1
+          })
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
+    });
   }
 
   _handleIstruttoriaChange(event, index, value){
@@ -69,14 +91,18 @@ class Step1 extends React.Component{
   }
 
   _onFirstCheckCange (e,v){
-    //console.log('State before:', this.state.compatibility);
     this.setState({
+      ...this.state,
+      compatibility : v
+    });
+    //console.log('State before:', this.state.compatibility);
+    /*this.setState({
       ...this.state,
       compatibility : 1 ? this.state.compatibility == 0 : 0,
       istruttoriaIndex : this.state.istruttoriaIndex,
       npraticaTextFieldEnabled : this.state.npraticaTextFieldEnabled,
       checkColorAvvisoPubblicazione : '#979797',
-      checkColorDomandeOccorrenza : '#979797',
+      checkColorDomandeConcorrenza : '#979797',
       checkColorAllegaOpposizioni : '#979797',
       checkColorAvvisoIstruzioni : '#979797',
       checkColorDocumentazioneAlternativa : '#979797',
@@ -86,10 +112,10 @@ class Step1 extends React.Component{
     global.greatObject.d1['compatibility'] = v;
     global.greatObject.d1['files'] = {};
     global.greatObject.d1['pdfs'] = {};
-    //console.log('State after:', this.state.compatibility);
+    //console.log('State after:', this.state.compatibility);*/
   }
 
-  _domandeOccorrenzaFileHandler(e){
+  _domandeConcorrenzaFileHandler(e){
     console.log(this.refs.file1.files[0]);
     /*var formData = new FormData();
     formData.append('primo', this.refs.file1.files[0]);
@@ -108,13 +134,13 @@ class Step1 extends React.Component{
     });*/
     this.setState({
         ...this.state,
-        checkColorDomandeOccorrenza : 'green'
+        checkColorDomandeConcorrenza : 'green'
     });
     if( typeof global.greatObject.d1['files'] !== 'undefined'){
-      global.greatObject.d1['files']['domandeoccorrenza'] = this.refs.file1.files[0];
+      global.greatObject.d1['files']['domandeconcorrenza'] = this.refs.file1.files[0];
     } else {
       global.greatObject.d1['files'] = {};
-      global.greatObject.d1['files']['domandeoccorrenza'] = this.refs.file1.files[0];
+      global.greatObject.d1['files']['domandeconcorrenza'] = this.refs.file1.files[0];
     }
     //console.log(global.greatObject);
   }
@@ -173,8 +199,10 @@ class Step1 extends React.Component{
       })
   }
 
+  //<CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoIstruzioni}/>
   renderFirstStepAddings (){
-    if( this.state.compatibility )
+    console.log(this.state.compatibility);
+    if( this.state.compatibility === 1){
       return (
         <div style={styles.firstStepAddingsStyle}>
           <Box justifyContent="flex-start" alignItems="center">
@@ -186,20 +214,9 @@ class Step1 extends React.Component{
               style={{marginTop:'10px'}}
               onTouchTap={this.props.tellMeModalContent.bind(this, 'avvisopubblicazione')}
             />
-          <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoPubblicazione}/>
           </Box>
-          <Box justifyContent="flex-start" alignItems="center">
-              <FlatButton label="Allega Domande in occorrenza" icon={<Attach />} style={{marginTop:'10px'}}>
-                  <input type="file" style={styles.inputFile} ref="file1" accept="application/pdf" onChange={this._domandeOccorrenzaFileHandler.bind(this)}/>
-              </FlatButton>
-              <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorDomandeOccorrenza}/>
-          </Box>
-          <Box justifyContent="flex-start" alignItems="center">
-            <FlatButton label="Allega Opposizioni" icon={<Attach />} style={{marginTop:'10px'}}>
-              <input type="file" style={styles.inputFile} ref="file2" accept="application/pdf" onChange={this._allegaOpposizioniFileHandler.bind(this)}/>
-            </FlatButton>
-            <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAllegaOpposizioni}/>
-          </Box>
+          <DomandeConcorrenza pid={this.props.pid} dbid={this.props.dbid}/>
+          <Opposizioni pid={this.props.pid} dbid={this.props.dbid}/>
           <Box justifyContent="flex-start" alignItems="center">
             <RaisedButton
               label="Compila Comunicazione di Avviso Istruttoria"
@@ -209,58 +226,64 @@ class Step1 extends React.Component{
               labelStyle={{color:'#FFFFFF'}}
               style={{marginTop:'10px'}}
             />
-          <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoIstruzioni}/>
           </Box>
         </div>
       );
-    else return (
-      <div style={styles.firstStepAddingsStyle}>
-        <Box justifyContent="flex-start" alignItems="center">
-            <RaisedButton
-            label="Compila Avviso di Diniego"
-            primary={true}
-            icon={<Compile />}
-            labelStyle={{color:'#FFFFFF'}}
-            style={{marginTop:'10px'}}
-            containerElement={<Link to="/avvisodiniego"></Link>}
-          /><CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoDiniego}/>
-        </Box>
-        <Box justifyContent="flex-start" alignItems="center">
-          <FlatButton label="Documentazione alternativa avviso di diniego" icon={<Attach />} style={{marginTop:'10px'}}>
-             <input type="file" style={styles.inputFile} accept="application/pdf" onChange={this._allegaDocumentazioneAlternativa.bind(this)} ref="file3"/>
-          </FlatButton>
-          <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorDocumentazioneAlternativa}/>
-        </Box>
-        <Box justifyContent="flex-start" alignItems="center">
-         <RaisedButton
-           label="Compila Diniego definitivo"
-           href=""
-           primary={true}
-           icon={<Compile />}
-           labelStyle={{color:'#FFFFFF'}}
-           style={{marginTop:'10px'}}
-         />
-          <CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoDiniegoDefinitivo}/>
-        </Box>
-      </div>
-    );
+    }else if(this.state.compatibility === 0){
+      return (
+        <div style={styles.firstStepAddingsStyle}>
+          <Box justifyContent="flex-start" alignItems="center">
+              <RaisedButton
+              label="Compila Avviso di Diniego"
+              primary={true}
+              icon={<Compile />}
+              labelStyle={{color:'#FFFFFF'}}
+              style={{marginTop:'10px'}}
+              containerElement={<Link to="/avvisodiniego"></Link>}
+            />
+          </Box>
+          <Box justifyContent="flex-start" alignItems="center">
+            <FlatButton label="Documentazione alternativa avviso di diniego" icon={<Attach />} style={{marginTop:'10px'}}>
+               <input type="file" style={styles.inputFile} accept="application/pdf" onChange={this._allegaDocumentazioneAlternativa.bind(this)} ref="file3"/>
+            </FlatButton>
+          </Box>
+          <Box justifyContent="flex-start" alignItems="center">
+           <RaisedButton
+             label="Compila Diniego definitivo"
+             href=""
+             primary={true}
+             icon={<Compile />}
+             labelStyle={{color:'#FFFFFF'}}
+             style={{marginTop:'10px'}}
+           />
+          </Box>
+        </div>
+      );
+    }else return null;
   }
 
   render (){
+    if( this.state.isLoading ){
+      return(
+        <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
+          <CircularProgress size={30}/>
+        </Box>
+      )
+    }else{
       return (
-          <div style={{marginLeft:'20px'}}>
+          <div style={{marginLeft:'20px', width : '100%'}}>
             <p>
               Inserire esito della compatibilità con il piano di utilizzo della costa o altri atti di pianificazione:
             </p>
             <div>
-              <RadioButtonGroup name="step1" defaultSelected={this.state.compatibility ? 'compatibile' : 'non_compatibile'} onChange={this._onFirstCheckCange.bind(this)}>
+              <RadioButtonGroup name="step1" onChange={this._onFirstCheckCange.bind(this)}>
                 <RadioButton
-                  value="compatibile"
+                  value={1}
                   label="Compatibile"
                   style={styles.radioButton}
                 />
                 <RadioButton
-                  value="non_compatibile"
+                  value={0}
                   label="Non compatibile"
                   style={styles.radioButton}
                 />
@@ -269,6 +292,7 @@ class Step1 extends React.Component{
             </div>
           </div>
       );
+    }
   }
 
 }
