@@ -219,7 +219,6 @@ class Step1 extends React.Component{
 
   //<CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoIstruzioni}/>
   renderFirstStepAddings (){
-    console.log(this.state.compatibility);
     if( this.state.compatibility === 1){
       return (
         <div style={styles.firstStepAddingsStyle}>

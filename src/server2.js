@@ -330,6 +330,10 @@ app2.get('/d1alternativadiniego', function(req, res){
   middleware.d1alternativadiniego(req,res);
 });
 
+app2.get('/handled1s2reqmin', function(req, res){
+  middleware.handled1s2reqmin(req, res);
+});
+
 app2.post('/addFile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = false;
@@ -416,6 +420,36 @@ app2.post('/addFile', function(req, res){
         file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+filesCount+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 5;
+      break;
+      case 8:
+        file.path = praticaPath+'/visuracamerale.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 8;
+      break;
+      case 9:
+        file.path = praticaPath+'/carichipenali.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 9;
+      break;
+      case 10:
+        file.path = praticaPath+'/casellariogiudiziale.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 10;
+      break;
+      case 11:
+        file.path = praticaPath+'/durc.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 11;
+      break;
+      case 12:
+        file.path = praticaPath+'/certificatofallimentare.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 12;
+      break;
+      case 13:
+        file.path = praticaPath+'/certificatoantimafia.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 13;
       break;
     }
 
