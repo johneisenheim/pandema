@@ -3,7 +3,7 @@ const styles = {
     margin : '10px',
     marginTop : '20px',
     width : '100%',
-    minHeight : '450px',
+    paddingBottom : '30px',
     height : 'auto'
   },
   container : {

@@ -7,14 +7,14 @@ import NavBar from './navbar/NavBar';
 class RightContent extends React.Component{
   render(){
     return (
-      <div id="bar" style={{backgroundColor:"#EEF0F4", width:"100%"}}>
-        <NavBar />
-        <Box style={{flex:1, width : '100%'}}>
-          <Box style={{flex:1, marginLeft : '15px', marginRight:'15px', width : '100%'}}>
+      <Box column id="bar" style={{backgroundColor:"#EEF0F4", width:"100%", overflow:'auto'}}>
+        <NavBar/>
+        <Box style={{flex:1, width : '100%', overflow:'scroll'}}>
+          <Box style={{flex:1, marginLeft : '15px', marginRight:'15px', width : '100%'}} alignItems="flex-start" justifyContent="flex-start">
             {this.props.children}
           </Box>
         </Box>
-      </div>
+      </Box>
     )
   }
 }

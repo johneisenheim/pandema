@@ -36,6 +36,7 @@ class Step1 extends React.Component{
     this.state = {
       isLoading : true
     };
+    this.praticaPath = null;
   }
 
   componentDidMount(){
@@ -48,6 +49,7 @@ class Step1 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
+          _self.praticaPath = parsed.results[0].path;
           var state = {
             compatibility : parsed.length > 0 ? parsed.compatibile : -1,
             istruttoriaIndex : 0,
@@ -215,7 +217,7 @@ class Step1 extends React.Component{
               onTouchTap={this.props.tellMeModalContent.bind(this, 'avvisopubblicazione')}
             />
           </Box>
-          <DomandeConcorrenza pid={this.props.pid} dbid={this.props.dbid}/>
+          <DomandeConcorrenza pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <Opposizioni pid={this.props.pid} dbid={this.props.dbid}/>
           <Box justifyContent="flex-start" alignItems="center">
             <RaisedButton

@@ -329,53 +329,47 @@ app2.get('/d1opposizioni', function(req, res){
 
 app2.post('/addDomandeConcorrenza', function(req, res){
   var form = new formidable.IncomingForm();
-  form.multiple = true;
-  var currentCityName = null;
-  var currentPratica = null;
-  var callback = function(city){
-    currentCityName = city;
-  };
+  form.multiple = false;
 
-  var toMiddleware={};
+  var praticaPath = null;
+  var currentPraticaID = null;
+  var toMiddleware = {};
+
+  form.parse(req);
 
   form.on('field', function(name, value){
     if(name=='dbid'){
-      middleware.getComuneFromID(value, callback);
       toMiddleware.dbid = value;
     }
     if(name=='pid'){
-      currentPratica = value;
+      currentPraticaID = value;
       toMiddleware.pid = value;
+    }
+    if(name=='path'){
+      praticaPath = value;
     }
   });
 
   form.on('fileBegin', function(name, file){
-    var hash = crypto.createHash('md5').update(currentCityName+'pandemanellotalassa').digest("hex");
-    var praticaFolder = __base+'/documents/'+hash+'/'+currentPratica;
-    var documentFolder = praticaFolder+'/D1';
-    var concorrenzaFolder = documentFolder+'/domandeconcorrenza';
     var filesCount = 0;
-    if(!fs.existsSync(praticaFolder)){
-      fs.mkdirSync(praticaFolder);
+    var domandeConcorrenzaPath = praticaPath+'/domandeconcorrenza';
+
+    if(!fs.existsSync(domandeConcorrenzaPath)){
+      fs.mkdirSync(domandeConcorrenzaPath);
     }
-    if(!fs.existsSync(documentFolder)){
-      fs.mkdirSync(documentFolder);
+
+    var files = fs.readdirSync(domandeConcorrenzaPath);
+    for( var i = 0; i < files.length; i++){
+      filesCount++;
     }
-    if(!fs.existsSync(concorrenzaFolder)){
-      fs.mkdirSync(concorrenzaFolder);
-    }
-    fs.readdirSync(concorrenzaFolder, function(err, files){
-      files.forEach(file => {
-        filesCount++;
-      });
-    });
-    file.path = concorrenzaFolder+'file_'+filesCount+'.pdf';
-    toMiddleware.path = file.path;
-    console.log('new file path is : '+file.path);
+
+    file.path = domandeConcorrenzaPath+'/file_'+filesCount+'.pdf';
+    toMiddleware.filepath = file.path;
   });
 
   form.on('end', function(){
-    //res.end(JSON.stringify({response:true}));
+    middleware.d1AddDomandeConcorrenza(toMiddleware);
+    res.end(JSON.stringify({response:true}));
   })
 
 });

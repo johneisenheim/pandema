@@ -327,7 +327,7 @@ class D1Handler extends React.Component{
     return (
       <MuiThemeProvider muiTheme={lightBaseTheme} >
         <div style={{width : '100%'}}>
-          <Box justifyContent="center" alignItems="center" style={{height:'100%', width: '100%'}}>
+          <Box id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'scroll'}}>
             <Paper zDepth={1} style={styles.paper}>
               <Box justifyContent="center" alignItems="center">
                 <Stepper
@@ -371,24 +371,24 @@ class D1Handler extends React.Component{
               <Box>
                 {this.getStepContent(this.state.stepIndex)}
               </Box>
-              <div style={{width:'100%', marginTop:'15px'}}>
-              <Box style={{marginRight:'30px', bottom:'30px', position:'fixed', right : '10px'}}>
-                <FlatButton
-                   label="indietro"
-                   disabled={this.state.stepIndex === 0}
-                   onTouchTap={this._prev.bind(this)}
-                   primary={false}
-                   icon ={<PrevIcon />}
-                 />
-                 <FlatButton
-                   label={this.state.stepIndex === 5 ? 'Fine' : 'Avanti'}
-                   primary={false}
-                   onTouchTap={this._next.bind(this)}
-                   labelPosition="before"
-                   icon={<NextIcon />}
-                 />
-             </Box>
-           </div>
+                <div style={{marginTop:'20px', width:'auto'}}>
+                  <div style={{position:'relative', width : '230px', marginRight : '20px', float:'right'}}>
+                  <FlatButton
+                     label="indietro"
+                     disabled={this.state.stepIndex === 0}
+                     onTouchTap={this._prev.bind(this)}
+                     primary={false}
+                     icon ={<PrevIcon />}
+                   />
+                   <FlatButton
+                     label={this.state.stepIndex === 5 ? 'Fine' : 'Avanti'}
+                     primary={false}
+                     onTouchTap={this._next.bind(this)}
+                     labelPosition="before"
+                     icon={<NextIcon />}
+                   />
+                 </div>
+                </div>
             </Paper>
           </Box>
           <Dialog
