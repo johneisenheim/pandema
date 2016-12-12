@@ -242,7 +242,7 @@ class D1Handler extends React.Component{
         return <Step2 pid={this.props.params.pid} dbid={this.props.params.dbid} tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 2:
-        return <Step3 tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        return <Step3 pid={this.props.params.pid} dbid={this.props.params.dbid} tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 3:
         return <Step4 tellMeModalContent={this.tellMeModalContent.bind(this)}/>;

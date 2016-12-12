@@ -338,6 +338,10 @@ app2.get('/handled1s2reqfac', function(req, res){
   middleware.handled1s2reqfac(req, res);
 });
 
+app2.get('/handled1s3', function(req,res){
+  middleware.handled1s3(req, res);
+});
+
 app2.post('/addFile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = false;
@@ -454,6 +458,51 @@ app2.post('/addFile', function(req, res){
         file.path = praticaPath+'/certificatoantimafia.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 13;
+      break;
+      case 14:
+        file.path = praticaPath+'/agenziadogana.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 14;
+      break;
+      case 15:
+        file.path = praticaPath+'/agenziademanio.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 15;
+      break;
+      case 16:
+        file.path = praticaPath+'/pareretecnico.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 16;
+      break;
+      case 17:
+        file.path = praticaPath+'/parereurbanistico.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 17;
+      break;
+      case 18:
+        file.path = praticaPath+'/pareresopraintendenzabeniculturali.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 18;
+      break;
+      case 19:
+        file.path = praticaPath+'/pareresic.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 19;
+      break;
+      case 20:
+        file.path = praticaPath+'/parereautoritamarittima.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 20;
+      break;
+      case 21:
+        file.path = praticaPath+'/pareresopraintendenzaarcheologica.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 21;
+      break;
+      case 22:
+        file.path = praticaPath+'/parereautoritabacino.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 22;
       break;
       case 28:
         var requisitiFacPath = praticaPath+'/reqfac';
