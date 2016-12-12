@@ -216,7 +216,6 @@ class Step3 extends React.Component{
 
 
   render (){
-    console.log(this.state);
     if(this.state.isLoading){
       return(
         <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>

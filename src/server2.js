@@ -342,6 +342,10 @@ app2.get('/handled1s3', function(req,res){
   middleware.handled1s3(req, res);
 });
 
+app2.get('/handled1s4', function(req,res){
+  middleware.handled1s4(req, res);
+});
+
 app2.post('/addFile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = false;
@@ -503,6 +507,21 @@ app2.post('/addFile', function(req, res){
         file.path = praticaPath+'/parereautoritabacino.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 22;
+      break;
+      case 23:
+        file.path = praticaPath+'/determina.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 23;
+      break;
+      case 24:
+        file.path = praticaPath+'/delibera.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 24;
+      break;
+      case 25:
+        file.path = praticaPath+'/visto.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 25;
       break;
       case 28:
         var requisitiFacPath = praticaPath+'/reqfac';
