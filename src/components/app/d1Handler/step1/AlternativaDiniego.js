@@ -21,12 +21,14 @@ import CircularProgress from 'material-ui/CircularProgress';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/action/note-add';
+import Check from 'material-ui/svg-icons/action/check-circle';
+import TextField from 'material-ui/TextField';
+
 
 import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
 
-
-class Opposizioni extends React.Component{
+class AlternativaDiniego extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -42,11 +44,11 @@ class Opposizioni extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1opposizioni?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: 'http://127.0.0.1:8001/d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('opposizioni query ok');
+          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
           console.log(parsed);
           _self.setState({
@@ -62,13 +64,13 @@ class Opposizioni extends React.Component{
     });
   }
 
-  _opposizioniFileHandler(e){
+  _domandeConcorrenzaFileHandler(e){
     var _self = this;
     var formData = new FormData();
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);
-    formData.append('atype', 3);
+    formData.append('atype', 5);
     formData.append('file', this.refs.file.files[0]);
     $.ajax({
         type: 'POST',
@@ -99,11 +101,13 @@ class Opposizioni extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1opposizioni?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: 'http://127.0.0.1:8001/d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
-        success: function(data){
+        success: function(data) {
+          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
+          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -160,26 +164,26 @@ class Opposizioni extends React.Component{
           </TableRow>
         );
       }else{
-        for ( var i = 0; i < this.state.data.length; i++){
-          tableContents.push(
-            <TableRow key={i}>
-              <TableRowColumn>Opposizione {i}</TableRowColumn>
-              <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
-              <TableRowColumn>
-                <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
-                <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
-              </TableRowColumn>
-            </TableRow>
-          );
-        }
+          for ( var i = 0; i < this.state.data.length; i++){
+            tableContents.push(
+              <TableRow key={i}>
+                <TableRowColumn>Domanda Concorrenza {i}</TableRowColumn>
+                <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
+                <TableRowColumn>
+                  <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
+                  <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
+                </TableRowColumn>
+              </TableRow>
+            );
+          }
       }
       return (
           <Box column style={{marginTop:'20px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="Files caricati per Opposizioni" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="Files caricati per Alternativa Diniego" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
-                     <input type="file" style={styles.inputFile} accept="application/pdf" onChange={this._opposizioniFileHandler.bind(this)} ref="file"/>
+                    <input type="file" style={styles.inputFile} onChange={this._domandeConcorrenzaFileHandler.bind(this)} ref="file"/>
                   </FlatButton>
                 </ToolbarGroup>
               </Toolbar>
@@ -252,4 +256,4 @@ const styles = {
 };
 
 
-export default Opposizioni;
+export default AlternativaDiniego;

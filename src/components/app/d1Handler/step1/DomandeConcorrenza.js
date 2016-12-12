@@ -70,11 +70,12 @@ class DomandeConcorrenza extends React.Component{
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);
+    formData.append('atype', 2);
     formData.append('file', this.refs.file.files[0]);
     $.ajax({
         type: 'POST',
         data: formData,
-        url: 'http://127.0.0.1:8001/addDomandeConcorrenza',
+        url: 'http://127.0.0.1:8001/addFile',
         processData: false,
         contentType: false,
         success: function(data) {

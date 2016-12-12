@@ -326,48 +326,103 @@ app2.get('/d1opposizioni', function(req, res){
   middleware.d1opposizioni(req,res);
 });
 
-app2.post('/addDomandeConcorrenza', function(req, res){
+app2.get('/d1alternativadiniego', function(req, res){
+  middleware.d1alternativadiniego(req,res);
+});
+
+app2.post('/addFile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = false;
 
   var praticaPath = null;
   var currentPraticaID = null;
+  var allegatoTypeID = null;
   var toMiddleware = {};
 
   form.parse(req);
 
   form.on('field', function(name, value){
-    if(name=='dbid'){
-      toMiddleware.dbid = value;
+
+    switch(name){
+      case 'dbid':
+        toMiddleware.dbid = value;
+      break;
+      case 'pid':
+        currentPraticaID = value;
+        toMiddleware.pid = value;
+      break;
+      case 'path':
+        praticaPath = value;
+      break;
+      case 'atype':
+        allegatoTypeID = parseInt(value);
+      break;
     }
-    if(name=='pid'){
-      currentPraticaID = value;
-      toMiddleware.pid = value;
-    }
-    if(name=='path'){
-      praticaPath = value;
-    }
+
   });
 
   form.on('fileBegin', function(name, file){
     var filesCount = 0;
-    var domandeConcorrenzaPath = praticaPath+'/domandeconcorrenza';
+    switch(allegatoTypeID){
+      case 1:
+      break;
+      case 2:
+        //Domanda Concorrenza
+        var domandeConcorrenzaPath = praticaPath+'/domandeconcorrenza';
 
-    if(!fs.existsSync(domandeConcorrenzaPath)){
-      fs.mkdirSync(domandeConcorrenzaPath);
+        if(!fs.existsSync(domandeConcorrenzaPath)){
+          fs.mkdirSync(domandeConcorrenzaPath);
+        }
+
+        var files = fs.readdirSync(domandeConcorrenzaPath);
+        for( var i = 0; i < files.length; i++){
+          filesCount++;
+        }
+
+        file.path = domandeConcorrenzaPath+'/domandaconcorrenza_'+filesCount+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 2;
+      break;
+      case 3:
+        //Opposizioni
+        var opposizioniPath = praticaPath+'/opposizioni';
+
+        if(!fs.existsSync(opposizioniPath)){
+          fs.mkdirSync(opposizioniPath);
+        }
+
+        var files = fs.readdirSync(opposizioniPath);
+        for( var i = 0; i < files.length; i++){
+          filesCount++;
+        }
+
+        file.path = opposizioniPath+'/opposizione_'+filesCount+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 3;
+      break;
+      case 5:
+        //AlternativaDiniego
+        var alternativadiniegoPath = praticaPath+'/alternativadiniego';
+
+        if(!fs.existsSync(alternativadiniegoPath)){
+          fs.mkdirSync(alternativadiniegoPath);
+        }
+
+        var files = fs.readdirSync(alternativadiniegoPath);
+        for( var i = 0; i < files.length; i++){
+          filesCount++;
+        }
+
+        file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+filesCount+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 5;
+      break;
     }
 
-    var files = fs.readdirSync(domandeConcorrenzaPath);
-    for( var i = 0; i < files.length; i++){
-      filesCount++;
-    }
-
-    file.path = domandeConcorrenzaPath+'/file_'+filesCount+'.pdf';
-    toMiddleware.filepath = file.path;
   });
 
   form.on('end', function(){
-    middleware.d1AddDomandeConcorrenza(toMiddleware);
+    middleware.addFile(toMiddleware);
     res.end(JSON.stringify({response:true}));
   })
 

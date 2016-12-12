@@ -28,6 +28,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import DomandeConcorrenza from './DomandeConcorrenza';
 import Opposizioni from './Opposizioni';
+import AlternativaDiniego from './AlternativaDiniego';
 
 class Step1 extends React.Component{
 
@@ -259,11 +260,7 @@ class Step1 extends React.Component{
               containerElement={<Link to="/avvisodiniego"></Link>}
             />
           </Box>
-          <Box justifyContent="flex-start" alignItems="center">
-            <FlatButton label="Documentazione alternativa avviso di diniego" icon={<Attach />} style={{marginTop:'10px'}}>
-               <input type="file" style={styles.inputFile} accept="application/pdf" onChange={this._allegaDocumentazioneAlternativa.bind(this)} ref="file3"/>
-            </FlatButton>
-          </Box>
+          <AlternativaDiniego pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <Box justifyContent="flex-start" alignItems="center">
            <RaisedButton
              label="Compila Diniego definitivo"
