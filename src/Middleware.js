@@ -549,6 +549,16 @@ class Middleware{
       }
     ])
   }
+  changeCompatibility(req, res){
+    this.connection.query("UPDATE pratica SET compatibile="+this.connection.escape(req.query.compatibility)+" WHERE id="+this.connection.escape(req.query.dbid)+" AND pandema_id="+this.connection.escape(req.query.pid), function(err,rows){
+      if(err){
+        console.log('Err in changeCompatibility '+ err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true}));
+    });
+  }
 
 }
 

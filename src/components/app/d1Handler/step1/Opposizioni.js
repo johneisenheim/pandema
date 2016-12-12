@@ -28,7 +28,8 @@ class Opposizioni extends React.Component{
     super(props, context);
     this.state = {
       isLoading : true,
-      data : []
+      data : [],
+      file : undefined
     };
   }
 
@@ -56,11 +57,85 @@ class Opposizioni extends React.Component{
     });
   }
 
-  openDialog(){
-
+  _opposizioniFileHandler(e){
+    var _self = this;
+    var formData = new FormData();
+    formData.append('pid', this.props.pid);
+    formData.append('dbid', this.props.dbid);
+    formData.append('path', this.props.path);
+    formData.append('file', this.refs.file.files[0]);
+    $.ajax({
+        type: 'POST',
+        data: formData,
+        url: 'http://127.0.0.1:8001/addDomandeOpposizioni',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          toggleLoader.emit('toggleLoader');
+          //reload
+          _self.reload();
+        },
+        error : function(err){
+          toggleLoader.emit('toggleLoader');
+          alert(err);
+        }
+    });
+    toggleLoader.emit('toggleLoader');
   }
 
-  _opposizioniFileHandler(e){
+  reload(){
+    var _self = this;
+    _self.setState({
+      ..._self.state,
+      isLoading : true,
+      data : null
+    })
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: 'http://127.0.0.1:8001/d1opposizioni?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        processData: false,
+        contentType: false,
+        success: function(data){ 
+          var parsed = JSON.parse(data);
+          _self.setState({
+            ..._self.state,
+            isLoading : false,
+            data : parsed.results
+          })
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
+    });
+  }
+
+  eyePress(address){
+    window.open('http://127.0.0.1:8001/see?a='+address,'_blank');
+    //window.location.href= 'http://127.0.0.1:8001/see?a='+address;
+  }
+
+  deletePress(path, allegato_id){
+    var r = confirm("Sei sicuro di voler eliminare questo documento?");
+    var _self = this;
+    if(r){
+      $.ajax({
+          type: 'GET',
+          url: 'http://127.0.0.1:8001/deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(path),
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            var parsed = JSON.parse(data);
+            if(parsed.response){
+              _self.reload();
+            }
+          },
+          error : function(err){
+            alert("Errore nell'elaborazione della richiesta. Riprova per favore.");
+          }
+      });
+    }
   }
 
   render (){
@@ -79,7 +154,18 @@ class Opposizioni extends React.Component{
           </TableRow>
         );
       }else{
-          //for ( var i = 0; i < this.state.data.length; i++)
+        for ( var i = 0; i < this.state.data.length; i++){
+          tableContents.push(
+            <TableRow key={i}>
+              <TableRowColumn>Domanda Concorrenza {i}</TableRowColumn>
+              <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
+              <TableRowColumn>
+                <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
+                <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
+              </TableRowColumn>
+            </TableRow>
+          );
+        }
       }
       return (
           <Box column style={{marginTop:'20px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">

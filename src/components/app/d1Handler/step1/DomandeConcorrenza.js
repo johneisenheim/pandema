@@ -22,7 +22,6 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/action/note-add';
 import Check from 'material-ui/svg-icons/action/check-circle';
-import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
 
@@ -36,7 +35,6 @@ class DomandeConcorrenza extends React.Component{
     this.state = {
       isLoading : true,
       data : [],
-      open : false,
       file : undefined
     };
   }
@@ -64,13 +62,6 @@ class DomandeConcorrenza extends React.Component{
           console.log(err);
         }
     });
-  }
-
-  openDialog(){
-      this.setState({
-        ...this.state,
-        open : true
-      })
   }
 
   _domandeConcorrenzaFileHandler(e){
@@ -145,25 +136,7 @@ class DomandeConcorrenza extends React.Component{
           success: function(data) {
             var parsed = JSON.parse(data);
             if(parsed.response){
-              $.ajax({
-                  type: 'GET',
-                  data: {praticaID : 1, pandemaPraticaID: _self.props.params.id},
-                  url: 'http://127.0.0.1:8001/getAllegatiPratica?praticaID=1&pandemaPraticaID='+_self.props.params.id,
-                  processData: false,
-                  contentType: false,
-                  success: function(data) {
-                    console.log('success');
-                    var parsed = JSON.parse(data);
-                    _self.setState({
-                      ..._self.state,
-                      isLoading : false,
-                      results : parsed
-                    })
-                  },
-                  error : function(err){
-                    console.log(err);
-                  }
-              });
+              _self.reload();
             }
           },
           error : function(err){
@@ -196,7 +169,7 @@ class DomandeConcorrenza extends React.Component{
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
-                  <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path)}><Delete color="#909EA2"/></IconButton>
+                  <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
                 </TableRowColumn>
               </TableRow>
             );
@@ -207,7 +180,7 @@ class DomandeConcorrenza extends React.Component{
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
                 <ToolbarTitle text="Files caricati per Domande in Concorrenza" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
-                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.openDialog.bind(this)}>
+                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
                     <input type="file" style={styles.inputFile} onChange={this._domandeConcorrenzaFileHandler.bind(this)} ref="file"/>
                   </FlatButton>
                 </ToolbarGroup>

@@ -34,7 +34,8 @@ class Step1 extends React.Component{
   constructor(props, context) {
     super(props, context);
     this.state = {
-      isLoading : true
+      isLoading : true,
+      compatibility : -1
     };
     this.praticaPath = null;
   }
@@ -50,7 +51,7 @@ class Step1 extends React.Component{
         success: function(data) {
           var parsed = JSON.parse(data);
           _self.praticaPath = parsed.results[0].path;
-          var state = {
+          /*var state = {
             compatibility : parsed.length > 0 ? parsed.compatibile : -1,
             istruttoriaIndex : 0,
             npraticaTextFieldEnabled : false,
@@ -61,11 +62,11 @@ class Step1 extends React.Component{
             checkColorDocumentazioneAlternativa : greatObject.d1.files !== undefined ? (greatObject.d1.files['documetazionealternativa'] !== undefined ? 'green' : '#979797') : '#979797',
             checkColorAvvisoDiniego : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniego'] !== undefined ? 'green' : '#979797') : '#979797',
             checkColorAvvisoDiniegoDefinitivo : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniegodefinitivo'] !== undefined ? 'green' : '#979797') : '#979797',
-          };
+          };*/
           _self.setState({
             ..._self.state,
             isLoading : false,
-            compatibility : -1
+            compatibility : parsed.results[0].compatibile !== undefined ? parseInt(parsed.results[0].compatibile) : -1
           })
         },
         error : function(err){
@@ -93,9 +94,23 @@ class Step1 extends React.Component{
   }
 
   _onFirstCheckCange (e,v){
-    this.setState({
-      ...this.state,
-      compatibility : v
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: 'http://127.0.0.1:8001/changeCompatibility?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&compatibility='+v,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          _self.setState({
+            ..._self.state,
+            compatibility : v
+          })
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
     });
     //console.log('State before:', this.state.compatibility);
     /*this.setState({
@@ -218,7 +233,7 @@ class Step1 extends React.Component{
             />
           </Box>
           <DomandeConcorrenza pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
-          <Opposizioni pid={this.props.pid} dbid={this.props.dbid}/>
+          <Opposizioni pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <Box justifyContent="flex-start" alignItems="center">
             <RaisedButton
               label="Compila Comunicazione di Avviso Istruttoria"
@@ -278,7 +293,7 @@ class Step1 extends React.Component{
               Inserire esito della compatibilità con il piano di utilizzo della costa o altri atti di pianificazione:
             </p>
             <div>
-              <RadioButtonGroup name="step1" onChange={this._onFirstCheckCange.bind(this)}>
+              <RadioButtonGroup name="step1" defaultSelected={this.state.compatibility} onChange={this._onFirstCheckCange.bind(this)}>
                 <RadioButton
                   value={1}
                   label="Compatibile"

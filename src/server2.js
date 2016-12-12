@@ -263,7 +263,6 @@ app2.get('/see', function(req,res){
 });
 
 app2.get('/deleteDocument', function(req, res){
-  console.log(req.query.allegatoID);
   middleware.deleteDocument(req.query.path, req.query.allegatoID, res);
 });
 
@@ -372,6 +371,10 @@ app2.post('/addDomandeConcorrenza', function(req, res){
     res.end(JSON.stringify({response:true}));
   })
 
+});
+
+app2.get('/changeCompatibility', function(req, res){
+  middleware.changeCompatibility(req, res);
 });
 
 app2.listen(8001, ()=> {
