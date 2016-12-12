@@ -334,6 +334,10 @@ app2.get('/handled1s2reqmin', function(req, res){
   middleware.handled1s2reqmin(req, res);
 });
 
+app2.get('/handled1s2reqfac', function(req, res){
+  middleware.handled1s2reqfac(req, res);
+});
+
 app2.post('/addFile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = false;
@@ -450,6 +454,20 @@ app2.post('/addFile', function(req, res){
         file.path = praticaPath+'/certificatoantimafia.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 13;
+      break;
+      case 28:
+        var requisitiFacPath = praticaPath+'/reqfac';
+        var filesCount = 0;
+        if(!fs.existsSync(requisitiFacPath)){
+          fs.mkdirSync(requisitiFacPath);
+        }
+        var files = fs.readdirSync(requisitiFacPath);
+        for( var i = 0; i < files.length; i++){
+          filesCount++;
+        }
+        file.path = praticaPath+'/reqfac_'+filesCount+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 28;
       break;
     }
 

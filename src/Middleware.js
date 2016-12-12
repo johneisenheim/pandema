@@ -552,6 +552,32 @@ class Middleware{
     ]);
   }
 
+  handled1s2reqfac(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT path FROM pratica WHERE id="+_self.connection.escape(req.query.id)+" AND pandema_id="+_self.connection.escape(req.query.pandema_id), function(err,rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            return callback(err);
+          }
+          _callback(null, rows[0].path);
+        });
+      },
+      function(path, _callback){
+        _self.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_caricamento, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com, tipo_allegato.descrizione AS tipo_descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+_self.connection.escape(req.query.id)+" AND pratica_ha_allegato.pratica_pandema_id="+_self.connection.escape(req.query.pandema_id)+" AND tipo_allegato.id=28", function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true, path:path, results : rows}));
+          _callback(null);
+        });
+      }
+    ]);
+  }
+
   getPraticaFolderPath(dbid, callback){
     var _self = this;
     this.connection.query("SELECT path FROM pratica WHERE pratica.id="+this.connection.escape(dbid), function(err, rows){
