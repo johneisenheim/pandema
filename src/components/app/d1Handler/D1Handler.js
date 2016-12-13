@@ -131,7 +131,7 @@ class D1Handler extends React.Component{
         return <Step5 ref="step5" pid={this.props.params.pid} dbid={this.props.params.dbid} changeEndButtonTitleInEnd={this.changeEndButtonTitleInEnd.bind(this)} changeEndButtonTitleInNext={this.changeEndButtonTitleInNext.bind(this)} tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 5:
-        return <Step6 ref="step6" tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        return <Step6 ref="step6" pid={this.props.params.pid} dbid={this.props.params.dbid}  tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       default:
 
@@ -275,7 +275,7 @@ class D1Handler extends React.Component{
                      icon ={<PrevIcon />}
                    />
                    <FlatButton
-                     label={this.state.endButtonTitle}
+                     label={this.state.stepIndex < 5 ? this.state.endButtonTitle : 'Fine'}
                      primary={false}
                      onTouchTap={this._next.bind(this)}
                      labelPosition="before"

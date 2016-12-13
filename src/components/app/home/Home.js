@@ -104,7 +104,7 @@ class Home extends React.Component{
     }else{
       if(this.state.data.length == 0){
         tableContents.push(
-          <TableRow>
+          <TableRow key={0}>
             <TableRowColumn style={{width:'100%', textAlign:'center'}}>Non ci sono pratiche inserite.</TableRowColumn>
           </TableRow>
         );

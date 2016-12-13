@@ -346,12 +346,40 @@ app2.get('/handled1s4', function(req,res){
   middleware.handled1s4(req, res);
 });
 
+app2.get('/handled1s6', function(req,res){
+  middleware.handled1s6(req, res);
+});
+
 app2.get('/getStatoPratica', function(req,res){
   middleware.getStatoPratica(req, res);
 });
 
 app2.get('/updateStatoPratica', function(req, res){
   middleware.updateStatoPratica(req,res);
+});
+
+app2.get('/addCanone', function(req, res){
+  middleware.addCanone(req, res);
+});
+
+app2.get('/modifycanone', function(req, res){
+  middleware.modifyCanone(req, res);
+});
+
+app2.get('/deletecanone', function(req, res){
+  middleware.deleteCanone(req, res);
+});
+
+app2.get('/addImposta', function(req, res){
+  middleware.addImposta(req, res);
+});
+
+app2.get('/modifyimposta', function(req, res){
+  middleware.modifyImposta(req, res);
+});
+
+app2.get('/deleteimposta', function(req, res){
+  middleware.deleteImposta(req, res);
 });
 
 app2.post('/addFile', function(req, res){
@@ -398,12 +426,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(domandeConcorrenzaPath);
         }
 
-        var files = fs.readdirSync(domandeConcorrenzaPath);
-        for( var i = 0; i < files.length; i++){
-          filesCount++;
-        }
-
-        file.path = domandeConcorrenzaPath+'/domandaconcorrenza_'+filesCount+'.pdf';
+        file.path = domandeConcorrenzaPath+'/domandaconcorrenza_'+new Date()+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 2;
       break;
@@ -415,12 +438,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(opposizioniPath);
         }
 
-        var files = fs.readdirSync(opposizioniPath);
-        for( var i = 0; i < files.length; i++){
-          filesCount++;
-        }
-
-        file.path = opposizioniPath+'/opposizione_'+filesCount+'.pdf';
+        file.path = opposizioniPath+'/opposizione_'+new Date()+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 3;
       break;
@@ -432,12 +450,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(alternativadiniegoPath);
         }
 
-        var files = fs.readdirSync(alternativadiniegoPath);
-        for( var i = 0; i < files.length; i++){
-          filesCount++;
-        }
-
-        file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+filesCount+'.pdf';
+        file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+new Date()+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 5;
       break;
@@ -537,11 +550,8 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(requisitiFacPath)){
           fs.mkdirSync(requisitiFacPath);
         }
-        var files = fs.readdirSync(requisitiFacPath);
-        for( var i = 0; i < files.length; i++){
-          filesCount++;
-        }
-        file.path = praticaPath+'/reqfac_'+filesCount+'.pdf';
+
+        file.path = praticaPath+'/reqfac_'+new Date()+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 28;
       break;

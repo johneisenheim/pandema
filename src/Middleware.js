@@ -630,14 +630,148 @@ class Middleware{
     ]);
   }
 
-  getPraticaFolderPath(dbid, callback){
+  handled1s6(req, res){
     var _self = this;
-    this.connection.query("SELECT path FROM pratica WHERE pratica.id="+this.connection.escape(dbid), function(err, rows){
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT canone.id, canone.valore, canone.tipo_canone_id, tipo_canone.descrizione FROM pratica_has_canone LEFT JOIN canone ON pratica_has_canone.canone_id=canone.id LEFT JOIN tipo_canone ON canone.tipo_canone_id=tipo_canone.id WHERE pratica_has_canone.pratica_id="+_self.connection.escape(req.query.dbid)+" AND pratica_has_canone.pratica_pandema_id="+_self.connection.escape(req.query.pid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+        });
+      },
+      function(canoni, _callback){
+        _self.connection.query("SELECT imposta.id, imposta.valore, imposta.tipo_imposta_id, tipo_imposta.descrizione FROM pratica_ha_imposta LEFT JOIN imposta ON pratica_ha_imposta.imposta_id=imposta.id LEFT JOIN tipo_imposta ON imposta.tipo_imposta_id=tipo_imposta.id WHERE pratica_ha_imposta.pratica_id="+_self.connection.escape(req.query.dbid)+" AND pratica_ha_imposta.pratica_pandema_id="+_self.connection.escape(req.query.pid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({canone:canoni,imposta:rows}))
+          _callback(null);
+        });
+      }
+    ]);
+  }
+
+  addCanone(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT id FROM tipo_canone WHERE descrizione="+_self.connection.escape(req.query.who), function(err, rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            res.end(JSON.stringify({response:false, err: err}));
+            _callback(null);
+          }
+          _callback(null, rows[0].id);
+        });
+      },
+      function(id, _callback){
+        _self.connection.query("INSERT INTO canone (valore, tipo_canone_id) VALUES ("+_self.connection.escape(req.query.value)+','+_self.connection.escape(id)+")", function(err, rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            res.end(JSON.stringify({response:false, err: err}));
+            _callback(null);
+          }
+          _callback(null, rows.insertId);
+        });
+      },
+      function(id, _callback){
+        _self.connection.query("INSERT INTO pratica_has_canone (pratica_id, pratica_pandema_id, canone_id) VALUES("+_self.connection.escape(req.query.dbid)+","+_self.connection.escape(req.query.pid)+","+_self.connection.escape(id)+")", function(err, rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            res.end(JSON.stringify({response:false, err: err}));
+            _callback(null);
+          }
+          res.end(JSON.stringify({response:true}))
+          _callback(null);
+        });
+      }
+    ])
+  }
+
+  modifyCanone(req, res){
+    this.connection.query("UPDATE canone SET valore="+this.connection.escape(req.query.value)+" WHERE id="+this.connection.escape(req.query.id), function(err, rows){
       if(err){
         console.log('Err in 1 '+ err);
-        return callback(err);
+        res.end(JSON.stringify({response:false, err: err}));
+        return;
       }
-      callback(rows[0].path);
+      res.end(JSON.stringify({response:true}));
+    });
+  }
+
+  deleteCanone(req, res){
+    this.connection.query("DELETE FROM canone WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+      if(err){
+        console.log('Err in 1 '+ err);
+        res.end(JSON.stringify({response:false, err: err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true}));
+    });
+  }
+
+  addImposta(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT id FROM tipo_imposta WHERE descrizione="+_self.connection.escape(req.query.who), function(err, rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            res.end(JSON.stringify({response:false, err: err}));
+            _callback(null);
+          }
+          _callback(null, rows[0].id);
+        });
+      },
+      function(id, _callback){
+        _self.connection.query("INSERT INTO imposta (valore, tipo_imposta_id) VALUES ("+_self.connection.escape(req.query.value)+','+_self.connection.escape(id)+")", function(err, rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            res.end(JSON.stringify({response:false, err: err}));
+            _callback(null);
+          }
+          _callback(null, rows.insertId);
+        });
+      },
+      function(id, _callback){
+        _self.connection.query("INSERT INTO pratica_ha_imposta (pratica_id, pratica_pandema_id, imposta_id) VALUES("+_self.connection.escape(req.query.dbid)+","+_self.connection.escape(req.query.pid)+","+_self.connection.escape(id)+")", function(err, rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            res.end(JSON.stringify({response:false, err: err}));
+            _callback(null);
+          }
+          res.end(JSON.stringify({response:true}))
+          _callback(null);
+        });
+      }
+    ])
+  }
+
+  modifyImposta(req, res){
+    this.connection.query("UPDATE imposta SET valore="+this.connection.escape(req.query.value)+" WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+      if(err){
+        console.log('Err in 1 '+ err);
+        res.end(JSON.stringify({response:false, err: err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true}));
+    });
+  }
+
+  deleteImposta(req, res){
+    this.connection.query("DELETE FROM imposta WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+      if(err){
+        console.log('Err in 1 '+ err);
+        res.end(JSON.stringify({response:false, err: err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true}));
     });
   }
 
