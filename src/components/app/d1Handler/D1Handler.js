@@ -56,140 +56,20 @@ class D1Handler extends React.Component{
       opened : false,
       finished: false,
       modalContent : null,
-      modalTitle : ''
+      modalTitle : '',
+      endButtonTitle : 'Avanti'
     }
   }
 
   _next (){
-    //alert(this.props.params.id);
-    /*if(this.state.stepIndex == 0){
-      var formData = new FormData();
-      formData.append('entity', 'a');
-      formData.append('city', global.city);
-      formData.append('npratica', 'n39');
-      for ( var key in global.greatObject.d1.files ){
-        formData.append(key, global.greatObject.d1.files[key]);
-      }
-
-      for ( var key in global.greatObject.d1.pdfs ){
-        formData.append(key, JSON.stringify(global.greatObject.d1.pdfs[key]));
-      }
-      console.log(global.greatObject);
-
-      $.ajax({
-          type: 'POST',
-          data: formData,
-          url: 'http://127.0.0.1:8001/handled1',
-          processData: false,
-          contentType: false,
-          success: function(data) {
-            console.log(data);
-          },
-          error : function(err){
-            console.log(err);
-          }
-      });
-      return;
-    }*/
-    if(this.state.stepIndex == 4){
-      /*if( this.props.params.id != 'k'){
-        alert('Pratica D1 per n.pratica '+this.props.params.id +' inserita correttamente!');
-      }*/
-      if( this.refs.step5.getDiniego() === 'deny' ){
-        var webStorage = new WebStorage(
-          window.localStorage ||
-          window.sessionStorage
-        );
-        console.log(webStorage.getItem("city"));
-        //Fine processo
-        console.log(greatObject.d1);
-        console.log('Sto inviando...');
-        var formData = new FormData();
-        formData.append('entity', 'a');
-        formData.append('city', global.city);
-        formData.append('npratica', greatObject.entity.nPratica);
-        formData.append('compatibility', greatObject.d1.compatibility);
-        formData.append('nome', greatObject.entity.name);
-        formData.append('cognome', greatObject.entity.surname);
-        formData.append('cf', greatObject.entity.cf);
-        formData.append('uso', greatObject.entity.uso);
-        formData.append('tipodocumento', greatObject.entity.tipoDocumento);
-        for ( var key in global.greatObject.d1.files ){
-          formData.append(key, global.greatObject.d1.files[key]);
-        }
-
-        for ( var key in global.greatObject.d1.pdfs ){
-          formData.append(key, JSON.stringify(global.greatObject.d1.pdfs[key]));
-        }
-
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: 'http://127.0.0.1:8001/handled1',
-            processData: false,
-            contentType: false,
-            success: function(data) {
-              toggleLoader.emit('toggleLoader');
-              browserHistory.push('/');
-              //alert('Pratica inviata con successo!');
-            },
-            error : function(err){
-              toggleLoader.emit('toggleLoader');
-              alert('Errore : '+err);
-              console.log(err);
-            }
-        });
-        toggleLoader.emit('toggleLoader');
+    if( this.state.stepIndex == 4){
+      if(this.state.endButtonTitle === 'Fine'){
+        browserHistory.push('/');
         return;
       }
-
     }
     if( this.state.stepIndex == 5){
-      greatObject.d1['canone'] = this.refs.step6._getCanoneValues(); //lo memorizziamo in greatObject.d1.canone
-      //console.log(greatObject);
-      //console.log(greatObject.d1.canone);
-      var webStorage = new WebStorage(
-        window.localStorage ||
-        window.sessionStorage
-      );
-      console.log(webStorage.getItem("city"));
-      //Fine processo
-      console.log(greatObject.d1);
-      console.log('Sto inviando...');
-      var formData = new FormData();
-      formData.append('entity', 'a');
-      formData.append('city', global.city);
-      formData.append('npratica', greatObject.entity.nPratica);
-      formData.append('compatibility', greatObject.d1.compatibility);
-      formData.append('canone', greatObject.d1['canone']);
-      formData.append('nome', greatObject.entity.name);
-      formData.append('cognome', greatObject.entity.surname);
-      formData.append('cf', greatObject.entity.cf);
-      formData.append('uso', greatObject.entity.uso);
-      formData.append('tipodocumento', greatObject.entity.tipoDocumento);
-      for ( var key in global.greatObject.d1.files ){
-        formData.append(key, global.greatObject.d1.files[key]);
-      }
-
-      for ( var key in global.greatObject.d1.pdfs ){
-        formData.append(key, JSON.stringify(global.greatObject.d1.pdfs[key]));
-      }
-
-      $.ajax({
-          type: 'POST',
-          data: formData,
-          url: 'http://127.0.0.1:8001/handled1',
-          processData: false,
-          contentType: false,
-          success: function(data) {
-            toggleLoader.emit('toggleLoader');
-          },
-          error : function(err){
-            toggleLoader.emit('toggleLoader');
-            console.log(err);
-          }
-      });
-      toggleLoader.emit('toggleLoader');
+      browserHistory.push('/');
       return;
     }
     this.setState({
@@ -248,7 +128,7 @@ class D1Handler extends React.Component{
         return <Step4 pid={this.props.params.pid} dbid={this.props.params.dbid} tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 4:
-        return <Step5 ref="step5" tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        return <Step5 ref="step5" pid={this.props.params.pid} dbid={this.props.params.dbid} changeEndButtonTitleInEnd={this.changeEndButtonTitleInEnd.bind(this)} changeEndButtonTitleInNext={this.changeEndButtonTitleInNext.bind(this)} tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 5:
         return <Step6 ref="step6" tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
@@ -306,6 +186,20 @@ class D1Handler extends React.Component{
   }
 
   handleModalClose(){}
+
+  changeEndButtonTitleInEnd(){
+    this.setState({
+      ...this.state,
+      endButtonTitle : 'Fine'
+    });
+  }
+
+  changeEndButtonTitleInNext(){
+    this.setState({
+      ...this.state,
+      endButtonTitle : 'Avanti'
+    });
+  }
 
   render (){
     const actions = [
@@ -381,7 +275,7 @@ class D1Handler extends React.Component{
                      icon ={<PrevIcon />}
                    />
                    <FlatButton
-                     label={this.state.stepIndex === 5 ? 'Fine' : 'Avanti'}
+                     label={this.state.endButtonTitle}
                      primary={false}
                      onTouchTap={this._next.bind(this)}
                      labelPosition="before"

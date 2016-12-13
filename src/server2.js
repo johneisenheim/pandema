@@ -346,6 +346,14 @@ app2.get('/handled1s4', function(req,res){
   middleware.handled1s4(req, res);
 });
 
+app2.get('/getStatoPratica', function(req,res){
+  middleware.getStatoPratica(req, res);
+});
+
+app2.get('/updateStatoPratica', function(req, res){
+  middleware.updateStatoPratica(req,res);
+});
+
 app2.post('/addFile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = false;
