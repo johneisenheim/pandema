@@ -339,8 +339,16 @@ app2.get('/d1opposizioni', function(req, res){
   middleware.d1opposizioni(req,res);
 });
 
+app2.get('/d1avvisodiniego', function(req, res){
+  middleware.d1avvisodiniego(req, res);
+});
+
 app2.get('/d1alternativadiniego', function(req, res){
   middleware.d1alternativadiniego(req,res);
+});
+
+app2.get('/d1diniegodefinitivo', function(req, res){
+  middleware.d1diniegodefinitivo(req,res);
 });
 
 app2.get('/handled1s2reqmin', function(req, res){
@@ -421,6 +429,26 @@ app2.get('/downloadAvvisoPubblicazione', function(req, res){
 
 app2.get('/downloadD1AvvisoIstruttoria', function(req, res){
   var file = __base+'/docs_template/d1_avviso_istruttoria.docx';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+  res.download(file);
+});
+
+app2.get('/downloadAvvisoDiniego', function(req, res){
+  var file = __base+'/docs_template/avviso_diniego.docx';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+  res.download(file);
+});
+
+app2.get('/downloadAvvisoDiniegoDefinitivo', function(req, res){
+  var file = __base+'/docs_template/diniego_definitivo.docx';
   var filename = path.basename(file);
   var mimetype = mime.lookup(file);
 
@@ -532,6 +560,14 @@ app2.post('/addFile', function(req, res){
         file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+new Date()+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 5;
+      break;
+      case 6:
+        toMiddleware.filepath = praticaPath+'/avviso_diniego.docx';
+        toMiddleware.allegatoType = 6;
+      break;
+      case 7:
+        toMiddleware.filepath = praticaPath+'/avviso_diniego_definitivo.docx';
+        toMiddleware.allegatoType = 7;
       break;
       case 8:
         file.path = praticaPath+'/visuracamerale.pdf';

@@ -31,6 +31,8 @@ import Opposizioni from './Opposizioni';
 import AlternativaDiniego from './AlternativaDiniego';
 import AvvisoPubblicazione from './AvvisoPubblicazione';
 import AvvisoIstruttoria from './AvvisoIstruttoria';
+import AvvisoDiniego from './AvvisoDiniego';
+import DiniegoDefinitivo from './DiniegoDefinitivo';
 
 class Step1 extends React.Component{
 
@@ -243,27 +245,9 @@ class Step1 extends React.Component{
     }else if(this.state.compatibility === 0){
       return (
         <div style={styles.firstStepAddingsStyle}>
-          <Box justifyContent="flex-start" alignItems="center">
-              <RaisedButton
-              label="Compila Avviso di Diniego"
-              primary={true}
-              icon={<Compile />}
-              labelStyle={{color:'#FFFFFF'}}
-              style={{marginTop:'10px'}}
-              containerElement={<Link to="/avvisodiniego"></Link>}
-            />
-          </Box>
+          <AvvisoDiniego pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <AlternativaDiniego pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
-          <Box justifyContent="flex-start" alignItems="center">
-           <RaisedButton
-             label="Compila Diniego definitivo"
-             href=""
-             primary={true}
-             icon={<Compile />}
-             labelStyle={{color:'#FFFFFF'}}
-             style={{marginTop:'10px'}}
-           />
-          </Box>
+          <DiniegoDefinitivo pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
         </div>
       );
     }else return null;
