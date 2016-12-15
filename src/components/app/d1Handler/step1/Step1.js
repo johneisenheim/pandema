@@ -29,6 +29,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import DomandeConcorrenza from './DomandeConcorrenza';
 import Opposizioni from './Opposizioni';
 import AlternativaDiniego from './AlternativaDiniego';
+import AvvisoPubblicazione from './AvvisoPubblicazione';
+import AvvisoIstruttoria from './AvvisoIstruttoria';
 
 class Step1 extends React.Component{
 
@@ -218,32 +220,24 @@ class Step1 extends React.Component{
   }
 
   //<CheckIcon style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkColorAvvisoIstruzioni}/>
+  /*
+  <RaisedButton
+    label="Compila Avviso di Pubblicazione"
+    primary={true}
+    icon={<Compile />}
+    labelStyle={{color:'#FFFFFF'}}
+    style={{marginTop:'10px'}}
+    onTouchTap={this.props.tellMeModalContent.bind(this, 'avvisopubblicazione')}
+  />
+  */
   renderFirstStepAddings (){
     if( this.state.compatibility === 1){
       return (
         <div style={styles.firstStepAddingsStyle}>
-          <Box justifyContent="flex-start" alignItems="center">
-            <RaisedButton
-              label="Compila Avviso di Pubblicazione"
-              primary={true}
-              icon={<Compile />}
-              labelStyle={{color:'#FFFFFF'}}
-              style={{marginTop:'10px'}}
-              onTouchTap={this.props.tellMeModalContent.bind(this, 'avvisopubblicazione')}
-            />
-          </Box>
+          <AvvisoPubblicazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <DomandeConcorrenza pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <Opposizioni pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
-          <Box justifyContent="flex-start" alignItems="center">
-            <RaisedButton
-              label="Compila Comunicazione di Avviso Istruttoria"
-              href=""
-              primary={true}
-              icon={<Compile />}
-              labelStyle={{color:'#FFFFFF'}}
-              style={{marginTop:'10px'}}
-            />
-          </Box>
+          <AvvisoIstruttoria pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
         </div>
       );
     }else if(this.state.compatibility === 0){

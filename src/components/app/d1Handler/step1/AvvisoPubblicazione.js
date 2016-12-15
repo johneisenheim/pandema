@@ -27,8 +27,9 @@ import TextField from 'material-ui/TextField';
 
 import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
+import Download from 'material-ui/svg-icons/file/file-download';
 
-class DomandeConcorrenza extends React.Component{
+class AvvisoPubblicazione extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -44,11 +45,10 @@ class DomandeConcorrenza extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1domandeconcorrenza?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: 'http://127.0.0.1:8001/d1avvisopubblicazione?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
           console.log(parsed);
           _self.setState({
@@ -64,13 +64,13 @@ class DomandeConcorrenza extends React.Component{
     });
   }
 
-  _domandeConcorrenzaFileHandler(e){
+  _avvisoPubblicazioneFileHandler(e){
     var _self = this;
     var formData = new FormData();
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);
-    formData.append('atype', 2);
+    formData.append('atype', 1);
     formData.append('file', this.refs.file.files[0]);
     $.ajax({
         type: 'POST',
@@ -96,17 +96,17 @@ class DomandeConcorrenza extends React.Component{
     _self.setState({
       ..._self.state,
       isLoading : true,
-      data : null
+      data : []
     })
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1domandeconcorrenza?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: 'http://127.0.0.1:8001/d1avvisopubblicazione?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
+          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -147,6 +147,10 @@ class DomandeConcorrenza extends React.Component{
     }
   }
 
+  downloadModulo(){
+    window.open('http://127.0.0.1:8001/downloadAvvisoPubblicazione', '_blank')
+  }
+
   render (){
     if( this.state.isLoading ){
       return(
@@ -166,7 +170,7 @@ class DomandeConcorrenza extends React.Component{
           for ( var i = 0; i < this.state.data.length; i++){
             tableContents.push(
               <TableRow key={i}>
-                <TableRowColumn>File Domanda Concorrenza #{i+1}</TableRowColumn>
+                <TableRowColumn>File</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
@@ -179,10 +183,11 @@ class DomandeConcorrenza extends React.Component{
       return (
           <Box column style={{marginTop:'30px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="Files caricati per Domande in Concorrenza" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="File caricato per Avviso Pubblicazione" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
-                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
-                    <input type="file" style={styles.inputFile} onChange={this._domandeConcorrenzaFileHandler.bind(this)} ref="file"/>
+                  <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
+                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
+                    {this.state.data.length == 0 ? <input type="file" style={styles.inputFile} onChange={this._avvisoPubblicazioneFileHandler.bind(this)} ref="file"/> : null}
                   </FlatButton>
                 </ToolbarGroup>
               </Toolbar>
@@ -255,4 +260,4 @@ const styles = {
 };
 
 
-export default DomandeConcorrenza;
+export default AvvisoPubblicazione;

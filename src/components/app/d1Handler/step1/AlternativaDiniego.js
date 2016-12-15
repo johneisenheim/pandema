@@ -167,7 +167,7 @@ class AlternativaDiniego extends React.Component{
           for ( var i = 0; i < this.state.data.length; i++){
             tableContents.push(
               <TableRow key={i}>
-                <TableRowColumn>Domanda Concorrenza {i}</TableRowColumn>
+                <TableRowColumn>File Alternativa Diniego #{i+1}</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
@@ -178,7 +178,7 @@ class AlternativaDiniego extends React.Component{
           }
       }
       return (
-          <Box column style={{marginTop:'20px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
+          <Box column style={{marginTop:'30px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
                 <ToolbarTitle text="Files caricati per Alternativa Diniego" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>

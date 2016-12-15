@@ -26,7 +26,7 @@ import IconButton from 'material-ui/IconButton';
 
 import Add from 'material-ui/svg-icons/action/note-add';
 import Eye from 'material-ui/svg-icons/image/remove-red-eye';
-import Delete from 'material-ui/svg-icons/action/delete';
+import Download from 'material-ui/svg-icons/file/file-download';
 
 import Attach from 'material-ui/svg-icons/editor/attach-file';
 import Check from 'material-ui/svg-icons/action/check-circle';
@@ -40,29 +40,30 @@ class GestisciAllegati extends React.Component{
 
     this.state = {
         isLoading : true,
-        results : null,
+        results : [],
         open : false,
         checkColor : '#D6D6D6'
     };
 
-    this.praticaID = null;
+    console.log(this.props);
+
   }
 
   componentDidMount(){
     var _self = this;
     $.ajax({
         type: 'GET',
-        data: {praticaID : 1, pandemaPraticaID: this.props.params.id},
-        url: 'http://127.0.0.1:8001/getAllegatiPratica?praticaID=1&pandemaPraticaID='+this.props.params.id,
+        url: 'http://127.0.0.1:8001/getAllegatiPratica?praticaID='+_self.props.params.dbid+'&pandemaPraticaID='+_self.props.params.pid,
         processData: false,
         contentType: false,
         success: function(data) {
           console.log('success');
           var parsed = JSON.parse(data);
+          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
-            results : parsed
+            results : parsed.results
           })
         },
         error : function(err){
@@ -101,7 +102,21 @@ class GestisciAllegati extends React.Component{
   }
 
   deletePress(path, allegato_id){
-    var r = confirm("Sei sicuro di voler eliminare questo documento?");
+    window.open('http://127.0.0.1:8001/downloadFile?id='+allegato_id, '_blank')
+    /*$.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:8001/downloadFile',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          console.log('success')
+
+        },
+        error : function(err){
+          console.log(err);
+        }
+    });
+    /*var r = confirm("Sei sicuro di voler eliminare questo documento?");
     var _self = this;
     if(r){
       $.ajax({
@@ -137,7 +152,7 @@ class GestisciAllegati extends React.Component{
             alert("Errore nell'elaborazione della richiesta. Riprova per favore.");
           }
       });
-    }
+    }*/
   }
 
   _onFileSelection(e){
@@ -148,11 +163,9 @@ class GestisciAllegati extends React.Component{
   }
 
   createTable(){
-    var currentData = this.state.results;
     var tableContents =[];
-    this.praticaID = currentData.pratica_id;
 
-    if( currentData.length == 0 ){
+    if( this.state.results.length == 0 ){
       return (
         <TableRow key={0}>
           <TableRowColumn></TableRowColumn>
@@ -161,19 +174,14 @@ class GestisciAllegati extends React.Component{
         </TableRow>
       );
     }
-    for( var i = 0; i < currentData.length; i++ ){
-      var firstSplit = currentData[i].data_creazione.split('T');
-      var orario = firstSplit[1].split('.');
-      orario = orario[0].split(',');
-      var data = firstSplit[0].split('-');
-      var finalDate = data[2]+'/'+data[1]+'/'+data[0]+' '+orario[0];
+    for( var i = 0; i < this.state.results.length; i++ ){
       tableContents.push(
         <TableRow key={i}>
-          <TableRowColumn>{currentData[i].descrizione}</TableRowColumn>
-          <TableRowColumn>{finalDate}</TableRowColumn>
+          <TableRowColumn>{this.state.results[i].descrizione}</TableRowColumn>
+          <TableRowColumn>{new Date(this.state.results[i].data_creazione).toLocaleDateString()}</TableRowColumn>
           <TableRowColumn>
-            <IconButton onTouchTap={this.eyePress.bind(this, currentData[i].pratica_id, currentData[i].allegato_id, currentData[i].pratica_pandema_id)}><Eye color="#909EA2"/></IconButton>
-            <IconButton onTouchTap={this.deletePress.bind(this, currentData[i].path, currentData[i].allegato_id)}><Delete color="#909EA2"/></IconButton>
+            <IconButton onTouchTap={this.eyePress.bind(this, this.state.results[i].pratica_id, this.state.results[i].allegato_id, this.state.results[i].pratica_pandema_id)}><Eye color="#909EA2"/></IconButton>
+            <IconButton onTouchTap={this.deletePress.bind(this, this.state.results[i].path, this.state.results[i].allegato_id)}><Download color="#909EA2"/></IconButton>
           </TableRowColumn>
         </TableRow>
       );
@@ -232,10 +240,7 @@ class GestisciAllegati extends React.Component{
           <Box column justifyContent="center" alignItems="center" style={{height:'100%'}}>
             <Paper zDepth={1} style={styles.paper}>
               <Toolbar style={{backgroundColor:'#4CA7D0'}}>
-                <ToolbarTitle text={"Allegati per la pratica "+this.props.params.id} style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
-                <ToolbarGroup>
-                  <IconButton onTouchTap={this.openDialog.bind(this)}><Add color={'#FFFFFF'}/></IconButton>
-                </ToolbarGroup>
+                <ToolbarTitle text={"Allegati per la pratica "+this.props.params.pid} style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
               </Toolbar>
               <Table selectable={false}>
                 <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -279,9 +284,7 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : 'inherit',
-    minWidth : '100%',
-    minHeight : '450px',
+    width : 'auto',
     height : 'auto'
   }
 }

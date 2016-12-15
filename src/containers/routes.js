@@ -47,7 +47,7 @@ module.exports = (
 			<Route path='d5handler/:id' component={D5Handler} />
 			<Route path='d6handler/:id' component={D6Handler} />
 			<Route path='/avvisodiniego' component={AvvisoDiniego} />
-			<Route path='/gestisciallegati/:id' component={GestisciAllegati} />
+			<Route path='/gestisciallegati/:pid/:dbid' component={GestisciAllegati} />
 			<Route path='/avvisopubblicazione' component={AvvisoPubblicazione} />
 			<Route path='/nuovapratica' component={NuovaPratica} />
 			<Route path='/nuovapraticaabusi' component={NuovaPraticaAbusi} />

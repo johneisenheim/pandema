@@ -141,7 +141,7 @@ class Home extends React.Component{
               <TableRowColumn>{this.state.data[0].nome} {this.state.data[0].cognome}</TableRowColumn>
               <TableRowColumn>{this.state.data[0].descrizione_com}</TableRowColumn>
               <TableRowColumn>
-                <IconButton containerElement={<Link to={`/gestisciallegati/n39`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>
+                <IconButton containerElement={<Link to={`/gestisciallegati/`+this.state.data[i].pandema_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>
               </TableRowColumn>
               <TableRowColumn>
                 <Link to={linkToD} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>

@@ -9,6 +9,12 @@ var bodyParser = require('body-parser');
 var formidable = require('formidable');
 var util = require('util');
 
+var path = require('path');
+var mime = require('mime');
+
+var archiver = require('archiver');
+
+
 var app2 = express();
 
 var middleware;
@@ -242,7 +248,6 @@ app2.post('/handled2', function(req, res){
 });
 
 app2.get('/getAllegatiPratica', function(req,res){
-  console.log('getAllegatiPratica')
   middleware.getAllegatiPratica(req,res);
 });
 
@@ -322,6 +327,14 @@ app2.get('/d1domandeconcorrenza', function(req, res){
   middleware.d1domandeconcorrenza(req,res);
 });
 
+app2.get('/d1avvisoistruttoria', function(req, res){
+  middleware.d1avvisoistruttoria(req,res);
+});
+
+app2.get('/d1avvisopubblicazione', function(req, res){
+  middleware.d1avvisopubblicazione(req,res);
+});
+
 app2.get('/d1opposizioni', function(req, res){
   middleware.d1opposizioni(req,res);
 });
@@ -382,6 +395,66 @@ app2.get('/deleteimposta', function(req, res){
   middleware.deleteImposta(req, res);
 });
 
+app2.get('/downloadFile', function(req, res){
+
+  var callback = function(_path){
+    console.log('path is '+_path);
+    var filename = path.basename(_path);
+    var mimetype = mime.lookup(_path);
+
+    res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+    res.setHeader('Content-type', mimetype);
+    res.download(_path);
+  };
+  middleware.downloadFile(req, res, callback);
+});
+
+app2.get('/downloadAvvisoPubblicazione', function(req, res){
+  var file = __base+'/docs_template/avviso_pubblicazione.docx';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+  res.download(file);
+});
+
+app2.get('/downloadD1AvvisoIstruttoria', function(req, res){
+  var file = __base+'/docs_template/d1_avviso_istruttoria.docx';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+  res.download(file);
+});
+
+app2.get('/downloadZip', function(req, res){
+  var callback = function(data){
+    var output = fs.createWriteStream(__base + '/'+req.query.pid+'.zip');
+    var archive = archiver('zip', {
+      store: true // Sets the compression method to STORE.
+    });
+
+    output.on('close', function() {
+      console.log(archive.pointer() + ' total bytes');
+      console.log('archiver has been finalized and the output file descriptor has closed.');
+    });
+
+    // good practice to catch this error explicitly
+    archive.on('error', function(err) {
+      console.log(err);
+    });
+
+    archive.pipe(output);
+
+    archive.directory(__base+'/documents/83e7186204bc7c4ab350c815b7dfe805','./');
+    archive.finalize();
+    res.end('ok');
+  }
+  middleware.downloadZip(req, callback);
+});
+
 app2.post('/addFile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = false;
@@ -417,6 +490,8 @@ app2.post('/addFile', function(req, res){
     var filesCount = 0;
     switch(allegatoTypeID){
       case 1:
+          toMiddleware.filepath = praticaPath+'/avvisopubblicazione.docx';
+          toMiddleware.allegatoType = 1;
       break;
       case 2:
         //Domanda Concorrenza
@@ -441,6 +516,10 @@ app2.post('/addFile', function(req, res){
         file.path = opposizioniPath+'/opposizione_'+new Date()+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 3;
+      break;
+      case 4:
+        toMiddleware.filepath = praticaPath+'/d1_avviso_istruttoria.docx';
+        toMiddleware.allegatoType = 4;
       break;
       case 5:
         //AlternativaDiniego
@@ -551,7 +630,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(requisitiFacPath);
         }
 
-        file.path = praticaPath+'/reqfac_'+new Date()+'.pdf';
+        file.path = requisitiFacPath+'/reqfac_'+new Date()+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 28;
       break;

@@ -373,10 +373,11 @@ class Middleware{
 
   getAllegatiPratica(req, res){
     var _self = this;
+    console.log("SELECT pratica_ha_allegato.allegato_id, pratica_ha_allegato.pratica_id, pratica_ha_allegato.pratica_pandema_id, allegato.path, allegato.data_creazione, tipo_allegato.descrizione_com AS descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.praticaID)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pandemaPraticaID));
     this.connection.query("SELECT pratica_ha_allegato.allegato_id, pratica_ha_allegato.pratica_id, pratica_ha_allegato.pratica_pandema_id, allegato.path, allegato.data_creazione, tipo_allegato.descrizione_com AS descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.praticaID)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pandemaPraticaID), function(err,rows){
         if(err)
           console.log(err);
-        res.end(JSON.stringify(rows));
+        res.end(JSON.stringify({response:true, results: rows}));
     });
   }
 
@@ -441,11 +442,12 @@ class Middleware{
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
-          var completePraticaPath = __base+'/documents/'+hash+'/'+rows[0].descrizione;
-          _callback(null, completePraticaPath);
+          var npraticaFolder = __base+'/documents/'+hash+'/'+data.npratica;
+          var completePraticaPath = npraticaFolder+'/'+rows[0].descrizione;
+          _callback(null, completePraticaPath, npraticaFolder);
         });
       },
-      function(completePraticaPath, _callback){
+      function(completePraticaPath, npraticaFolder, _callback){
         _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, path) VALUES ("+_self.connection.escape(data.comune_id)+","+_self.connection.escape(data.npratica)+","+_self.connection.escape(data.nome)+","+_self.connection.escape(data.cognome)+","+_self.connection.escape(data.uso)+","+_self.connection.escape(data.tipodocumento)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(data.cf)+","+_self.connection.escape(data.data)+","+_self.connection.escape(completePraticaPath)+")", function(err, rows, fields){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
@@ -453,10 +455,14 @@ class Middleware{
               return;
             }
             res.end(JSON.stringify({response : true, id: rows.insertId}))
-            _callback(null, completePraticaPath);
+            _callback(null, completePraticaPath, npraticaFolder);
         });
       },
-      function(completePraticaPath, _callback){
+      function(completePraticaPath, npraticaFolder, _callback){
+
+        if(!fs.existsSync(npraticaFolder)){
+          fs.mkdirSync(npraticaFolder);
+        }
 
         if(!fs.existsSync(completePraticaPath)){
           fs.mkdirSync(completePraticaPath);
@@ -505,7 +511,7 @@ class Middleware{
   }
 
   d1opposizioni(req, res){
-    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_caricamento, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=3", function(err, rows){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=3", function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));
@@ -516,7 +522,29 @@ class Middleware{
   }
 
   d1alternativadiniego(req, res){
-    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_caricamento, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=5", function(err, rows){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=5", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  d1avvisopubblicazione(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=1", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  d1avvisoistruttoria(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=4", function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));
@@ -829,6 +857,18 @@ class Middleware{
         return;
       }
       res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  downloadFile(req, res, callback){
+    this.connection.query("SELECT path FROM allegato WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+      callback(rows[0].path);
+    });
+  }
+
+  downloadZip(req, callback){
+    this.connection.query("SELECT path FROM pratica WHERE id="+this.connection.escape(req.body.dbid), function(err, rows){
+      callback(rows[0].path);
     });
   }
 
