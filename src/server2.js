@@ -670,6 +670,11 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 28;
       break;
+      case 29:
+        file.path = praticaPath+'/verificadocumentazionetecnica.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 29;
+      break;
     }
 
   });

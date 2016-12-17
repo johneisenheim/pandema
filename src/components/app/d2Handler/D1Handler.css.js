@@ -2,9 +2,8 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : 'inherit',
-    minWidth : '100%',
-    minHeight : '450px',
+    width : '100%',
+    paddingBottom : '30px',
     height : 'auto'
   },
   container : {

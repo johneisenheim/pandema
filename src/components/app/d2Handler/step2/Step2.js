@@ -61,12 +61,12 @@ class Step2 extends React.Component{
         >
         <Tab label="Requisiti Minimi" value="a" style={{backgroundColor:'white'}}>
             <div style={{marginBottom:'70px'}}>
-              <ReqMin />
+              <ReqMin pid={this.props.pid} dbid={this.props.dbid} />
             </div>
         </Tab>
         <Tab label="Requisiti Facoltativi" value="b" style={{backgroundColor:'white'}}>
           <div>
-            <ReqFac />
+            <ReqFac pid={this.props.pid} dbid={this.props.dbid}/>
           </div>
         </Tab>
         </Tabs>

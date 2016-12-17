@@ -32,6 +32,7 @@ class ReqMin extends React.Component{
       'durc' : 'Non caricato',
       'certificatofallimentare' : 'Non caricato',
       'certificatoantimafia' : 'Non caricato',
+      'verificadocumentazionetecnica' : 'Non caricato',
       isLoading : true,
       data : []
     }
@@ -95,6 +96,10 @@ class ReqMin extends React.Component{
       case 'certificatoantimafia':
         aType = 13;
         file = this.refs.file6.files[0]
+      break;
+      case 'verificadocumentazionetecnica':
+        aType = 29;
+        file = this.refs.file7.files[0]
       break;
     }
 
@@ -164,6 +169,7 @@ class ReqMin extends React.Component{
       'durc' : 'Non caricato',
       'certificatofallimentare' : 'Non caricato',
       'certificatoantimafia' : 'Non caricato',
+      'verificadocumentazionetecnica' : 'Non caricato',
       isLoading : true,
       data : null
     });
@@ -320,6 +326,24 @@ class ReqMin extends React.Component{
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
                         <input type="file" style={styles.inputFile} accept="application/pdf" ref="file6" onChange={this._onFileInputChange.bind(this, 'certificatoantimafia')}/>
+                      </FlatButton>
+                    }
+                  </TableRowColumn>
+                </TableRow>
+                <TableRow>
+                  <TableRowColumn>Verifica Documentazione Tecnica</TableRowColumn>
+                  <TableRowColumn><span style={this.state['verificadocumentazionetecnica'] == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state['verificadocumentazionetecnica']}</span></TableRowColumn>
+                  <TableRowColumn>
+                    { this.state['verificadocumentazionetecnica'] !== 'Non caricato' ?
+                      (
+                        <div>
+                          <IconButton onTouchTap={this.eyePress.bind(this, 'verificadocumentazionetecnica')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.deletePress.bind(this, 'verificadocumentazionetecnica')}><Delete color="#909EA2"/></IconButton>
+                        </div>
+                      )
+                      :
+                      <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
+                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file7" onChange={this._onFileInputChange.bind(this, 'verificadocumentazionetecnica')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>

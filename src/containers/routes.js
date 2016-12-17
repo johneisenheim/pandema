@@ -41,7 +41,7 @@ module.exports = (
 		<Route path="/" component={Main}>
 			<IndexRoute component={Home}/>
 			<Route path='d1handler/:pid/:dbid' component={D1Handler} />
-			<Route path='d2handler/:id' component={D2Handler} />
+			<Route path='d2handler/:pid/:dbid' component={D2Handler} />
 			<Route path='d3handler/:id' component={D3Handler} />
 			<Route path='d4handler/:id' component={D4Handler} />
 			<Route path='d5handler/:id' component={D5Handler} />

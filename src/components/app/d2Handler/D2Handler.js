@@ -31,7 +31,6 @@ import PrevIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 
 import Step1 from './step1/Step1';
 import Step2 from './step2/Step2';
-import Step3 from './step3/Step3';
 import Step4 from './step4/Step4';
 import Step5 from './step5/Step5';
 import Step6 from './step6/Step6';
@@ -60,57 +59,7 @@ class D2Handler extends React.Component{
 
   _next (){
     if(this.state.stepIndex == 4){
-      //window.open('https://drive.google.com/open?id=0B5KalOy4omiKWFBWZnhQeWt2Szg');
-      greatObject.d2['canone'] = this.refs.step6._getCanoneValues(); //lo memorizziamo in greatObject.d1.canone
-      var webStorage = new WebStorage(
-        window.localStorage ||
-        window.sessionStorage
-      );
-      console.log(webStorage.getItem("city"));
-      //Fine processo
-      console.log(greatObject.d2);
-      console.log('Sto inviando...');
-      var formData = new FormData();
-      formData.append('entity', 'a');
-      formData.append('city', global.city);
-      formData.append('npratica', greatObject.entity.nPratica);
-      formData.append('compatibility', greatObject.d2.compatibility);
-      formData.append('nome', greatObject.entity.name);
-      formData.append('cognome', greatObject.entity.surname);
-      formData.append('cf', greatObject.entity.cf);
-      formData.append('uso', greatObject.entity.uso);
-      formData.append('tipodocumento', greatObject.entity.tipoDocumento);
-      formData.append('canone', greatObject.d2['canone']);
-      for ( var key in global.greatObject.d2.files ){
-        formData.append(key, global.greatObject.d2.files[key]);
-      }
 
-      for ( var key in global.greatObject.d2.pdfs ){
-        formData.append(key, JSON.stringify(global.greatObject.d2.pdfs[key]));
-      }
-
-      $.ajax({
-          type: 'POST',
-          data: formData,
-          url: 'http://127.0.0.1:8001/handled2',
-          processData: false,
-          contentType: false,
-          success: function(data) {
-            toggleLoader.emit('toggleLoader');
-            browserHistory.push('/');
-            //alert('Pratica inviata con successo!');
-          },
-          error : function(err){
-            toggleLoader.emit('toggleLoader');
-            alert('Errore : '+err);
-            console.log(err);
-          }
-      });
-      toggleLoader.emit('toggleLoader');
-      this.setState({
-        ...this.state,
-        stepIndex : 5
-      })
     }else if( this.state.stepIndex == 5){
       alert("Concluso!");
     }else{
@@ -138,22 +87,19 @@ class D2Handler extends React.Component{
   getStepContent(index){
     switch (index) {
       case 0:
-        return <Step1 compatibility={this.tellMeIfCompatible.bind(this)}/>;
+        return <Step1 compatibility={this.tellMeIfCompatible.bind(this)} pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 1:
-        return <Step2 />;
+        return <Step2 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 2:
-        return <Step3 />;
+        return <Step4 pid={this.props.params.pid} dbid={this.props.params.dbid} />;
         break;
       case 3:
-        return <Step4 />;
-        break;
-      case 4:
         return <Step6 ref="step6"/>;
         break;
-      case 5:
-        if(this.state.isCompatible === 'compatibile')
+      case 4:
+        if(this.state.isCompatible)
           return <Step5 />;
         else return <Step5b />
         break;
@@ -165,7 +111,8 @@ class D2Handler extends React.Component{
   render (){
     return (
       <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <Box justifyContent="center" alignItems="center" style={{height:'100%'}}>
+        <div style={{width : '100%'}}>
+          <Box id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'scroll'}}>
           <Paper zDepth={1} style={styles.paper}>
             <Box justifyContent="center" alignItems="center">
               <Stepper
@@ -181,11 +128,6 @@ class D2Handler extends React.Component{
                 <Step>
                   <StepButton ref="2" onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                     Istruttoria
-                  </StepButton>
-                </Step>
-                <Step>
-                  <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                    Richiesta Pareri
                   </StepButton>
                 </Step>
                 <Step>
@@ -208,8 +150,8 @@ class D2Handler extends React.Component{
             <Box>
               {this.getStepContent(this.state.stepIndex)}
             </Box>
-            <div style={{width:'100%', marginTop:'15px'}}>
-            <Box style={{marginRight:'30px', bottom:'30px', position:'fixed', right : '10px'}}>
+            <div style={{marginTop:'20px', width:'auto'}}>
+              <div style={{position:'relative', width : '230px', marginRight : '20px', float:'right'}}>
               <FlatButton
                  label="indietro"
                  disabled={this.state.stepIndex === 0}
@@ -224,10 +166,11 @@ class D2Handler extends React.Component{
                  labelPosition="before"
                  icon={<NextIcon />}
                />
-           </Box>
-         </div>
+           </div>
+          </div>
           </Paper>
         </Box>
+        </div>
       </MuiThemeProvider>
 
     )

@@ -99,6 +99,8 @@ class NuovaPratica extends React.Component{
           uso : _uso
       });
 
+      console.log(JSON.stringify({comune_id: 1, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}))
+
       $.ajax({
           type: 'POST',
           data: JSON.stringify({comune_id: 1, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}),
@@ -112,12 +114,10 @@ class NuovaPratica extends React.Component{
             toggleLoader.emit('toggleLoader');
             switch(_self.state.value){
               case 1:
-                greatObject.entity.tipoDocumento = 1;
                 browserHistory.push('d1handler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
               break;
               case 2:
-                greatObject.entity.tipoDocumento = 2;
-                browserHistory.push('d2handler/'+_self.refs.npratica.getValue());
+                browserHistory.push('d2handler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
                 //browserHistory.push('d2handler/k');
               break;
               case 3:

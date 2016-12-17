@@ -55,19 +55,9 @@ class Home extends React.Component{
 
   constructor(props){
     super(props);
-    global.greatObject = {
-      entity : {},
-      d1 : {},
-      d2 : {},
-      d3 : {},
-      d4 : {},
-      d5 : {},
-      d6 : {}
-    };
-
     this.state = {
       isLoading : true,
-      data : undefined
+      data : []
     }
   }
 
@@ -80,6 +70,8 @@ class Home extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
+          console.log('home successs')
+          console.log(parsed);
           _self.setState({
               ..._self.state,
               isLoading : false,
@@ -117,7 +109,7 @@ class Home extends React.Component{
               console.log(linkToD);
             break;
             case 2:
-              linkToD = '/d2handler';
+              linkToD = '/d2handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
             case 3:
               linkToD = '/d3handler';
@@ -134,12 +126,12 @@ class Home extends React.Component{
           }
           tableContents.push(
             <TableRow key={i}>
-              <TableRowColumn>{this.state.data[0].pandema_id}</TableRowColumn>
-              <TableRowColumn>{this.state.data[0].descrizione}</TableRowColumn>
-              <TableRowColumn>{this.state.data[0].stato_pratica_desc}</TableRowColumn>
-              <TableRowColumn>{new Date(this.state.data[0].data).toLocaleDateString()}</TableRowColumn>
-              <TableRowColumn>{this.state.data[0].nome} {this.state.data[0].cognome}</TableRowColumn>
-              <TableRowColumn>{this.state.data[0].descrizione_com}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].pandema_id}</TableRowColumn>
+              <TableRowColumn style={{width:'40px'}}>{this.state.data[i].descrizione}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].stato_pratica_desc}</TableRowColumn>
+              <TableRowColumn>{new Date(this.state.data[i].data).toLocaleDateString()}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].nome} {this.state.data[i].cognome}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].descrizione_com}</TableRowColumn>
               <TableRowColumn>
                 <IconButton containerElement={<Link to={`/gestisciallegati/`+this.state.data[i].pandema_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>
               </TableRowColumn>
@@ -198,7 +190,7 @@ class Home extends React.Component{
                   <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                     <TableRow>
                       <TableHeaderColumn>N°Pratica</TableHeaderColumn>
-                      <TableHeaderColumn>Tipo</TableHeaderColumn>
+                      <TableHeaderColumn style={{width:'40px'}}>Tipo</TableHeaderColumn>
                       <TableHeaderColumn>Stato</TableHeaderColumn>
                       <TableHeaderColumn>Data Ricezione</TableHeaderColumn>
                       <TableHeaderColumn>Richiedente</TableHeaderColumn>

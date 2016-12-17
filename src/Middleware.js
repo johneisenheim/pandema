@@ -472,6 +472,7 @@ class Middleware{
     ]);
   }
 
+  //d2s1
   handled1s1(req,res){
     console.log()
     this.connection.query("SELECT compatibile, path FROM pratica WHERE id="+this.connection.escape(req.query.id)+" AND pandema_id="+this.connection.escape(req.query.pandema_id), function(err, rows){
@@ -589,7 +590,7 @@ class Middleware{
         });
       },
       function(path, _callback){
-        _self.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_caricamento, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com, tipo_allegato.descrizione AS tipo_descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+_self.connection.escape(req.query.id)+" AND pratica_ha_allegato.pratica_pandema_id="+_self.connection.escape(req.query.pandema_id)+" AND (tipo_allegato.id=8 OR tipo_allegato.id=9 OR tipo_allegato.id=10 OR tipo_allegato.id=12 OR tipo_allegato.id=13) ", function(err, rows){
+        _self.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_caricamento, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com, tipo_allegato.descrizione AS tipo_descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+_self.connection.escape(req.query.id)+" AND pratica_ha_allegato.pratica_pandema_id="+_self.connection.escape(req.query.pandema_id)+" AND (tipo_allegato.id=8 OR tipo_allegato.id=9 OR tipo_allegato.id=10 OR tipo_allegato.id=12 OR tipo_allegato.id=13 OR tipo_allegato.id=29) ", function(err, rows){
           if(err){
             console.log(err);
             res.end(JSON.stringify({response: false, err : err}));
