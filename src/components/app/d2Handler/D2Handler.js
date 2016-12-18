@@ -59,7 +59,7 @@ class D2Handler extends React.Component{
 
   _next (){
     if(this.state.stepIndex == 4){
-
+      browserHistory.push('/')
     }else if( this.state.stepIndex == 5){
       alert("Concluso!");
     }else{
@@ -100,7 +100,7 @@ class D2Handler extends React.Component{
         break;
       case 4:
         if(this.state.isCompatible)
-          return <Step5 />;
+          return <Step5 pid={this.props.params.pid} dbid={this.props.params.dbid} />;
         else return <Step5b />
         break;
       default:
@@ -160,7 +160,7 @@ class D2Handler extends React.Component{
                  icon ={<PrevIcon />}
                />
                <FlatButton
-                 label={this.state.stepIndex === 4 ? 'Rilascio Atto' : (this.state.stepIndex === 5 ? 'Fine' : 'Avanti')}
+                 label={this.state.stepIndex === 4 ? 'Fine' : (this.state.stepIndex === 5 ? 'Fine' : 'Avanti')}
                  primary={false}
                  onTouchTap={this._next.bind(this)}
                  labelPosition="before"

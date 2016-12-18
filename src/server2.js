@@ -690,6 +690,26 @@ app2.get('/changeCompatibility', function(req, res){
   middleware.changeCompatibility(req, res);
 });
 
+app2.get('/getBolloAndPagine', function(req, res){
+  middleware.getBolloAndPagine(req,res);
+});
+
+app2.get('/addBollo', function(req, res){
+  middleware.addBollo(req,res);
+});
+
+app2.get('/updateBollo', function(req, res){
+  middleware.updateBollo(req,res);
+});
+
+app2.get('/addNumeroPagine', function(req, res){
+  middleware.addNumeroPagine(req,res);
+});
+
+app2.get('/updateNumeroPagine', function(req, res){
+  middleware.updateNumeroPagine(req,res);
+});
+
 app2.listen(8001, ()=> {
   console.info("Second server is listening to 8001");
 

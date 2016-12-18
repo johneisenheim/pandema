@@ -895,6 +895,104 @@ class Middleware{
     });
   }
 
+  getBolloAndPagine(req, res){
+    this.connection.query("SELECT imposta.id AS imposta_id, tipo_imposta.descrizione_com, tipo_imposta.id AS tipo_imposta_id, imposta.valore FROM pratica_ha_imposta LEFT JOIN imposta ON pratica_ha_imposta.imposta_id = imposta.id LEFT JOIN tipo_imposta ON tipo_imposta.id = imposta.tipo_imposta_id WHERE pratica_ha_imposta.pratica_id="+this.connection.escape(req.query.dbid)+" AND pratica_ha_imposta.pratica_pandema_id="+this.connection.escape(req.query.pid)+"  AND (imposta.tipo_imposta_id =2 OR imposta.tipo_imposta_id = 3 OR imposta.tipo_imposta_id =1)", function(err, rows){
+      if(err){
+        console.log('Err in getBolloAndPagine '+ err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  addBollo(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var tipo_imposta_id = 0;
+        var value = 0;
+        if( req.query.value == Number(2) ){
+          tipo_imposta_id = 2;
+          value = 2.0;
+        }else if(req.query.value == Number(3)){
+          tipo_imposta_id = 3;
+          value = 16.0;
+        }
+        _self.connection.query("INSERT INTO imposta (valore,tipo_imposta_id) VALUES("+_self.connection.escape(tipo_imposta_id)+","+_self.connection.escape(value)+")", function(err,rows){
+          if(err){
+            console.log('Err in addBollo1 '+ err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows.insertId);
+        });
+      },
+      function(id, _callback){
+        _self.connection.query("INSERT INTO pratica_ha_imposta (pratica_id,pratica_pandema_id,imposta_id) VALUES("+_self.connection.escape(req.query.dbid)+","+_self.connection.escape(req.query.pid)+","+_self.connection.escape(id)+")", function(err,rows){
+          if(err){
+            console.log('Err in addBollo2 '+ err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true, results : rows}));
+          _callback(null);
+        });
+      }
+    ])
+  }
+
+  updateBollo(req, res){
+    this.connection.query("UPDATE imposta SET tipo_imposta_id="+this.connection.escape(req.query.value)+" WHERE id="+this.connection.escape(req.query.iid), function(err, rows){
+      if(err){
+        console.log('Err in updateBollo '+ err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  addNumeroPagine(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var tipo_imposta_id = 1;
+        var value = 0;
+        _self.connection.query("INSERT INTO imposta (valore,tipo_imposta_id) VALUES("+_self.connection.escape(req.query.value)+","+_self.connection.escape(tipo_imposta_id)+")", function(err,rows){
+          if(err){
+            console.log('Err in addNumeroPagine1 '+ err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows.insertId);
+        });
+      },
+      function(id, _callback){
+        _self.connection.query("INSERT INTO pratica_ha_imposta (pratica_id,pratica_pandema_id,imposta_id) VALUES("+_self.connection.escape(req.query.dbid)+","+_self.connection.escape(req.query.pid)+","+_self.connection.escape(id)+")", function(err,rows){
+          if(err){
+            console.log('Err in addNumeroPagine2 '+ err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true, results : rows}));
+          _callback(null);
+        });
+      }
+    ])
+  }
+
+  updateNumeroPagine(req, res){
+    this.connection.query("UPDATE imposta SET valore="+this.connection.escape(req.query.value)+" WHERE id="+this.connection.escape(req.query.iid), function(err, rows){
+      if(err){
+        console.log('Err in updateNumeroPagine '+ err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
 }
 
 export default Middleware;

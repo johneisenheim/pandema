@@ -36,7 +36,7 @@ class Step6 extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid,
+        url: constants.DB_ADDR+'handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -109,7 +109,7 @@ class Step6 extends React.Component{
     }
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/'+command+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&who='+escape(who),
+        url: constants.DB_ADDR+''+command+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&who='+escape(who),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -155,7 +155,7 @@ class Step6 extends React.Component{
     var value = this.refs[who].getValue();
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/modify'+entity+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&id='+escape(id)+'&value='+escape(value),
+        url: constants.DB_ADDR+'modify'+entity+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&id='+escape(id)+'&value='+escape(value),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -200,7 +200,7 @@ class Step6 extends React.Component{
     }
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/delete'+entity+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&id='+escape(id),
+        url: constants.DB_ADDR+'delete'+entity+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&id='+escape(id),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -226,7 +226,7 @@ class Step6 extends React.Component{
     });
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid,
+        url: constants.DB_ADDR+'handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
