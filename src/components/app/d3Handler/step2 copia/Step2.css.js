@@ -2,8 +2,9 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : '100%',
-    paddingBottom : '30px',
+    width : 'inherit',
+    minWidth : '100%',
+    minHeight : '450px',
     height : 'auto'
   },
   container : {
@@ -32,6 +33,12 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
   },
+  headline: {
+    fontSize: 24,
+    paddingTop: 16,
+    marginBottom: 12,
+    fontWeight: 400,
+  }
 }
 
 export default styles;

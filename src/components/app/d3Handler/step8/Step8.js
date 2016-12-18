@@ -209,7 +209,7 @@ class Step5 extends React.Component{
               <TextField hintText="Numero pagine atto" ref="numero_pagine" style={{ marginLeft:'30px', width:'180px'}} value={this.state.numero_pagine} onChange={this.onChangeTextField.bind(this)}/>
               <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '20px', marginTop:'5px'}} onTouchTap={this.onConfirm.bind(this,'numero_pagine')} disabled={this.state['numero_pagine'] === ''}/>
             </Box>
-            <RadioButtonGroup name="shipSpeed" defaultSelected={this.state.value} onChange={this.onChangeHandler.bind(this)}  style={{marginTop:'20px'}}>
+            <RadioButtonGroup name="shipSpeed" defaultSelected={this.state.value} onChange={this.onChangeHandler.bind(this)} style={{marginTop:'20px'}}>
               <RadioButton
                 value={2}
                 label="Imposta di bollo (2.00€)"

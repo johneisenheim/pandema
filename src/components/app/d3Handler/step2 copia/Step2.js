@@ -19,6 +19,7 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import styles from './Step2.css.js';
 
 import ReqMin from './ReqMin';
+import ReqFac from './ReqFac';
 
 import Compile from 'material-ui/svg-icons/action/assignment';
 import Attach from 'material-ui/svg-icons/editor/attach-file';
@@ -54,7 +55,21 @@ class Step2 extends React.Component{
 
   render (){
       return (
-        <ReqMin pid={this.props.pid} dbid={this.props.dbid} />
+        <Tabs
+        value={this.state.value}
+        onChange={this.handleChange.bind(this)}
+        >
+        <Tab label="Requisiti Minimi" value="a" style={{backgroundColor:'white'}}>
+            <div style={{marginBottom:'70px'}}>
+              <ReqMin />
+            </div>
+        </Tab>
+        <Tab label="Requisiti Facoltativi" value="b" style={{backgroundColor:'white'}}>
+          <div>
+            <ReqFac />
+          </div>
+        </Tab>
+        </Tabs>
       );
   }
 

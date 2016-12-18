@@ -121,8 +121,7 @@ class NuovaPratica extends React.Component{
                 //browserHistory.push('d2handler/k');
               break;
               case 3:
-                //browserHistory.push('d3handler/k');
-                //081 519 8152
+                browserHistory.push('d3handler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
               break;
               case 4:
                 alert("Not implemented yet");

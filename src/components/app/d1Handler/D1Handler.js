@@ -68,7 +68,7 @@ class D1Handler extends React.Component{
         return;
       }
     }
-    if( this.state.stepIndex == 5){
+    if( this.state.stepIndex == 6){
       browserHistory.push('/');
       return;
     }
@@ -133,7 +133,9 @@ class D1Handler extends React.Component{
       case 5:
         return <Step6 ref="step6" pid={this.props.params.pid} dbid={this.props.params.dbid}  tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
-      default:
+      case 6:
+        return <Step6 ref="step6" pid={this.props.params.pid} dbid={this.props.params.dbid}  tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        break;
 
     }
   }
@@ -258,6 +260,11 @@ class D1Handler extends React.Component{
                   <Step>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Rilascio dell'atto
+                    </StepButton>
+                  </Step>
+                  <Step>
+                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                      Fine
                     </StepButton>
                   </Step>
                 </Stepper>
