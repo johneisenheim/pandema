@@ -45,7 +45,7 @@ class AvvisoIstruttoria extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -75,7 +75,7 @@ class AvvisoIstruttoria extends React.Component{
     $.ajax({
         type: 'POST',
         data: formData,
-        url: 'http://127.0.0.1:8001/addFile',
+        url: constants.DB_ADDR+'addFile',
         processData: false,
         contentType: false,
         success: function(data) {
@@ -101,7 +101,7 @@ class AvvisoIstruttoria extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -121,8 +121,7 @@ class AvvisoIstruttoria extends React.Component{
   }
 
   eyePress(id){
-    window.open('http://127.0.0.1:8001/downloadFile?id='+id,'_blank');
-    //window.location.href= 'http://127.0.0.1:8001/see?a='+address;
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(path, allegato_id){
@@ -131,7 +130,7 @@ class AvvisoIstruttoria extends React.Component{
     if(r){
       $.ajax({
           type: 'GET',
-          url: 'http://127.0.0.1:8001/deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(path),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(path),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -148,7 +147,7 @@ class AvvisoIstruttoria extends React.Component{
   }
 
   downloadModulo(){
-    window.open('http://127.0.0.1:8001/downloadD1AvvisoIstruttoria', '_blank')
+    window.open(constants.DB_ADDR+'downloadD1AvvisoIstruttoria', '_blank')
   }
 
   render (){

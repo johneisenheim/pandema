@@ -58,14 +58,15 @@ class Home extends React.Component{
     this.state = {
       isLoading : true,
       data : []
-    }
+    };
+    console.log(constants.DB_ADDR);
   }
 
   componentDidMount(){
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/getgeneralinfos',
+        url: constants.DB_ADDR+'getgeneralinfos',
         processData: false,
         contentType: false,
         success: function(data) {

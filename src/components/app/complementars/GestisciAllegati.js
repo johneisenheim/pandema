@@ -53,7 +53,7 @@ class GestisciAllegati extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/getAllegatiPratica?praticaID='+_self.props.params.dbid+'&pandemaPraticaID='+_self.props.params.pid,
+        url: constants.DB_ADDR+'getAllegatiPratica?praticaID='+_self.props.params.dbid+'&pandemaPraticaID='+_self.props.params.pid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -81,7 +81,7 @@ class GestisciAllegati extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/viewDocument?allegatoID='+escape(allegato_id),
+        url: constants.DB_ADDR+'viewDocument?allegatoID='+escape(allegato_id),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -96,13 +96,11 @@ class GestisciAllegati extends React.Component{
   }
 
   eyePressEnd(address){
-    console.log(window.open);
-    window.open('http://127.0.0.1:8001/see?a='+address,'_blank');
-    //window.location.href= 'http://127.0.0.1:8001/see?a='+address;
+    window.open(constants.DB_ADDR+'see?a='+address,'_blank');
   }
 
   deletePress(path, allegato_id){
-    window.open('http://127.0.0.1:8001/downloadFile?id='+allegato_id, '_blank')
+    window.open(constants.DB_ADDR+'downloadFile?id='+allegato_id, '_blank')
     /*$.ajax({
         type: 'GET',
         url: 'http://127.0.0.1:8001/downloadFile',

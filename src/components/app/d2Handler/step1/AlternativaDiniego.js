@@ -44,7 +44,7 @@ class AlternativaDiniego extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -75,7 +75,7 @@ class AlternativaDiniego extends React.Component{
     $.ajax({
         type: 'POST',
         data: formData,
-        url: 'http://127.0.0.1:8001/addFile',
+        url: constants.DB_ADDR+'addFile',
         processData: false,
         contentType: false,
         success: function(data) {
@@ -101,7 +101,7 @@ class AlternativaDiniego extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -122,8 +122,7 @@ class AlternativaDiniego extends React.Component{
   }
 
   eyePress(address){
-    window.open('http://127.0.0.1:8001/see?a='+address,'_blank');
-    //window.location.href= 'http://127.0.0.1:8001/see?a='+address;
+    window.open(constants.DB_ADDR+'see?a='+address,'_blank');
   }
 
   deletePress(path, allegato_id){
@@ -132,7 +131,7 @@ class AlternativaDiniego extends React.Component{
     if(r){
       $.ajax({
           type: 'GET',
-          url: 'http://127.0.0.1:8001/deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(path),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(path),
           processData: false,
           contentType: false,
           success: function(data) {

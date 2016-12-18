@@ -12,6 +12,7 @@ import App from "../components/app/App";
 import WebStorage from 'react-webstorage';
 import Loadable from 'react-loading-overlay';
 var EventEmitter2 = require('eventemitter2').EventEmitter2;
+import * as constants from '../constants';
 
 injectTapEventPlugin();
 
@@ -52,6 +53,7 @@ export default class Main extends React.Component {
 				d5 : {},
 				d6 : {}
 			};
+			global.constants = constants;
 			//global._webStorage = webStorage;
 			console.log('from Main.js '+global.greatObject);
 		}

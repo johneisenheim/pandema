@@ -23,7 +23,7 @@ class Step5 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/getStatoPratica?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'getStatoPratica?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -60,7 +60,7 @@ class Step5 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/updateStatoPratica?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+parseInt(v),
+        url: constants.DB_ADDR+'updateStatoPratica?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+parseInt(v),
         processData: false,
         contentType: false,
         success: function(data) {

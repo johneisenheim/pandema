@@ -50,7 +50,7 @@ class Step1 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/handled1s1?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        url: constants.DB_ADDR+'handled1s1?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -103,7 +103,7 @@ class Step1 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/changeCompatibility?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&compatibility='+v,
+        url: constants.DB_ADDR+'changeCompatibility?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&compatibility='+v,
         processData: false,
         contentType: false,
         success: function(data) {

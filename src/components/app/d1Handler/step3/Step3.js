@@ -48,7 +48,7 @@ class Step3 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/handled1s3?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        url: constants.DB_ADDR+'handled1s3?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -124,7 +124,7 @@ class Step3 extends React.Component{
     $.ajax({
         type: 'POST',
         data: formData,
-        url: 'http://127.0.0.1:8001/addFile',
+        url: constants.DB_ADDR+'addFile',
         processData: false,
         contentType: false,
         success: function(data) {
@@ -141,8 +141,7 @@ class Step3 extends React.Component{
   }
 
   eyePress(filename){
-    window.open('http://127.0.0.1:8001/see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
-    //window.location.href= 'http://127.0.0.1:8001/see?a='+address;
+    window.open(constants.DB_ADDR+'see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
   }
 
   deletePress(filename){
@@ -154,7 +153,7 @@ class Step3 extends React.Component{
       })[0].id;
       $.ajax({
           type: 'GET',
-          url: 'http://127.0.0.1:8001/deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -189,7 +188,7 @@ class Step3 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/handled1s3?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        url: constants.DB_ADDR+'handled1s3?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
         processData: false,
         contentType: false,
         success: function(data) {
