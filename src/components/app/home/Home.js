@@ -119,7 +119,7 @@ class Home extends React.Component{
               linkToD = '/d4handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
             case 5:
-              linkToD = '/d5handler';
+              linkToD = '/d5handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
             case 6:
               linkToD = '/d6handler';

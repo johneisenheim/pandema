@@ -766,6 +766,11 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 36;
       break;
+      case 37:
+        file.path = praticaPath+'/richiestaanticipata.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 37;
+      break;
 
     }
 
@@ -818,6 +823,10 @@ app2.get('/downloadRichiestaAdempimenti', function(req, res){
 
 app2.get('/getAttoConcessione', function(req, res){
   middleware.getAttoConcessione(req, res);
+});
+
+app2.get('/getRichiestaAnticipata', function(req, res){
+  middleware.getRichiestaAnticipata(req,res);
 });
 
 app2.get('/downloadAttoConcessione', function(req, res){
