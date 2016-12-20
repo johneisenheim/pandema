@@ -36,6 +36,8 @@ import Step3 from './step3/Step3';
 import Step4 from './step4/Step4';
 import Step5 from './step5/Step5';
 import Step6 from './step6/Step6';
+import Step7 from './step7/Step7';
+import Step8 from './step8/Step8';
 
 import actions from '../../../actions/actions';
 import WebStorage from 'react-webstorage';
@@ -68,7 +70,7 @@ class D1Handler extends React.Component{
         return;
       }
     }
-    if( this.state.stepIndex == 6){
+    if( this.state.stepIndex == 7){
       browserHistory.push('/');
       return;
     }
@@ -134,7 +136,10 @@ class D1Handler extends React.Component{
         return <Step6 ref="step6" pid={this.props.params.pid} dbid={this.props.params.dbid}  tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
       case 6:
-        return <Step6 ref="step6" pid={this.props.params.pid} dbid={this.props.params.dbid}  tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        return <Step7 ref="step7" pid={this.props.params.pid} dbid={this.props.params.dbid}  tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
+        break;
+      case 7:
+        return <Step8 ref="step8" pid={this.props.params.pid} dbid={this.props.params.dbid}  tellMeModalContent={this.tellMeModalContent.bind(this)}/>;
         break;
 
     }
@@ -267,6 +272,11 @@ class D1Handler extends React.Component{
                       Fine
                     </StepButton>
                   </Step>
+                  <Step>
+                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                      Fine2
+                    </StepButton>
+                  </Step>
                 </Stepper>
               </Box>
               <Box>
@@ -282,7 +292,7 @@ class D1Handler extends React.Component{
                      icon ={<PrevIcon />}
                    />
                    <FlatButton
-                     label={this.state.stepIndex < 5 ? this.state.endButtonTitle : 'Fine'}
+                     label={this.state.stepIndex < 7 ? this.state.endButtonTitle : 'Fine'}
                      primary={false}
                      onTouchTap={this._next.bind(this)}
                      labelPosition="before"

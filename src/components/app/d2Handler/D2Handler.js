@@ -35,6 +35,7 @@ import Step4 from './step4/Step4';
 import Step5 from './step5/Step5';
 import Step6 from './step6/Step6';
 import Step5b from './step5b/Step5b';
+import Step7 from './step7/Step7';
 
 import actions from '../../../actions/actions';
 import WebStorage from 'react-webstorage';
@@ -58,10 +59,8 @@ class D2Handler extends React.Component{
   }
 
   _next (){
-    if(this.state.stepIndex == 4){
+    if( this.state.stepIndex == 5){
       browserHistory.push('/')
-    }else if( this.state.stepIndex == 5){
-      alert("Concluso!");
     }else{
       this.setState({
         stepIndex : this.state.stepIndex+1,
@@ -103,6 +102,9 @@ class D2Handler extends React.Component{
           return <Step5 pid={this.props.params.pid} dbid={this.props.params.dbid} />;
         else return <Step5b />
         break;
+      case 5:
+        return <Step7 pid={this.props.params.pid} dbid={this.props.params.dbid} />;
+        break;
       default:
 
     }
@@ -142,6 +144,11 @@ class D2Handler extends React.Component{
                 </Step>
                 <Step>
                   <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                    Imposte
+                  </StepButton>
+                </Step>
+                <Step>
+                  <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                     Fine
                   </StepButton>
                 </Step>
@@ -160,7 +167,7 @@ class D2Handler extends React.Component{
                  icon ={<PrevIcon />}
                />
                <FlatButton
-                 label={this.state.stepIndex === 4 ? 'Fine' : (this.state.stepIndex === 5 ? 'Fine' : 'Avanti')}
+                 label={(this.state.stepIndex === 5 ? 'Fine' : 'Avanti')}
                  primary={false}
                  onTouchTap={this._next.bind(this)}
                  labelPosition="before"

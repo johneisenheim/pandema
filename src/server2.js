@@ -367,6 +367,10 @@ app2.get('/handled1s4', function(req,res){
   middleware.handled1s4(req, res);
 });
 
+app2.get('/handled1s7', function(req,res){
+  middleware.handled1s7(req, res);
+});
+
 app2.get('/handled1s6', function(req,res){
   middleware.handled1s6(req, res);
 });
@@ -675,6 +679,16 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 29;
       break;
+      case 30:
+        file.path = praticaPath+'/richiestaadempimenti.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 30;
+      break;
+      case 31:
+        file.path = praticaPath+'/attoconcessione.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 31;
+      break;
     }
 
   });
@@ -708,6 +722,34 @@ app2.get('/addNumeroPagine', function(req, res){
 
 app2.get('/updateNumeroPagine', function(req, res){
   middleware.updateNumeroPagine(req,res);
+});
+
+app2.get('/getRichiestaAdempimenti', function(req, res){
+  middleware.getRichiestaAdempimenti(req,res);
+});
+
+app2.get('/downloadRichiestaAdempimenti', function(req, res){
+  var file = __base+'/docs_template/richiesta_adempimenti.docx';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+  res.download(file);
+});
+
+app2.get('/getAttoConcessione', function(req, res){
+  middleware.getAttoConcessione(req, res);
+});
+
+app2.get('/downloadAttoConcessione', function(req, res){
+  var file = __base+'/docs_template/atto_concessione.docx';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+  res.download(file);
 });
 
 app2.listen(8001, ()=> {
