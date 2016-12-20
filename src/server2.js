@@ -371,8 +371,40 @@ app2.get('/handled1s7', function(req,res){
   middleware.handled1s7(req, res);
 });
 
+app2.get('/handled4s4', function(req, res){
+  middleware.handled4s4(req, res);
+});
+
 app2.get('/handled1s6', function(req,res){
   middleware.handled1s6(req, res);
+});
+
+app2.get('/handled4s5', function(req, res){
+  middleware.handled4s5(req, res);
+});
+
+app2.get('/handled4s7', function(req, res){
+  middleware.handled4s7(req, res);
+});
+
+app2.get('/d4atticessionefitto', function(req, res){
+  middleware.d4atticessionefitto(req, res);
+});
+
+app2.get('/d4certificatomorte', function(req,res){
+  middleware.d4certificatomorte(req, res);
+})
+
+app2.get('/d4documentazione', function(req, res){
+  middleware.d4documentazione(req, res);
+});
+
+app2.get('/d4variazioneassetto', function(req,res){
+  middleware.d4variazioneassetto(req, res);
+});
+
+app2.get('/d4venditaaggiudicazione', function(req, res){
+  middleware.d4venditaaggiudicazione(req, res);
 });
 
 app2.get('/getStatoPratica', function(req,res){
@@ -533,7 +565,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(domandeConcorrenzaPath);
         }
 
-        file.path = domandeConcorrenzaPath+'/domandaconcorrenza_'+new Date()+'.pdf';
+        file.path = domandeConcorrenzaPath+'/domandaconcorrenza_'+Math.floor(new Date() / 1000)+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 2;
       break;
@@ -545,7 +577,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(opposizioniPath);
         }
 
-        file.path = opposizioniPath+'/opposizione_'+new Date()+'.pdf';
+        file.path = opposizioniPath+'/opposizione_'+Math.floor(new Date() / 1000)+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 3;
       break;
@@ -561,7 +593,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(alternativadiniegoPath);
         }
 
-        file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+new Date()+'.pdf';
+        file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+Math.floor(new Date() / 1000)+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 5;
       break;
@@ -670,7 +702,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(requisitiFacPath);
         }
 
-        file.path = requisitiFacPath+'/reqfac_'+new Date()+'.pdf';
+        file.path = requisitiFacPath+'/reqfac_'+Math.floor(new Date() / 1000)+'.pdf';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 28;
       break;
@@ -689,6 +721,52 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 31;
       break;
+      case 32:
+        var attiConcessioneFittoPath = praticaPath+'/concessione_fitto';
+        if(!fs.existsSync(attiConcessioneFittoPath)){
+          fs.mkdirSync(attiConcessioneFittoPath);
+        }
+        file.path = attiConcessioneFittoPath+'/concessione_fitto_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 32;
+      break;
+      case 33:
+        var attiVariazioneAssettoPath = praticaPath+'/variazione_assetto';
+        if(!fs.existsSync(attiVariazioneAssettoPath)){
+          fs.mkdirSync(attiVariazioneAssettoPath);
+        }
+        file.path = attiVariazioneAssettoPath+'/variazione_assetto_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 33;
+      break;
+      case 34:
+        var attiVenditaAggiudicazionePath = praticaPath+'/variazione_aggiudicazione';
+        if(!fs.existsSync(attiVenditaAggiudicazionePath)){
+          fs.mkdirSync(attiVenditaAggiudicazionePath);
+        }
+        file.path = attiVenditaAggiudicazionePath+'/variazione_aggiudicazione_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 34;
+      break;
+      case 35:
+        var attiCertificazioneMortePath = praticaPath+'/certificazione_morte';
+        if(!fs.existsSync(attiCertificazioneMortePath)){
+          fs.mkdirSync(attiCertificazioneMortePath);
+        }
+        file.path = attiCertificazioneMortePath+'/certificazione_morte_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 35;
+      break;
+      case 36:
+        var documentazioneEvincePath = praticaPath+'/documentazione';
+        if(!fs.existsSync(documentazioneEvincePath)){
+          fs.mkdirSync(documentazioneEvincePath);
+        }
+        file.path = documentazioneEvincePath+'/documentazione_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 36;
+      break;
+
     }
 
   });

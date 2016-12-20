@@ -7,23 +7,58 @@ import Attach from 'material-ui/svg-icons/editor/attach-file';
 import Check from 'material-ui/svg-icons/action/check-circle';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Box from 'react-layout-components';
+import CircularProgress from 'material-ui/CircularProgress';
+import $ from 'jquery';
+
+import AttiCessioneFitto from './AttiCessioneFitto';
+import Documentazione from './Documentazione';
+import VariazioneAssetto from './VariazioneAssetto';
+import VenditaAggiudicazione from './VenditaAggiudicazione';
+import CertificatoMorte from './CertificatoMorte';
 
 class Step4 extends React.Component{
 
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      choice : null,
+      isLoading : true,
+      data : [],
+      checkIcon1 : '#979797',
+      checkIcon2 : '#979797',
+      checkIcon3 : '#979797',
+      checkIcon4 : '#979797',
+      checkIcon5 : '#979797',
+      checkIcon6 : '#979797',
+      checkIcon7 : '#979797',
+      checkIcon8 : '#979797'
+    };
+    this.praticaPath = undefined;
   }
 
-  state = {
-    choice : null,
-    checkIcon1 : '#979797',
-    checkIcon2 : '#979797',
-    checkIcon3 : '#979797',
-    checkIcon4 : '#979797',
-    checkIcon5 : '#979797',
-    checkIcon6 : '#979797',
-    checkIcon7 : '#979797',
-    checkIcon8 : '#979797'
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'handled4s4?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          _self.praticaPath = parsed.results[0].path;
+          _self.setState({
+            ..._self.state,
+            isLoading : false,
+            data : parsed.results.length > 0 ? parsed.results : []
+          });
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
+    });
+
   }
 
   _onRadioChange(event, value){
@@ -90,96 +125,48 @@ class Step4 extends React.Component{
     switch(this.state.choice){
       case '0':
         return (
-          <div syle={{marginLeft : '20px', marginTop : '45px'}}>
-            <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px'}}>
-              <p>Atti di concessione o fitto d'azienda o di ramo di azienda:</p>
-              <Box justifyContent="flex-start" alignItems="center">
-                <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                    <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 0)}/>
-                </FlatButton>
-                <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon1}/>
-              </Box>
+          <div style={{marginLeft : '20px', marginTop : '45px', width : '100%'}}>
+            <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+              <AttiCessioneFitto pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
-            <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px', marginBottom : '40px'}}>
-              <p>Documentazione da cui si evinca la presenza dei requisiti richiesti ai fini dell'esercizio della concessione:</p>
-              <Box justifyContent="flex-start" alignItems="center">
-                <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                      <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 1)}/>
-                </FlatButton>
-                <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon2}/>
-              </Box>
+            <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+              <Documentazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
           </div>
         );
       break;
       case '1':
         return (
-          <div syle={{marginLeft : '20px', marginTop : '45px'}}>
-            <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px'}}>
-              <p>Atti che hanno portato alla variazione dell'assetto aziendale:</p>
-              <Box justifyContent="flex-start" alignItems="center">
-                <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                      <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 2)}/>
-                </FlatButton>
-                <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon3}/>
-              </Box>
+          <div style={{marginLeft : '20px', marginTop : '45px',  width : '100%'}}>
+            <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+              <VariazioneAssetto pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
-            <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px', marginBottom : '40px'}}>
-              <p>Documentazione da cui si evinca la presenza dei requisiti richiesti ai fini dell'esercizio della concessione:</p>
-              <Box justifyContent="flex-start" alignItems="center">
-                <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                    <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 3)}/>
-                  </FlatButton>
-                  <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon4}/>
-              </Box>
+            <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+              <Documentazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
         </div>
         );
       break;
       case '2':
         return (
-          <div syle={{marginLeft : '20px', marginTop : '45px'}}>
-            <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px'}}>
-              <p>Atti di vendita o aggiudicazione delle opere o impianti:</p>
-              <Box justifyContent="flex-start" alignItems="center">
-                <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                      <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 4)}/>
-                </FlatButton>
-                <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon5}/>
-              </Box>
+          <div style={{marginLeft : '20px', marginTop : '45px',  width : '100%'}}>
+            <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+              <VenditaAggiudicazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
-            <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px', marginBottom : '40px'}}>
-              <p>Documentazione da cui si evinca la presenza dei requisiti richiesti ai fini dell'esercizio della concessione:</p>
-              <Box justifyContent="flex-start" alignItems="center">
-                <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                      <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 5)}/>
-                </FlatButton>
-                <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon6}/>
-              </Box>
+            <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+              <Documentazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
         </div>
         );
       break;
       case '3':
       return (
-        <div syle={{marginLeft : '20px', marginTop : '45px'}}>
-          <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px'}}>
-            <p>Certificato di morte e atti ereditari:</p>
-            <Box justifyContent="flex-start" alignItems="center">
-              <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                  <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 6)}/>
-                </FlatButton>
-                <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon7}/>
-            </Box>
+        <div style={{marginLeft : '20px', marginTop : '45px',  width : '100%'}}>
+          <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+            <CertificatoMorte pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           </Box>
-          <Box column alignItems="flex-start" justifyContent="flex-start" style={{marginTop:'40px', marginLeft : '30px', marginBottom : '40px'}}>
-            <p>Documentazione da cui si evinca la presenza dei requisiti richiesti ai fini dell'esercizio della concessione:</p>
-            <Box justifyContent="flex-start" alignItems="center">
-              <FlatButton label="Carica File" icon={<Attach />} style={{marginTop:'10px'}}>
-                  <input type="file" style={{cursor: 'pointer',position: 'absolute',top: 5,bottom: 0,right: 0,left: 20,zIndex:3,width: '100%',opacity: 0}} accept="application/pdf" onChange={this._onFileInputChange.bind(this, 7)}/>
-                </FlatButton>
-                <Check style={{marginTop : '11px', marginLeft : '10px'}} color={this.state.checkIcon8}/>
-            </Box>
+          <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
+            <Documentazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           </Box>
       </div>
       );
@@ -190,33 +177,41 @@ class Step4 extends React.Component{
   }
 
   render(){
-    return(
-      <div style={{marginLeft:'20px', marginTop:'20px'}}>
-        <RadioButtonGroup name="shipSpeed" onChange={this._onRadioChange.bind(this)}>
-          <RadioButton
-            value="0"
-            label="Cessione o fitto di un'azienda, con subingresso a favore del concessionario o locatorio di azienda"
-            style={{marginTop : '15px'}}
-          />
-          <RadioButton
-            value="1"
-            label="Trasformazione, fusione e scissione dell'impresa concessionaria, con subingresso a favore della nuova impresa"
-            style={{marginTop:'15px'}}
-          />
-          <RadioButton
-            value="2"
-            label="Vendita o esecuzione forzata, con subingresso a favore dell'acquirente o aggiudicatario (art.46, comma 2, Cod. Nav.)"
-            style={{marginTop:'15px'}}
-          />
-          <RadioButton
-            value="3"
-            label="Morte con subingresso di eredi (art. 46, comma 2, Cod. Nav.)"
-            style={{marginTop:'15px'}}
-          />
-      </RadioButtonGroup>
-      {this.renderChoice()}
-      </div>
-    );
+    if(this.state.isLoading){
+      return(
+        <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
+          <CircularProgress size={30}/>
+        </Box>
+      );
+    }else{
+      return(
+        <div style={{marginLeft:'20px', marginTop:'20px'}}>
+          <RadioButtonGroup name="shipSpeed" onChange={this._onRadioChange.bind(this)}>
+            <RadioButton
+              value="0"
+              label="Cessione o fitto di un'azienda, con subingresso a favore del concessionario o locatorio di azienda"
+              style={{marginTop : '15px'}}
+            />
+            <RadioButton
+              value="1"
+              label="Trasformazione, fusione e scissione dell'impresa concessionaria, con subingresso a favore della nuova impresa"
+              style={{marginTop:'15px'}}
+            />
+            <RadioButton
+              value="2"
+              label="Vendita o esecuzione forzata, con subingresso a favore dell'acquirente o aggiudicatario (art.46, comma 2, Cod. Nav.)"
+              style={{marginTop:'15px'}}
+            />
+            <RadioButton
+              value="3"
+              label="Morte con subingresso di eredi (art. 46, comma 2, Cod. Nav.)"
+              style={{marginTop:'15px'}}
+            />
+        </RadioButtonGroup>
+        {this.renderChoice()}
+        </div>
+      );
+    }
   }
 }
 

@@ -616,7 +616,7 @@ class Middleware{
         });
       },
       function(path, _callback){
-        _self.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_caricamento, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com, tipo_allegato.descrizione AS tipo_descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+_self.connection.escape(req.query.id)+" AND pratica_ha_allegato.pratica_pandema_id="+_self.connection.escape(req.query.pandema_id)+" AND tipo_allegato.id=28", function(err, rows){
+        _self.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com, tipo_allegato.descrizione AS tipo_descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+_self.connection.escape(req.query.id)+" AND pratica_ha_allegato.pratica_pandema_id="+_self.connection.escape(req.query.pandema_id)+" AND tipo_allegato.id=28", function(err, rows){
           if(err){
             console.log(err);
             res.end(JSON.stringify({response: false, err : err}));
@@ -710,6 +710,110 @@ class Middleware{
 
   handled1s7(req, res){
     this.connection.query("SELECT path FROM pratica WHERE id="+this.connection.escape(req.query.id)+" AND pandema_id="+this.connection.escape(req.query.pandema_id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  handled4s4(req, res){
+    this.connection.query("SELECT path FROM pratica WHERE id="+this.connection.escape(req.query.id)+" AND pandema_id="+this.connection.escape(req.query.pandema_id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  handled4s5(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT path FROM pratica WHERE id="+_self.connection.escape(req.query.id)+" AND pandema_id="+_self.connection.escape(req.query.pandema_id), function(err,rows){
+          if(err){
+            console.log('Err in 1 '+ err);
+            return callback(err);
+          }
+          _callback(null, rows[0].path);
+        });
+      },
+      function(path, _callback){
+        _self.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_caricamento, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com, tipo_allegato.descrizione AS tipo_descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+_self.connection.escape(req.query.id)+" AND pratica_ha_allegato.pratica_pandema_id="+_self.connection.escape(req.query.pandema_id)+" AND (tipo_allegato.id=23 OR tipo_allegato.id=24) ", function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true, path:path, results : rows}));
+          _callback(null);
+        });
+      }
+    ]);
+  }
+
+  handled4s7(req, res){
+    var _self = this;
+    _self.connection.query("SELECT imposta.id, imposta.valore, imposta.tipo_imposta_id, tipo_imposta.descrizione FROM pratica_ha_imposta LEFT JOIN imposta ON pratica_ha_imposta.imposta_id=imposta.id LEFT JOIN tipo_imposta ON imposta.tipo_imposta_id=tipo_imposta.id WHERE pratica_ha_imposta.pratica_id="+_self.connection.escape(req.query.dbid)+" AND pratica_ha_imposta.pratica_pandema_id="+_self.connection.escape(req.query.pid), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({imposta:rows}))
+    });
+  }
+
+  d4atticessionefitto(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=32", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  d4documentazione(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=36", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  d4variazioneassetto(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=33", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  d4venditaaggiudicazione(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=34", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  d4certificatomorte(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=35", function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));
