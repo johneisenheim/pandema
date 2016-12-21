@@ -387,6 +387,14 @@ app2.get('/handled4s7', function(req, res){
   middleware.handled4s7(req, res);
 });
 
+app2.get('/handled3Ss2', function(req, res){
+  middleware.handled3Ss2(req, res);
+});
+
+app2.get('/d3sapprovazione', function(req,res){
+  middleware.d3sapprovazione(req,res);
+});
+
 app2.get('/d4atticessionefitto', function(req, res){
   middleware.d4atticessionefitto(req, res);
 });
@@ -770,6 +778,11 @@ app2.post('/addFile', function(req, res){
         file.path = praticaPath+'/richiestaanticipata.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 37;
+      break;
+      case 38:
+        file.path = praticaPath+'/attoapprovazione.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 38;
       break;
 
     }

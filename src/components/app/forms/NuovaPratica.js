@@ -130,7 +130,7 @@ class NuovaPratica extends React.Component{
                 browserHistory.push('d5handler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
               break;
               case 6:
-                browserHistory.push('d3Shandler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
+                browserHistory.push('d3shandler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
               break;
             }
           },

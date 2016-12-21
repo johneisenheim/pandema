@@ -2,9 +2,7 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : 'inherit',
-    minWidth : '100%',
-    minHeight : '450px',
+    width : 'auto',
     height : 'auto'
   },
   container : {
@@ -27,18 +25,13 @@ const styles = {
     opacity: 0,
   },
   firstStepAddingsStyle :{
-    margin : '10px'
+    margin : '10px',
+    width : '100%'
   },
   wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  }
 }
 
 export default styles;
