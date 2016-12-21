@@ -30,12 +30,7 @@ class HandleGestioneAbusi extends React.Component{
     super(props, context);
     this.state = {
         value : 1,
-        nPratica : '',
-        date : '',
-        surname : '',
-        name : '',
-        cf : '',
-        uso : ''
+        nPratica : ''
     }
     global.greatObject.entity = {};
   }
@@ -46,69 +41,14 @@ class HandleGestioneAbusi extends React.Component{
     if(this.refs.npratica.getValue() == ''){
       _nPratica = 'Questo campo è richiesto!';
     }
-    if(this.refs.date.value == ''){
-      _date = 'Questo campo è richiesto!'
-    }
-    if(this.refs.surname.getValue() == ''){
-      _surname = 'Questo campo è richiesto!'
-    }
-    if(this.refs.name.getValue() == ''){
-      _name = 'Questo campo è richiesto!'
-    }
-    if(this.refs.cf.getValue() == ''){
-      _cf = 'Questo campo è richiesto!'
-    }
-    if(this.refs.uso.getValue() == ''){
-      _uso = 'Questo campo è richiesto!'
-    }
-    if( _nPratica == '' && _date == '' && _surname == '' && _name == '' && _cf == '' && _uso == ''){
+
+    if( _nPratica == ''){
       this.setState({
           ...this.state,
-          nPratica : _nPratica,
-          date : _date,
-          surname : _surname,
-          name : _name,
-          cf : _cf,
-          uso : _uso
+          nPratica : _nPratica
       });
-
-      greatObject.entity.nPratica = _nPratica;
-      greatObject.entity.date = _date;
-      greatObject.entity.surname = _surname;
-      greatObject.entity.name = _name;
-      greatObject.entity.cf = _cf;
-      greatObject.entity.uso = _uso;
-
-      switch(this.state.value){
-        case 1:
-          browserHistory.push('d1handler/'+this.refs.npratica.getValue());
-        break;
-        case 2:
-          browserHistory.push('d2handler/k');
-        break;
-        case 3:
-          browserHistory.push('d3handler/k');
-          //081 519 8152
-        break;
-        case 4:
-          alert("Not implemented yet");
-        break;
-        case 5:
-          alert("Not implemented yet");
-        break;
-        case 6:
-          alert("Not implemented yet");
-        break;
-      }
     }
 
-  }
-
-  handleChange(event, index, value){
-    this.setState({
-      ...this.state,
-      value : value
-    })
   }
 
   render(){
@@ -176,7 +116,7 @@ class HandleGestioneAbusi extends React.Component{
           </Paper>
           <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'20px'}}>
             <RaisedButton label="Annulla" primary={false} labelStyle={{color:'#FFFFFF'}} />
-            <RaisedButton label="Procedi" primary={true} labelStyle={{color:'#FFFFFF'}} style={{marginLeft:'20px'}} onClick={this.onSubmit.bind(this)}/>
+            <RaisedButton label="Invia" primary={true} labelStyle={{color:'#FFFFFF'}} style={{marginLeft:'20px'}} onClick={this.onSubmit.bind(this)}/>
           </Box>
         </Box>
       </MuiThemeProvider>

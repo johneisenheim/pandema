@@ -45,7 +45,7 @@ class NuovaPratica extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8001/getusoscopo',
+        url: constants.DB_ADDR+'getusoscopo',
         processData: false,
         contentType: false,
         success: function(data) {
@@ -104,7 +104,7 @@ class NuovaPratica extends React.Component{
       $.ajax({
           type: 'POST',
           data: JSON.stringify({comune_id: 1, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}),
-          url: 'http://127.0.0.1:8001/insertnewpratica',
+          url: constants.DB_ADDR+'insertnewpratica',
           processData: false,
           contentType: 'application/json',
           success: function(data) {

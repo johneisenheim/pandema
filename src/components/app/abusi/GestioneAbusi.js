@@ -30,6 +30,7 @@ import SelectField from 'material-ui/SelectField';
 import FlatButton from 'material-ui/FlatButton';
 
 import Folder from 'material-ui/svg-icons/file/folder';
+import Description from 'material-ui/svg-icons/action/description';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -39,31 +40,53 @@ import Box from 'react-layout-components';
 import {Link} from "react-router";
 
 
-//67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
-
-//"/home/d1handler"
-
-/*<FloatingActionButton mini={true} style={{marginRight:'15px'}} primary={true} iconStyle={{fill:'#FFFFFF'}} backgroundColor='#4CA7D0' containerElement={<Link to="/nuovapratica"></Link>}>
-    <ContentAdd/>
-</FloatingActionButton>*/
-
 class GestioneAbusi extends React.Component{
 
   constructor(props){
     super(props);
-    global.greatObject = {
-      entity : {},
-      d1 : {},
-      d2 : {},
-      d3 : {},
-      d4 : {},
-      d5 : {},
-      d6 : {}
-    };
   }
 
   render (){
     return (
+      <MuiThemeProvider muiTheme={lightBaseTheme} >
+        <div style={{width : '100%', marginTop:'20px'}}>
+          <Box id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'scroll'}}>
+            <Paper zDepth={1} style={styles.paper}>
+              <center><p style={{marginLeft:'30px', marginTop:'40px'}}>Seleziona la tipologia di abuso:</p></center>
+              <Box column justifyContent="flex-start" alignItems="center" style={{marginLeft:'30px'}}>
+                <RaisedButton
+                  label="Abuso Generico"
+                  containerElement={<Link to="/nuovapraticaabusi"/>}
+                  backgroundColor ='#4CA7D0'
+                  icon={<Description />}
+                  labelStyle={{color:'#FFFFFF'}}
+                  style={{marginTop:'30px'}}
+                />
+
+                <RaisedButton
+                  label="Abusi in aree in concessione"
+                  containerElement={<Link to="/nuovapraticaabusi"/>}
+                  backgroundColor ='#4CA7D0'
+                  icon={<Description />}
+                  labelStyle={{color:'#FFFFFF'}}
+                  style={{marginTop:'30px'}}
+                />
+
+                <RaisedButton
+                  label="Cod. Nav. 47"
+                  containerElement={<Link to="/nuovapraticaabusi"/>}
+                  backgroundColor ='#4CA7D0'
+                  icon={<Description />}
+                  labelStyle={{color:'#FFFFFF'}}
+                  style={{marginTop:'30px', marginBottom:'20px'}}
+                />
+              </Box>
+            </Paper>
+          </Box>
+        </div>
+      </MuiThemeProvider>
+    )
+    /*return (
       <MuiThemeProvider muiTheme={lightBaseTheme}>
         <Box column>
           <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
@@ -140,7 +163,7 @@ class GestioneAbusi extends React.Component{
             </Paper>
           </Box>
       </MuiThemeProvider>
-    )
+    )*/
   }
 
 }

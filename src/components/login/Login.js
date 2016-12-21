@@ -46,7 +46,7 @@ class Login extends React.Component {
         $.ajax({
 						type: 'POST',
 						data: {username: this.refs.usernameField.getValue(), password : this.refs.passwordField.getValue()},
-            url: 'http://127.0.0.1:8001/login',
+            url: constants.DB_ADDR+'login',
             success: function(data) {
                 var parsed = JSON.parse(data);
                 if( parsed.status ){

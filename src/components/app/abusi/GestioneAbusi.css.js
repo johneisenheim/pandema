@@ -1,24 +1,37 @@
 const styles = {
   paper : {
+    margin : '10px',
     marginTop : '20px',
-    width : 'auto',
+    width : '70%',
+    paddingBottom : '30px',
     height : 'auto'
   },
-  superheader:{
-    color: '#FFFFFF',
-    background: "#89A3AC",
-    textAlign : 'center',
-    fontSize : '15px'
+  container : {
+    width : '100%',
+    height : '100%'
   },
-  searchHintStyle : {
-    color : '#FFFFFF'
+  radioButton : {
+    marginLeft : '10px',
+    marginTop : '10px'
   },
-  searchInputStyle : {
-    color : '#FFFFFF'
+  inputFile : {
+    cursor: 'pointer',
+    position: 'absolute',
+    top: 5,
+    bottom: 0,
+    right: 0,
+    left: 20,
+    zIndex:3,
+    width: '100%',
+    opacity: 0,
   },
-  searchUnderlineFocusStyle : {
-    borderColor:'#FFFFFF'
-  }
+  firstStepAddingsStyle :{
+    margin : '10px'
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
 }
 
 export default styles;
