@@ -30,6 +30,7 @@ import SelectField from 'material-ui/SelectField';
 import FlatButton from 'material-ui/FlatButton';
 
 import Folder from 'material-ui/svg-icons/file/folder';
+import Edit from 'material-ui/svg-icons/editor/mode-edit';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -40,7 +41,7 @@ import {Link} from "react-router";
 
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
-
+import Select from '../complementars/Select';
 
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
@@ -86,6 +87,16 @@ class Home extends React.Component{
     });
   }
 
+  createSelect(){
+    //{this.state.data[i].stato_pratica_desc}
+  }
+
+  changePraticaStatus(e,v,a,b){
+    console.log(a);
+    this.refs.status.props.value = a;
+    console.log(this.refs.status);
+  }
+
   render (){
     var tableContents = [];
     if( this.state.isLoading ){
@@ -107,7 +118,6 @@ class Home extends React.Component{
           switch(this.state.data[i].tipo_documento_id){
             case 1 :
               linkToD = '/d1handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
-              console.log(linkToD);
             break;
             case 2:
               linkToD = '/d2handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
@@ -122,24 +132,28 @@ class Home extends React.Component{
               linkToD = '/d5handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
             case 6:
-              linkToD = '/d6handler';
+              linkToD = '/d6handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
           }
           tableContents.push(
             <TableRow key={i}>
-              <TableRowColumn>{this.state.data[i].pandema_id}</TableRowColumn>
-              <TableRowColumn style={{width:'40px'}}>{this.state.data[i].descrizione}</TableRowColumn>
-              <TableRowColumn>{this.state.data[i].stato_pratica_desc}</TableRowColumn>
-              <TableRowColumn>{new Date(this.state.data[i].data).toLocaleDateString()}</TableRowColumn>
-              <TableRowColumn>{this.state.data[i].nome} {this.state.data[i].cognome}</TableRowColumn>
-              <TableRowColumn>{this.state.data[i].descrizione_com}</TableRowColumn>
+              <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].pandema_id}</TableRowColumn>
+              <TableRowColumn style={{width:'40px', textAlign:'center'}}>{this.state.data[i].descrizione}</TableRowColumn>
+              <TableRowColumn style={{width:'100px', textAlign:'center'}}>
+                <Select value={this.state.data[i].stato_pratica_id} pid={this.state.data[i].pandema_id} dbid={this.state.data[i].id} />
+              </TableRowColumn>
+              <TableRowColumn style={{textAlign:'center'}}>{new Date(this.state.data[i].data).toLocaleDateString()}</TableRowColumn>
+              <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].nome} {this.state.data[i].cognome}</TableRowColumn>
+              <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].descrizione_com}</TableRowColumn>
               <TableRowColumn>
-                <IconButton containerElement={<Link to={`/gestisciallegati/`+this.state.data[i].pandema_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>
+                <center><IconButton containerElement={<Link to={`/gestisciallegati/`+this.state.data[i].pandema_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton></center>
               </TableRowColumn>
               <TableRowColumn>
                 <Link to={linkToD} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
               </TableRowColumn>
             </TableRow>
+
+
           );
         }
       }
@@ -190,14 +204,14 @@ class Home extends React.Component{
                 <Table selectable={false}>
                   <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                     <TableRow>
-                      <TableHeaderColumn>N°Pratica</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}>N°Pratica</TableHeaderColumn>
                       <TableHeaderColumn style={{width:'40px'}}>Tipo</TableHeaderColumn>
-                      <TableHeaderColumn>Stato</TableHeaderColumn>
-                      <TableHeaderColumn>Data Ricezione</TableHeaderColumn>
-                      <TableHeaderColumn>Richiedente</TableHeaderColumn>
-                      <TableHeaderColumn>Codice uso/scopo</TableHeaderColumn>
-                      <TableHeaderColumn>Allegati</TableHeaderColumn>
-                      <TableHeaderColumn></TableHeaderColumn>
+                      <TableHeaderColumn style={{width:'100px', textAlign:'center'}}>Stato</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}>Data Ricezione</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}>Richiedente</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}>Codice uso/scopo</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}>Allegati</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}></TableHeaderColumn>
                     </TableRow>
                   </TableHeader>
                   <TableBody displayRowCheckbox={false} selectable={false}>

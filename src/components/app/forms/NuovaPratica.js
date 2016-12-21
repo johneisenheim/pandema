@@ -130,7 +130,7 @@ class NuovaPratica extends React.Component{
                 browserHistory.push('d5handler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
               break;
               case 6:
-                alert("Not implemented yet");
+                browserHistory.push('d3Shandler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
               break;
             }
           },
@@ -201,7 +201,7 @@ class NuovaPratica extends React.Component{
                     <MenuItem value={3} primaryText="D3" />
                     <MenuItem value={4} primaryText="D4" />
                     <MenuItem value={5} primaryText="D5" />
-                    <MenuItem value={6} primaryText="D6" />
+                    <MenuItem value={6} primaryText="D3S" />
                   </DropDownMenu>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
