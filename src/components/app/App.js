@@ -9,30 +9,22 @@ import Sidebar from './sidebar/Sidebar';
 import RightContent from './rightContent/RightContent.js';
 import Home from './home/Home';
 
-import EasyTransition from 'react-easy-transition';
-//import Middleware from '../../Middleware';
-
-//leaveStyle={{opacity: 0}}
+import actions from '../../actions/actions';
 
 class App extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-    //console.log(global.myGlobalVariable);
-    //console.log(global._webStorage.getItem('chiave'));
+    console.log('App props',props);
+    if(props.location.pathname.includes('d1handler') || props.location.pathname.includes('d2handler') || props.location.pathname.includes('d3handler')
+    || props.location.pathname.includes('d4handler') || props.location.pathname.includes('d5handler') || props.location.pathname.includes('d3shandler')
+    || props.location.pathname.includes('nuovapratica')){
+        actions.selectMenuItem(0);
+    }else if(props.location.pathname.includes('gestioneabusi')){
+        actions.selectMenuItem(3);
+    }
+
   }
-
-  //{this.props.children}
-
-  /*
-  <EasyTransition
-      path={this.props.location.pathname}
-      initialStyle={{opacity: 0, transform: 'translateX(100%)'}}
-      transition="opacity 0.2s ease-in, transform 0.3s ease-in-out 0.3s"
-      finalStyle={{opacity: 1, transform: 'translateX(0%)'}}
-      leaveStyle={{opacity: 0.9, transform: 'translateX(100%)'}}
-      style={{height:'100%', width : '100%'}}
-  >*/
 
   render(){
     return (
@@ -43,7 +35,7 @@ class App extends React.Component{
             <Box style={{flex:1}}>
 
               {this.props.children}
-              
+
             </Box>
           </RightContent>
         </Box>

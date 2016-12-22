@@ -39,7 +39,7 @@ import Box from 'react-layout-components';
 import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import styles from './AbusoGenerico.css.js';
+import styles from './AbusoAree.css.js';
 
 
 class GestioneAbusi extends React.Component{
@@ -57,7 +57,7 @@ class GestioneAbusi extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAbusiGenerici',
+        url: constants.DB_ADDR+'getAbusiAree',
         processData: false,
         contentType: false,
         success: function(data) {
@@ -107,7 +107,7 @@ class GestioneAbusi extends React.Component{
       }else{
         toReturn.push(
           <TableRow key={0}>
-            <TableRowColumn style={{width:'100%', textAlign:'center'}}>Non ci sono abusi generici inseriti.</TableRowColumn>
+            <TableRowColumn style={{width:'100%', textAlign:'center'}}>Non ci sono abusi in aree in concessione inseriti.</TableRowColumn>
           </TableRow>
         )
       }
@@ -115,7 +115,7 @@ class GestioneAbusi extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme}>
           <div>
                 <Toolbar style={{backgroundColor:'#4CA7D0'}}>
-                  <ToolbarTitle text="Abusi Generici" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                  <ToolbarTitle text="Abusi in Aree in Concessione" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                   <ToolbarGroup>
                     <FontIcon className="muidocs-icon-custom-sort" />
                     <ToolbarSeparator style={{backgroundColor:'rgba(255,255,255,0.4)'}}/>

@@ -562,6 +562,7 @@ app2.post('/addFile', function(req, res){
     var filesCount = 0;
     switch(allegatoTypeID){
       case 1:
+          file.path = praticaPath+'/avvisopubblicazione.docx';
           toMiddleware.filepath = praticaPath+'/avvisopubblicazione.docx';
           toMiddleware.allegatoType = 1;
       break;
@@ -590,6 +591,7 @@ app2.post('/addFile', function(req, res){
         toMiddleware.allegatoType = 3;
       break;
       case 4:
+        file.path = praticaPath+'/d1_avviso_istruttoria.docx';
         toMiddleware.filepath = praticaPath+'/d1_avviso_istruttoria.docx';
         toMiddleware.allegatoType = 4;
       break;
@@ -606,10 +608,12 @@ app2.post('/addFile', function(req, res){
         toMiddleware.allegatoType = 5;
       break;
       case 6:
+        file.path = praticaPath+'/avviso_diniego.docx';
         toMiddleware.filepath = praticaPath+'/avviso_diniego.docx';
         toMiddleware.allegatoType = 6;
       break;
       case 7:
+        file.path = praticaPath+'/avviso_diniego_definitivo.docx';
         toMiddleware.filepath = praticaPath+'/avviso_diniego_definitivo.docx';
         toMiddleware.allegatoType = 7;
       break;
@@ -842,6 +846,10 @@ app2.get('/getRichiestaAnticipata', function(req, res){
   middleware.getRichiestaAnticipata(req,res);
 });
 
+app2.get('/getAllAbusi', function(req, res){
+  middleware.getAllAbusi(req,res);
+});
+
 app2.get('/downloadAttoConcessione', function(req, res){
   var file = __base+'/docs_template/atto_concessione.docx';
   var filename = path.basename(file);
@@ -850,6 +858,18 @@ app2.get('/downloadAttoConcessione', function(req, res){
   res.setHeader('Content-disposition', 'attachment; filename=' + filename);
   res.setHeader('Content-type', mimetype);
   res.download(file);
+});
+
+app2.get('/getAbusiGenerici', function(req,res){
+  middleware.getAbusiGenerici(req,res);
+});
+
+app2.get('/getAbusiAree', function(req, res){
+  middleware.getAbusiAree(req,res);
+});
+
+app2.get('/getAbusiCodNav', function(req,res){
+  middleware.getAbusiCodNav(req,res);
 });
 
 app2.listen(8001, ()=> {

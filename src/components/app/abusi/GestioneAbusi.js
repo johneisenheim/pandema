@@ -37,133 +37,82 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import styles from './GestioneAbusi.css.js';
 import Box from 'react-layout-components';
-import {Link} from "react-router";
+import $ from 'jquery';
+import CircularProgress from 'material-ui/CircularProgress';
+
+import AbusoGenerico from './generico/AbusoGenerico';
+import AbusoAree from './aree/AbusoAree';
+import CodNav from './codnav/CodNav';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 
 
 class GestioneAbusi extends React.Component{
 
   constructor(props){
     super(props);
+    this.state = {
+      open: false
+    }
+  }
+
+  handleTouchTap(event){
+    event.preventDefault();
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  handleRequestClose(){
+    this.setState({
+      open: false
+    });
+  }
+
+  onIconMenu(e, k, v){
+    console.log(v);
   }
 
   render (){
-    return (
-      <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <div style={{width : '100%', marginTop:'20px'}}>
-          <Box id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'scroll'}}>
-            <Paper zDepth={1} style={styles.paper}>
-              <center><p style={{marginLeft:'30px', marginTop:'40px'}}>Seleziona la tipologia di abuso:</p></center>
-              <Box column justifyContent="flex-start" alignItems="center" style={{marginLeft:'30px'}}>
-                <RaisedButton
-                  label="Abuso Generico"
-                  containerElement={<Link to="/nuovapraticaabusi"/>}
-                  backgroundColor ='#4CA7D0'
-                  icon={<Description />}
-                  labelStyle={{color:'#FFFFFF'}}
-                  style={{marginTop:'30px'}}
-                />
-
-                <RaisedButton
-                  label="Abusi in aree in concessione"
-                  containerElement={<Link to="/nuovapraticaabusi"/>}
-                  backgroundColor ='#4CA7D0'
-                  icon={<Description />}
-                  labelStyle={{color:'#FFFFFF'}}
-                  style={{marginTop:'30px'}}
-                />
-
-                <RaisedButton
-                  label="Cod. Nav. 47"
-                  containerElement={<Link to="/nuovapraticaabusi"/>}
-                  backgroundColor ='#4CA7D0'
-                  icon={<Description />}
-                  labelStyle={{color:'#FFFFFF'}}
-                  style={{marginTop:'30px', marginBottom:'20px'}}
-                />
-              </Box>
-            </Paper>
+    return(
+        <MuiThemeProvider muiTheme={lightBaseTheme}>
+          <Box column>
+            <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
+              <RaisedButton
+                label="Aggiungi Abuso"
+                backgroundColor ='#4CA7D0'
+                icon={<ContentAdd />}
+                labelStyle={{color:'#FFFFFF'}}
+                style={{marginTop:'10px'}}
+                onTouchTap={this.handleTouchTap.bind(this)}
+              />
+              <Popover
+                open={this.state.open}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose.bind(this)}
+              >
+                <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
+                  <MenuItem primaryText="Generico" />
+                  <MenuItem primaryText="In Aree in Concessione" />
+                  <MenuItem primaryText="Cod. Nav. 47" />
+                </Menu>
+              </Popover>
+            </Box>
+              <Paper zDepth={1} style={styles.paper}>
+                <AbusoGenerico />
+              </Paper>
+              <Paper zDepth={1} style={styles.paper2}>
+                <AbusoAree />
+              </Paper>
+              <Paper zDepth={1} style={styles.paper3}>
+                <CodNav />
+              </Paper>
           </Box>
-        </div>
-      </MuiThemeProvider>
-    )
-    /*return (
-      <MuiThemeProvider muiTheme={lightBaseTheme}>
-        <Box column>
-          <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
-            <RaisedButton
-              label="Aggiungi nuova pratica"
-              containerElement={<Link to="/nuovapraticaabusi"/>}
-              backgroundColor ='#4CA7D0'
-              icon={<ContentAdd />}
-              labelStyle={{color:'#FFFFFF'}}
-              style={{marginTop:'10px'}}
-            />
-          </Box>
-            <Paper zDepth={1} style={styles.paper}>
-              <Toolbar style={{backgroundColor:'#4CA7D0'}}>
-                <ToolbarTitle text="Gestione Abusi" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
-                <ToolbarGroup>
-                  <FontIcon className="muidocs-icon-custom-sort" />
-                  <ToolbarSeparator style={{backgroundColor:'rgba(255,255,255,0.4)'}}/>
-                  <ToolbarGroup>
-                    <IconMenu
-                      iconButtonElement={<IconButton><Sort /></IconButton>}
-                      value={1}
-                      iconStyle={{width:'28px', height:'28px', fill:'#FFFFFF'}}
-                      style={{marginLeft:'15px'}}
-                    >
-                      <MenuItem value="1" primaryText="N°Pratica" />
-                      <MenuItem value="2" primaryText="Tipo" />
-                      <MenuItem value="3" primaryText="Stato" />
-                      <MenuItem value="4" primaryText="Data Ricezione" />
-                      <MenuItem value="5" primaryText="Cognome Richiedente" />
-                      <MenuItem value="5" primaryText="Codice uso/scopo" />
-                    </IconMenu>
-                      <Search color={'#FFFFFF'} style={{marginTop:'14px', width:'25px', height: '25px', marginRight:'10px', marginLeft:'20px'}}/>
-                        <TextField
-                          hintText="Cerca"
-                          hintStyle = {styles.searchHintStyle}
-                          inputStyle = {styles.searchInputStyle}
-                          underlineFocusStyle = {styles.searchUnderlineFocusStyle}
-                          id={'search'}
-                        />
-                  </ToolbarGroup>
-                </ToolbarGroup>
-              </Toolbar>
-              <Table selectable={false}>
-                <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                  <TableRow>
-                    <TableHeaderColumn style={{ width:'80px' }}>N°Pratica</TableHeaderColumn>
-                    <TableHeaderColumn style={{ width:'50px' }}>Stato</TableHeaderColumn>
-                    <TableHeaderColumn>Primo Avviso (€)</TableHeaderColumn>
-                    <TableHeaderColumn>Secondo Avviso (€)</TableHeaderColumn>
-                    <TableHeaderColumn style={{ width:'160px' }}>Calcola Importo alla data odierna</TableHeaderColumn>
-                    <TableHeaderColumn>Fascicolo</TableHeaderColumn>
-                    <TableHeaderColumn></TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody displayRowCheckbox={false} selectable={false}>
-                  <TableRow>
-                    <TableRowColumn style={{ width:'80px' }}>N8977</TableRowColumn>
-                    <TableRowColumn style={{ width:'50px' }}>D1</TableRowColumn>
-                    <TableRowColumn>xxxxxx</TableRowColumn>
-                    <TableRowColumn>xxxxxx</TableRowColumn>
-                    <TableRowColumn style={{ width:'160px' }}>xxxxxx</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton>
-                        <Folder color={'#909EA2'}/>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <FlatButton label="Gestisci" containerElement={<Link to={`/handlegestioneabusi/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
-                    </TableRowColumn>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Paper>
-          </Box>
-      </MuiThemeProvider>
-    )*/
+        </MuiThemeProvider>
+    );
   }
 
 }

@@ -1166,6 +1166,77 @@ class Middleware{
     });
   }
 
+  getAllAbusi(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        //abuso generico
+        _self.connection.query("SELECT * FROM abuso WHERE tipo_abuso_id=1", function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+        });
+      },
+      function(abusi_generici, _callback){
+        _self.connection.query("SELECT * FROM abuso WHERE tipo_abuso_id=2", function(err,rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, abusi_generici, rows);
+        });
+      },
+      function(abusi_generici, aree_concessione, _callback){
+        _self.connection.query("SELECT * FROM abuso WHERE tipo_abuso_id=3", function(err,rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : [generico: abusi_generici, aree_con: aree_concessione, cod_nav: rows]}));
+          _callback(null);
+        });
+      }
+    ]);
+  }
+
+  getAbusiGenerici(req,res){
+    this.connection.query("SELECT * FROM abuso WHERE tipo_abuso_id=1", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  getAbusiAree(req, res){
+    this.connection.query("SELECT * FROM abuso WHERE tipo_abuso_id=2", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  getAbusiCodNav(req,res){
+    this.connection.query("SELECT * FROM abuso WHERE tipo_abuso_id=3", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
 }
 
 export default Middleware;

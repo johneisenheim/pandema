@@ -72,6 +72,7 @@ class AvvisoPubblicazione extends React.Component{
     formData.append('path', this.props.path);
     formData.append('atype', 1);
     formData.append('file', this.refs.file.files[0]);
+    
     $.ajax({
         type: 'POST',
         data: formData,
