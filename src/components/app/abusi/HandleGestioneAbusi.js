@@ -24,101 +24,101 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
 import { browserHistory } from 'react-router';
+import CircularProgress from 'material-ui/CircularProgress';
+import $ from 'jquery';
+
+import AvvisoIngiunzione from './AvvisoIngiunzione';
+import Ingiunzione from './Ingiunzione';
+import PrimoAvviso from './PrimoAvviso';
+import SecondoAvviso from './SecondoAvviso';
+import Trasmissione from './Trasmissione';
 
 class HandleGestioneAbusi extends React.Component{
   constructor(props, context){
     super(props, context);
     this.state = {
         value : 1,
-        nPratica : ''
-    }
-    global.greatObject.entity = {};
+        nPratica : '',
+        isLoading : true,
+        path : undefined
+    };
+  }
+
+  componentDidMount(){
+    var _self = this;
+    console.log(constants.DB_ADDR+'getAbusoPath?pid='+this.props.params.pid+'&dbid='+this.props.params.dbid);
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'getAbusoPath?pid='+this.props.params.pid+'&dbid='+this.props.params.dbid,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          console.log('path should be ',parsed);
+          _self.setState({
+            ..._self.state,
+            isLoading : false,
+            path : parsed.results[0].path
+          });
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
+    });
   }
 
   onSubmit(){
-    let _nPratica = '', _date = '', _surname = '', _name = '', _cf = '', _uso = '';
-
-    if(this.refs.npratica.getValue() == ''){
-      _nPratica = 'Questo campo è richiesto!';
-    }
-
-    if( _nPratica == ''){
-      this.setState({
-          ...this.state,
-          nPratica : _nPratica
-      });
-    }
 
   }
 
   render(){
-    return(
-      <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <Box column justifyContent="center" alignItems="center" style={{width:'100%'}}>
-          <Paper zDepth={1} style={styles.paper}>
-            <h3 style={{textAlign:'center', width : '100%'}}>Nuova pratica Abuso Generico</h3>
-            <Box justifyContent="center" alignItems="center">
-              <div style={{width:'30%', height : '1px', backgroundColor : '#4CA7D0'}}></div>
-            </Box>
-            <Box column justifyContent="center" alignItems="flex-start" style={{marginTop:'20px', marginLeft:'20px'}}>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}><span>Numero Pratica:</span></p>
-                <TextField
-                    id="npratica"
-                    ref="npratica"
-                    hintText = "Inserisci il numero della pratica"
-                    style={{marginLeft:'30px'}}
-                    errorText={this.state.nPratica}
-                  />
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}>Avviso Ingiunzione:</p>
-                <FlatButton label="Carica File" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'10px', marginTop : '10px'}} icon={<Attach/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-                <FlatButton label="Compila Modulo" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'30px', marginTop : '10px'}} icon={<Compile/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}>Ingiunzione:</p>
-                <FlatButton label="Carica File" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'10px', marginTop : '10px'}} icon={<Attach/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-                <FlatButton label="Compila Modulo" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'30px', marginTop : '10px'}} icon={<Compile/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}>Primo Avviso per recupero Indennità:</p>
-                <FlatButton label="Calcola Indennità" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'10px', marginTop : '10px'}} icon={<Calculate/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-                <FlatButton label="Carica File" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'30px', marginTop : '10px'}} icon={<Attach/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-                <FlatButton label="Compila Modulo" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'30px', marginTop : '10px'}} icon={<Compile/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}>Secondo Avviso per recupero Indennità:</p>
-                <FlatButton label="Calcola Indennità" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'10px', marginTop : '10px'}} icon={<Calculate/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-                <FlatButton label="Carica File" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'30px', marginTop : '10px'}} icon={<Attach/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-                <FlatButton label="Compila Modulo" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'30px', marginTop : '10px'}} icon={<Compile/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center" style={{marginBottom:'40px'}}>
-                <p style={{marginTop:'30px'}}>Trasmissione all'agenzia del Demanio:</p>
-                <FlatButton label="Carica File" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'10px', marginTop : '10px'}} icon={<Attach/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-                <FlatButton label="Compila Modulo" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'30px', marginTop : '10px'}} icon={<Compile/>}/>
-                <CheckIcon style={{marginTop : '11px', marginLeft : '5px'}} color="#979797"/>
-              </Box>
-            </Box>
-          </Paper>
-          <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'20px'}}>
-            <RaisedButton label="Annulla" primary={false} labelStyle={{color:'#FFFFFF'}} />
-            <RaisedButton label="Invia" primary={true} labelStyle={{color:'#FFFFFF'}} style={{marginLeft:'20px'}} onClick={this.onSubmit.bind(this)}/>
-          </Box>
+    if( this.state.isLoading){
+      return(
+        <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
+          <CircularProgress size={30}/>
         </Box>
-      </MuiThemeProvider>
-    );
+      )
+    }else{
+      console.log('handlegestioneFile path in render', this.path);
+      return(
+        <MuiThemeProvider muiTheme={lightBaseTheme} >
+          <Box column justifyContent="center" alignItems="center" style={{width:'100%'}}>
+            <Paper zDepth={1} style={styles.paper}>
+              <Box column justifyContent="center" alignItems="flex-start" style={{marginTop:'20px', marginLeft:'20px'}}>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>Abuso n°:</span></p>
+                  <TextField
+                      id="npratica"
+                      ref="npratica"
+                      style={{marginLeft:'30px'}}
+                      errorText={this.state.nPratica}
+                      value={this.props.params.pid}
+                      disabled={true}
+                    />
+                </Box>
+                <Box column justifyContent="flex-start" alignItems="flex-start" style={{marginTop:'30px'}}>
+                  <AvvisoIngiunzione pid={this.props.params.pid} dbid={this.props.params.id} path={this.state.path}/>
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
+                  <Ingiunzione pid={this.props.params.pid} dbid={this.props.params.id} path={this.state.path}/>
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
+                  <PrimoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
+                  <SecondoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginBottom:'30px'}}>
+                  <Trasmissione pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                </Box>
+              </Box>
+            </Paper>
+          </Box>
+        </MuiThemeProvider>
+      );
+    }
   }
 }
 
@@ -126,7 +126,8 @@ const styles = {
   paper : {
     marginTop : '20px',
     height : 'auto',
-    width : '100%'
+    width : '100%',
+    marginBottom : '30px'
   }
 }
 

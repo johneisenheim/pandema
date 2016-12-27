@@ -103,7 +103,7 @@ class GestioneAbusi extends React.Component{
                 </IconButton>
               </TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Gestisci" containerElement={<Link to={`/`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
+                <FlatButton label="Gestisci" containerElement={<Link to={`/handlegestioneabusi/`+this.state.data[i].id+'/'+this.state.data[i].pandema_abuso_id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
               </TableRowColumn>
             </TableRow>
           );

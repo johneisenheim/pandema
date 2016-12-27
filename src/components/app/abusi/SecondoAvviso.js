@@ -23,20 +23,24 @@ import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/action/note-add';
 import Check from 'material-ui/svg-icons/action/check-circle';
 import TextField from 'material-ui/TextField';
-
+import Calculate from 'material-ui/svg-icons/hardware/keyboard';
 
 import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Download from 'material-ui/svg-icons/file/file-download';
+import Dialog from 'material-ui/Dialog';
 
-class AvvisoIngiunzione extends React.Component{
+class SecondoAvviso extends React.Component{
 
   constructor(props, context) {
     super(props, context);
     this.state = {
       isLoading : true,
       data : [],
-      file : undefined
+      file : undefined,
+      opened : false,
+      errorText : '',
+      checkIconColor : 'lightgrey'
     };
   }
 
@@ -45,12 +49,12 @@ class AvvisoIngiunzione extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAvvisoIngiunzione?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'getSecondoAvviso?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          console.log('getPrimoAvviso',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -64,33 +68,6 @@ class AvvisoIngiunzione extends React.Component{
     });
   }
 
-  _avvisoPubblicazioneFileHandler(e){
-    var _self = this;
-    var formData = new FormData();
-    formData.append('pid', this.props.pid);
-    formData.append('dbid', this.props.dbid);
-    formData.append('path', this.props.path);
-    formData.append('atype', 1);
-    formData.append('file', this.refs.file.files[0]);
-    $.ajax({
-        type: 'POST',
-        data: formData,
-        url: constants.DB_ADDR+'addFileAbusi',
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          toggleLoader.emit('toggleLoader');
-          //reload
-          _self.reload();
-        },
-        error : function(err){
-          toggleLoader.emit('toggleLoader');
-          alert(err);
-        }
-    });
-    toggleLoader.emit('toggleLoader');
-  }
-
   reload(){
     var _self = this;
     _self.setState({
@@ -101,12 +78,12 @@ class AvvisoIngiunzione extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAvvisoIngiunzione?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'getSecondoAvviso?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          console.log('getPrimoAvviso',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -150,7 +127,89 @@ class AvvisoIngiunzione extends React.Component{
     window.open(constants.DB_ADDR+'downloadAvvisoDiniego', '_blank')
   }
 
+  handleModalButtonClose(){
+    this.setState({
+      ...this.state,
+      opened : false
+    })
+  }
+
+  handleModalButtonSubmit(){
+    if( this.state.file === undefined || this.refs.valore.getValue() === ''){
+      alert("Devi inserire sia il valore che il file allegato per poter procedere.");
+      return;
+    }
+    if(isNaN(this.refs.valore.getValue())){
+      alert("Il valore deve essere di tipo 00.00");
+      return;
+    }
+    this.setState({
+      ...this.state,
+      opened : false
+    });
+
+    var _self = this;
+    var formData = new FormData();
+    formData.append('pid', this.props.pid);
+    formData.append('dbid', this.props.dbid);
+    formData.append('path', this.props.path);
+    formData.append('atype', 4);
+    formData.append('file', this.refs.file.files[0]);
+    formData.append('euroValue',this.refs.valore.getValue());
+    $.ajax({
+        type: 'POST',
+        data: formData,
+        url: constants.DB_ADDR+'addFileAbusi',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          toggleLoader.emit('toggleLoader');
+          //reload
+          _self.reload();
+        },
+        error : function(err){
+          toggleLoader.emit('toggleLoader');
+          alert(err);
+        }
+    });
+    toggleLoader.emit('toggleLoader');
+  }
+
+  handleModalClose(){
+
+  }
+
+  onChangeHandler(){
+    this.setState({
+      ...this.state,
+      file : this.refs.file.files[0],
+      checkIconColor : 'green'
+    });
+  }
+
+  openModal(v){
+    this.setState({
+      ...this.state,
+      opened : true
+    });
+  }
+
   render (){
+    const actions = [
+      <FlatButton
+        label="Annulla"
+        primary={true}
+        onTouchTap={this.handleModalButtonClose.bind(this)}
+        labelStyle={{color : '#4A4A4A'}}
+      />,
+      <FlatButton
+        label="Aggiungi"
+        primary={true}
+        keyboardFocused={false}
+        onTouchTap={this.handleModalButtonSubmit.bind(this)}
+        labelStyle={{color : '#4988A9'}}
+      />
+    ];
     if( this.state.isLoading ){
       return(
         <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
@@ -182,12 +241,11 @@ class AvvisoIngiunzione extends React.Component{
       return (
           <Box column style={{marginTop:'30px', width:'98%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="File caricato per Avviso Ingiunzione" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="File caricato per Secondo Avviso" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
+                  <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
-                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
-                    {this.state.data.length == 0 ? <input type="file" style={styles.inputFile} onChange={this._avvisoPubblicazioneFileHandler.bind(this)} ref="file"/> : null}
-                  </FlatButton>
+                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0} onTouchTap={this.openModal.bind(this)}/>
                 </ToolbarGroup>
               </Toolbar>
               <Table selectable={false} style={{width:'100%'}}>
@@ -202,6 +260,34 @@ class AvvisoIngiunzione extends React.Component{
                   {tableContents}
                 </TableBody>
               </Table>
+              <Dialog
+                  title={'Primo Avviso'}
+                  actions={actions}
+                  modal={true}
+                  open={this.state.opened}
+                  onRequestClose={this.handleModalClose.bind(this)}
+                  autoScrollBodyContent={true}
+                  autoDetectWindowHeight={true}
+                  contentStyle={{width : '80%', maxWidth : 'none', height : '100%', maxHeight : 'none'}}
+                  titleStyle={{color:'#4988A9', textAlign:'center'}}
+                >
+                  <Box column style={{width:'100%'}} justifyContent="center" alignItems="flex-start">
+                    <p>Inserisci il valore calcolato per Primo Avviso e carica il file correlato:</p>
+                    <Box justifyContent="center" alignItems="center">
+                      <TextField
+                          id="valore"
+                          ref="valore"
+                          hintText = "Valore Calcolato(00.00)"
+                          style={{width:'240px'}}
+                          errorText={this.state.errorText}
+                        />
+                        <FlatButton label="Carica File" icon={<Attach/>} style={{marginTop:'10px', marginLeft : '15px', marginRight:'0px'}}>
+                          <input type="file" style={styles.inputFile} onChange={this.onChangeHandler.bind(this)} ref="file"/>
+                        </FlatButton>
+                        <CheckIcon style={{fill:this.state.checkIconColor, marginTop:'10px', marginLeft:'10px'}}/>
+                    </Box>
+                  </Box>
+                </Dialog>
           </Box>
       );
     }
@@ -259,4 +345,4 @@ const styles = {
 };
 
 
-export default AvvisoIngiunzione;
+export default SecondoAvviso;

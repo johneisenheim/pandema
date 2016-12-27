@@ -68,7 +68,7 @@ class NuovoAbuso extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'addNewAbusoGenerico?pid='+escape(_self.refs.nabuso.getValue()),
+        url: constants.DB_ADDR+'addNewAbusoGenerico?pid='+escape(_self.refs.nabuso.getValue())+'&comune_id='+1,
         processData: false,
         contentType: false,
         success: function(data) {

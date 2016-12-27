@@ -23,7 +23,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 import { browserHistory } from 'react-router';
 import $ from 'jquery';
 
-class NuovoAbusoDropDown extends React.Component{
+class NuovoAbusoDropDown2 extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -100,7 +100,7 @@ class NuovoAbusoDropDown extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'addNewAbusoAree?pid='+escape(_self.refs.nabuso.getValue())+'&comune_id='+1,
+        url: constants.DB_ADDR+'addNewAbusoCodNav?pid='+escape(_self.refs.nabuso.getValue())+'&comune_id='+1,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -218,4 +218,4 @@ const lightBaseTheme = getMuiTheme({
   userAgent : false
 });
 
-export default NuovoAbusoDropDown;
+export default NuovoAbusoDropDown2;

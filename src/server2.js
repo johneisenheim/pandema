@@ -271,6 +271,10 @@ app2.get('/deleteDocument', function(req, res){
   middleware.deleteDocument(req.query.path, req.query.allegatoID, res);
 });
 
+app2.get('/deleteDocumentAbuso', function(req, res){
+  middleware.deleteDocumentAbuso(req.query.path, req.query.allegatoID, res);
+});
+
 app2.get('/addExternalAllegato', function(req, res){
   var form = new formidable.IncomingForm();
   var city = null;
@@ -459,6 +463,20 @@ app2.get('/downloadFile', function(req, res){
     res.download(_path);
   };
   middleware.downloadFile(req, res, callback);
+});
+
+app2.get('/downloadFileAbuso', function(req, res){
+
+  var callback = function(_path){
+    console.log('path is '+_path);
+    var filename = path.basename(_path);
+    var mimetype = mime.lookup(_path);
+
+    res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+    res.setHeader('Content-type', mimetype);
+    res.download(_path);
+  };
+  middleware.downloadFileAbuso(req, res, callback);
 });
 
 app2.get('/downloadAvvisoPubblicazione', function(req, res){
@@ -800,6 +818,81 @@ app2.post('/addFile', function(req, res){
 
 });
 
+
+app2.post('/addFileAbusi', function(req, res){
+  var form = new formidable.IncomingForm();
+  form.multiple = false;
+
+  var praticaPath = null;
+  var currentPraticaID = null;
+  var allegatoTypeID = null;
+  var euroValue = null;
+  var toMiddleware = {};
+
+  form.parse(req);
+
+  form.on('field', function(name, value){
+
+    switch(name){
+      case 'dbid':
+        toMiddleware.dbid = value;
+      break;
+      case 'pid':
+        currentPraticaID = value;
+        toMiddleware.pid = value;
+      break;
+      case 'path':
+        praticaPath = value;
+      break;
+      case 'atype':
+        allegatoTypeID = parseInt(value);
+      break;
+      case 'euroValue':
+        toMiddleware.euroValue = parseFloat(value);
+      break;
+    }
+
+  });
+
+  form.on('fileBegin', function(name, file){
+    var filesCount = 0;
+    switch(allegatoTypeID){
+      case 1:
+        file.path = praticaPath+'/avviso_ingiunzione.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 1;
+      break;
+      case 2:
+        file.path = praticaPath+'/ingiunzione.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 2;
+      break;
+      case 3:
+        file.path = praticaPath+'/primo_avviso.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.euroValue = euroValue;
+        toMiddleware.allegatoType = 3;
+      break;
+      case 4:
+        file.path = praticaPath+'/secondo_avviso.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 4;
+      break;
+      case 5:
+        file.path = praticaPath+'/trasmissione.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 5;
+      break;
+    }
+  });
+
+  form.on('end', function(){
+    middleware.addFileAbusi(toMiddleware);
+    res.end(JSON.stringify({response:true}));
+  })
+
+});
+
 app2.get('/changeCompatibility', function(req, res){
   middleware.changeCompatibility(req, res);
 });
@@ -882,6 +975,30 @@ app2.get('/addNewAbusoGenerico', function(req,res){
 
 app2.get('/getDInfosForAbusi', function(req,res){
   middleware.getDInfosForAbusi(req,res);
+});
+
+app2.get('/addNewAbusoAree', function(req,res){
+  middleware.addNewAbusoAree(req,res);
+});
+
+app2.get('/addNewAbusoCodNav', function(req,res){
+  middleware.addNewAbusoCodNav(req,res);
+});
+
+app2.get('/getIngiunzione', function(req,res){
+  middleware.getIngiunzione(req,res);
+});
+
+app2.get('/getPrimoAvviso', function(req,res){
+  middleware.getPrimoAvviso(req,res);
+});
+
+app2.get('/getSecondoAvviso', function(req,res){
+  middleware.getSecondoAvviso(req,res);
+});
+
+app2.get('/getAbusoPath', function(req,res){
+  middleware.getAbusoPath(req,res);
 });
 
 app2.listen(8001, ()=> {

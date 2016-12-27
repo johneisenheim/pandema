@@ -17,11 +17,8 @@ import GestioneAbusi from '../components/app/abusi/GestioneAbusi';
 import HandleGestioneAbusi from '../components/app/abusi/HandleGestioneAbusi';
 import NuovaPraticaAbusi from '../components/app/forms/NuovaPraticaAbusi';
 import GestisciAllegati from '../components/app/complementars/GestisciAllegati';
-/**
- * The React Router routes for both the server and the client.
- */
 
-//<Route path="/" component={Login}/> <IndexRoute component={Home}/>
+
 module.exports = (
 	<Router history={browserHistory}>
 		<Route path="/admin" component={Admin} />
@@ -39,9 +36,7 @@ module.exports = (
 			<Route path='/nuovapratica' component={NuovaPratica} />
 			<Route path='/nuovapraticaabusi' component={NuovaPraticaAbusi} />
 			<Route path='/gestioneabusi' component={GestioneAbusi} />
-			<Route path='/handlegestioneabusi(/:id)' component={HandleGestioneAbusi} />
-			<Route path='/nuovoabuso(/:id)' component={HandleGestioneAbusi} />
-			<Route path='/nuovoabusogenerico(/:id)' component={HandleGestioneAbusi} />
+			<Route path='/handlegestioneabusi/:dbid/:pid' component={HandleGestioneAbusi} />
 		</Route>
 	</Router>
 );

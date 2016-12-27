@@ -49,6 +49,7 @@ import { browserHistory } from 'react-router';
 
 import NuovoAbuso from './NuovoAbuso';
 import NuovoAbusoDropDown from './NuovoAbusoDropDown';
+import NuovoAbusoDropDown2 from './NuovoAbusoDropDown2';
 
 
 class GestioneAbusi extends React.Component{
@@ -84,7 +85,7 @@ class GestioneAbusi extends React.Component{
         this.refs.nuovoabusodropdown.openModal();
       break;
       case 2:
-        browserHistory.push('/nuovoabusodb');
+        this.refs.nuovoabusodropdown2.openModal();
       break;
     }
   }
@@ -128,6 +129,7 @@ class GestioneAbusi extends React.Component{
               </Paper>
               <NuovoAbuso ref="nuovoabuso"/>
               <NuovoAbusoDropDown ref="nuovoabusodropdown" />
+              <NuovoAbusoDropDown2 ref="nuovoabusodropdown2" />
           </Box>
         </MuiThemeProvider>
     );
