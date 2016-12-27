@@ -40,6 +40,8 @@ import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import styles from './CodNav.css.js';
+import SelectAbusi from '../../complementars/SelectAbusi';
+import {Link} from "react-router";
 
 
 class CodNav extends React.Component{
@@ -88,18 +90,22 @@ class CodNav extends React.Component{
         for( var i = 0 ; i < this.state.data.length; i++ ){
           toReturn.push(
             <TableRow key={i}>
-              <TableRowColumn style={{ width:'80px' }}>N8977</TableRowColumn>
-              <TableRowColumn style={{ width:'50px' }}>D1</TableRowColumn>
-              <TableRowColumn>xxxxxx</TableRowColumn>
-              <TableRowColumn>xxxxxx</TableRowColumn>
-              <TableRowColumn style={{ width:'160px' }}>xxxxxx</TableRowColumn>
+              <TableRowColumn style={{ width:'80px' }}>{this.state.data[i].pratica_pandema_id}</TableRowColumn>
+              <TableRowColumn style={{textAlign:'center'}}>
+                <SelectAbusi value={this.state.data[i].stato_pratica_abuso_id} pid={this.state.data[i].pandema_abuso_id} dbid={this.state.data[i].id}/>
+              </TableRowColumn>
+              <TableRowColumn>{this.state.data[i].primo_avviso == null ? '-' : this.state.data[i].primo_avviso}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].secondo_avviso == null ? '-' : this.state.data[i].secondo_avviso}</TableRowColumn>
+              <TableRowColumn style={{ width:'160px' }}>
+                <FlatButton label="Calcola" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
+              </TableRowColumn>
               <TableRowColumn>
                 <IconButton>
                   <Folder color={'#909EA2'}/>
                 </IconButton>
               </TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Gestisci" containerElement={<Link to={`/handlegestioneabusi/k`} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
+                <FlatButton label="Gestisci" containerElement={<Link to={`/handleart47/`+this.state.data[i].id+'/'+this.state.data[i].pandema_abuso_id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
               </TableRowColumn>
             </TableRow>
           );

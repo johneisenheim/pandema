@@ -38,6 +38,7 @@ class AvvisoIngiunzione extends React.Component{
       data : [],
       file : undefined
     };
+    console.log('AvvisoIngiunzione() props', props);
   }
 
   componentDidMount(){

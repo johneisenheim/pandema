@@ -57,8 +57,13 @@ class GestioneAbusi extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      open: false
+      open: false,
+      isLoading : true
     }
+  }
+
+  componentDidMount(){
+    
   }
 
   handleTouchTap(event){

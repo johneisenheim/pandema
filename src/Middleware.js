@@ -1041,7 +1041,7 @@ class Middleware{
             _callback(null);
           });
         }else if(data.allegatoType == 5){
-          _self.connection.query("UPDATE abuso SET stato_pratica_abuso_id = 3 WHERE id="+_self.connection.escape(data.dbid)+" AND pandema_abuso_id="+_self.connection.escape(data.pid), function(err, rows){
+          _self.connection.query("UPDATE abuso SET stato_pratica_abuso_id = 4 WHERE id="+_self.connection.escape(data.dbid)+" AND pandema_abuso_id="+_self.connection.escape(data.pid), function(err, rows){
             if(err){
               console.log('Err in 2 '+ err);
               return callback(err);
@@ -1345,12 +1345,13 @@ class Middleware{
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
-          var npraticaFolder = __base+'/documents/'+hash+'/'+req.query.pid;
+          var abusiFolder = __base+'/documents/'+hash+'/abusi';
+          var npraticaFolder = abusiFolder+'/'+req.query.pid;
           var completePraticaPath = npraticaFolder+'/'+rows[0].descrizione;
-          _callback(null, completePraticaPath, npraticaFolder);
+          _callback(null, completePraticaPath, npraticaFolder, abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder, _callback){
+      function(completePraticaPath, npraticaFolder,abusiFolder, _callback){
         _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path) VALUES("+_self.connection.escape(req.query.pid)+", 5, 1,"+_self.connection.escape(completePraticaPath)+")", function(err, rows){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
@@ -1358,10 +1359,10 @@ class Middleware{
               return;
             }
             res.end(JSON.stringify({response : true, id: rows.insertId}))
-            _callback(null, completePraticaPath, npraticaFolder);
+            _callback(null, completePraticaPath, npraticaFolder,abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder, _callback){
+      function(completePraticaPath, npraticaFolder,abusiFolder, _callback){
 
         if(!fs.existsSync(npraticaFolder)){
           fs.mkdirSync(npraticaFolder);
@@ -1403,23 +1404,28 @@ class Middleware{
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
-          var npraticaFolder = __base+'/documents/'+hash+'/'+req.query.pid;
-          var completePraticaPath = npraticaFolder+'/'+rows[0].descrizione;
-          _callback(null, completePraticaPath, npraticaFolder);
+          var abusiFolder = __base+'/documents/'+hash+'/abusi';
+          var npraticaFolder = abusiFolder+'/'+rows[0].descrizione;
+          var completePraticaPath = npraticaFolder+'/ABAC'+req.query.ref;
+          _callback(null, completePraticaPath, npraticaFolder, abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder, _callback){
-        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path) VALUES("+_self.connection.escape(req.query.pid)+", 5, 2,"+_self.connection.escape(completePraticaPath)+")", function(err, rows){
+      function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
+        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, pratica_pandema_id) VALUES("+_self.connection.escape('ABAC'+req.query.ref)+", 5, 2,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.ref)+")", function(err, rows){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
               res.end(JSON.stringify({response : false, err: err}))
               return;
             }
             res.end(JSON.stringify({response : true, id: rows.insertId}))
-            _callback(null, completePraticaPath, npraticaFolder);
+            _callback(null, completePraticaPath, npraticaFolder, abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder, _callback){
+      function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
+
+        if(!fs.existsSync(abusiFolder)){
+          fs.mkdirSync(abusiFolder);
+        }
 
         if(!fs.existsSync(npraticaFolder)){
           fs.mkdirSync(npraticaFolder);
@@ -1450,23 +1456,28 @@ class Middleware{
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
-          var npraticaFolder = __base+'/documents/'+hash+'/'+req.query.pid;
-          var completePraticaPath = npraticaFolder+'/'+rows[0].descrizione;
-          _callback(null, completePraticaPath, npraticaFolder);
+          var abusiFolder = __base+'/documents/'+hash+'/abusi';
+          var npraticaFolder = abusiFolder+'/'+rows[0].descrizione;
+          var completePraticaPath = npraticaFolder+'/ABART47'+req.query.ref;
+          _callback(null, completePraticaPath, npraticaFolder, abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder, _callback){
-        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path) VALUES("+_self.connection.escape(req.query.pid)+", 5, 3,"+_self.connection.escape(completePraticaPath)+")", function(err, rows){
+      function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
+        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, pratica_pandema_id) VALUES("+_self.connection.escape('ABART47'+req.query.ref)+", 5, 3,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.ref)+")", function(err, rows){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
               res.end(JSON.stringify({response : false, err: err}))
               return;
             }
             res.end(JSON.stringify({response : true, id: rows.insertId}))
-            _callback(null, completePraticaPath, npraticaFolder);
+            _callback(null, completePraticaPath, npraticaFolder, abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder, _callback){
+      function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
+
+        if(!fs.existsSync(abusiFolder)){
+          fs.mkdirSync(abusiFolder);
+        }
 
         if(!fs.existsSync(npraticaFolder)){
           fs.mkdirSync(npraticaFolder);
@@ -1504,6 +1515,71 @@ class Middleware{
 
   getAbusoPath(req,res){
     this.connection.query("SELECT path FROM abuso WHERE id="+this.connection.escape(req.query.dbid)+" AND pandema_abuso_id="+this.connection.escape(req.query.pid), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  getTrasmissione(req,res){
+    this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=5", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  getAbusoStati(req,res){
+    this.connection.query("SELECT id, descrizione_com FROM stato_pratica_abuso", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  updateStatoAbuso(req,res){
+    this.connection.query("UPDATE abuso SET stato_pratica_abuso_id ="+this.connection.escape(value)+" WHERE id="+this.connection.escape(data.dbid)+" AND pandema_abuso_id="+this.connection.escape(data.pid), function(err, rows){
+      if(err){
+        console.log('Err in 2 '+ err);
+        return callback(err);
+      }
+      res.end(JSON.stringify({response:true}));
+    });
+  }
+
+  getDecadenzaAbusi(req,res){
+    this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=6", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  getChiusuraPratica(req, res){
+    this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=7", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  getDecadenza(req, res){
+    this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=8", function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));

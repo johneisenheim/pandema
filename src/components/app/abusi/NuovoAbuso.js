@@ -72,11 +72,14 @@ class NuovoAbuso extends React.Component{
         processData: false,
         contentType: false,
         success: function(data) {
+          var parsed = JSON.parse(data);
           _self.setState({
             ..._self.state,
             isLoading : false,
             opened : false
           });
+          var link = '/handlegestioneabusi/'+parsed.id+'/'+_self.state.text;
+          browserHistory.push(link);
           //vai a quello nuovo
         },
         error : function(err){
@@ -84,6 +87,13 @@ class NuovoAbuso extends React.Component{
           console.log(err);
         }
     });
+  }
+
+  onChangeText(e,v){
+    this.setState({
+      ...this.state,
+      text : v
+    })
   }
 
   handleModalClose(){}
@@ -128,6 +138,8 @@ class NuovoAbuso extends React.Component{
                   hintText = "Numero della pratica di abuso"
                   style={{width:'30%'}}
                   errorText={this.state.errorText}
+                  value={this.state.text}
+                  onChange={this.onChangeText.bind(this)}
                 />
             </Box>
           </div>

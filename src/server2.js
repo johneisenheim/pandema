@@ -883,6 +883,21 @@ app2.post('/addFileAbusi', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 5;
       break;
+      case 6:
+        file.path = praticaPath+'/decadenza_abusi.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 6;
+      break;
+      case 7:
+        file.path = praticaPath+'/chiusura_pratica.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 7;
+      break;
+      case 8:
+        file.path = praticaPath+'/decadenza.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 8;
+      break;
     }
   });
 
@@ -919,6 +934,10 @@ app2.get('/updateNumeroPagine', function(req, res){
 
 app2.get('/getRichiestaAdempimenti', function(req, res){
   middleware.getRichiestaAdempimenti(req,res);
+});
+
+app2.get('/getDecadenzaAbusi', function(req,res){
+  middleware.getDecadenzaAbusi(req, res);
 });
 
 app2.get('/downloadRichiestaAdempimenti', function(req, res){
@@ -999,6 +1018,26 @@ app2.get('/getSecondoAvviso', function(req,res){
 
 app2.get('/getAbusoPath', function(req,res){
   middleware.getAbusoPath(req,res);
+});
+
+app2.get('/getTrasmissione', function(req,res){
+  middleware.getTrasmissione(req,res);
+});
+
+app2.get('/getAbusoStati', function(req,res){
+  middleware.getAbusoStati(req,res);
+});
+
+app2.get('/updateStatoAbuso', function(req,res){
+  middleware.updateStatoAbuso(req,res);
+});
+
+app2.get('/getChiusuraPratica', function(req,res){
+  middleware.getChiusuraPratica(req,res);
+});
+
+app2.get('/getDecadenza', function(req,res){
+  middleware.getDecadenza(req,res);
 });
 
 app2.listen(8001, ()=> {

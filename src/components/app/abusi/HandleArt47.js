@@ -27,13 +27,11 @@ import { browserHistory } from 'react-router';
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 
-import AvvisoIngiunzione from './AvvisoIngiunzione';
-import Ingiunzione from './Ingiunzione';
-import PrimoAvviso from './PrimoAvviso';
-import SecondoAvviso from './SecondoAvviso';
-import Trasmissione from './Trasmissione';
+import DecadenzaAbusi from './DecadenzaAbusi';
+import ChiusuraPratica from './ChiusuraPratica';
+import Decadenza from './Decadenza';
 
-class HandleGestioneAbusi extends React.Component{
+class HandleArt47 extends React.Component{
   constructor(props, context){
     super(props, context);
     this.state = {
@@ -42,7 +40,7 @@ class HandleGestioneAbusi extends React.Component{
         isLoading : true,
         path : undefined
     };
-    console.log('HandleGestioneAbusi() props', props);
+    console.log('HandleArt47() props', props);
   }
 
   componentDidMount(){
@@ -98,19 +96,13 @@ class HandleGestioneAbusi extends React.Component{
                     />
                 </Box>
                 <Box column justifyContent="flex-start" alignItems="flex-start" style={{marginTop:'30px'}}>
-                  <AvvisoIngiunzione pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                  <DecadenzaAbusi pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
-                  <Ingiunzione pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                  <ChiusuraPratica pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
-                  <PrimoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
-                  <SecondoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginBottom:'30px'}}>
-                  <Trasmissione pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                  <Decadenza pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
                 </Box>
               </Box>
             </Paper>
@@ -165,4 +157,4 @@ const lightBaseTheme = getMuiTheme({
   userAgent : false
 });
 
-export default HandleGestioneAbusi;
+export default HandleArt47;

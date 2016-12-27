@@ -32,7 +32,9 @@ class NuovoAbusoDropDown extends React.Component{
       errorText : '',
       text : '',
       isLoading : false,
-      data : []
+      data : [],
+      nextDisabled : true,
+      pratica_abuso : undefined
     }
   }
 
@@ -85,14 +87,6 @@ class NuovoAbusoDropDown extends React.Component{
 
   handleModalButtonSubmit(){
     var _self = this;
-    if(this.refs.nabuso.getValue() === ''){
-      this.setState({
-        ...this.state,
-        errorText : 'Questo campo è richiesto!'
-      });
-
-      return;
-    }
     this.setState({
       ...this.state,
       isLoading : true
@@ -100,16 +94,19 @@ class NuovoAbusoDropDown extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'addNewAbusoAree?pid='+escape(_self.refs.nabuso.getValue())+'&comune_id='+1,
+        url: constants.DB_ADDR+'addNewAbusoAree?ref='+escape(_self.state.pratica_abuso)+'&comune_id='+1,
         processData: false,
         contentType: false,
         success: function(data) {
+          var parsed = JSON.parse(data);
           _self.setState({
             ..._self.state,
             isLoading : false,
             opened : false
           });
           //vai a quello nuovo
+          var link = '/handlegestioneabusi/'+parsed.id+'/ABAC'+_self.state.pratica_abuso;
+          browserHistory.push(link);
         },
         error : function(err){
           alert('Errore : '+err);
@@ -119,6 +116,17 @@ class NuovoAbusoDropDown extends React.Component{
   }
 
   handleModalClose(){}
+
+  onMenuItemTap(name,index){
+    if(index !== -1){
+      //significa che non ha scritto cose a caso
+      this.setState({
+        ...this.state,
+        nextDisabled : false,
+        pratica_abuso : name
+      })
+    }
+  }
 
   render (){
     const actions = [
@@ -132,16 +140,17 @@ class NuovoAbusoDropDown extends React.Component{
         label="Aggiungi"
         primary={true}
         keyboardFocused={false}
+        ref="next"
         onTouchTap={this.handleModalButtonSubmit.bind(this)}
         labelStyle={{color : '#4988A9'}}
-        disabled={this.state.data.length == 0}
+        disabled={this.state.nextDisabled}
       />
     ];
 
     return (
       <MuiThemeProvider muiTheme={lightBaseTheme} >
         <Dialog
-            title={'Nuovo Abuso Generico'}
+            title={'Nuovo Abuso in Aree in Concessione'}
             actions={actions}
             modal={true}
             open={this.state.opened}
@@ -156,12 +165,13 @@ class NuovoAbusoDropDown extends React.Component{
             <p>Per creare un nuovo abuso in aree in concessione, inserisci il numero di pratica della pratica Dx associata:</p>
             <Box style={{marginTop:'20px', width : '100%'}} alignItems="center" justifyContent="center">
             <AutoComplete
-              floatingLabelText="Inserisci il numero di pratica per l'autocompletamento..."
+              floatingLabelText="Inserisci il numero di pratica per l'autocompletamento"
               filter={AutoComplete.caseInsensitiveFilter}
               dataSource={this.state.data}
               maxSearchResults={10}
               fullWidth={true}
               disabled={this.state.data.length == 0}
+              onNewRequest={this.onMenuItemTap.bind(this)}
             />
             </Box>
             {this.state.data.length == 0

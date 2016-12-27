@@ -32,7 +32,9 @@ class NuovoAbusoDropDown2 extends React.Component{
       errorText : '',
       text : '',
       isLoading : false,
-      data : []
+      data : [],
+      nextDisabled : true,
+      pratica_abuso : undefined
     }
   }
 
@@ -46,8 +48,6 @@ class NuovoAbusoDropDown2 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getDInfosForAbusi');
-          console.log(parsed);
           var toPush = [];
           for( var i = 0; i < parsed.results.length; i++ ){
             toPush.push(parsed.results[i].pandema_id);
@@ -85,14 +85,6 @@ class NuovoAbusoDropDown2 extends React.Component{
 
   handleModalButtonSubmit(){
     var _self = this;
-    if(this.refs.nabuso.getValue() === ''){
-      this.setState({
-        ...this.state,
-        errorText : 'Questo campo è richiesto!'
-      });
-
-      return;
-    }
     this.setState({
       ...this.state,
       isLoading : true
@@ -100,16 +92,19 @@ class NuovoAbusoDropDown2 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'addNewAbusoCodNav?pid='+escape(_self.refs.nabuso.getValue())+'&comune_id='+1,
+        url: constants.DB_ADDR+'addNewAbusoCodNav?ref='+escape(_self.state.pratica_abuso)+'&comune_id='+1,
         processData: false,
         contentType: false,
         success: function(data) {
+          var parsed = JSON.parse(data);
           _self.setState({
             ..._self.state,
             isLoading : false,
             opened : false
           });
           //vai a quello nuovo
+          var link = '/handleart47/'+parsed.id+'/ABART47'+_self.state.pratica_abuso;
+          browserHistory.push(link);
         },
         error : function(err){
           alert('Errore : '+err);
@@ -119,6 +114,17 @@ class NuovoAbusoDropDown2 extends React.Component{
   }
 
   handleModalClose(){}
+
+  onMenuItemTap(name,index){
+    if(index !== -1){
+      //significa che non ha scritto cose a caso
+      this.setState({
+        ...this.state,
+        nextDisabled : false,
+        pratica_abuso : name
+      })
+    }
+  }
 
   render (){
     const actions = [
@@ -134,14 +140,14 @@ class NuovoAbusoDropDown2 extends React.Component{
         keyboardFocused={false}
         onTouchTap={this.handleModalButtonSubmit.bind(this)}
         labelStyle={{color : '#4988A9'}}
-        disabled={this.state.data.length == 0}
+        disabled={this.state.nextDisabled}
       />
     ];
 
     return (
       <MuiThemeProvider muiTheme={lightBaseTheme} >
         <Dialog
-            title={'Nuovo Abuso Generico'}
+            title={'Nuovo Abuso Cod. Nav. 47'}
             actions={actions}
             modal={true}
             open={this.state.opened}
@@ -162,6 +168,7 @@ class NuovoAbusoDropDown2 extends React.Component{
               maxSearchResults={10}
               fullWidth={true}
               disabled={this.state.data.length == 0}
+              onNewRequest={this.onMenuItemTap.bind(this)}
             />
             </Box>
             {this.state.data.length == 0

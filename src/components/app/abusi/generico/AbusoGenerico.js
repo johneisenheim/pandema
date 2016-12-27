@@ -41,6 +41,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import {Link} from "react-router";
 import styles from './AbusoGenerico.css.js';
 
+import SelectAbusi from '../../complementars/SelectAbusi';
+
 
 class GestioneAbusi extends React.Component{
 
@@ -62,8 +64,6 @@ class GestioneAbusi extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getAbusoGenerico');
-          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -91,7 +91,9 @@ class GestioneAbusi extends React.Component{
           toReturn.push(
             <TableRow key={i}>
               <TableRowColumn style={{ width:'80px' }}>{this.state.data[i].pandema_abuso_id}</TableRowColumn>
-              <TableRowColumn>{this.state.data[i].descrizione_com}</TableRowColumn>
+              <TableRowColumn style={{textAlign:'center'}}>
+                <SelectAbusi value={this.state.data[i].stato_pratica_abuso_id} pid={this.state.data[i].pandema_abuso_id} dbid={this.state.data[i].id}/>
+              </TableRowColumn>
               <TableRowColumn>{this.state.data[i].primo_avviso == null ? '-' : this.state.data[i].primo_avviso}</TableRowColumn>
               <TableRowColumn>{this.state.data[i].secondo_avviso == null ? '-' : this.state.data[i].secondo_avviso}</TableRowColumn>
               <TableRowColumn style={{ width:'160px' }}>
@@ -152,7 +154,7 @@ class GestioneAbusi extends React.Component{
                   <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                     <TableRow>
                       <TableHeaderColumn style={{ width:'80px' }}>N°Pratica</TableHeaderColumn>
-                      <TableHeaderColumn>Stato</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}>Stato</TableHeaderColumn>
                       <TableHeaderColumn>Primo Avviso (€)</TableHeaderColumn>
                       <TableHeaderColumn>Secondo Avviso (€)</TableHeaderColumn>
                       <TableHeaderColumn style={{ width:'160px' }}>Calcola Importo alla data odierna</TableHeaderColumn>
