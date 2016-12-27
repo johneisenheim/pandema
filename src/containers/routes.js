@@ -39,7 +39,9 @@ module.exports = (
 			<Route path='/nuovapratica' component={NuovaPratica} />
 			<Route path='/nuovapraticaabusi' component={NuovaPraticaAbusi} />
 			<Route path='/gestioneabusi' component={GestioneAbusi} />
-			<Route path='/handlegestioneabusi/:id' component={HandleGestioneAbusi} />
+			<Route path='/handlegestioneabusi(/:id)' component={HandleGestioneAbusi} />
+			<Route path='/nuovoabuso(/:id)' component={HandleGestioneAbusi} />
+			<Route path='/nuovoabusogenerico(/:id)' component={HandleGestioneAbusi} />
 		</Route>
 	</Router>
 );

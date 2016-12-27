@@ -45,6 +45,10 @@ import AbusoAree from './aree/AbusoAree';
 import CodNav from './codnav/CodNav';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
+import { browserHistory } from 'react-router';
+
+import NuovoAbuso from './NuovoAbuso';
+import NuovoAbusoDropDown from './NuovoAbusoDropDown';
 
 
 class GestioneAbusi extends React.Component{
@@ -71,7 +75,18 @@ class GestioneAbusi extends React.Component{
   }
 
   onIconMenu(e, k, v){
-    console.log(v);
+    switch(v){
+      case 0:
+        //browserHistory.push('/nuovoabuso');
+        this.refs.nuovoabuso.openModal();
+      break;
+      case 1:
+        this.refs.nuovoabusodropdown.openModal();
+      break;
+      case 2:
+        browserHistory.push('/nuovoabusodb');
+      break;
+    }
   }
 
   render (){
@@ -93,6 +108,7 @@ class GestioneAbusi extends React.Component{
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
                 onRequestClose={this.handleRequestClose.bind(this)}
+                touchTapCloseDelay={100}
               >
                 <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
                   <MenuItem primaryText="Generico" />
@@ -110,6 +126,8 @@ class GestioneAbusi extends React.Component{
               <Paper zDepth={1} style={styles.paper3}>
                 <CodNav />
               </Paper>
+              <NuovoAbuso ref="nuovoabuso"/>
+              <NuovoAbusoDropDown ref="nuovoabusodropdown" />
           </Box>
         </MuiThemeProvider>
     );

@@ -872,6 +872,18 @@ app2.get('/getAbusiCodNav', function(req,res){
   middleware.getAbusiCodNav(req,res);
 });
 
+app2.get('/getAvvisoIngiunzione', function(req,res){
+  middleware.getAvvisoIngiunzione(req,res);
+});
+
+app2.get('/addNewAbusoGenerico', function(req,res){
+  middleware.addNewAbusoGenerico(req,res);
+});
+
+app2.get('/getDInfosForAbusi', function(req,res){
+  middleware.getDInfosForAbusi(req,res);
+});
+
 app2.listen(8001, ()=> {
   console.info("Second server is listening to 8001");
 

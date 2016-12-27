@@ -54,9 +54,9 @@ class HandleGestioneAbusi extends React.Component{
   render(){
     return(
       <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <Box column justifyContent="center" alignItems="center" style={{height:'100%'}}>
+        <Box column justifyContent="center" alignItems="center" style={{width:'100%'}}>
           <Paper zDepth={1} style={styles.paper}>
-            <h3 style={{textAlign:'center', width : '100%'}}>Inserimento nuova pratica Abusi</h3>
+            <h3 style={{textAlign:'center', width : '100%'}}>Nuova pratica Abuso Generico</h3>
             <Box justifyContent="center" alignItems="center">
               <div style={{width:'30%', height : '1px', backgroundColor : '#4CA7D0'}}></div>
             </Box>
@@ -69,8 +69,6 @@ class HandleGestioneAbusi extends React.Component{
                     hintText = "Inserisci il numero della pratica"
                     style={{marginLeft:'30px'}}
                     errorText={this.state.nPratica}
-                    disabled={true}
-                    value={"N8977"}
                   />
               </Box>
               <Box justifyContent="flex-start" alignItems="center">
@@ -126,12 +124,9 @@ class HandleGestioneAbusi extends React.Component{
 
 const styles = {
   paper : {
-    margin : '10px',
     marginTop : '20px',
-    width : 'inherit',
-    minWidth : '100%',
-    minHeight : '450px',
-    height : 'auto'
+    height : 'auto',
+    width : '100%'
   }
 }
 
