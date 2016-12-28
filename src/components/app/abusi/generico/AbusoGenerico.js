@@ -100,9 +100,7 @@ class GestioneAbusi extends React.Component{
                 <FlatButton label="Calcola" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
               </TableRowColumn>
               <TableRowColumn>
-                <IconButton>
-                  <Folder color={'#909EA2'}/>
-                </IconButton>
+                  <IconButton containerElement={<Link to={`/gestisciallegatiabusi/`+this.state.data[i].pandema_abuso_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>
               </TableRowColumn>
               <TableRowColumn>
                 <FlatButton label="Gestisci" containerElement={<Link to={`/handlegestioneabusi/`+this.state.data[i].id+'/'+this.state.data[i].pandema_abuso_id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>

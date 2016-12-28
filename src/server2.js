@@ -251,11 +251,22 @@ app2.get('/getAllegatiPratica', function(req,res){
   middleware.getAllegatiPratica(req,res);
 });
 
+app2.get('/getAllegatiAbusi', function(req,res){
+  middleware.getAllegatiAbusi(req,res);
+});
+
 app2.get('/viewDocument', function(req,res){
   var callback = function(path){
     res.end(path)
   };
   middleware.viewDocument(req.query.allegatoID, callback);
+});
+
+app2.get('/viewDocumentAbuso', function(req,res){
+  var callback = function(path){
+    res.end(path)
+  };
+  middleware.viewDocumentAbuso(req.query.allegatoID, callback);
 });
 
 app2.get('/see', function(req,res){

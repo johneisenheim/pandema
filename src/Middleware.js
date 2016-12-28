@@ -373,8 +373,17 @@ class Middleware{
 
   getAllegatiPratica(req, res){
     var _self = this;
-    console.log("SELECT pratica_ha_allegato.allegato_id, pratica_ha_allegato.pratica_id, pratica_ha_allegato.pratica_pandema_id, allegato.path, allegato.data_creazione, tipo_allegato.descrizione_com AS descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.praticaID)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pandemaPraticaID));
     this.connection.query("SELECT pratica_ha_allegato.allegato_id, pratica_ha_allegato.pratica_id, pratica_ha_allegato.pratica_pandema_id, allegato.path, allegato.data_creazione, tipo_allegato.descrizione_com AS descrizione FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.praticaID)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pandemaPraticaID), function(err,rows){
+        if(err)
+          console.log(err);
+        res.end(JSON.stringify({response:true, results: rows}));
+    });
+  }
+
+  getAllegatiAbusi(req, res){
+    var _self = this;
+    console.log("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.praticaID)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pandemaPraticaID));
+    this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.praticaID)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pandemaPraticaID), function(err,rows){
         if(err)
           console.log(err);
         res.end(JSON.stringify({response:true, results: rows}));
@@ -383,6 +392,14 @@ class Middleware{
 
   viewDocument(id, callback){
     this.connection.query("SELECT path FROM allegato WHERE id="+this.connection.escape(id), function(err, rows){
+      if(err)
+        console.log(err);
+      callback(rows[0].path);
+    });
+  }
+
+  viewDocumentAbuso(id, callback){
+    this.connection.query("SELECT path FROM allegato_abuso WHERE id="+this.connection.escape(id), function(err, rows){
       if(err)
         console.log(err);
       callback(rows[0].path);
