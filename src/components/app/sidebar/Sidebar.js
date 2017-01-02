@@ -64,7 +64,7 @@ class Sidebar extends React.Component{
                     onMouseLeave={this._onMouseLeave.bind(this,0)}
                   />
                 </Link>
-                <Link to="/home" style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}>
+                <Link to="/archivio" style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}>
                 <ListItem primaryText="Archivio Pratiche"
                   style={{backgroundColor:this.state.values[1]!=='' ? this.state.values[1] : '', fontSize:'14px', fontWeight:'500', height:'60px'}}
                   innerDivStyle = {{paddingLeft:'65px', paddingTop:'21px'}}

@@ -329,6 +329,11 @@ app2.post('/insertnewpratica', function(req, res){
   middleware.insertnewpratica(req.body,res);
 });
 
+app2.post('/insertnewpraticaarchivio', function(req, res){
+  //console.log(req.body);
+  middleware.insertnewpraticaarchivio(req.body,res);
+});
+
 app2.get('/handled1s1', function(req, res){
     console.log('here');
     middleware.handled1s1(req, res);
@@ -336,6 +341,10 @@ app2.get('/handled1s1', function(req, res){
 
 app2.get('/getgeneralinfos', function(req, res){
   middleware.getgeneralinfos(res);
+});
+
+app2.get('/getgeneralinfosArchivio', function(req, res){
+  middleware.getgeneralinfosArchivio(res);
 });
 
 app2.get('/d1domandeconcorrenza', function(req, res){

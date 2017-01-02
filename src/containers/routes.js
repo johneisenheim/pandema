@@ -13,6 +13,7 @@ import Admin from '../components/admin/Admin';
 import AvvisoDiniego from '../components/app/forms/AvvisoDiniego';
 import AvvisoPubblicazione from '../components/app/forms/AvvisoPubblicazione';
 import NuovaPratica from '../components/app/forms/NuovaPratica';
+import NuovaPraticaArchivio from '../components/app/forms/NuovaPraticaArchivio';
 import GestioneAbusi from '../components/app/abusi/GestioneAbusi';
 import HandleGestioneAbusi from '../components/app/abusi/HandleGestioneAbusi';
 import HandleArt47 from '../components/app/abusi/HandleArt47';
@@ -22,6 +23,7 @@ import GestisciAllegatiAbusi from '../components/app/complementars/GestisciAlleg
 import Registri from '../components/app/registri/Registri';
 import NuovoGenerico from '../components/app/registri/generico/NuovoGenerico';
 import VisualizzaGenerico from '../components/app/registri/generico/VisualizzaGenerico';
+import Archivio from '../components/app/archivio/Archivio';
 
 
 module.exports = (
@@ -47,6 +49,8 @@ module.exports = (
 			<Route path='/registri' component={Registri} />
 			<Route path='/rgenerico/:id' component={VisualizzaGenerico} />
 			<Route path='/addToGeneralRegistry' component={NuovoGenerico} />
+			<Route path='/archivio' component={Archivio} />
+			<Route path='/nuovapraticaarchivio' component={NuovaPraticaArchivio} />
 		</Route>
 	</Router>
 );

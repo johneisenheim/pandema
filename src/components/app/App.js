@@ -24,6 +24,8 @@ class App extends React.Component{
         actions.selectMenuItem(3);
     }else if(props.location.pathname.includes('registri') || props.location.pathname.includes('rgenerico') ){
       actions.selectMenuItem(2);
+    }else if(props.location.pathname.includes('archivio') ||props.location.pathname.includes('nuovapraticaarchivio')){
+      actions.selectMenuItem(1);
     }
 
   }
