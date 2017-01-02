@@ -19,6 +19,8 @@ import HandleArt47 from '../components/app/abusi/HandleArt47';
 import NuovaPraticaAbusi from '../components/app/forms/NuovaPraticaAbusi';
 import GestisciAllegati from '../components/app/complementars/GestisciAllegati';
 import GestisciAllegatiAbusi from '../components/app/complementars/GestisciAllegatiAbusi';
+import Registri from '../components/app/registri/Registri';
+import NuovoGenerico from '../components/app/registri/generico/NuovoGenerico';
 
 
 module.exports = (
@@ -41,6 +43,8 @@ module.exports = (
 			<Route path='/handlegestioneabusi/:dbid/:pid' component={HandleGestioneAbusi} />
 			<Route path='/handleart47/:dbid/:pid' component={HandleArt47} />
 			<Route path='/gestisciallegatiabusi/:pid/:dbid' component={GestisciAllegatiAbusi} />
+			<Route path='/registri' component={Registri} />
+			<Route path='/addToGeneralRegistry' component={NuovoGenerico} />
 		</Route>
 	</Router>
 );

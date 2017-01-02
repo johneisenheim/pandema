@@ -1051,6 +1051,14 @@ app2.get('/getDecadenza', function(req,res){
   middleware.getDecadenza(req,res);
 });
 
+app2.get('/getRegistriGenerico', function(req,res){
+  middleware.getRegistriGenerico(req,res);
+});
+
+app2.post('/addNewGeneralRegistry', function(req,res){
+  middleware.addNewGeneralRegistry(req,res);
+});
+
 app2.listen(8001, ()=> {
   console.info("Second server is listening to 8001");
 

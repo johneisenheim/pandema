@@ -74,6 +74,7 @@ class Sidebar extends React.Component{
                   onMouseLeave={this._onMouseLeave.bind(this,1)}
                 />
                 </Link>
+                <Link to="/registri" style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}>
                 <ListItem primaryText="Registri"
                   style={{backgroundColor:this.state.values[2]!==''  ? this.state.values[2] : '', fontSize:'14px', fontWeight:'500', height:'60px'}}
                   innerDivStyle = {{paddingLeft:'65px', paddingTop:'21px'}}
@@ -82,6 +83,7 @@ class Sidebar extends React.Component{
                   onMouseEnter={this._onMouseEnter.bind(this,2)}
                   onMouseLeave={this._onMouseLeave.bind(this,2)}
                 />
+                </Link>
               <Link to="/gestioneabusi" style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}>
               <ListItem primaryText="Gestione Abusi"
                   style={{backgroundColor:this.state.values[3]!==''  ? this.state.values[3] : '', fontSize:'14px', fontWeight:'500', height:'60px'}}

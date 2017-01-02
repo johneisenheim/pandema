@@ -22,6 +22,8 @@ class App extends React.Component{
         actions.selectMenuItem(0);
     }else if(props.location.pathname.includes('gestioneabusi') || props.location.pathname.includes('gestisciallegatiabusi')){
         actions.selectMenuItem(3);
+    }else if(props.location.pathname.includes('registri')){
+      actions.selectMenuItem(2);
     }
 
   }
