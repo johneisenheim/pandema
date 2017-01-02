@@ -24,6 +24,8 @@ import Registri from '../components/app/registri/Registri';
 import NuovoGenerico from '../components/app/registri/generico/NuovoGenerico';
 import VisualizzaGenerico from '../components/app/registri/generico/VisualizzaGenerico';
 import Archivio from '../components/app/archivio/Archivio';
+import CanoniPregressi from '../components/app/archivio/CanoniPregressi';
+import Decadenza from '../components/app/archivio/Decadenza';
 
 
 module.exports = (
@@ -51,6 +53,8 @@ module.exports = (
 			<Route path='/addToGeneralRegistry' component={NuovoGenerico} />
 			<Route path='/archivio' component={Archivio} />
 			<Route path='/nuovapraticaarchivio' component={NuovaPraticaArchivio} />
+			<Route path='/canone' component={CanoniPregressi} />
+			<Route path='/decadenza/:pid/:dbid' component={Decadenza} />
 		</Route>
 	</Router>
 );

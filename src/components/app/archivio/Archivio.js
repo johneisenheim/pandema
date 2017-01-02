@@ -99,14 +99,16 @@ class Archivio extends React.Component{
   }
 
   onRequestChange(v,k,link,j,m){
-    console.log('onRequestChange', v, k,link,j,m);
+    //console.log('onRequestChange', v, k,link,j,m);
     switch(m.key){
       case '0':
         browserHistory.push(link);
       break;
       case '1':
+        browserHistory.push('/decadenza/'+v+'/'+k);
       break;
       case '2':
+        browserHistory.push('/canone');
       break;
     }
   }

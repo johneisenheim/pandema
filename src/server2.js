@@ -826,6 +826,24 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 38;
       break;
+      case 39:
+        var annotazioneRegolaritaPath = praticaPath+'/annotazione_regolarita';
+        if(!fs.existsSync(annotazioneRegolaritaPath)){
+          fs.mkdirSync(annotazioneRegolaritaPath);
+        }
+        file.path = annotazioneRegolaritaPath+'/regolarita_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 39;
+      break;
+      case 40:
+        var attoRevocaPath = praticaPath+'/atto_revoca';
+        if(!fs.existsSync(attoRevocaPath)){
+          fs.mkdirSync(attoRevocaPath);
+        }
+        file.path = attoRevocaPath+'/revoca_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 40;
+      break;
 
     }
 
@@ -1070,6 +1088,14 @@ app2.get('/getRegistro', function(req,res){
 
 app2.post('/addNewGeneralRegistry', function(req,res){
   middleware.addNewGeneralRegistry(req,res);
+});
+
+app2.get('/annotazioneRegolarita', function(req,res){
+  middleware.annotazioneRegolarita(req,res);
+});
+
+app2.get('/revoca', function(req,res){
+  middleware.revoca(req,res);
 });
 
 app2.listen(8001, ()=> {

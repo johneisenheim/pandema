@@ -824,6 +824,7 @@ class Middleware{
   }
 
   handled1s7(req, res){
+    console.log("SELECT path FROM pratica WHERE id="+this.connection.escape(req.query.id)+" AND pandema_id="+this.connection.escape(req.query.pandema_id))
     this.connection.query("SELECT path FROM pratica WHERE id="+this.connection.escape(req.query.id)+" AND pandema_id="+this.connection.escape(req.query.pandema_id), function(err, rows){
       if(err){
         console.log(err);
@@ -1698,6 +1699,28 @@ class Middleware{
         return;
       }
       res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  annotazioneRegolarita(req,res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=39", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  revoca(req,res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=40", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
     });
   }
 
