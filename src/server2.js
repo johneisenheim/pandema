@@ -1055,6 +1055,10 @@ app2.get('/getRegistriGenerico', function(req,res){
   middleware.getRegistriGenerico(req,res);
 });
 
+app2.get('/getRegistro', function(req,res){
+  middleware.getRegistro(req,res);
+});
+
 app2.post('/addNewGeneralRegistry', function(req,res){
   middleware.addNewGeneralRegistry(req,res);
 });

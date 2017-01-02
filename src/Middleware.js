@@ -1629,6 +1629,17 @@ class Middleware{
     });
   }
 
+  getRegistro(req,res){
+    this.connection.query("SELECT * FROM registro WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
 }
 
 export default Middleware;

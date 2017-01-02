@@ -102,7 +102,7 @@ class Generico extends React.Component{
               <TableRowColumn>{this.state.data[i].pertinenza}</TableRowColumn>
               <TableRowColumn>{this.state.data[i].annotazioni}</TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Gestisci" containerElement={<Link to={`/handlegestioneabusi/`+this.state.data[i].id+'/'+this.state.data[i].pandema_abuso_id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
+                <FlatButton label="Gestisci" containerElement={<Link to={`/rgenerico/`+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
               </TableRowColumn>
             </TableRow>
           );

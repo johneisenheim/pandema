@@ -21,6 +21,7 @@ import GestisciAllegati from '../components/app/complementars/GestisciAllegati';
 import GestisciAllegatiAbusi from '../components/app/complementars/GestisciAllegatiAbusi';
 import Registri from '../components/app/registri/Registri';
 import NuovoGenerico from '../components/app/registri/generico/NuovoGenerico';
+import VisualizzaGenerico from '../components/app/registri/generico/VisualizzaGenerico';
 
 
 module.exports = (
@@ -44,6 +45,7 @@ module.exports = (
 			<Route path='/handleart47/:dbid/:pid' component={HandleArt47} />
 			<Route path='/gestisciallegatiabusi/:pid/:dbid' component={GestisciAllegatiAbusi} />
 			<Route path='/registri' component={Registri} />
+			<Route path='/rgenerico/:id' component={VisualizzaGenerico} />
 			<Route path='/addToGeneralRegistry' component={NuovoGenerico} />
 		</Route>
 	</Router>
