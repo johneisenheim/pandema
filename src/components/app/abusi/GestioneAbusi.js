@@ -48,8 +48,8 @@ import Menu from 'material-ui/Menu';
 import { browserHistory } from 'react-router';
 
 import NuovoAbuso from './NuovoAbuso';
-import NuovoAbusoDropDown from './NuovoAbusoDropDown';
-import NuovoAbusoDropDown2 from './NuovoAbusoDropDown2';
+import NuovoAbusoDropDownA from './NuovoAbusoDropDownA';
+import NuovoAbusoDropDownB from './NuovoAbusoDropDownB';
 
 
 class GestioneAbusi extends React.Component{
@@ -63,7 +63,7 @@ class GestioneAbusi extends React.Component{
   }
 
   componentDidMount(){
-    
+
   }
 
   handleTouchTap(event){
@@ -87,10 +87,10 @@ class GestioneAbusi extends React.Component{
         this.refs.nuovoabuso.openModal();
       break;
       case 1:
-        this.refs.nuovoabusodropdown.openModal();
+        this.refs.nuovoabusodropdownA.openModal();
       break;
       case 2:
-        this.refs.nuovoabusodropdown2.openModal();
+        this.refs.nuovoabusodropdownB.openModal();
       break;
     }
   }
@@ -133,8 +133,8 @@ class GestioneAbusi extends React.Component{
                 <CodNav />
               </Paper>
               <NuovoAbuso ref="nuovoabuso"/>
-              <NuovoAbusoDropDown ref="nuovoabusodropdown" />
-              <NuovoAbusoDropDown2 ref="nuovoabusodropdown2" />
+              <NuovoAbusoDropDownA ref="nuovoabusodropdownA" />
+              <NuovoAbusoDropDownB ref="nuovoabusodropdownB" />
           </Box>
         </MuiThemeProvider>
     );
