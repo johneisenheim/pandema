@@ -97,6 +97,58 @@ class Home extends React.Component{
     console.log(this.refs.status);
   }
 
+  onSearchChange(e,v){
+    var _self = this;
+    if(!this.state.isLoading){
+      this.setState({
+        ...this.state,
+        //isLoading : true
+      });
+    }
+    if(v === ''){
+      $.ajax({
+          type: 'GET',
+          url: constants.DB_ADDR+'getgeneralinfos',
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            var parsed = JSON.parse(data);
+            console.log('home successs')
+            console.log(parsed);
+            _self.setState({
+                ..._self.state,
+                isLoading : false,
+                data : parsed.results
+            });
+            console.log(parsed);
+          },
+          error : function(err){
+            console.log(err);
+          }
+      });
+    }else{
+      $.ajax({
+          type: 'GET',
+          url: constants.DB_ADDR+'searchTableA?search='+escape(v),
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            var parsed = JSON.parse(data);
+            _self.setState({
+                ..._self.state,
+                //isLoading : false,
+                data : parsed.results
+            });
+            console.log('searchTableA',parsed);
+          },
+          error : function(err){
+            console.log(err);
+          }
+      });
+    }
+
+  }
+
   render (){
     var tableContents = [];
     if( this.state.isLoading ){
@@ -196,6 +248,7 @@ class Home extends React.Component{
                             hintStyle = {styles.searchHintStyle}
                             inputStyle = {styles.searchInputStyle}
                             underlineFocusStyle = {styles.searchUnderlineFocusStyle}
+                            onChange={this.onSearchChange.bind(this)}
                             id={'search'}
                           />
                     </ToolbarGroup>

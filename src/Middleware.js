@@ -1724,6 +1724,89 @@ class Middleware{
     });
   }
 
+  searchTableA(req,res){
+    //SELECT title FROM pages WHERE my_col LIKE %$param1% OR another_col LIKE %$param2%;
+    //console.log("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+')');
+    this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+')', function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+  }
+
+  searchTableB(req,res){
+    //SELECT title FROM pages WHERE my_col LIKE %$param1% OR another_col LIKE %$param2%;
+    //console.log("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 1 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.tipo_documento_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.codice_uso_scopo_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.stato_pratica_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+")");
+    this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 1 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.tipo_documento_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.codice_uso_scopo_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.stato_pratica_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+  }
+
+  searchTableC(req,res){
+    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=1 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+  }
+
+  searchTableD(req,res){
+    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=2 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+  }
+
+  searchTableE(req,res){
+    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=3 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+  }
+
+  searchTableF(req,res){
+    this.connection.query("SELECT * FROM registro WHERE tipo_registro_id=4 AND comune_id="+this.connection.escape(req.query.comune_id)+" AND "+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+
+  }
+
 }
 
 export default Middleware;

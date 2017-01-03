@@ -1098,6 +1098,35 @@ app2.get('/revoca', function(req,res){
   middleware.revoca(req,res);
 });
 
+
+//SEARCH
+
+app2.get('/searchTableA', function(req,res){
+  middleware.searchTableA(req,res);
+});
+
+app2.get('/searchTableB', function(req,res){
+  middleware.searchTableB(req,res);
+});
+
+app2.get('/searchTableC', function(req,res){
+  middleware.searchTableC(req,res);
+});
+
+app2.get('/searchTableD', function(req,res){
+  middleware.searchTableD(req,res);
+});
+
+app2.get('/searchTableE', function(req,res){
+  middleware.searchTableE(req,res);
+});
+
+app2.get('/searchTableF', function(req,res){
+  middleware.searchTableF(req,res);
+});
+
+
+
 app2.listen(8001, ()=> {
   console.info("Second server is listening to 8001");
 
