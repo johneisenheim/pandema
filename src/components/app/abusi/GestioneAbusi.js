@@ -48,8 +48,8 @@ import Menu from 'material-ui/Menu';
 import { browserHistory } from 'react-router';
 
 import NuovoAbuso from './NuovoAbuso';
-import NuovoAbusoDropDownA from './NuovoAbusoDropDownA';
-import NuovoAbusoDropDownB from './NuovoAbusoDropDownB';
+import DropdownA from './DropdownA';
+import DropdownB from './DropdownB';
 
 
 class GestioneAbusi extends React.Component{

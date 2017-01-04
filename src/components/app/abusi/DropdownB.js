@@ -23,7 +23,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 import { browserHistory } from 'react-router';
 import $ from 'jquery';
 
-class NuovoAbusoDropDownA extends React.Component{
+class DropdownB extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -48,8 +48,6 @@ class NuovoAbusoDropDownA extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getDInfosForAbusi');
-          console.log(parsed);
           var toPush = [];
           for( var i = 0; i < parsed.results.length; i++ ){
             toPush.push(parsed.results[i].pandema_id);
@@ -94,7 +92,7 @@ class NuovoAbusoDropDownA extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'addNewAbusoAree?ref='+escape(_self.state.pratica_abuso)+'&comune_id='+1,
+        url: constants.DB_ADDR+'addNewAbusoCodNav?ref='+escape(_self.state.pratica_abuso)+'&comune_id='+1,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -105,7 +103,7 @@ class NuovoAbusoDropDownA extends React.Component{
             opened : false
           });
           //vai a quello nuovo
-          var link = '/handlegestioneabusi/'+parsed.id+'/ABAC'+_self.state.pratica_abuso;
+          var link = '/handleart47/'+parsed.id+'/ABART47'+_self.state.pratica_abuso;
           browserHistory.push(link);
         },
         error : function(err){
@@ -140,7 +138,6 @@ class NuovoAbusoDropDownA extends React.Component{
         label="Aggiungi"
         primary={true}
         keyboardFocused={false}
-        ref="next"
         onTouchTap={this.handleModalButtonSubmit.bind(this)}
         labelStyle={{color : '#4988A9'}}
         disabled={this.state.nextDisabled}
@@ -150,7 +147,7 @@ class NuovoAbusoDropDownA extends React.Component{
     return (
       <MuiThemeProvider muiTheme={lightBaseTheme} >
         <Dialog
-            title={'Nuovo Abuso in Aree in Concessione'}
+            title={'Nuovo Abuso Cod. Nav. 47'}
             actions={actions}
             modal={true}
             open={this.state.opened}
@@ -165,7 +162,7 @@ class NuovoAbusoDropDownA extends React.Component{
             <p>Per creare un nuovo abuso in aree in concessione, inserisci il numero di pratica della pratica Dx associata:</p>
             <Box style={{marginTop:'20px', width : '100%'}} alignItems="center" justifyContent="center">
             <AutoComplete
-              floatingLabelText="Inserisci il numero di pratica per l'autocompletamento"
+              floatingLabelText="Inserisci il numero di pratica per l'autocompletamento..."
               filter={AutoComplete.caseInsensitiveFilter}
               dataSource={this.state.data}
               maxSearchResults={10}
@@ -228,4 +225,4 @@ const lightBaseTheme = getMuiTheme({
   userAgent : false
 });
 
-export default NuovoAbusoDropDownA;
+export default DropdownB;
