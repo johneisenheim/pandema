@@ -41,6 +41,7 @@ import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import Generico from './generico/Generico';
+import Art24 from './art24/Art24';
 
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
@@ -81,7 +82,7 @@ class Registri extends React.Component{
         browserHistory.push('/addToGeneralRegistry');
       break;
       case 1:
-
+        browserHistory.push('/addToArt24Registry');
       break;
       case 2:
 
@@ -112,6 +113,7 @@ class Registri extends React.Component{
               >
                 <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
                   <MenuItem primaryText="Generale delle Concessioni" />
+                  <MenuItem primaryText="Istruttorie per Concessioni e Autorizzazioni (ex art.24)" />
                 </Menu>
               </Popover>
             </Box>
@@ -119,7 +121,7 @@ class Registri extends React.Component{
                 <Generico />
               </Paper>
               <Paper zDepth={1} style={styles.paper2}>
-
+                <Art24 />
               </Paper>
               <Paper zDepth={1} style={styles.paper3}>
 

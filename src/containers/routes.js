@@ -27,6 +27,10 @@ import Archivio from '../components/app/archivio/Archivio';
 import CanoniPregressi from '../components/app/archivio/CanoniPregressi';
 import Decadenza from '../components/app/archivio/Decadenza';
 
+import NuovoArt24 from '../components/app/registri/art24/NuovoArt24';
+import VisualizzaArt24 from '../components/app/registri/art24/VisualizzaArt24';
+
+
 
 module.exports = (
 	<Router history={browserHistory}>
@@ -50,7 +54,9 @@ module.exports = (
 			<Route path='/gestisciallegatiabusi/:pid/:dbid' component={GestisciAllegatiAbusi} />
 			<Route path='/registri' component={Registri} />
 			<Route path='/rgenerico/:id' component={VisualizzaGenerico} />
+			<Route path='/rart24/:id' component={VisualizzaArt24} />
 			<Route path='/addToGeneralRegistry' component={NuovoGenerico} />
+			<Route path='/addToArt24Registry' component={NuovoArt24} />
 			<Route path='/archivio' component={Archivio} />
 			<Route path='/nuovapraticaarchivio' component={NuovaPraticaArchivio} />
 			<Route path='/canone' component={CanoniPregressi} />

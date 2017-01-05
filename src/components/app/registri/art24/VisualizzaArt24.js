@@ -23,14 +23,14 @@ import { browserHistory } from 'react-router';
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 
-class VisualizzaGenerico extends React.Component{
+class VisualizzaArt24 extends React.Component{
   constructor(props, context){
     super(props, context);
     this.state = {
+        data : [],
         isLoading : true,
         usoscopo : null,
-        usoscopovalue : 0,
-        data : []
+        usoscopovalue : 0
     }
 
   }
@@ -40,12 +40,12 @@ class VisualizzaGenerico extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getRegistroGenerico?id='+escape(this.props.params.id),
+        url: constants.DB_ADDR+'getRegistroArt24?id='+escape(this.props.params.id),
         processData: false,
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getRegistro', parsed);
+          console.log('getRegistroArt24', parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -57,8 +57,8 @@ class VisualizzaGenerico extends React.Component{
           console.log(err);
         }
     });
-  }
 
+  }
 
   handleChange(event, index, value){
     this.setState({
@@ -92,57 +92,38 @@ class VisualizzaGenerico extends React.Component{
                   <TextField
                       id="nordine"
                       ref="nordine"
-                      hintText = ""
                       style={{marginLeft:'30px'}}
-                      errorText={this.state.nordine}
                       value={this.state.data[0].n_ordine}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center">
-                  <p style={{marginTop:'30px'}}>Concessionario:</p>
+                  <p style={{marginTop:'30px'}}>Richiedente:</p>
                   <TextField
-                      id="concessionario"
-                      ref="concessionario"
-                      hintText = ""
+                      id="richiedente"
+                      ref="richiedente"
                       style={{marginLeft:'30px'}}
-                      errorText={this.state.concessionario}
-                      value={this.state.data[0].concessionario}
+                      value={this.state.data[0].richiedente}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p>Data:</p>
+                  <p style={{marginTop:'30px'}}><span>Data:</span></p>
                   <TextField
                       id="data"
-                      hintText = ""
                       style={{marginLeft:'30px'}}
                       ref="data"
-                      value={new Date(this.state.data[0].data).toLocaleDateString()}
+                      value={new Date(this.state.data[0].data_richiesta).toLocaleDateString()}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Località:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Protocollo Richiesta:</span></p>
                   <TextField
-                      id="localita"
-                      hintText = ""
+                      id="protocollo_richiesta"
                       style={{marginLeft:'30px'}}
-                      ref="localita"
-                      errorText={this.state.localita}
-                      value={this.state.data[0].localita}
-                      disabled={true}
-                    />
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Superficie:</span></p>
-                  <TextField
-                      id="superficie"
-                      hintText = ""
-                      style={{marginLeft:'30px'}}
-                      ref="superficie"
-                      errorText={this.state.superficie}
-                      value={this.state.data[0].superficie}
+                      ref="protocollo_richiesta"
+                      value={this.state.data[0].protocollo_richiesta}
                       disabled={true}
                     />
                 </Box>
@@ -150,71 +131,89 @@ class VisualizzaGenerico extends React.Component{
                   <p style={{marginTop:'30px'}}><span>Scopo:</span></p>
                   <TextField
                       id="scopo"
-                      hintText = ""
                       style={{marginLeft:'30px'}}
                       ref="scopo"
-                      errorText={this.state.scopo}
                       value={this.state.data[0].scopo}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Durata mesi:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Area Coperta:</span></p>
                   <TextField
-                      id="durata"
-                      hintText = ""
+                      id="area_coperta"
                       style={{marginLeft:'30px'}}
-                      ref="durata"
-                      errorText={this.state.durata}
-                      value={this.state.data[0].durata_mesi}
+                      ref="area_coperta"
+                      value={this.state.data[0].area_coperta}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p>Scadenza:</p>
+                  <p style={{marginTop:'30px'}}><span>Area Scoperta:</span></p>
                   <TextField
-                      id="scadenza"
-                      hintText = ""
+                      id="area_scoperta"
                       style={{marginLeft:'30px'}}
-                      ref="scadenza"
-                      errorText={this.state.scadenza}
-                      value={new Date(this.state.data[0].scadenza).toLocaleDateString()}
+                      ref="area_scoperta"
+                      value={this.state.data[0].area_scoperta}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Canone:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Volumetria:</span></p>
                   <TextField
-                      id="canone"
-                      hintText = ""
+                      id="volumetria"
                       style={{marginLeft:'30px'}}
-                      ref="canone"
-                      errorText={this.state.canone}
-                      value={this.state.data[0].canone}
+                      ref="volumetria"
+                      value={this.state.data[0].volumetria}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Quietanza:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Codice Comune:</span></p>
                   <TextField
-                      id="quietanza"
-                      hintText = ""
+                      id="codice_comune"
                       style={{marginLeft:'30px'}}
-                      ref="quietanza"
-                      errorText={this.state.quietanza}
-                      value={this.state.data[0].quietanza}
+                      ref="codice_comune"
+                      value={this.state.data[0].codice_comune}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Pertinenza:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Sezione:</span></p>
                   <TextField
-                      id="pertinenza"
-                      hintText = ""
+                      id="sezione"
                       style={{marginLeft:'30px'}}
-                      ref="pertinenza"
-                      errorText={this.state.pertinenza}
-                      value={this.state.data[0].pertinenza}
+                      ref="sezione"
+                      value={this.state.data[0].sezione}
+                      disabled={true}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Foglio:</span></p>
+                  <TextField
+                      id="foglio"
+                      style={{marginLeft:'30px'}}
+                      ref="foglio"
+                      value={this.state.data[0].foglio}
+                      disabled={true}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Particella:</span></p>
+                  <TextField
+                      id="particella"
+                      style={{marginLeft:'30px'}}
+                      ref="particella"
+                      value={this.state.data[0].particella}
+                      disabled={true}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Subalterni:</span></p>
+                  <TextField
+                      id="subalterni"
+                      style={{marginLeft:'30px'}}
+                      ref="subalterni"
+                      value={this.state.data[0].subalterni}
                       disabled={true}
                     />
                 </Box>
@@ -222,10 +221,8 @@ class VisualizzaGenerico extends React.Component{
                   <p style={{marginTop:'30px'}}><span>Annotazioni:</span></p>
                   <TextField
                       id="annotazioni"
-                      hintText = ""
                       style={{marginLeft:'30px'}}
                       ref="annotazioni"
-                      errorText={this.state.annotazioni}
                       value={this.state.data[0].annotazioni}
                       disabled={true}
                     />
@@ -284,4 +281,4 @@ const lightBaseTheme = getMuiTheme({
   userAgent : false
 });
 
-export default VisualizzaGenerico;
+export default VisualizzaArt24;

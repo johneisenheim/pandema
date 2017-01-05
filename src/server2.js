@@ -1082,8 +1082,8 @@ app2.get('/getRegistriGenerico', function(req,res){
   middleware.getRegistriGenerico(req,res);
 });
 
-app2.get('/getRegistro', function(req,res){
-  middleware.getRegistro(req,res);
+app2.get('/getRegistroGenerico', function(req,res){
+  middleware.getRegistroGenerico(req,res);
 });
 
 app2.post('/addNewGeneralRegistry', function(req,res){
@@ -1096,6 +1096,18 @@ app2.get('/annotazioneRegolarita', function(req,res){
 
 app2.get('/revoca', function(req,res){
   middleware.revoca(req,res);
+});
+
+app2.get('/getRegistriArt24', function(req,res){
+  middleware.getRegistriArt24(req,res);
+});
+
+app2.post('/addNewArt24Registry', function(req,res){
+  middleware.addNewArt24Registry(req,res);
+})
+
+app2.get('/getRegistroArt24', function(req,res){
+  middleware.getRegistroArt24(req,res);
 });
 
 

@@ -39,10 +39,10 @@ import Box from 'react-layout-components';
 import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 import {Link} from "react-router";
-import styles from './Generico.css.js';
+import styles from './Art24.css.js';
 
 
-class Generico extends React.Component{
+class Art24 extends React.Component{
 
   constructor(props){
     super(props);
@@ -57,7 +57,7 @@ class Generico extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getRegistriGenerico?comune_id=1',
+        url: constants.DB_ADDR+'getRegistriArt24?comune_id=1',
         processData: false,
         contentType: false,
         success: function(data) {
@@ -87,7 +87,7 @@ class Generico extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getRegistriGenerico',
+          url: constants.DB_ADDR+'getRegistriArt24?comune_id=1',
           processData: false,
           contentType: false,
           success: function(data) {
@@ -142,11 +142,12 @@ class Generico extends React.Component{
           toReturn.push(
             <TableRow key={i}>
               <TableRowColumn>{this.state.data[i].n_ordine}</TableRowColumn>
-              <TableRowColumn>{this.state.data[i].concessionario}</TableRowColumn>
-              <TableRowColumn>{new Date(this.state.data[i].data).toLocaleDateString()}</TableRowColumn>
-              <TableRowColumn>{new Date(this.state.data[i].scadenza).toLocaleDateString()}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].richiedente}</TableRowColumn>
+              <TableRowColumn>{new Date(this.state.data[i].data_richiesta).toLocaleDateString()}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].protocollo_richiesta}</TableRowColumn>
+              <TableRowColumn>{this.state.data[i].annotazioni}</TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Gestisci" containerElement={<Link to={`/rgenerico/`+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
+                <FlatButton label="Gestisci" containerElement={<Link to={`/rart24/`+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}/>} labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
               </TableRowColumn>
             </TableRow>
           );
@@ -162,7 +163,7 @@ class Generico extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme}>
           <div>
                 <Toolbar style={{backgroundColor:'#4CA7D0'}}>
-                  <ToolbarTitle text="Registro Generale delle Concessioni" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                  <ToolbarTitle text="Registro Pratiche Istruttorie per Concessioni e Autorizzazioni (ex art.24)" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                   <ToolbarGroup>
                     <FontIcon className="muidocs-icon-custom-sort" />
                     <ToolbarSeparator style={{backgroundColor:'rgba(255,255,255,0.4)'}}/>
@@ -195,9 +196,10 @@ class Generico extends React.Component{
                   <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                     <TableRow>
                       <TableHeaderColumn>N°Ordine</TableHeaderColumn>
-                      <TableHeaderColumn>Concessionario</TableHeaderColumn>
-                      <TableHeaderColumn>Data</TableHeaderColumn>
-                      <TableHeaderColumn>Scadenza</TableHeaderColumn>
+                      <TableHeaderColumn>Richiedente</TableHeaderColumn>
+                      <TableHeaderColumn>Data Richiesta</TableHeaderColumn>
+                      <TableHeaderColumn>Protocollo Richiesta</TableHeaderColumn>
+                      <TableHeaderColumn>Annotazioni</TableHeaderColumn>
                       <TableHeaderColumn>Azioni</TableHeaderColumn>
                     </TableRow>
                   </TableHeader>
@@ -248,4 +250,4 @@ const lightBaseTheme = getMuiTheme({
   userAgent : false
 });
 
-export default Generico;
+export default Art24;

@@ -1669,7 +1669,7 @@ class Middleware{
   }
 
   getRegistriGenerico(req,res){
-    this.connection.query("SELECT * FROM registro WHERE tipo_registro_id=4 AND comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
+    this.connection.query("SELECT * FROM registro_generico WHERE comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));
@@ -1681,7 +1681,7 @@ class Middleware{
 
   addNewGeneralRegistry(req,res){
     console.log(req.body);
-    this.connection.query("INSERT INTO registro(comune_id, tipo_registro_id, n_ordine, localita, superficie, data, durata_mesi, scadenza, canone, quietanza, pertinenza, annotazioni, concessionario,scopo) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(4)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.localita)+","+this.connection.escape(req.body.superficie)+","+this.connection.escape(req.body.data)+","+this.connection.escape(req.body.durata)+","+this.connection.escape(req.body.scadenza)+","+this.connection.escape(req.body.canone)+","+this.connection.escape(req.body.quietanza)+","+this.connection.escape(req.body.pertinenza)+","+this.connection.escape(req.body.annotazioni)+","+this.connection.escape(req.body.concessionario)+","+this.connection.escape(req.body.scopo)+")", function(err, rows){
+    this.connection.query("INSERT INTO registro_generico(comune_id, n_ordine, localita, superficie, data, durata_mesi, scadenza, canone, quietanza, pertinenza, annotazioni, concessionario,scopo) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.localita)+","+this.connection.escape(req.body.superficie)+","+this.connection.escape(req.body.data)+","+this.connection.escape(req.body.durata)+","+this.connection.escape(req.body.scadenza)+","+this.connection.escape(req.body.canone)+","+this.connection.escape(req.body.quietanza)+","+this.connection.escape(req.body.pertinenza)+","+this.connection.escape(req.body.annotazioni)+","+this.connection.escape(req.body.concessionario)+","+this.connection.escape(req.body.scopo)+")", function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));
@@ -1691,8 +1691,8 @@ class Middleware{
     });
   }
 
-  getRegistro(req,res){
-    this.connection.query("SELECT * FROM registro WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+  getRegistroGenerico(req,res){
+    this.connection.query("SELECT * FROM registro_generico WHERE id="+this.connection.escape(req.query.id), function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));
@@ -1721,6 +1721,39 @@ class Middleware{
         return;
       }
       res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  getRegistriArt24(req,res){
+    this.connection.query("SELECT * FROM registro_art24 WHERE comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  addNewArt24Registry(req,res){
+    this.connection.query("INSERT INTO registro_art24(comune_id, n_ordine, richiedente, data_richiesta, protocollo_richiesta, scopo, area_coperta, area_scoperta, volumetria, codice_comune, sezione, foglio, particella, subalterni, annotazioni) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.richiedente)+","+this.connection.escape(req.body.data)+","+this.connection.escape(req.body.protocollo_richiesta)+","+this.connection.escape(req.body.scopo)+","+this.connection.escape(req.body.area_coperta)+","+this.connection.escape(req.body.area_scoperta)+","+this.connection.escape(req.body.volumetria)+","+this.connection.escape(req.body.codice_comune)+","+this.connection.escape(req.body.sezione)+","+this.connection.escape(req.body.foglio)+","+this.connection.escape(req.body.particella)+","+this.connection.escape(req.body.subalterni)+","+this.connection.escape(req.body.annotazioni)+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true}));
+    });
+  }
+
+  getRegistroArt24(req,res){
+    this.connection.query("SELECT * FROM registro_art24 WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
     });
   }
 

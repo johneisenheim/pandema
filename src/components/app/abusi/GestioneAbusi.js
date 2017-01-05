@@ -133,8 +133,8 @@ class GestioneAbusi extends React.Component{
                 <CodNav />
               </Paper>
               <NuovoAbuso ref="nuovoabuso"/>
-              <NuovoAbusoDropDownA ref="nuovoabusodropdownA" />
-              <NuovoAbusoDropDownB ref="nuovoabusodropdownB" />
+              <DropdownA ref="nuovoabusodropdownA" />
+              <DropdownB ref="nuovoabusodropdownB" />
           </Box>
         </MuiThemeProvider>
     );
