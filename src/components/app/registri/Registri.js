@@ -43,6 +43,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Generico from './generico/Generico';
 import Art24 from './art24/Art24';
 import Art55 from './art55/Art55';
+import Art45 from './art45/Art45';
 
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
@@ -88,6 +89,9 @@ class Registri extends React.Component{
       case 2:
         browserHistory.push('/addToArt55Registry');
       break;
+      case 3:
+        browserHistory.push('/addToArt45Registry');
+      break;
     }
   }
 
@@ -115,6 +119,7 @@ class Registri extends React.Component{
                 <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
                   <MenuItem primaryText="Generale delle Concessioni" />
                   <MenuItem primaryText="Istruttorie per Concessioni e Autorizzazioni (ex art.24)" />
+                  <MenuItem primaryText="Istruttorie per Autorizzazioni per Nulla Osta(ex art.55)" />
                   <MenuItem primaryText="Istruttorie per Autorizzazioni per Subingresso(ex art.55)" />
                 </Menu>
               </Popover>
@@ -128,7 +133,9 @@ class Registri extends React.Component{
               <Paper zDepth={1} style={styles.paper3}>
                 <Art55 />
               </Paper>
-
+              <Paper zDepth={1} style={styles.paper4}>
+                <Art45 />
+              </Paper>
           </Box>
         </MuiThemeProvider>
     );

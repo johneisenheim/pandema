@@ -23,11 +23,10 @@ import { browserHistory } from 'react-router';
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 
-class VisualizzaArt55 extends React.Component{
+class VisualizzaArt45 extends React.Component{
   constructor(props, context){
     super(props, context);
     this.state = {
-        value : 1,
         isLoading : true,
         usoscopo : null,
         usoscopovalue : 0,
@@ -41,12 +40,12 @@ class VisualizzaArt55 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getRegistroArt55?id='+escape(this.props.params.id),
+        url: constants.DB_ADDR+'getRegistroArt45?id='+escape(this.props.params.id),
         processData: false,
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getRegistroArt55', parsed);
+          console.log('getRegistroArt45', parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -58,6 +57,7 @@ class VisualizzaArt55 extends React.Component{
           console.log(err);
         }
     });
+
   }
 
   handleChange(event, index, value){
@@ -86,6 +86,10 @@ class VisualizzaArt55 extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme} >
           <Box column justifyContent="center" alignItems="center" style={{height:'100%', width : '100%'}}>
             <Paper zDepth={1} style={styles.paper}>
+              <h3 style={{textAlign:'center', width : '100%'}}>Inserimento in Registro Istruttorie per Autorizzazioni per Subingresso(ex art.55)</h3>
+              <Box justifyContent="center" alignItems="center">
+                <div style={{width:'30%', height : '1px', backgroundColor : '#4CA7D0'}}></div>
+              </Box>
               <Box column justifyContent="center" alignItems="flex-start" style={{marginTop:'20px', marginLeft:'20px'}}>
                 <Box justifyContent="flex-start" alignItems="center">
                   <p style={{marginTop:'30px'}}><span>Numero Ordine:</span></p>
@@ -107,12 +111,12 @@ class VisualizzaArt55 extends React.Component{
                       disabled={true}
                     />
                 </Box>
-                <Box justifyContent="flex-start" alignItems="center">
-                  <p style={{marginTop:'30px'}}>Data Richiesta:</p>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Data Rilascio:</span></p>
                   <TextField
-                      id="date"
-                      ref="date"
+                      id="data_richiesta"
                       style={{marginLeft:'30px'}}
+                      ref="data_richiesta"
                       value={new Date(this.state.data[0].data_richiesta).toLocaleDateString()}
                       disabled={true}
                     />
@@ -128,112 +132,53 @@ class VisualizzaArt55 extends React.Component{
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Scopo:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Causale Autorizzazione:</span></p>
                   <TextField
-                      id="scopo"
+                      id="causale_autorizzazione"
                       style={{marginLeft:'30px'}}
-                      ref="scopo"
-                      value={this.state.data[0].scopo}
-                      disabled={true}
-                    />
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center">
-                  <p style={{marginTop:'30px'}}>Data Rilascio:</p>
-                  <TextField
-                      id="date_rilascio"
-                      ref="date_rilascio"
-                      style={{marginLeft:'30px'}}
-                      value={new Date(this.state.data[0].data_rilascio).toLocaleDateString()}
+                      ref="causale_autorizzazione"
+                      value={this.state.data[0].causale_autorizzazione}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Numero Repertorio:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Atto di Concessione Subentro:</span></p>
                   <TextField
-                      id="num_repertori"
+                      id="atto_concessione_subentro"
+                      hintText = "Inserisci l'Atto di Concessione Subentro"
                       style={{marginLeft:'30px'}}
-                      ref="num_repertori"
-                      value={this.state.data[0].num_repertori}
-                      disabled={true}
-                    />
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center">
-                  <p style={{marginTop:'30px'}}>Data Registrazione:</p>
-                  <TextField
-                      id="date_registrazione"
-                      ref="date_registrazione"
-                      style={{marginLeft:'30px'}}
-                      value={new Date(this.state.data[0].data_registrazione).toLocaleDateString()}
+                      ref="atto_concessione_subentro"
+                      value={this.state.data[0].atto_concessione_subentro}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Volumetria:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Data Atto Rilascio:</span></p>
                   <TextField
-                      id="volumetria"
+                      id="data_atto_rilascio"
                       style={{marginLeft:'30px'}}
-                      ref="volumetria"
-                      value={this.state.data[0].volumetria}
+                      ref="data_atto_rilascio"
+                      value={new Date(this.state.data[0].data_atto_rilascio).toLocaleDateString()}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Codice Comune:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Numero Atto Rilascio:</span></p>
                   <TextField
-                      id="codice_comune"
+                      id="num_atto_rilascio"
                       style={{marginLeft:'30px'}}
-                      ref="codice_comune"
-                      value={this.state.data[0].codice_comune}
+                      ref="num_atto_rilascio"
+                      value={this.state.data[0].num_atto_rilascio}
                       disabled={true}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Sezione:</span></p>
+                  <p style={{marginTop:'30px'}}><span>Pratica Concessione di Riferimento:</span></p>
                   <TextField
-                      id="sezione"
+                      id="pratica_concessione_riferimento"
                       style={{marginLeft:'30px'}}
-                      ref="sezione"
-                      value={this.state.data[0].sezione}
-                      disabled={true}
-                    />
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Foglio:</span></p>
-                  <TextField
-                      id="foglio"
-                      style={{marginLeft:'30px'}}
-                      ref="foglio"
-                      value={this.state.data[0].foglio}
-                      disabled={true}
-                    />
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Particella:</span></p>
-                  <TextField
-                      id="particella"
-                      style={{marginLeft:'30px'}}
-                      ref="particella"
-                      value={this.state.data[0].particella}
-                      disabled={true}
-                    />
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
-                  <p style={{marginTop:'30px'}}><span>Subalterni:</span></p>
-                  <TextField
-                      id="subalterni"
-                      style={{marginLeft:'30px'}}
-                      ref="subalterni"
-                      value={this.state.data[0].subalterni}
-                      disabled={true}
-                    />
-                </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px', marginBottom:'20px'}}>
-                  <p style={{marginTop:'30px'}}><span>Annotazioni:</span></p>
-                  <TextField
-                      id="annotazioni"
-                      style={{marginLeft:'30px'}}
-                      ref="annotazioni"
-                      value={this.state.data[0].annotazioni}
+                      ref="pratica_concessione_riferimento"
+                      value={this.state.data[0].pratica_concessione_riferimento}
                       disabled={true}
                     />
                 </Box>
@@ -291,4 +236,4 @@ const lightBaseTheme = getMuiTheme({
   userAgent : false
 });
 
-export default VisualizzaArt55;
+export default VisualizzaArt45;

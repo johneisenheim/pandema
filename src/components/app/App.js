@@ -24,7 +24,7 @@ class App extends React.Component{
         actions.selectMenuItem(3);
     }else if(props.location.pathname.includes('registri') || props.location.pathname.includes('rgenerico')||props.location.pathname.includes('addToArt24Registry') ||
   props.location.pathname.includes('addToGeneralRegistry')|| props.location.pathname.includes('addToArt55Registry') || props.location.pathname.includes('rart24') ||
-  props.location.pathname.includes('rart55')){
+  props.location.pathname.includes('rart55') || props.location.pathname.includes('rart45') ||props.location.pathname.includes('addToArt45Registry')){
       actions.selectMenuItem(2);
     }else if(props.location.pathname.includes('archivio') ||props.location.pathname.includes('nuovapraticaarchivio')){
       actions.selectMenuItem(1);

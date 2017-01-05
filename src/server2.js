@@ -1122,6 +1122,10 @@ app2.post('/addNewArt55Registry', function(req,res){
   middleware.addNewArt55Registry(req,res);
 });
 
+app2.get('/getRegistriArt45', function(req,res){
+  middleware.getRegistriArt45(req,res);
+});
+
 //SEARCH
 
 app2.get('/searchTableA', function(req,res){
@@ -1148,6 +1152,13 @@ app2.get('/searchTableF', function(req,res){
   middleware.searchTableF(req,res);
 });
 
+app2.post('/addNewArt45Registry', function(req,res){
+  middleware.addNewArt45Registry(req,res);
+});
+
+app2.get('/getRegistroArt45', function(req,res){
+  middleware.getRegistroArt45(req,res);
+});
 
 
 app2.listen(8001, ()=> {

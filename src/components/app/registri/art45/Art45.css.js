@@ -4,22 +4,6 @@ const styles = {
     width : 'auto',
     height : 'auto'
   },
-  paper2 : {
-    marginTop : '30px',
-    width : 'auto',
-    height : 'auto'
-  },
-  paper3 : {
-    marginTop : '30px',
-    width : 'auto',
-    height : 'auto'
-  },
-  paper4 : {
-    marginTop : '30px',
-    width : 'auto',
-    height : 'auto',
-    marginBottom : '30px'
-  },
   superheader:{
     color: '#FFFFFF',
     background: "#89A3AC",
