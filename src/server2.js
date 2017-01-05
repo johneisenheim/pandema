@@ -1104,12 +1104,23 @@ app2.get('/getRegistriArt24', function(req,res){
 
 app2.post('/addNewArt24Registry', function(req,res){
   middleware.addNewArt24Registry(req,res);
-})
+});
 
 app2.get('/getRegistroArt24', function(req,res){
   middleware.getRegistroArt24(req,res);
 });
 
+app2.get('/getRegistriArt55', function(req,res){
+  middleware.getRegistriArt55(req,res);
+})
+
+app2.get('/getRegistroArt55', function(req,res){
+  middleware.getRegistroArt55(req, res);
+});
+
+app2.post('/addNewArt55Registry', function(req,res){
+  middleware.addNewArt55Registry(req,res);
+});
 
 //SEARCH
 

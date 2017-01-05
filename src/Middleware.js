@@ -1757,6 +1757,39 @@ class Middleware{
     });
   }
 
+  getRegistriArt55(req,res){
+    this.connection.query("SELECT * FROM registro_art55 WHERE comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  getRegistroArt55(req,res){
+    this.connection.query("SELECT * FROM registro_art55 WHERE id="+this.connection.escape(req.query.id), function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
+  addNewArt55Registry(req,res){
+    this.connection.query("INSERT INTO registro_art55(comune_id, n_ordine, richiedente, data_richiesta, protocollo_richiesta, scopo, volumetria, codice_comune, sezione, foglio, particella, subalterni, annotazioni, data_rilascio, num_repertori, data_registrazione) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.richiedente)+","+this.connection.escape(req.body.data_richiesta)+","+this.connection.escape(req.body.protocollo_richiesta)+","+this.connection.escape(req.body.scopo)+","+this.connection.escape(req.body.volumetria)+","+this.connection.escape(req.body.codice_comune)+","+this.connection.escape(req.body.sezione)+","+this.connection.escape(req.body.foglio)+","+this.connection.escape(req.body.particella)+","+this.connection.escape(req.body.subalterni)+","+this.connection.escape(req.body.annotazioni)+","+this.connection.escape(req.body.data_rilascio)+","+this.connection.escape(req.body.num_repertori)+","+this.connection.escape(req.body.data_registrazione)+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true}));
+    });
+  }
+
   searchTableA(req,res){
     //SELECT title FROM pages WHERE my_col LIKE %$param1% OR another_col LIKE %$param2%;
     //console.log("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+')');

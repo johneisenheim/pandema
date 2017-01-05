@@ -29,6 +29,8 @@ import Decadenza from '../components/app/archivio/Decadenza';
 
 import NuovoArt24 from '../components/app/registri/art24/NuovoArt24';
 import VisualizzaArt24 from '../components/app/registri/art24/VisualizzaArt24';
+import NuovoArt55 from '../components/app/registri/art55/NuovoArt55';
+import VisualizzaArt55 from '../components/app/registri/art55/VisualizzaArt55';
 
 
 
@@ -55,8 +57,10 @@ module.exports = (
 			<Route path='/registri' component={Registri} />
 			<Route path='/rgenerico/:id' component={VisualizzaGenerico} />
 			<Route path='/rart24/:id' component={VisualizzaArt24} />
+			<Route path='/rart55/:id' component={VisualizzaArt55} />
 			<Route path='/addToGeneralRegistry' component={NuovoGenerico} />
 			<Route path='/addToArt24Registry' component={NuovoArt24} />
+			<Route path='/addToArt55Registry' component={NuovoArt55} />
 			<Route path='/archivio' component={Archivio} />
 			<Route path='/nuovapraticaarchivio' component={NuovaPraticaArchivio} />
 			<Route path='/canone' component={CanoniPregressi} />
