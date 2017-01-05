@@ -1893,7 +1893,49 @@ class Middleware{
   }
 
   searchTableF(req,res){
-    this.connection.query("SELECT * FROM registro WHERE tipo_registro_id=4 AND comune_id="+this.connection.escape(req.query.comune_id)+" AND "+")", function(err, rows){
+    this.connection.query("SELECT * FROM registro_generico WHERE comune_id="+this.connection.escape(req.query.comune_id)+" AND ( n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR scadenza LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR concessionario LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+
+  }
+
+  searchTableG(req,res){
+    this.connection.query("SELECT * FROM registro_art24 WHERE comune_id="+this.connection.escape(req.query.comune_id)+" AND (n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR richiedente LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR data_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR protocollo_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR annotazioni LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+
+  }
+
+  searchTableH(req,res){
+    this.connection.query("SELECT * FROM registro_art55 WHERE comune_id="+this.connection.escape(req.query.comune_id)+" AND (n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR richiedente LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR data_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR protocollo_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR annotazioni LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
+    });
+
+  }
+
+  searchTableI(req,res){
+    this.connection.query("SELECT * FROM registro_art45 WHERE comune_id="+this.connection.escape(req.query.comune_id)+" AND (n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR richiedente LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR data_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR protocollo_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR annotazioni LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica_concessione_riferimento LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));

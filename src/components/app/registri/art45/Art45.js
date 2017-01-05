@@ -108,7 +108,7 @@ class Art45 extends React.Component{
     }else{
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'searchTableF?search='+escape(v),
+          url: constants.DB_ADDR+'searchTableI?search='+escape(v),
           processData: false,
           contentType: false,
           success: function(data) {

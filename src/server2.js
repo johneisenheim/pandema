@@ -1152,6 +1152,18 @@ app2.get('/searchTableF', function(req,res){
   middleware.searchTableF(req,res);
 });
 
+app2.get('/searchTableG', function(req,res){
+  middleware.searchTableF(req,res);
+});
+
+app2.get('/searchTableH', function(req,res){
+  middleware.searchTableF(req,res);
+});
+
+app2.get('/searchTableI', function(req,res){
+  middleware.searchTableF(req,res);
+});
+
 app2.post('/addNewArt45Registry', function(req,res){
   middleware.addNewArt45Registry(req,res);
 });
