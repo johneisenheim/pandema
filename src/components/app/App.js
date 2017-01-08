@@ -18,7 +18,7 @@ class App extends React.Component{
     console.log('App props',props);
     if(props.location.pathname.includes('d1handler') || props.location.pathname.includes('d2handler') || props.location.pathname.includes('d3handler')
     || props.location.pathname.includes('d4handler') || props.location.pathname.includes('d5handler') || props.location.pathname.includes('d3shandler')
-    || props.location.pathname.includes('nuovapratica') || props.location.pathname.includes('gestisciallegati')){
+    || props.location.pathname.includes('gestisciallegati')){
         actions.selectMenuItem(0);
     }else if(props.location.pathname.includes('gestioneabusi') || props.location.pathname.includes('gestisciallegatiabusi')){
         actions.selectMenuItem(3);
@@ -29,7 +29,6 @@ class App extends React.Component{
     }else if(props.location.pathname.includes('archivio') ||props.location.pathname.includes('nuovapraticaarchivio')){
       actions.selectMenuItem(1);
     }
-
   }
 
   render(){

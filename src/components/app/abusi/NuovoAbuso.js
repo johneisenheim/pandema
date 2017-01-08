@@ -28,7 +28,6 @@ class NuovoAbuso extends React.Component{
     super(props, context);
     /*if(greatObject.entity.name === undefined)
       browserHistory.push('/nuovapratica');*/
-    global.greatObject.d1 = {};
     this.state = {
       opened : false,
       errorText : '',
@@ -68,7 +67,7 @@ class NuovoAbuso extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'addNewAbusoGenerico?pid='+escape(_self.refs.nabuso.getValue())+'&comune_id='+1,
+        url: constants.DB_ADDR+'addNewAbusoGenerico?pid='+escape(_self.refs.nabuso.getValue())+'&comune_id='+global.city,
         processData: false,
         contentType: false,
         success: function(data) {

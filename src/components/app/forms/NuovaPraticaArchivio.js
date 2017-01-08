@@ -38,7 +38,6 @@ class NuovaPraticaArchivio extends React.Component{
         usoscopo : null,
         usoscopovalue : 0
     }
-    global.greatObject.entity = {};
   }
 
   componentDidMount(){
@@ -99,11 +98,11 @@ class NuovaPraticaArchivio extends React.Component{
           uso : _uso
       });
 
-      console.log(JSON.stringify({comune_id: 1, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}))
+      console.log(JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}))
 
       $.ajax({
           type: 'POST',
-          data: JSON.stringify({comune_id: 1, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}),
+          data: JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}),
           url: constants.DB_ADDR+'insertnewpraticaarchivio',
           processData: false,
           contentType: 'application/json',

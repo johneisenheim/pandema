@@ -57,7 +57,7 @@ class Generico extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getRegistriGenerico?comune_id=1',
+        url: constants.DB_ADDR+'getRegistriGenerico?comune_id='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -87,7 +87,7 @@ class Generico extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getRegistriGenerico?comune_id=1',
+          url: constants.DB_ADDR+'getRegistriGenerico?comune_id='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -108,7 +108,7 @@ class Generico extends React.Component{
     }else{
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'searchTableF?search='+escape(v),
+          url: constants.DB_ADDR+'searchTableF?search='+escape(v)+'&cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -118,7 +118,7 @@ class Generico extends React.Component{
                 //isLoading : false,
                 data : parsed.results
             });
-            console.log('searchTableA',parsed);
+            console.log('searchTableF',parsed);
           },
           error : function(err){
             console.log(err);
@@ -186,6 +186,7 @@ class Generico extends React.Component{
                             hintStyle = {styles.searchHintStyle}
                             inputStyle = {styles.searchInputStyle}
                             underlineFocusStyle = {styles.searchUnderlineFocusStyle}
+                            onChange={this.onSearchChange.bind(this)}
                             id={'search'}
                           />
                     </ToolbarGroup>

@@ -59,7 +59,7 @@ class CodNav extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAbusiCodNav',
+        url: constants.DB_ADDR+'getAbusiCodNav?cid='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -88,7 +88,7 @@ class CodNav extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getAbusiCodNav',
+          url: constants.DB_ADDR+'getAbusiCodNav?cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -109,7 +109,7 @@ class CodNav extends React.Component{
     }else{
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'searchTableE?search='+escape(v),
+          url: constants.DB_ADDR+'searchTableE?search='+escape(v)+'&cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {

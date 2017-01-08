@@ -59,7 +59,7 @@ class GestioneAbusi extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAbusiGenerici',
+        url: constants.DB_ADDR+'getAbusiGenerici?cid='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -88,7 +88,7 @@ class GestioneAbusi extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getAbusiGenerici',
+          url: constants.DB_ADDR+'getAbusiGenerici?cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -109,7 +109,7 @@ class GestioneAbusi extends React.Component{
     }else{
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'searchTableC?search='+escape(v),
+          url: constants.DB_ADDR+'searchTableC?search='+escape(v)+'&cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {

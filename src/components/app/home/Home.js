@@ -67,7 +67,7 @@ class Home extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: constants.DB_ADDR+'getgeneralinfos',
+        url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -108,7 +108,7 @@ class Home extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getgeneralinfos',
+          url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -129,7 +129,7 @@ class Home extends React.Component{
     }else{
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'searchTableA?search='+escape(v),
+          url: constants.DB_ADDR+'searchTableA?search='+escape(v)+'&cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {

@@ -340,11 +340,11 @@ app2.get('/handled1s1', function(req, res){
 });
 
 app2.get('/getgeneralinfos', function(req, res){
-  middleware.getgeneralinfos(res);
+  middleware.getgeneralinfos(req,res);
 });
 
 app2.get('/getgeneralinfosArchivio', function(req, res){
-  middleware.getgeneralinfosArchivio(res);
+  middleware.getgeneralinfosArchivio(req,res);
 });
 
 app2.get('/d1domandeconcorrenza', function(req, res){
@@ -1153,15 +1153,15 @@ app2.get('/searchTableF', function(req,res){
 });
 
 app2.get('/searchTableG', function(req,res){
-  middleware.searchTableF(req,res);
+  middleware.searchTableG(req,res);
 });
 
 app2.get('/searchTableH', function(req,res){
-  middleware.searchTableF(req,res);
+  middleware.searchTableH(req,res);
 });
 
 app2.get('/searchTableI', function(req,res){
-  middleware.searchTableF(req,res);
+  middleware.searchTableI(req,res);
 });
 
 app2.post('/addNewArt45Registry', function(req,res){

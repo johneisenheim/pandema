@@ -68,7 +68,7 @@ class Archivio extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: constants.DB_ADDR+'getgeneralinfosArchivio',
+        url: constants.DB_ADDR+'getgeneralinfosArchivio?cid='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -124,7 +124,7 @@ class Archivio extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getgeneralinfosArchivio',
+          url: constants.DB_ADDR+'getgeneralinfosArchivio?cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -145,7 +145,7 @@ class Archivio extends React.Component{
     }else{
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'searchTableB?search='+escape(v),
+          url: constants.DB_ADDR+'searchTableB?search='+escape(v)+'&cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {

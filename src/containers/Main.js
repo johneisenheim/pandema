@@ -44,18 +44,8 @@ export default class Main extends React.Component {
 			global.myGlobalVariable = 'Cane';
 			//webStorage.setItem('chiave', 'valore');
 			global.tryy = 'Hello guys!';
-			global.greatObject = {
-				entity : {},
-				d1 : {},
-				d2 : {},
-				d3 : {},
-				d4 : {},
-				d5 : {},
-				d6 : {}
-			};
 			global.constants = constants;
 			//global._webStorage = webStorage;
-			console.log('from Main.js '+global.greatObject);
 		}
 	}
 
@@ -66,8 +56,7 @@ export default class Main extends React.Component {
 		);
 		var _self = this;
 		//webStorage.setItem('_pandema', 'false');
-		var ws = webStorage.getItem('_pandema');
-		webStorage.setItem('city', 'Nola'); //johneisenheim
+		var ws = webStorage.getItem('pandemawebapp');
 		toggleLoader.on('toggleLoader', function(){
 			if(_self.state.loading){
 				_self.setState({
@@ -81,8 +70,8 @@ export default class Main extends React.Component {
 				})
 			}
 		})
-		global.city = webStorage.getItem('city');
-		if(ws === 'true'){
+		global.city = webStorage.getItem('pandemawebappcity');
+		if(ws === 'true' && global.city !== null){
 			this.logged = true;
 		}else{
 			this.logged = false;

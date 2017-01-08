@@ -57,7 +57,7 @@ class Art55 extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getRegistriArt55?comune_id=1',
+        url: constants.DB_ADDR+'getRegistriArt55?comune_id='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -87,7 +87,7 @@ class Art55 extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getRegistriArt55?comune_id=1',
+          url: constants.DB_ADDR+'getRegistriArt55?comune_id='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -108,7 +108,7 @@ class Art55 extends React.Component{
     }else{
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'searchTableH?search='+escape(v),
+          url: constants.DB_ADDR+'searchTableH?search='+escape(v)+'&cid='+escape(global.city),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -187,6 +187,7 @@ class Art55 extends React.Component{
                             hintStyle = {styles.searchHintStyle}
                             inputStyle = {styles.searchInputStyle}
                             underlineFocusStyle = {styles.searchUnderlineFocusStyle}
+                            onChange={this.onSearchChange.bind(this)}
                             id={'search'}
                           />
                     </ToolbarGroup>

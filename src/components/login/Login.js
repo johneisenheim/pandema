@@ -55,10 +55,11 @@ class Login extends React.Component {
               				window.localStorage ||
                   		window.sessionStorage
               			);
-                    webStorage.setItem("_pandema", true);
-                    webStorage.setItem("city", 'Nola');
+                    webStorage.setItem("pandemawebapp", true);
+                    webStorage.setItem("pandemawebappcity", parsed.res[0].id);
+                    //console.log('LOGIN', );
                     //console.log(global.greatObject);
-                    global.greatObject.entity = parsed.res.citta;
+                    //global.greatObject.entity = parsed.res[0].citta;
                     _self.handler();
                     //_self.history.push('/');
                   }else{
