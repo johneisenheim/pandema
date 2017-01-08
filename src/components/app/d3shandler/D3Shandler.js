@@ -43,9 +43,6 @@ class D3SHandler extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-    /*if(greatObject.entity.name === undefined)
-      browserHistory.push('/nuovapratica');*/
-    global.greatObject.d1 = {};
     this.state = {
       stepIndex : 0,
       opened : false,
@@ -130,36 +127,7 @@ class D3SHandler extends React.Component{
   }
 
   handleModalButtonSubmit(){
-      let json = this.refs[this.state.modalContent].validateForm();
-      if( json == null)
-        return;
-
-      switch(this.refs.stepper.props.activeStep){
-        case 0:
-          if(this.state.modalContent == 'avvisopubblicazione'){
-              //global.greatObject.d1.pdfs['avvisopubblicazione'] = json;
-              console.log(global.greatObject);
-              global.greatObject.d1['pdfs'] = {};
-              global.greatObject.d1['pdfs']['avvisopubblicazione'] = json;
-              console.log(global.greatObject);
-              this.refs.step1._avvisoPubblicazioneCheckColor(true);
-              this.setState({
-                ...this.state,
-                opened : false
-              })
-          }
-          if(this.state.modalContent == 'avvisoistruzioni'){
-              //global.greatObject.d1.pdfs['avvisopubblicazione'] = json;
-              global.greatObject.d1['pdfs'] = {};
-              global.greatObject.d1['pdfs']['avvisopubblicazione'] = json;
-              this.refs.step1._avvisoIstruzioniCheckColor(true);
-              this.setState({
-                ...this.state,
-                opened : false
-              })
-          }
-        break;
-      }
+      
   }
 
   handleModalClose(){}

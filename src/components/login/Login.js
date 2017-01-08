@@ -57,9 +57,6 @@ class Login extends React.Component {
               			);
                     webStorage.setItem("pandemawebapp", true);
                     webStorage.setItem("pandemawebappcity", parsed.res[0].id);
-                    //console.log('LOGIN', );
-                    //console.log(global.greatObject);
-                    //global.greatObject.entity = parsed.res[0].citta;
                     _self.handler();
                     //_self.history.push('/');
                   }else{

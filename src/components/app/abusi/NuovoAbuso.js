@@ -26,8 +26,6 @@ class NuovoAbuso extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-    /*if(greatObject.entity.name === undefined)
-      browserHistory.push('/nuovapratica');*/
     this.state = {
       opened : false,
       errorText : '',

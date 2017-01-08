@@ -56,18 +56,6 @@ class Step1 extends React.Component{
         success: function(data) {
           var parsed = JSON.parse(data);
           _self.praticaPath = parsed.results[0].path;
-          /*var state = {
-            compatibility : parsed.length > 0 ? parsed.compatibile : -1,
-            istruttoriaIndex : 0,
-            npraticaTextFieldEnabled : false,
-            checkColorAvvisoPubblicazione : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisopubblicazione'] !== undefined ? 'green' : '#979797') : '#979797',
-            checkColorDomandeConcorrenza : greatObject.d1.files !== undefined ? (greatObject.d1.files['domandeconcorrenza'] !== undefined ? 'green' : '#979797') : '#979797',
-            checkColorAllegaOpposizioni : greatObject.d1.files !== undefined ? (greatObject.d1.files['opposizioni'] !== undefined ? 'green' : '#979797') : '#979797',
-            checkColorAvvisoIstruzioni : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisoistruzioni'] !== undefined ? 'green' : '#979797') : '#979797',
-            checkColorDocumentazioneAlternativa : greatObject.d1.files !== undefined ? (greatObject.d1.files['documetazionealternativa'] !== undefined ? 'green' : '#979797') : '#979797',
-            checkColorAvvisoDiniego : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniego'] !== undefined ? 'green' : '#979797') : '#979797',
-            checkColorAvvisoDiniegoDefinitivo : greatObject.d1.pdfs !== undefined ? (greatObject.d1.pdfs['avvisodiniegodefinitivo'] !== undefined ? 'green' : '#979797') : '#979797',
-          };*/
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -117,81 +105,7 @@ class Step1 extends React.Component{
           console.log(err);
         }
     });
-    //console.log('State before:', this.state.compatibility);
-    /*this.setState({
-      ...this.state,
-      compatibility : 1 ? this.state.compatibility == 0 : 0,
-      istruttoriaIndex : this.state.istruttoriaIndex,
-      npraticaTextFieldEnabled : this.state.npraticaTextFieldEnabled,
-      checkColorAvvisoPubblicazione : '#979797',
-      checkColorDomandeConcorrenza : '#979797',
-      checkColorAllegaOpposizioni : '#979797',
-      checkColorAvvisoIstruzioni : '#979797',
-      checkColorDocumentazioneAlternativa : '#979797',
-      checkColorAvvisoDiniego : '#979797',
-      checkColorAvvisoDiniegoDefinitivo : '#979797'
-    });
-    global.greatObject.d1['compatibility'] = v;
-    global.greatObject.d1['files'] = {};
-    global.greatObject.d1['pdfs'] = {};
-    //console.log('State after:', this.state.compatibility);*/
-  }
 
-  _domandeConcorrenzaFileHandler(e){
-    console.log(this.refs.file1.files[0]);
-    /*var formData = new FormData();
-    formData.append('primo', this.refs.file1.files[0]);
-    $.ajax({
-        type: 'POST',
-        data: formData,
-        url: 'http://127.0.0.1:8001/provafile',
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          console.log(data);
-        },
-        error : function(err){
-          console.log(err);
-        }
-    });*/
-    this.setState({
-        ...this.state,
-        checkColorDomandeConcorrenza : 'green'
-    });
-    if( typeof global.greatObject.d1['files'] !== 'undefined'){
-      global.greatObject.d1['files']['domandeconcorrenza'] = this.refs.file1.files[0];
-    } else {
-      global.greatObject.d1['files'] = {};
-      global.greatObject.d1['files']['domandeconcorrenza'] = this.refs.file1.files[0];
-    }
-    //console.log(global.greatObject);
-  }
-
-  _allegaOpposizioniFileHandler(e){
-    this.setState({
-        ...this.state,
-        checkColorAllegaOpposizioni : 'green'
-    });
-    if( typeof global.greatObject.d1['files'] !== 'undefined'){
-      global.greatObject.d1['files']['opposizioni'] = this.refs.file2.files[0];
-    } else {
-      global.greatObject.d1['files'] = {};
-      global.greatObject.d1['files']['opposizioni'] = this.refs.file2.files[0];
-    }
-    //console.log(global.greatObject);
-  }
-
-  _allegaDocumentazioneAlternativa(e){
-    this.setState({
-        ...this.state,
-        checkColorDocumentazioneAlternativa : 'green'
-    });
-    if( typeof global.greatObject.d1['files'] !== 'undefined'){
-      global.greatObject.d1['files']['documetazionealternativa'] = this.refs.file3.files[0];
-    } else {
-      global.greatObject.d1['files'] = {};
-      global.greatObject.d1['files']['documetazionealternativa'] = this.refs.file3.files[0];
-    }
   }
 
   //richiamato dal padre

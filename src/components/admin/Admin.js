@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {white, lightBlue200, lightBlue300, lightBlueA100} from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
 
 class Admin extends React.Component{
   constructor(props){
@@ -16,7 +17,7 @@ class Admin extends React.Component{
       <MuiThemeProvider muiTheme={muiTheme}>
         <Box column alignItems="center" justifyContent="center" style={{height : '100vh', background:'-webkit-linear-gradient(top, rgba(35,103,163,1) 0%, rgba(102,161,173,1) 100%)'}}>
           <Paper zDepth={1} style={{height : '90%', width : '900px'}}>
-              
+
           </Paper>
         </Box>
       </MuiThemeProvider>

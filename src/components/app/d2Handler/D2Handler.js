@@ -48,9 +48,6 @@ class D2Handler extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-    /*if(greatObject.entity.name === undefined)
-      browserHistory.push('/nuovapratica');*/
-    global.greatObject.d2 = {};
     this.state = {
       stepIndex : 0,
       finished: false,

@@ -37,7 +37,6 @@ class NuovaPraticaAbusi extends React.Component{
         cf : '',
         uso : ''
     }
-    global.greatObject.entity = {};
   }
 
   onSubmit(){
@@ -71,13 +70,6 @@ class NuovaPraticaAbusi extends React.Component{
           cf : _cf,
           uso : _uso
       });
-
-      greatObject.entity.nPratica = _nPratica;
-      greatObject.entity.date = _date;
-      greatObject.entity.surname = _surname;
-      greatObject.entity.name = _name;
-      greatObject.entity.cf = _cf;
-      greatObject.entity.uso = _uso;
 
       switch(this.state.value){
         case 1:

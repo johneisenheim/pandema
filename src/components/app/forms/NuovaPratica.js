@@ -38,7 +38,6 @@ class NuovaPratica extends React.Component{
         usoscopo : null,
         usoscopovalue : 0
     }
-    global.greatObject.entity = {};
   }
 
   componentDidMount(){
@@ -108,9 +107,7 @@ class NuovaPratica extends React.Component{
           processData: false,
           contentType: 'application/json',
           success: function(data) {
-            greatObject.entity.nPratica = _self.refs.npratica.getValue();
             var parsed = JSON.parse(data);
-            greatObject.entity.praticaID = parsed.id;
             toggleLoader.emit('toggleLoader');
             switch(_self.state.value){
               case 1:
