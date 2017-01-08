@@ -3,21 +3,195 @@ import {Box, Flex} from 'react-layout-components';
 import styles from './Admin.css.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {white, lightBlue200, lightBlue300, lightBlueA100} from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import Logo from '../../../static/pandemalogo.png';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import { browserHistory } from 'react-router';
+import {
+lightBlue200, lightBlueA100,lightBlue300,
+grey100, grey300, grey400, grey500, grey700,grey900,blue700,
+pinkA200,
+white, darkBlack, fullBlack,
+} from 'material-ui/styles/colors';
+import {fade} from 'material-ui/utils/colorManipulator';
+import $ from 'jquery';
+import * as constants from '../../constants';
 
 class Admin extends React.Component{
   constructor(props){
     super(props);
+    this.state = {
+      citta : '',
+      cap : '',
+      username : '',
+      password : '',
+      _citta : '',
+      _cap : '',
+      _username : '',
+      _password : ''
+    }
+  }
+
+  onSubmit(){
+
+    let citta_ = '', cap_ = '', username_ = '', password_ = '';
+    let _self = this;
+
+    if( this.state.citta === '')
+      citta_ = 'Questo campo è richiesto!';
+    if( this.state.cap === '')
+      cap_ = 'Questo campo è richiesto!';
+    if( this.state.username === '')
+      username_ = 'Questo campo è richiesto!';
+    if( this.state.password === '')
+      password_ = 'Questo campo è richiesto!';
+
+    if( this.state.cap !== '' )
+      if( isNaN(this.state.cap))
+        cap_ = 'Il cap deve essere un numero!';
+
+    if(citta_ !== '' || cap_ !== '' || username_ !== '' || password_ !== ''){
+      this.setState({
+        ...this.state,
+        _citta : citta_,
+        _cap : cap_,
+        _username : username_,
+        _password : password_
+      });
+      return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        data: {citta : this.state.citta, cap : this.state.cap, username: this.state.username, password : this.state.password},
+        url: constants.DB_ADDR+'addComune',
+        success: function(data) {
+            var parsed = JSON.parse(data);
+            console.log(parsed);
+            if( parsed.status ){
+              if( parsed.message !== '')
+                alert(parsed.message);
+              else{
+                alert("Inserimento avvenuto con successo!");
+                _self.setState({
+                  citta : '',
+                  cap : '',
+                  username : '',
+                  password : '',
+                  _citta : '',
+                  _cap : '',
+                  _username : '',
+                  _password : ''
+                })
+              }
+            }else{
+                alert("C'è stato un errore nell'elaborazione della richiesta. Per favore, riprova!");
+            }
+        }
+    });
+
+
+  }
+
+  onCittaChange(e,v){
+    this.setState({
+      ...this.state,
+      citta : v,
+      _citta : ''
+    })
+  }
+
+  onCapChange(e,v){
+    this.setState({
+      ...this.state,
+      cap : v,
+      _cap : ''
+    })
+  }
+
+  onUsernameChange(e,v){
+    this.setState({
+      ...this.state,
+      username : v,
+      _username : ''
+    })
+  }
+
+  onPasswordChange(e,v){
+    this.setState({
+      ...this.state,
+      password : v,
+      _password : ''
+    })
+  }
+
+
+  gotoPandema(){
+    browserHistory.push('/');
   }
 
   render(){
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
+      <MuiThemeProvider muiTheme={lightBaseTheme}>
         <Box column alignItems="center" justifyContent="center" style={{height : '100vh', background:'-webkit-linear-gradient(top, rgba(35,103,163,1) 0%, rgba(102,161,173,1) 100%)'}}>
-          <Paper zDepth={1} style={{height : '90%', width : '900px'}}>
-
+          <Paper zDepth={1} style={styles.paper}>
+            <Box column justifyContent="center" alignItems="center" style={{marginTop:'20px', marginLeft:'20px'}}>
+              <img src = {Logo} style = {styles.logo}/>
+              <Box justifyContent="flex-start" alignItems="center">
+                <p style={{marginTop:'30px'}}><span>Città:</span></p>
+                  <TextField
+                      id="citta"
+                      ref="citta"
+                      hintText = "Inserisci la città"
+                      style={{marginLeft:'30px', marginTop:'5px'}}
+                      errorText={this.state._citta}
+                      value={this.state.citta}
+                      onChange={this.onCittaChange.bind(this)}
+                    />
+              </Box>
+              <Box justifyContent="flex-start" alignItems="center">
+                <p style={{marginTop:'30px'}}><span>CAP:</span></p>
+                  <TextField
+                      id="cap"
+                      ref="cap"
+                      hintText = "Inserisci il CAP"
+                      style={{marginLeft:'30px', marginTop:'5px'}}
+                      errorText={this.state._cap}
+                      value={this.state.cap}
+                      onChange={this.onCapChange.bind(this)}
+                    />
+              </Box>
+              <Box justifyContent="flex-start" alignItems="center">
+                <p style={{marginTop:'30px'}}><span>Username:</span></p>
+                  <TextField
+                      id="username"
+                      ref="username"
+                      hintText = "Inserisci lo Username"
+                      style={{marginLeft:'30px', marginTop:'5px'}}
+                      errorText={this.state._username}
+                      value={this.state.username}
+                      onChange={this.onUsernameChange.bind(this)}
+                    />
+              </Box>
+              <Box justifyContent="flex-start" alignItems="center">
+                <p style={{marginTop:'30px'}}><span>Password:</span></p>
+                  <TextField
+                      id="password"
+                      ref="password"
+                      hintText = "Inserisci la Password"
+                      style={{marginLeft:'30px', marginTop:'5px'}}
+                      errorText={this.state._password}
+                      value={this.state.password}
+                      onChange={this.onPasswordChange.bind(this)}
+                    />
+              </Box>
+              <Box column justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
+                <RaisedButton label="Inserisci" primary={true} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.onSubmit.bind(this)}/>
+                <FlatButton label="Vai a Pandema" labelStyle={{color:'#4CA7D0'}} style={{marginTop:'10px'}} onTouchTap={this.gotoPandema.bind(this)}/>
+              </Box>
+            </Box>
           </Paper>
         </Box>
       </MuiThemeProvider>
@@ -25,25 +199,39 @@ class Admin extends React.Component{
   }
 }
 
-const muiTheme = getMuiTheme({
+
+const lightBaseTheme = getMuiTheme({
+  spacing: {
+    iconSize: 24,
+    desktopGutter: 24,
+    desktopGutterMore: 32,
+    desktopGutterLess: 16,
+    desktopGutterMini: 8,
+    desktopKeylineIncrement: 64,
+    desktopDropDownMenuItemHeight: 32,
+    desktopDropDownMenuFontSize: 15,
+    desktopDrawerMenuItemHeight: 48,
+    desktopSubheaderHeight: 48,
+    desktopToolbarHeight: 56,
+  },
+  fontFamily: 'Roboto, sans-serif',
   palette: {
     primary1Color: '#59C2E6',
     primary2Color: lightBlue200,
     primary3Color: lightBlue300,
-    textColor: '#FFFFFF',
-    alternateTextColor : '#FFFFFF',
-    accent1Color: lightBlueA100,
-    accent2Color: '#90BF60',
-    accent3Color: '#274D00',
-    canvasColor: '#FFFFFF'
+    accent1Color: '#59C2E6',
+    accent2Color: grey100,
+    accent3Color: grey500,
+    textColor: grey700,
+    alternateTextColor: '#666666',
+    canvasColor: white,
+    borderColor: grey300,
+    disabledColor: fade(darkBlack, 0.3),
+    pickerHeaderColor: '#59C2E6',
+    clockCircleColor: fade('#E6E7EB', 0.07),
+    shadowColor: grey900,
   },
 },{
-  paper: {
-    height: 'auto',
-    width: 'auto',
-    textAlign: 'center'
-  },
-  userAgent: 'all'
+  userAgent : false
 });
-
 export default Admin;

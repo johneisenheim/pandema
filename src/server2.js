@@ -69,6 +69,10 @@ app2.post('/login', function(req, res){
   middleware.login(req.body.username, req.body.password, callback);
 });
 
+app2.post('/addComune', function(req, res){
+  middleware.addComune(req.body.citta, req.body.cap, req.body.username, req.body.password, res);
+});
+
 app2.post('/provafile', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = true;
