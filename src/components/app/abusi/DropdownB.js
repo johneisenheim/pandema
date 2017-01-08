@@ -43,7 +43,7 @@ class DropdownB extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getDInfosForAbusi',
+        url: constants.DB_ADDR+'getDInfosForAbusi?cid='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -92,7 +92,7 @@ class DropdownB extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'addNewAbusoCodNav?ref='+escape(_self.state.pratica_abuso)+'&comune_id='+1,
+        url: constants.DB_ADDR+'addNewAbusoCodNav?ref='+escape(_self.state.pratica_abuso)+'&comune_id='+escape(global.city),
         processData: false,
         contentType: false,
         success: function(data) {
