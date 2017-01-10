@@ -23,6 +23,7 @@ class Admin extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      isLogged : false,
       citta : '',
       cap : '',
       username : '',
@@ -30,7 +31,11 @@ class Admin extends React.Component{
       _citta : '',
       _cap : '',
       _username : '',
-      _password : ''
+      _password : '',
+      adminUsername : '',
+      _adminUsername : '',
+      adminPassword : '',
+      _adminPassword : ''
     }
   }
 
@@ -127,75 +132,162 @@ class Admin extends React.Component{
     })
   }
 
+  onAdminUsernameChange(e,v){
+    this.setState({
+      ...this.state,
+      adminUsername : v,
+      _adminUsername : ''
+    })
+  }
+
+  onAdminPasswordChange(e,v){
+    this.setState({
+      ...this.state,
+      adminPassword : v,
+      _adminPassword : ''
+    })
+  }
+
+  onAccedi(){
+    var username_ = '', password_ = '';
+    if( this.state.adminUsername === '' )
+      username_ = 'Questo campo è obbligatorio!';
+    if( this.state.adminPassword === '')
+      password_ = 'Questo campo è obbligatorio!';
+
+    if( username_ === '' && password_ === '' ){
+      if(this.state.adminUsername === 'admin' && this.state.adminPassword === 'pandema2016talassa'){
+        this.setState({
+          ...this.state,
+          isLogged : true,
+          _adminPassword : '',
+          _adminUsername : '',
+          adminPassword : '',
+          adminUsername : ''
+        })
+      }else{
+        alert('Username e/o password errati!');
+      }
+    }else{
+      this.setState({
+        ...this.state,
+        _adminUsername : username_,
+        _adminPassword : password_
+      });
+    }
+
+  }
 
   gotoPandema(){
     browserHistory.push('/');
   }
 
   render(){
-    return (
-      <MuiThemeProvider muiTheme={lightBaseTheme}>
-        <Box column alignItems="center" justifyContent="center" style={{height : '100vh', background:'-webkit-linear-gradient(top, rgba(35,103,163,1) 0%, rgba(102,161,173,1) 100%)'}}>
-          <Paper zDepth={1} style={styles.paper}>
-            <Box column justifyContent="center" alignItems="center" style={{marginTop:'20px', marginLeft:'20px'}}>
-              <img src = {Logo} style = {styles.logo}/>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}><span>Città:</span></p>
-                  <TextField
-                      id="citta"
-                      ref="citta"
-                      hintText = "Inserisci la città"
-                      style={{marginLeft:'30px', marginTop:'5px'}}
-                      errorText={this.state._citta}
-                      value={this.state.citta}
-                      onChange={this.onCittaChange.bind(this)}
-                    />
+    if( !this.state.isLogged ){
+      return(
+        <MuiThemeProvider muiTheme={lightBaseTheme}>
+          <Box column alignItems="center" justifyContent="center" style={{height : '100vh', background:'-webkit-linear-gradient(top, rgba(35,103,163,1) 0%, rgba(102,161,173,1) 100%)'}}>
+            <Paper zDepth={1} style={styles.paper}>
+              <Box column justifyContent="center" alignItems="center" style={{marginTop:'20px', marginLeft:'20px'}}>
+                <img src = {Logo} style = {styles.logo}/>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>Username:</span></p>
+                    <TextField
+                        id="admin_username"
+                        ref="admin_username"
+                        hintText = "Username amministratore"
+                        style={{marginLeft:'30px', marginTop:'5px'}}
+                        errorText={this.state._adminUsername}
+                        value={this.state.adminUsername}
+                        onChange={this.onAdminUsernameChange.bind(this)}
+                      />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>Password:</span></p>
+                    <TextField
+                        id="admin_password"
+                        ref="admin_password"
+                        hintText = "Password amministratore"
+                        type="password"
+                        style={{marginLeft:'30px', marginTop:'5px'}}
+                        errorText={this.state._adminPassword}
+                        value={this.state.adminPassword}
+                        onChange={this.onAdminPasswordChange.bind(this)}
+                      />
+                </Box>
+                <Box column justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
+                  <RaisedButton label="Accedi" primary={true} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.onAccedi.bind(this)}/>
+                </Box>
               </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}><span>CAP:</span></p>
-                  <TextField
-                      id="cap"
-                      ref="cap"
-                      hintText = "Inserisci il CAP"
-                      style={{marginLeft:'30px', marginTop:'5px'}}
-                      errorText={this.state._cap}
-                      value={this.state.cap}
-                      onChange={this.onCapChange.bind(this)}
-                    />
+            </Paper>
+          </Box>
+        </MuiThemeProvider>
+      );
+    }else{
+      return (
+        <MuiThemeProvider muiTheme={lightBaseTheme}>
+          <Box column alignItems="center" justifyContent="center" style={{height : '100vh', background:'-webkit-linear-gradient(top, rgba(35,103,163,1) 0%, rgba(102,161,173,1) 100%)'}}>
+            <Paper zDepth={1} style={styles.paper}>
+              <Box column justifyContent="center" alignItems="center" style={{marginTop:'20px', marginLeft:'20px'}}>
+                <img src = {Logo} style = {styles.logo}/>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>Città:</span></p>
+                    <TextField
+                        id="citta"
+                        ref="citta"
+                        hintText = "Inserisci la città"
+                        style={{marginLeft:'30px', marginTop:'5px'}}
+                        errorText={this.state._citta}
+                        value={this.state.citta}
+                        onChange={this.onCittaChange.bind(this)}
+                      />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>CAP:</span></p>
+                    <TextField
+                        id="cap"
+                        ref="cap"
+                        hintText = "Inserisci il CAP"
+                        style={{marginLeft:'30px', marginTop:'5px'}}
+                        errorText={this.state._cap}
+                        value={this.state.cap}
+                        onChange={this.onCapChange.bind(this)}
+                      />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>Username:</span></p>
+                    <TextField
+                        id="username"
+                        ref="username"
+                        hintText = "Inserisci lo Username"
+                        style={{marginLeft:'30px', marginTop:'5px'}}
+                        errorText={this.state._username}
+                        value={this.state.username}
+                        onChange={this.onUsernameChange.bind(this)}
+                      />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center">
+                  <p style={{marginTop:'30px'}}><span>Password:</span></p>
+                    <TextField
+                        id="password"
+                        ref="password"
+                        hintText = "Inserisci la Password"
+                        style={{marginLeft:'30px', marginTop:'5px'}}
+                        errorText={this.state._password}
+                        value={this.state.password}
+                        onChange={this.onPasswordChange.bind(this)}
+                      />
+                </Box>
+                <Box column justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
+                  <RaisedButton label="Inserisci" primary={true} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.onSubmit.bind(this)}/>
+                  <FlatButton label="Vai a Pandema" labelStyle={{color:'#4CA7D0'}} style={{marginTop:'10px'}} onTouchTap={this.gotoPandema.bind(this)}/>
+                </Box>
               </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}><span>Username:</span></p>
-                  <TextField
-                      id="username"
-                      ref="username"
-                      hintText = "Inserisci lo Username"
-                      style={{marginLeft:'30px', marginTop:'5px'}}
-                      errorText={this.state._username}
-                      value={this.state.username}
-                      onChange={this.onUsernameChange.bind(this)}
-                    />
-              </Box>
-              <Box justifyContent="flex-start" alignItems="center">
-                <p style={{marginTop:'30px'}}><span>Password:</span></p>
-                  <TextField
-                      id="password"
-                      ref="password"
-                      hintText = "Inserisci la Password"
-                      style={{marginLeft:'30px', marginTop:'5px'}}
-                      errorText={this.state._password}
-                      value={this.state.password}
-                      onChange={this.onPasswordChange.bind(this)}
-                    />
-              </Box>
-              <Box column justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
-                <RaisedButton label="Inserisci" primary={true} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.onSubmit.bind(this)}/>
-                <FlatButton label="Vai a Pandema" labelStyle={{color:'#4CA7D0'}} style={{marginTop:'10px'}} onTouchTap={this.gotoPandema.bind(this)}/>
-              </Box>
-            </Box>
-          </Paper>
-        </Box>
-      </MuiThemeProvider>
-    );
+            </Paper>
+          </Box>
+        </MuiThemeProvider>
+      );
+    }
   }
 }
 
