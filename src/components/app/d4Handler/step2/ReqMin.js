@@ -238,7 +238,7 @@ class ReqMin extends React.Component{
                   </TableRowColumn>
                 </TableRow>
                 <TableRow>
-                  <TableRowColumn>Carichi Penali</TableRowColumn>
+                  <TableRowColumn>Carichi Pendenti</TableRowColumn>
                   <TableRowColumn><span style={this.state['carichipenali'] == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state['carichipenali']}</span></TableRowColumn>
                   <TableRowColumn>
                     { this.state['carichipenali'] !== 'Non caricato' ?

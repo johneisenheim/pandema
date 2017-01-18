@@ -93,7 +93,7 @@ class Step3 extends React.Component{
             </TableHeader>
             <TableBody displayRowCheckbox={false} selectable={false}>
               <TableRow>
-                <TableRowColumn>Agenzia della dogana</TableRowColumn>
+                <TableRowColumn>Agenzia delle dogane</TableRowColumn>
                 <TableRowColumn><span style={this.state.a == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state.a}</span></TableRowColumn>
                 <TableRowColumn>
                   <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF' onClick={this._onFileInputChange.bind(this, 0,'Agenzia della dogana', 'a')}>

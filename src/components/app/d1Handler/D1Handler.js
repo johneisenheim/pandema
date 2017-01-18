@@ -157,7 +157,7 @@ class D1Handler extends React.Component{
   }
 
   handleModalButtonSubmit(){
-    
+
   }
 
   handleModalClose(){}
@@ -206,42 +206,42 @@ class D1Handler extends React.Component{
                   style={{marginTop:'0px'}}
                   ref="stepper"
                 >
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                       Verifica di compatibilità
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton ref="2" onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                       Istruttoria
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Richiesta Pareri
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Approvazione
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Scelta dell'atto
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Rilascio dell'atto
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Fine
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '12.5%'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Fine2
                     </StepButton>

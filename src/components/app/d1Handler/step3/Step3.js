@@ -235,7 +235,7 @@ class Step3 extends React.Component{
             </TableHeader>
             <TableBody displayRowCheckbox={false} selectable={false}>
               <TableRow>
-                <TableRowColumn>Agenzia della dogana</TableRowColumn>
+                <TableRowColumn>Agenzia delle dogane</TableRowColumn>
                 <TableRowColumn><span style={this.state['agenziadogana'] == 'Non caricato' ? styles.notLoaded : styles.loaded}>{this.state['agenziadogana']}</span></TableRowColumn>
                 <TableRowColumn>
                   { this.state['agenziadogana'] !== 'Non caricato' ?

@@ -14,6 +14,7 @@ import actions from '../../actions/actions';
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 import WebStorage from 'react-webstorage';
+import { browserHistory } from 'react-router';
 
 class Login extends React.Component {
 
@@ -57,7 +58,8 @@ class Login extends React.Component {
               			);
                     webStorage.setItem("pandemawebapp", true);
                     webStorage.setItem("pandemawebappcity", parsed.res[0].id);
-                    _self.handler();
+                    location.reload();
+                    //_self.handler();
                     //_self.history.push('/');
                   }else{
                     alert("Username o password errati!");

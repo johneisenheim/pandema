@@ -20,11 +20,35 @@ white, darkBlack, fullBlack,
 import {fade} from 'material-ui/utils/colorManipulator';
 
 import Divider from 'material-ui/Divider';
+import { browserHistory } from 'react-router';
+import WebStorage from 'react-webstorage';
 
 //const darkMuiTheme = getMuiTheme(darkBaseTheme);
 
 
 class NavBar extends React.Component{
+
+  onTouchTap(e,v,m,n){
+    switch (v.key) {
+      case '0':
+        break;
+      case '1':
+        var r = confirm('Sei sicuro di voler effettuare il logout?');
+        if(r){
+          var webStorage = new WebStorage(
+      			window.localStorage ||
+      			window.sessionStorage
+      		);
+          global.city = null;
+          webStorage.setItem("pandemawebapp", false);
+          webStorage.setItem("pandemawebappcity", null);
+          location.reload();
+        }
+        break;
+      default:
+
+    }
+  }
 
   render(){
     return(
@@ -39,9 +63,10 @@ class NavBar extends React.Component{
               }
               targetOrigin={{horizontal: 'right', vertical: 'top'}}
               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+              onItemTouchTap={this.onTouchTap.bind(this)}
             >
-              <MenuItem primaryText="Credits" style={{color:'#666666'}}/>
-              <MenuItem primaryText="Logout" style={{color:'#666666'}}/>
+              <MenuItem key={0} primaryText="Credits" style={{color:'#666666'}}/>
+              <MenuItem key={1} primaryText="Logout" style={{color:'#666666'}}/>
             </IconMenu>
           }
 

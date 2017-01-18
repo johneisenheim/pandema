@@ -38,6 +38,7 @@ class NuovaPratica extends React.Component{
         usoscopo : null,
         usoscopovalue : 0
     }
+    //console.log('In NuovaPratica', global.city)
   }
 
   componentDidMount(){

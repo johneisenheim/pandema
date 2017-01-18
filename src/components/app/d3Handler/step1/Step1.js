@@ -150,7 +150,6 @@ class Step1 extends React.Component{
       return (
         <div style={styles.firstStepAddingsStyle}>
           <AvvisoPubblicazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
-          <DomandeConcorrenza pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <Opposizioni pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <AvvisoIstruttoria pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
         </div>

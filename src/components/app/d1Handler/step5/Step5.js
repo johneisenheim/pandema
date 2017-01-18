@@ -98,7 +98,7 @@ class Step5 extends React.Component{
             <RadioButtonGroup name="step5" defaultSelected={this.state.value} onChange={this._onRadioChange.bind(this)}>
               <RadioButton
                 value={4}
-                label="Diniego per struttura favorevole"
+                label="Diniego per istruttoria sfavorevole"
                 style={styles.radioButton}
               />
               <RadioButton
