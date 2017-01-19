@@ -140,8 +140,8 @@ class Step3 extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(filename){
-    window.open(constants.DB_ADDR+'see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(filename){
@@ -222,7 +222,10 @@ class Step3 extends React.Component{
         </Box>
       );
     }else{
-      console.log(this.state['agenziadogana']);
+      var tmp = {};
+      for(var i = 0 ; i < this.state.data.length; i++){
+        tmp[this.state.data[i].tipo_descrizione] = this.state.data[i].id;
+      }
       return (
         <div>
           <Table selectable={false}>
@@ -241,7 +244,7 @@ class Step3 extends React.Component{
                   { this.state['agenziadogana'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'agenziadogana')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['agenziadogana'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'agenziadogana')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -259,7 +262,7 @@ class Step3 extends React.Component{
                   { this.state['agenziademanio'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'agenziademanio')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['agenziademanio'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'agenziademanio')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -277,7 +280,7 @@ class Step3 extends React.Component{
                   { this.state['pareretecnico'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareretecnico')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareretecnico'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareretecnico')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -295,7 +298,7 @@ class Step3 extends React.Component{
                   { this.state['parereurbanistico'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'parereurbanistico')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['parereurbanistico'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'parereurbanistico')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -313,7 +316,7 @@ class Step3 extends React.Component{
                   { this.state['pareresopraintendenza'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareresopraintendenza')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareresopraintendenza'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareresopraintendenza')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -332,7 +335,7 @@ class Step3 extends React.Component{
                   { this.state['pareresic'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareresic')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareresic'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareresic')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -350,7 +353,7 @@ class Step3 extends React.Component{
                   { this.state['parereautoritamarittima'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'parereautoritamarittima')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['parereautoritamarittima'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'parereautoritamarittima')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -368,7 +371,7 @@ class Step3 extends React.Component{
                   { this.state['pareresopraintendenzaarcheologica'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareresopraintendenzaarcheologica')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareresopraintendenzaarcheologica'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareresopraintendenzaarcheologica')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -386,7 +389,7 @@ class Step3 extends React.Component{
                   { this.state['parereautoritabacino'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'parereautoritabacino')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['parereautoritabacino'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'parereautoritabacino')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
