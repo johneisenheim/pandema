@@ -177,6 +177,10 @@ class Step4 extends React.Component{
         </Box>
       );
     }else{
+      var tmp = {};
+      for(var i = 0 ; i < this.state.data.length; i++){
+        tmp[this.state.data[i].tipo_descrizione] = this.state.data[i].id;
+      }
       return(
         <div>
           <Table selectable={false}>
@@ -195,7 +199,7 @@ class Step4 extends React.Component{
                   { this.state['determina'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'determina')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['determina'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'determina')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )

@@ -82,7 +82,7 @@ class Step3 extends React.Component{
       />,
     ];
       return (
-        <div style={{marginBottom:'60px'}}>
+        <div>
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>

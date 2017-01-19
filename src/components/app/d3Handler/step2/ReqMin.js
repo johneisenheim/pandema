@@ -209,7 +209,7 @@ class ReqMin extends React.Component{
         );
       }else{
         return(
-          <Box column style={{marginTop:'20px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
+          <Box column style={{marginTop:'20px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
             <Table selectable={false}>
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>

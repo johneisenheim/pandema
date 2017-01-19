@@ -8,6 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Box from 'react-layout-components';
 import RichiestaAdempimenti from './RichiestaAdempimenti';
 import AttoConcessione from './AttoConcessione';
+import DiniegoDefinitivo from './DiniegoDefinitivo';
 
 class Step7 extends React.Component{
 
@@ -52,12 +53,11 @@ class Step7 extends React.Component{
         </Box>
       );
     }else{
-      console.log('pratica path');
-      console.log(this.praticaPath);
       return(
-        <div style={{marginLeft:'20px'}}>
+        <div style={{marginLeft:'20px',marginRight:'20px'}}>
           <RichiestaAdempimenti pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <AttoConcessione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
+          <DiniegoDefinitivo pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
         </div>
       );
     }
