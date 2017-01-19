@@ -153,7 +153,7 @@ class Step3 extends React.Component{
       })[0].id;
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.docx'),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -247,7 +247,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'agenziadogana')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file1" onChange={this._onFileInputChange.bind(this, 'agenziadogana')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -265,7 +265,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'agenziademanio')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file2" onChange={this._onFileInputChange.bind(this, 'agenziademanio')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -283,7 +283,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'pareretecnico')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file3" onChange={this._onFileInputChange.bind(this, 'pareretecnico')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -301,7 +301,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file4" onChange={this._onFileInputChange.bind(this, 'parereurbanistico')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file4" onChange={this._onFileInputChange.bind(this, 'parereurbanistico')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -319,7 +319,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file5" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenza')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file5" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenza')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -338,7 +338,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file6" onChange={this._onFileInputChange.bind(this, 'pareresic')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file6" onChange={this._onFileInputChange.bind(this, 'pareresic')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -356,7 +356,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file7" onChange={this._onFileInputChange.bind(this, 'parereautoritamarittima')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file7" onChange={this._onFileInputChange.bind(this, 'parereautoritamarittima')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -374,7 +374,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file8" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenzaarcheologica')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file8" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenzaarcheologica')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -392,7 +392,7 @@ class Step3 extends React.Component{
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file9" onChange={this._onFileInputChange.bind(this, 'parereautoritabacino')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file9" onChange={this._onFileInputChange.bind(this, 'parereautoritabacino')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>

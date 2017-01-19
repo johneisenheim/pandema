@@ -96,7 +96,7 @@ app2.post('/handled1', function(req, res){
   form.parse(req);
 
   form.on('fileBegin', function(name, file){
-    file.path = folder+'/'+name+'_'+npratica+'.pdf';
+    file.path = folder+'/'+name+'_'+npratica+'.docx';
     console.log('new file path is : '+file.path);
     if(toDB['files'] !== undefined)
       toDB['files'][name] = file.path;
@@ -179,7 +179,7 @@ app2.post('/handled2', function(req, res){
   form.parse(req);
 
   form.on('fileBegin', function(name, file){
-    file.path = folder+'/'+name+'_'+npratica+'.pdf';
+    file.path = folder+'/'+name+'_'+npratica+'.docx';
     console.log('new file path is : '+file.path);
     if(toDB['files'] !== undefined)
       toDB['files'][name] = file.path;
@@ -298,7 +298,7 @@ app2.get('/addExternalAllegato', function(req, res){
 
   form.multiple = true;
   form.on('fileBegin', function(name, file){
-    file.path = folder+'/'+name+'_'+npratica+'.pdf';
+    file.path = folder+'/'+name+'_'+npratica+'.docx';
     console.log('new file path is : '+file.path);
     if(toDB['files'] !== undefined)
       toDB['files'][name] = file.path;
@@ -385,6 +385,10 @@ app2.get('/handled1s2reqmin', function(req, res){
 
 app2.get('/handled1s2reqfac', function(req, res){
   middleware.handled1s2reqfac(req, res);
+});
+
+app2.get('/handlealtripareri', function(req,res){
+  middleware.handlealtripareri(req,res);
 });
 
 app2.get('/handled1s3', function(req,res){
@@ -478,7 +482,6 @@ app2.get('/deleteimposta', function(req, res){
 app2.get('/downloadFile', function(req, res){
 
   var callback = function(_path){
-    console.log('path is '+_path);
     var filename = path.basename(_path);
     var mimetype = mime.lookup(_path);
 
@@ -616,7 +619,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(domandeConcorrenzaPath);
         }
 
-        file.path = domandeConcorrenzaPath+'/domandaconcorrenza_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = domandeConcorrenzaPath+'/domandaconcorrenza_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 2;
       break;
@@ -628,7 +631,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(opposizioniPath);
         }
 
-        file.path = opposizioniPath+'/opposizione_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = opposizioniPath+'/opposizione_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 3;
       break;
@@ -645,7 +648,7 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(alternativadiniegoPath);
         }
 
-        file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = alternativadiniegoPath+'/alternativadiniegoPath_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 5;
       break;
@@ -660,92 +663,92 @@ app2.post('/addFile', function(req, res){
         toMiddleware.allegatoType = 7;
       break;
       case 8:
-        file.path = praticaPath+'/visuracamerale.pdf';
+        file.path = praticaPath+'/visuracamerale.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 8;
       break;
       case 9:
-        file.path = praticaPath+'/carichipenali.pdf';
+        file.path = praticaPath+'/carichipenali.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 9;
       break;
       case 10:
-        file.path = praticaPath+'/casellariogiudiziale.pdf';
+        file.path = praticaPath+'/casellariogiudiziale.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 10;
       break;
       case 11:
-        file.path = praticaPath+'/durc.pdf';
+        file.path = praticaPath+'/durc.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 11;
       break;
       case 12:
-        file.path = praticaPath+'/certificatofallimentare.pdf';
+        file.path = praticaPath+'/certificatofallimentare.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 12;
       break;
       case 13:
-        file.path = praticaPath+'/certificatoantimafia.pdf';
+        file.path = praticaPath+'/certificatoantimafia.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 13;
       break;
       case 14:
-        file.path = praticaPath+'/agenziadogana.pdf';
+        file.path = praticaPath+'/agenziadogana.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 14;
       break;
       case 15:
-        file.path = praticaPath+'/agenziademanio.pdf';
+        file.path = praticaPath+'/agenziademanio.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 15;
       break;
       case 16:
-        file.path = praticaPath+'/pareretecnico.pdf';
+        file.path = praticaPath+'/pareretecnico.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 16;
       break;
       case 17:
-        file.path = praticaPath+'/parereurbanistico.pdf';
+        file.path = praticaPath+'/parereurbanistico.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 17;
       break;
       case 18:
-        file.path = praticaPath+'/pareresopraintendenzabeniculturali.pdf';
+        file.path = praticaPath+'/pareresopraintendenzabeniculturali.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 18;
       break;
       case 19:
-        file.path = praticaPath+'/pareresic.pdf';
+        file.path = praticaPath+'/pareresic.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 19;
       break;
       case 20:
-        file.path = praticaPath+'/parereautoritamarittima.pdf';
+        file.path = praticaPath+'/parereautoritamarittima.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 20;
       break;
       case 21:
-        file.path = praticaPath+'/pareresopraintendenzaarcheologica.pdf';
+        file.path = praticaPath+'/pareresopraintendenzaarcheologica.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 21;
       break;
       case 22:
-        file.path = praticaPath+'/parereautoritabacino.pdf';
+        file.path = praticaPath+'/parereautoritabacino.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 22;
       break;
       case 23:
-        file.path = praticaPath+'/determina.pdf';
+        file.path = praticaPath+'/determina.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 23;
       break;
       case 24:
-        file.path = praticaPath+'/delibera.pdf';
+        file.path = praticaPath+'/delibera.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 24;
       break;
       case 25:
-        file.path = praticaPath+'/visto.pdf';
+        file.path = praticaPath+'/visto.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 25;
       break;
@@ -756,22 +759,30 @@ app2.post('/addFile', function(req, res){
           fs.mkdirSync(requisitiFacPath);
         }
 
-        file.path = requisitiFacPath+'/reqfac_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = requisitiFacPath+'/reqfac_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 28;
       break;
       case 29:
-        file.path = praticaPath+'/verificadocumentazionetecnica.pdf';
+        file.path = praticaPath+'/verificadocumentazionetecnica.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 29;
       break;
       case 30:
-        file.path = praticaPath+'/richiestaadempimenti.docx';
+        var adempimentiPath = praticaPath+'/adempimenti';
+        if(!fs.existsSync(adempimentiPath)){
+          fs.mkdirSync(adempimentiPath);
+        }
+        file.path = adempimentiPath+'/adempimento_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 30;
       break;
       case 31:
-        file.path = praticaPath+'/attoconcessione.docx';
+        var concessionePath = praticaPath+'/concessioni';
+        if(!fs.existsSync(concessionePath)){
+          fs.mkdirSync(concessionePath);
+        }
+        file.path = concessionePath+'/atto_concessione'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 31;
       break;
@@ -780,7 +791,7 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(attiConcessioneFittoPath)){
           fs.mkdirSync(attiConcessioneFittoPath);
         }
-        file.path = attiConcessioneFittoPath+'/concessione_fitto_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = attiConcessioneFittoPath+'/concessione_fitto_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 32;
       break;
@@ -789,7 +800,7 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(attiVariazioneAssettoPath)){
           fs.mkdirSync(attiVariazioneAssettoPath);
         }
-        file.path = attiVariazioneAssettoPath+'/variazione_assetto_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = attiVariazioneAssettoPath+'/variazione_assetto_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 33;
       break;
@@ -798,7 +809,7 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(attiVenditaAggiudicazionePath)){
           fs.mkdirSync(attiVenditaAggiudicazionePath);
         }
-        file.path = attiVenditaAggiudicazionePath+'/variazione_aggiudicazione_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = attiVenditaAggiudicazionePath+'/variazione_aggiudicazione_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 34;
       break;
@@ -807,7 +818,7 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(attiCertificazioneMortePath)){
           fs.mkdirSync(attiCertificazioneMortePath);
         }
-        file.path = attiCertificazioneMortePath+'/certificazione_morte_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = attiCertificazioneMortePath+'/certificazione_morte_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 35;
       break;
@@ -816,7 +827,7 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(documentazioneEvincePath)){
           fs.mkdirSync(documentazioneEvincePath);
         }
-        file.path = documentazioneEvincePath+'/documentazione_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = documentazioneEvincePath+'/documentazione_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 36;
       break;
@@ -835,7 +846,7 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(annotazioneRegolaritaPath)){
           fs.mkdirSync(annotazioneRegolaritaPath);
         }
-        file.path = annotazioneRegolaritaPath+'/regolarita_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = annotazioneRegolaritaPath+'/regolarita_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 39;
       break;
@@ -844,9 +855,18 @@ app2.post('/addFile', function(req, res){
         if(!fs.existsSync(attoRevocaPath)){
           fs.mkdirSync(attoRevocaPath);
         }
-        file.path = attoRevocaPath+'/revoca_'+Math.floor(new Date() / 1000)+'.pdf';
+        file.path = attoRevocaPath+'/revoca_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 40;
+      break;
+      case 41:
+        var altriPareriPath = praticaPath+'/altri_prareri';
+        if(!fs.existsSync(altriPareriPath)){
+          fs.mkdirSync(altriPareriPath);
+        }
+        file.path = altriPareriPath+'/altro_parere_'+Math.floor(new Date() / 1000)+'.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 41;
       break;
 
     }
@@ -900,43 +920,43 @@ app2.post('/addFileAbusi', function(req, res){
     var filesCount = 0;
     switch(allegatoTypeID){
       case 1:
-        file.path = praticaPath+'/avviso_ingiunzione.pdf';
+        file.path = praticaPath+'/avviso_ingiunzione.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 1;
       break;
       case 2:
-        file.path = praticaPath+'/ingiunzione.pdf';
+        file.path = praticaPath+'/ingiunzione.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 2;
       break;
       case 3:
-        file.path = praticaPath+'/primo_avviso.pdf';
+        file.path = praticaPath+'/primo_avviso.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.euroValue = euroValue;
         toMiddleware.allegatoType = 3;
       break;
       case 4:
-        file.path = praticaPath+'/secondo_avviso.pdf';
+        file.path = praticaPath+'/secondo_avviso.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 4;
       break;
       case 5:
-        file.path = praticaPath+'/trasmissione.pdf';
+        file.path = praticaPath+'/trasmissione.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 5;
       break;
       case 6:
-        file.path = praticaPath+'/decadenza_abusi.pdf';
+        file.path = praticaPath+'/decadenza_abusi.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 6;
       break;
       case 7:
-        file.path = praticaPath+'/chiusura_pratica.pdf';
+        file.path = praticaPath+'/chiusura_pratica.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 7;
       break;
       case 8:
-        file.path = praticaPath+'/decadenza.pdf';
+        file.path = praticaPath+'/decadenza.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 8;
       break;

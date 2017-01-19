@@ -282,7 +282,7 @@ class PrimoAvviso extends React.Component{
                           errorText={this.state.errorText}
                         />
                         <FlatButton label="Carica File" icon={<Attach/>} style={{marginTop:'10px', marginLeft : '15px', marginRight:'0px'}}>
-                          <input type="file" style={styles.inputFile} onChange={this.onChangeHandler.bind(this)} ref="file"/>
+                          <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this.onChangeHandler.bind(this)} ref="file"/>
                         </FlatButton>
                         <CheckIcon style={{fill:this.state.checkIconColor, marginTop:'10px', marginLeft:'10px'}}/>
                     </Box>

@@ -103,8 +103,7 @@ class Step4 extends React.Component{
   }
 
   eyePress(filename){
-    window.open(constants.DB_ADDR+'see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
-    //window.location.href= constants.DB_ADDR+'see?a='+address;
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(filename){
@@ -116,7 +115,7 @@ class Step4 extends React.Component{
       })[0].id;
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.docx'),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -178,6 +177,10 @@ class Step4 extends React.Component{
         </Box>
       );
     }else{
+      var tmp = {};
+      for(var i = 0 ; i < this.state.data.length; i++){
+        tmp[this.state.data[i].tipo_descrizione] = this.state.data[i].id;
+      }
       return(
         <div>
           <Table selectable={false}>
@@ -196,13 +199,13 @@ class Step4 extends React.Component{
                   { this.state['determina'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'determina')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['determina'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'determina')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'determina')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file1" onChange={this._onFileInputChange.bind(this, 'determina')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -214,13 +217,13 @@ class Step4 extends React.Component{
                   { this.state['delibera'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'delibera')}><Eye color="#909EA2"/></IconButton>
-                        <IconButton onTouchTap={this.deletePress.bind(this, 'delibera')}><Delete color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['delibera'])}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.deletePress.bind(this, tmp['delibera'])}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'delibera')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file2" onChange={this._onFileInputChange.bind(this, 'delibera')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -232,13 +235,13 @@ class Step4 extends React.Component{
                   { this.state['visto'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'visto')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['visto'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'visto')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'visto')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file3" onChange={this._onFileInputChange.bind(this, 'visto')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>

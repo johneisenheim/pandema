@@ -266,7 +266,7 @@ class GestisciAllegati extends React.Component{
             <div>
                 <TextField hintText="Numero di pratica" />
                 <FlatButton icon={<Attach/>} label="Allega il file di riferimento" backgroundColor='#FFFFFF'>
-                  <input type="file" style={styles.inputFile} onChange={this._onFileSelection.bind(this)}/>
+                  <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._onFileSelection.bind(this)}/>
                 </FlatButton>
                 <Check style={{position:'relative',top:'6px', marginLeft:'7px'}} color={this.state.checkColor}/>
             </div>

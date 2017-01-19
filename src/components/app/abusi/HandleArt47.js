@@ -117,7 +117,7 @@ const styles = {
   paper : {
     marginTop : '20px',
     height : 'auto',
-    width : '100%',
+    width : '99%',
     marginBottom : '30px'
   }
 }

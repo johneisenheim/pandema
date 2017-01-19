@@ -117,8 +117,8 @@ class Opposizioni extends React.Component{
     });
   }
 
-  eyePress(address){
-    window.open(constants.DB_ADDR+'see?a='+address,'_blank');
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(path, allegato_id){
@@ -165,7 +165,7 @@ class Opposizioni extends React.Component{
               <TableRowColumn>File Opposizioni #{i+1}</TableRowColumn>
               <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
               <TableRowColumn>
-                <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
+                <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
                 <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
               </TableRowColumn>
             </TableRow>
@@ -178,7 +178,7 @@ class Opposizioni extends React.Component{
                 <ToolbarTitle text="Files caricati per Opposizioni" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
-                     <input type="file" style={styles.inputFile} accept="application/pdf" onChange={this._opposizioniFileHandler.bind(this)} ref="file"/>
+                     <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._opposizioniFileHandler.bind(this)} ref="file"/>
                   </FlatButton>
                 </ToolbarGroup>
               </Toolbar>

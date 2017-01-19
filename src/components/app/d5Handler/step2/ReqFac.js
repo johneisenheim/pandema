@@ -80,8 +80,8 @@ class ReqFac extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(address){
-    window.open(constants.DB_ADDR+'see?a='+address,'_blank');
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(path, allegato_id){
@@ -157,7 +157,7 @@ class ReqFac extends React.Component{
               <TableRowColumn>Requisito Facoltativo {i}</TableRowColumn>
               <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
               <TableRowColumn>
-                <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
+                <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
                 <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
               </TableRowColumn>
             </TableRow>
@@ -169,7 +169,7 @@ class ReqFac extends React.Component{
           <div style={{width:'100%', marginTop:'30px'}}>
             <Box alignItems='flex-end' justifyContent='flex-end' style={{marginRight:'20px'}}>
                 <RaisedButton icon={<Attach/>} label="Allega nuovo documento" primary={true} labelStyle={{color:'#FFFFFF'}}>
-                  <input type="file" style={styles.inputFile} onChange={this._onFileInputChange.bind(this)} ref="file"/>
+                  <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._onFileInputChange.bind(this)} ref="file"/>
                 </RaisedButton>
             </Box>
           </div>

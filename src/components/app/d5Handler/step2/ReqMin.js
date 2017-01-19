@@ -142,7 +142,7 @@ class ReqMin extends React.Component{
       console.log(allegato_id);
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.docx'),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -232,7 +232,7 @@ class ReqMin extends React.Component{
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                          <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'visuracamerale')}/>
+                          <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file1" onChange={this._onFileInputChange.bind(this, 'visuracamerale')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -252,7 +252,7 @@ class ReqMin extends React.Component{
 
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF' >
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'carichipenali')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file2" onChange={this._onFileInputChange.bind(this, 'carichipenali')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -270,7 +270,7 @@ class ReqMin extends React.Component{
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF' >
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'casellariogiudiziale')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file3" onChange={this._onFileInputChange.bind(this, 'casellariogiudiziale')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -288,7 +288,7 @@ class ReqMin extends React.Component{
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file4" onChange={this._onFileInputChange.bind(this, 'durc')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file4" onChange={this._onFileInputChange.bind(this, 'durc')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -306,7 +306,7 @@ class ReqMin extends React.Component{
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file5" onChange={this._onFileInputChange.bind(this, 'certificatofallimentare')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file5" onChange={this._onFileInputChange.bind(this, 'certificatofallimentare')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -324,7 +324,7 @@ class ReqMin extends React.Component{
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file6" onChange={this._onFileInputChange.bind(this, 'certificatoantimafia')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file6" onChange={this._onFileInputChange.bind(this, 'certificatoantimafia')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -342,7 +342,7 @@ class ReqMin extends React.Component{
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file7" onChange={this._onFileInputChange.bind(this, 'verificadocumentazionetecnica')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file7" onChange={this._onFileInputChange.bind(this, 'verificadocumentazionetecnica')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>

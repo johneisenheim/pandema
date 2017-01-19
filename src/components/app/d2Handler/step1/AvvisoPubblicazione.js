@@ -120,9 +120,8 @@ class AvvisoPubblicazione extends React.Component{
     });
   }
 
-  eyePress(address){
-    window.open(constants.DB_ADDR+'see?a='+address,'_blank');
-    //window.location.href= constants.DB_ADDR+'see?a='+address;
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(path, allegato_id){
@@ -173,7 +172,7 @@ class AvvisoPubblicazione extends React.Component{
                 <TableRowColumn>File</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
-                  <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].path)}><Eye color="#909EA2"/></IconButton>
+                  <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
                   <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
                 </TableRowColumn>
               </TableRow>
@@ -181,13 +180,13 @@ class AvvisoPubblicazione extends React.Component{
           }
       }
       return (
-          <Box column style={{marginTop:'30px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
+          <Box column style={{marginTop:'30px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
                 <ToolbarTitle text="File caricato per Avviso Pubblicazione" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
-                    {this.state.data.length == 0 ? <input type="file" style={styles.inputFile} onChange={this._avvisoPubblicazioneFileHandler.bind(this)} ref="file"/> : null}
+                    {this.state.data.length == 0 ? <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._avvisoPubblicazioneFileHandler.bind(this)} ref="file"/> : null}
                   </FlatButton>
                 </ToolbarGroup>
               </Toolbar>

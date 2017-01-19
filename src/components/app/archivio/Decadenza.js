@@ -79,7 +79,7 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : '100%',
+    width : '99%',
     height : 'auto'
   }
 }

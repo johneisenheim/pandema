@@ -196,54 +196,54 @@ class D1Handler extends React.Component{
     return (
       <MuiThemeProvider muiTheme={lightBaseTheme} >
         <div style={{width : '100%'}}>
-          <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'scroll'}}>
+          <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow: 'hidden'}}>
             <p style={{color:'#666666', marginLeft : '10px', marginTop : '20px',fontFamily:'Roboto', width:'100%', textAlign:'left'}}>Pratica n°: <b>{this.props.params.pid}</b></p>
             <Paper zDepth={1} style={styles.paper}>
               <Box justifyContent="center" alignItems="center">
                 <Stepper
                   activeStep={this.state.stepIndex}
                   linear={false}
-                  style={{marginTop:'0px'}}
+                  style={{marginTop:'0px', width : '100%'}}
                   ref="stepper"
                 >
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                       Verifica di compatibilità
                     </StepButton>
                   </Step>
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton ref="2" onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                       Istruttoria
                     </StepButton>
                   </Step>
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Richiesta Pareri
                     </StepButton>
                   </Step>
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Approvazione
                     </StepButton>
                   </Step>
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Scelta dell'atto
                     </StepButton>
                   </Step>
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Rilascio dell'atto
                     </StepButton>
                   </Step>
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Fine
+                      Richiesta Adempimenti
                     </StepButton>
                   </Step>
-                  <Step style={{width : '12.5%'}}>
+                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Fine2
+                      Fine
                     </StepButton>
                   </Step>
                 </Stepper>

@@ -44,7 +44,7 @@ class ReqMin extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/handled1s2reqmin?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        url: constants.DB_ADDR+'handled1s2reqmin?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -112,7 +112,7 @@ class ReqMin extends React.Component{
     $.ajax({
         type: 'POST',
         data: formData,
-        url: 'http://127.0.0.1:8001/addFile',
+        url: constants.DB_ADDR+'addFile',
         processData: false,
         contentType: false,
         success: function(data) {
@@ -128,9 +128,8 @@ class ReqMin extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(filename){
-    window.open('http://127.0.0.1:8001/see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
-    //window.location.href= 'http://127.0.0.1:8001/see?a='+address;
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(filename){
@@ -140,10 +139,9 @@ class ReqMin extends React.Component{
       var allegato_id = this.state.data.filter(function(v) {
           return v.tipo_descrizione === filename; // Filter out the appropriate one
       })[0].id;
-      console.log(allegato_id);
       $.ajax({
           type: 'GET',
-          url: 'http://127.0.0.1:8001/deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.docx'),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -176,7 +174,7 @@ class ReqMin extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: 'http://127.0.0.1:8001/handled1s2reqmin?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        url: constants.DB_ADDR+'handled1s2reqmin?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -209,8 +207,12 @@ class ReqMin extends React.Component{
           </Box>
         );
       }else{
+        var tmp = {};
+        for(var i = 0 ; i < this.state.data.length; i++){
+          tmp[this.state.data[i].tipo_descrizione] = this.state.data[i].id;
+        }
         return(
-          <Box column style={{marginTop:'20px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
+          <Box column style={{marginTop:'20px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
             <Table selectable={false}>
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
@@ -227,13 +229,13 @@ class ReqMin extends React.Component{
                     { this.state['visuracamerale'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'visuracamerale')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['visuracamerale'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'visuracamerale')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                          <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'visuracamerale')}/>
+                          <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile}  ref="file1" onChange={this._onFileInputChange.bind(this, 'visuracamerale')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -246,14 +248,14 @@ class ReqMin extends React.Component{
 
                         (
                           <div>
-                            <IconButton onTouchTap={this.eyePress.bind(this, 'carichipenali')}><Eye color="#909EA2"/></IconButton>
+                            <IconButton onTouchTap={this.eyePress.bind(this, tmp['carichipenali'])}><Eye color="#909EA2"/></IconButton>
                             <IconButton onTouchTap={this.deletePress.bind(this, 'carichipenali')}><Delete color="#909EA2"/></IconButton>
                           </div>
                         )
 
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF' >
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'carichipenali')}/>
+                        <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile}  ref="file2" onChange={this._onFileInputChange.bind(this, 'carichipenali')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -265,13 +267,13 @@ class ReqMin extends React.Component{
                     { this.state['casellariogiudiziale'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'casellariogiudiziale')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['casellariogiudiziale'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'casellariogiudiziale')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF' >
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'casellariogiudiziale')}/>
+                        <input type="file" style={styles.inputFile} ref="file3" onChange={this._onFileInputChange.bind(this, 'casellariogiudiziale')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -283,13 +285,13 @@ class ReqMin extends React.Component{
                     { this.state['durc'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'durc')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['durc'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'durc')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file4" onChange={this._onFileInputChange.bind(this, 'durc')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file4" onChange={this._onFileInputChange.bind(this, 'durc')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -301,13 +303,13 @@ class ReqMin extends React.Component{
                     { this.state['certificatofallimentare'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'certificatofallimentare')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['certificatofallimentare'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'certificatofallimentare')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file5" onChange={this._onFileInputChange.bind(this, 'certificatofallimentare')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file5" onChange={this._onFileInputChange.bind(this, 'certificatofallimentare')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -319,13 +321,13 @@ class ReqMin extends React.Component{
                     { this.state['certificatoantimafia'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'certificatoantimafia')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['certificatoantimafia'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'certificatoantimafia')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file6" onChange={this._onFileInputChange.bind(this, 'certificatoantimafia')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file6" onChange={this._onFileInputChange.bind(this, 'certificatoantimafia')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>
@@ -337,13 +339,13 @@ class ReqMin extends React.Component{
                     { this.state['verificadocumentazionetecnica'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'verificadocumentazionetecnica')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['verificadocumentazionetecnica'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'verificadocumentazionetecnica')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
                       :
                       <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                        <input type="file" style={styles.inputFile} accept="application/pdf" ref="file7" onChange={this._onFileInputChange.bind(this, 'verificadocumentazionetecnica')}/>
+                        <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file7" onChange={this._onFileInputChange.bind(this, 'verificadocumentazionetecnica')}/>
                       </FlatButton>
                     }
                   </TableRowColumn>

@@ -15,7 +15,7 @@ import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui/svg-icons/action/delete';
 
 
-class ReqFac extends React.Component{
+class Altro extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -24,6 +24,8 @@ class ReqFac extends React.Component{
       data : []
     };
     this.praticaPath = undefined;
+    console.log('altripareri', this.props.dbid)
+    console.log('altripareri', this.props.pid)
   }
 
   componentDidMount(){
@@ -31,7 +33,7 @@ class ReqFac extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'handled1s2reqfac?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        url: constants.DB_ADDR+'handlealtripareri?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -58,7 +60,7 @@ class ReqFac extends React.Component{
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.praticaPath);
-    formData.append('atype', 28);
+    formData.append('atype', 41);
     formData.append('file', this.refs.file.files[0]);
 
     $.ajax({
@@ -81,6 +83,7 @@ class ReqFac extends React.Component{
   }
 
   eyePress(id){
+    //window.open(constants.DB_ADDR+'see?a='+address,'_blank');
     window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
@@ -116,7 +119,7 @@ class ReqFac extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'handled1s2reqfac?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
+        url: constants.DB_ADDR+'handlealtripareri?id='+_self.props.dbid+'&pandema_id='+_self.props.pid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -154,7 +157,7 @@ class ReqFac extends React.Component{
         for(var i = 0; i < this.state.data.length; i++){
           tableContents.push(
             <TableRow key={i}>
-              <TableRowColumn>Requisito Facoltativo {i}</TableRowColumn>
+              <TableRowColumn>Altro Parere {i}</TableRowColumn>
               <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
               <TableRowColumn>
                 <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
@@ -220,4 +223,4 @@ const styles = {
     backgroundColor : '#FFFFFF'
   }
 }
-export default ReqFac;
+export default Altro;

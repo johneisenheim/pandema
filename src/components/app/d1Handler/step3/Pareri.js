@@ -23,7 +23,7 @@ import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 
 //D4D4D4
 
-class Step3 extends React.Component{
+class Pareri extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -54,7 +54,6 @@ class Step3 extends React.Component{
         success: function(data) {
           var parsed = JSON.parse(data);
           _self.praticaPath = parsed.path;
-
           for( var i = 0; i < parsed.results.length; i++ ){
             if( _self.state[parsed.results[i].tipo_descrizione] !== undefined ){
               _self.state[parsed.results[i].tipo_descrizione] = 'Caricato';
@@ -140,8 +139,8 @@ class Step3 extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(filename){
-    window.open(constants.DB_ADDR+'see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(filename){
@@ -222,9 +221,12 @@ class Step3 extends React.Component{
         </Box>
       );
     }else{
-      console.log(this.state['agenziadogana']);
+      var tmp = {};
+      for(var i = 0 ; i < this.state.data.length; i++){
+        tmp[this.state.data[i].tipo_descrizione] = this.state.data[i].id;
+      }
       return (
-        <div style={{marginBottom:'60px'}}>
+        <div>
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
@@ -241,7 +243,7 @@ class Step3 extends React.Component{
                   { this.state['agenziadogana'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'agenziadogana')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['agenziadogana'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'agenziadogana')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -259,13 +261,13 @@ class Step3 extends React.Component{
                   { this.state['agenziademanio'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'agenziademanio')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['agenziademanio'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'agenziademanio')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file2" onChange={this._onFileInputChange.bind(this, 'agenziademanio')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile}  ref="file2" onChange={this._onFileInputChange.bind(this, 'agenziademanio')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -277,13 +279,13 @@ class Step3 extends React.Component{
                   { this.state['pareretecnico'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareretecnico')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareretecnico'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareretecnico')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file3" onChange={this._onFileInputChange.bind(this, 'pareretecnico')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} ref="file3" onChange={this._onFileInputChange.bind(this, 'pareretecnico')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -295,13 +297,13 @@ class Step3 extends React.Component{
                   { this.state['parereurbanistico'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'parereurbanistico')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['parereurbanistico'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'parereurbanistico')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file4" onChange={this._onFileInputChange.bind(this, 'parereurbanistico')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} ref="file4" onChange={this._onFileInputChange.bind(this, 'parereurbanistico')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -313,13 +315,13 @@ class Step3 extends React.Component{
                   { this.state['pareresopraintendenza'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareresopraintendenza')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareresopraintendenza'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareresopraintendenza')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file5" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenza')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} ref="file5" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenza')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -332,13 +334,13 @@ class Step3 extends React.Component{
                   { this.state['pareresic'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareresic')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareresic'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareresic')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file6" onChange={this._onFileInputChange.bind(this, 'pareresic')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} ref="file6" onChange={this._onFileInputChange.bind(this, 'pareresic')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -350,13 +352,13 @@ class Step3 extends React.Component{
                   { this.state['parereautoritamarittima'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'parereautoritamarittima')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['parereautoritamarittima'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'parereautoritamarittima')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file7" onChange={this._onFileInputChange.bind(this, 'parereautoritamarittima')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} ref="file7" onChange={this._onFileInputChange.bind(this, 'parereautoritamarittima')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -368,13 +370,13 @@ class Step3 extends React.Component{
                   { this.state['pareresopraintendenzaarcheologica'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'pareresopraintendenzaarcheologica')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['pareresopraintendenzaarcheologica'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'pareresopraintendenzaarcheologica')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file8" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenzaarcheologica')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} ref="file8" onChange={this._onFileInputChange.bind(this, 'pareresopraintendenzaarcheologica')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -386,13 +388,13 @@ class Step3 extends React.Component{
                   { this.state['parereautoritabacino'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'parereautoritabacino')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['parereautoritabacino'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'parereautoritabacino')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
                     :
                     <FlatButton icon={<Attach/>} label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file9" onChange={this._onFileInputChange.bind(this, 'parereautoritabacino')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile}  ref="file9" onChange={this._onFileInputChange.bind(this, 'parereautoritabacino')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -435,4 +437,4 @@ const styles = {
   }
 }
 
-export default Step3;
+export default Pareri;

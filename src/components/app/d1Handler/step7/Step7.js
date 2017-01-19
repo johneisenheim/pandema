@@ -55,7 +55,7 @@ class Step7 extends React.Component{
       console.log('pratica path');
       console.log(this.praticaPath);
       return(
-        <div style={{marginLeft:'20px'}}>
+        <div>
           <RichiestaAdempimenti pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <AttoConcessione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
         </div>
@@ -82,7 +82,7 @@ const styles = {
     opacity: 0,
   },
   firstStepAddingsStyle :{
-    margin : '10px'
+    marginRight : '20px'
   },
   wrapper: {
     display: 'flex',

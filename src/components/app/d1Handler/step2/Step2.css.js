@@ -3,8 +3,6 @@ const styles = {
     margin : '10px',
     marginTop : '20px',
     width : 'inherit',
-    minWidth : '100%',
-    minHeight : '450px',
     height : 'auto'
   },
   container : {
@@ -27,7 +25,7 @@ const styles = {
     opacity: 0,
   },
   firstStepAddingsStyle :{
-    margin : '10px'
+    marginRight : '20px'
   },
   wrapper: {
     display: 'flex',

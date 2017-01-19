@@ -115,7 +115,7 @@ class Step4 extends React.Component{
       })[0].id;
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.docx'),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -201,7 +201,7 @@ class Step4 extends React.Component{
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'determina')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file1" onChange={this._onFileInputChange.bind(this, 'determina')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -219,7 +219,7 @@ class Step4 extends React.Component{
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'delibera')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file2" onChange={this._onFileInputChange.bind(this, 'delibera')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -237,7 +237,7 @@ class Step4 extends React.Component{
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file3" onChange={this._onFileInputChange.bind(this, 'visto')}/>
+                      <input type="file" style={styles.inputFile} accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" ref="file3" onChange={this._onFileInputChange.bind(this, 'visto')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>

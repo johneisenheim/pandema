@@ -25,8 +25,7 @@ const styles = {
     opacity: 0,
   },
   firstStepAddingsStyle :{
-    margin : '10px',
-    width : '100%'
+    marginRight : '20px'
   },
   wrapper: {
     display: 'flex',

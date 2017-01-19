@@ -114,7 +114,7 @@ class Step6 extends React.Component{
       })[0].id;
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.pdf'),
+          url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.docx'),
           processData: false,
           contentType: false,
           success: function(data) {
@@ -199,7 +199,7 @@ class Step6 extends React.Component{
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file1" onChange={this._onFileInputChange.bind(this, 'determina')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile}  ref="file1" onChange={this._onFileInputChange.bind(this, 'determina')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>
@@ -217,7 +217,7 @@ class Step6 extends React.Component{
                     )
                     :
                     <FlatButton label="Allega file" backgroundColor='#FFFFFF'>
-                      <input type="file" style={styles.inputFile} accept="application/pdf" ref="file2" onChange={this._onFileInputChange.bind(this, 'delibera')}/>
+                      <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} ref="file2" onChange={this._onFileInputChange.bind(this, 'delibera')}/>
                     </FlatButton>
                   }
                 </TableRowColumn>

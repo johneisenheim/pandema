@@ -98,7 +98,7 @@ class Step1 extends React.Component{
             ..._self.state,
             compatibility : v
           })
-          _self.props.tellMeIfCompatible(_self.state.compatibility);
+          _//self.props.tellMeIfCompatible(_self.state.compatibility);
         },
         error : function(err){
           alert('Errore : '+err);

@@ -2,7 +2,7 @@ const styles = {
   paper : {
     margin : '10px',
     marginTop : '20px',
-    width : '100%',
+    width : '99%',
     paddingBottom : '30px',
     height : 'auto'
   },
@@ -26,7 +26,7 @@ const styles = {
     opacity: 0,
   },
   firstStepAddingsStyle :{
-    margin : '10px'
+    marginRight : '20px'
   },
   wrapper: {
     display: 'flex',
