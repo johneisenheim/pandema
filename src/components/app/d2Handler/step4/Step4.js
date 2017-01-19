@@ -102,7 +102,7 @@ class Step4 extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(filename){
+  eyePress(id){
     window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 

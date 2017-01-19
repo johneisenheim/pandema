@@ -102,8 +102,8 @@ class Step4 extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(filename){
-    window.open(constants.DB_ADDR+'see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(filename){
@@ -217,7 +217,7 @@ class Step4 extends React.Component{
                   { this.state['delibera'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'delibera')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['delibera'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'delibera')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -235,7 +235,7 @@ class Step4 extends React.Component{
                   { this.state['visto'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'visto')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['visto'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'visto')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )

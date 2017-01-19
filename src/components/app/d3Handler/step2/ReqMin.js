@@ -128,8 +128,8 @@ class ReqMin extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(filename){
-    window.open(constants.DB_ADDR+'see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(filename){
@@ -208,6 +208,10 @@ class ReqMin extends React.Component{
           </Box>
         );
       }else{
+        var tmp = {};
+        for(var i = 0 ; i < this.state.data.length; i++){
+          tmp[this.state.data[i].tipo_descrizione] = this.state.data[i].id;
+        }
         return(
           <Box column style={{marginTop:'20px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
             <Table selectable={false}>
@@ -226,7 +230,7 @@ class ReqMin extends React.Component{
                     { this.state['visuracamerale'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'visuracamerale')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['visuracamerale'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'visuracamerale')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
@@ -245,7 +249,7 @@ class ReqMin extends React.Component{
 
                         (
                           <div>
-                            <IconButton onTouchTap={this.eyePress.bind(this, 'carichipenali')}><Eye color="#909EA2"/></IconButton>
+                            <IconButton onTouchTap={this.eyePress.bind(this, tmp['carichipenali'])}><Eye color="#909EA2"/></IconButton>
                             <IconButton onTouchTap={this.deletePress.bind(this, 'carichipenali')}><Delete color="#909EA2"/></IconButton>
                           </div>
                         )
@@ -264,7 +268,7 @@ class ReqMin extends React.Component{
                     { this.state['casellariogiudiziale'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'casellariogiudiziale')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['casellariogiudiziale'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'casellariogiudiziale')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
@@ -282,7 +286,7 @@ class ReqMin extends React.Component{
                     { this.state['durc'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'durc')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['durc'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'durc')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
@@ -300,7 +304,7 @@ class ReqMin extends React.Component{
                     { this.state['certificatofallimentare'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'certificatofallimentare')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['certificatofallimentare'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'certificatofallimentare')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
@@ -318,7 +322,7 @@ class ReqMin extends React.Component{
                     { this.state['certificatoantimafia'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'certificatoantimafia')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['certificatoantimafia'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'certificatoantimafia')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
@@ -336,7 +340,7 @@ class ReqMin extends React.Component{
                     { this.state['verificadocumentazionetecnica'] !== 'Non caricato' ?
                       (
                         <div>
-                          <IconButton onTouchTap={this.eyePress.bind(this, 'verificadocumentazionetecnica')}><Eye color="#909EA2"/></IconButton>
+                          <IconButton onTouchTap={this.eyePress.bind(this, tmp['verificadocumentazionetecnica'])}><Eye color="#909EA2"/></IconButton>
                           <IconButton onTouchTap={this.deletePress.bind(this, 'verificadocumentazionetecnica')}><Delete color="#909EA2"/></IconButton>
                         </div>
                       )
