@@ -101,8 +101,8 @@ class Step6 extends React.Component{
     toggleLoader.emit('toggleLoader');
   }
 
-  eyePress(filename){
-    window.open(constants.DB_ADDR+'see?a='+this.praticaPath+'/'+filename+'.pdf','_blank');
+  eyePress(id){
+    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   deletePress(filename){
@@ -175,6 +175,10 @@ class Step6 extends React.Component{
         </Box>
       );
     }else{
+      var tmp = {};
+      for(var i = 0 ; i < this.state.data.length; i++){
+        tmp[this.state.data[i].tipo_descrizione] = this.state.data[i].id;
+      }
       return(
         <div>
           <Table selectable={false}>
@@ -193,7 +197,7 @@ class Step6 extends React.Component{
                   { this.state['determina'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'determina')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['determina'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'determina')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )
@@ -211,7 +215,7 @@ class Step6 extends React.Component{
                   { this.state['delibera'] !== 'Non caricato' ?
                     (
                       <div>
-                        <IconButton onTouchTap={this.eyePress.bind(this, 'delibera')}><Eye color="#909EA2"/></IconButton>
+                        <IconButton onTouchTap={this.eyePress.bind(this, tmp['delibera'])}><Eye color="#909EA2"/></IconButton>
                         <IconButton onTouchTap={this.deletePress.bind(this, 'delibera')}><Delete color="#909EA2"/></IconButton>
                       </div>
                     )

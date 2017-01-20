@@ -57,8 +57,7 @@ class D3Handler extends React.Component{
     /*if(this.state.stepIndex == 3){
       window.open('https://drive.google.com/open?id=0B5KalOy4omiKWFBWZnhQeWt2Szg');
     }else*/
-    console.log(this.state.stepIndex)
-    if(this.state.stepIndex == 4){
+    if(this.state.stepIndex == 5){
       browserHistory.push('/');
     }else{
       this.setState({
@@ -90,6 +89,9 @@ class D3Handler extends React.Component{
         return <Step6 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 4:
+        return <Step7 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
+        break;
+      case 5:
         return <Step8 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
 
@@ -131,6 +133,11 @@ class D3Handler extends React.Component{
                   </Step>
                   <Step>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                      Richiesta Adempimenti
+                    </StepButton>
+                  </Step>
+                  <Step>
+                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Fine
                     </StepButton>
                   </Step>
@@ -149,7 +156,7 @@ class D3Handler extends React.Component{
                    icon ={<PrevIcon />}
                  />
                  <FlatButton
-                   label={this.state.stepIndex === 4 ? 'Fine' : 'Avanti'}
+                   label={this.state.stepIndex === 5 ? 'Fine' : 'Avanti'}
                    primary={false}
                    onTouchTap={this._next.bind(this)}
                    labelPosition="before"

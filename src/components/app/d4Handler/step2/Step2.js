@@ -60,7 +60,7 @@ class Step2 extends React.Component{
         onChange={this.handleChange.bind(this)}
         >
         <Tab label="Requisiti Minimi" value="a" style={{backgroundColor:'white'}}>
-            <div style={{marginBottom:'70px'}}>
+            <div>
               <ReqMin pid={this.props.pid} dbid={this.props.dbid} />
             </div>
         </Tab>

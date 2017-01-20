@@ -125,7 +125,7 @@ class Step4 extends React.Component{
     switch(this.state.choice){
       case '0':
         return (
-          <div style={{marginLeft : '20px', marginTop : '45px', width : '100%'}}>
+          <div style={{marginTop : '45px',  width : '100%', marginRight : '20px'}}>
             <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
               <AttiCessioneFitto pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
@@ -137,7 +137,7 @@ class Step4 extends React.Component{
       break;
       case '1':
         return (
-          <div style={{marginLeft : '20px', marginTop : '45px',  width : '100%'}}>
+          <div style={{marginTop : '45px',  width : '100%', marginRight : '20px'}}>
             <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
               <VariazioneAssetto pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
@@ -149,7 +149,7 @@ class Step4 extends React.Component{
       break;
       case '2':
         return (
-          <div style={{marginLeft : '20px', marginTop : '45px',  width : '100%'}}>
+          <div style={{marginTop : '45px',  width : '100%', marginRight : '20px'}}>
             <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
               <VenditaAggiudicazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
             </Box>
@@ -161,7 +161,7 @@ class Step4 extends React.Component{
       break;
       case '3':
       return (
-        <div style={{marginLeft : '20px', marginTop : '45px',  width : '100%'}}>
+        <div style={{marginTop : '45px',  width : '100%', marginRight : '20px'}}>
           <Box column alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}>
             <CertificatoMorte pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           </Box>
@@ -185,7 +185,7 @@ class Step4 extends React.Component{
       );
     }else{
       return(
-        <div style={{marginLeft:'20px', marginTop:'20px'}}>
+        <div style={{marginLeft:'20px', marginTop:'20px', marginRight:'20px'}}>
           <RadioButtonGroup name="shipSpeed" onChange={this._onRadioChange.bind(this)}>
             <RadioButton
               value="0"

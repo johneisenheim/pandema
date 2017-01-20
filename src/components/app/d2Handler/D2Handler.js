@@ -92,7 +92,7 @@ class D2Handler extends React.Component{
         return <Step4 pid={this.props.params.pid} dbid={this.props.params.dbid} />;
         break;
       case 3:
-        return <Step6 ref="step6"/>;
+        return <Step6 ref="step6" pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 4:
         if(this.state.isCompatible)

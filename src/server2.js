@@ -868,6 +868,15 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 41;
       break;
+      case 42:
+        var attoAutorizzazioniPath = praticaPath+'/atto_autorizzazione';
+        if(!fs.existsSync(attoAutorizzazioniPath)){
+          fs.mkdirSync(attoAutorizzazioniPath);
+        }
+        file.path = attoAutorizzazioniPath+'/atto_autorizzazione_'+Math.floor(new Date() / 1000)+'.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 42;
+      break;
 
     }
 
@@ -1014,6 +1023,10 @@ app2.get('/downloadRichiestaAdempimenti', function(req, res){
 
 app2.get('/getAttoConcessione', function(req, res){
   middleware.getAttoConcessione(req, res);
+});
+
+app2.get('/getAttoAutorizzazione', function(req, res){
+  middleware.getAttoAutorizzazione(req, res);
 });
 
 app2.get('/getRichiestaAnticipata', function(req, res){

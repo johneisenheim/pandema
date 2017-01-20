@@ -176,7 +176,7 @@ class CertificatoMorte extends React.Component{
           }
       }
       return (
-          <Box column style={{marginTop:'30px', width:'90%'}} alignItems="flex-start" justifyContent="flex-start">
+          <Box column style={{marginTop:'30px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
                 <ToolbarTitle text="Certificato morte e atti ereditari" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>

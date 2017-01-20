@@ -317,7 +317,7 @@ class Middleware{
 
       res.end(JSON.stringify({response : true, results : rows}));
 
-    });
+    }); //VG59TQ
   }
 
   getgeneralinfosArchivio(req,res){
@@ -571,7 +571,17 @@ class Middleware{
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
-          res.end(JSON.stringify({canone:canoni,imposta:rows}))
+          _callback(null, canoni, rows);
+        });
+      },
+      function(canoni, imposte, _callback){
+        _self.connection.query("SELECT codice_uso_scopo.descrizione FROM codice_uso_scopo LEFT JOIN pratica ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.id="+_self.connection.escape(req.query.dbid)+" AND pratica.pandema_id="+_self.connection.escape(req.query.pid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({canone:canoni,imposta:imposte, codice : rows}));
           _callback(null);
         });
       }
@@ -802,6 +812,7 @@ class Middleware{
   }
 
   deleteImposta(req, res){
+    console.log("DELETE FROM imposta WHERE id="+this.connection.escape(req.query.id));
     this.connection.query("DELETE FROM imposta WHERE id="+this.connection.escape(req.query.id), function(err, rows){
       if(err){
         console.log('Err in 1 '+ err);
@@ -1060,6 +1071,17 @@ class Middleware{
 
   getAttoConcessione(req, res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=31", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  getAttoAutorizzazione(req, res){
+    this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=42", function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));

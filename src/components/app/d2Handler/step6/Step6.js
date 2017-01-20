@@ -21,6 +21,7 @@ class Step6 extends React.Component{
       pertinenza_demaniale : '',
       tasse_di_registro : '',
       oneri_accessori : '',
+      cauzione_demolizione : '',
       p_usi_vari : '',
       p_turistico_e_diporto : '',
       p_pesca_acqua_cantieri : '',
@@ -28,12 +29,15 @@ class Step6 extends React.Component{
       p_pertinenza_demaniale : '',
       p_tasse_di_registro : '',
       p_oneri_accessori : '',
-      data : []
+      p_cauzione_demolizione : '',
+      data : [],
+      uso_scopo : undefined
     }
   }
 
   componentDidMount(){
     var _self = this;
+    console.log(constants.DB_ADDR+'handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid);
     $.ajax({
         type: 'GET',
         url: constants.DB_ADDR+'handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid,
@@ -41,7 +45,7 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          console.log('CODICE USO SCOPO',parsed);
           if(parsed.canone !== undefined){
             for( var i = 0; i < parsed.canone.length; i++){
               _self.state[parsed.canone[i].descrizione] = parsed.canone[i].valore;
@@ -58,6 +62,7 @@ class Step6 extends React.Component{
           }
           _self.state.isLoading = false;
           _self.state.data = parsed;
+          _self.state.uso_scopo = parsed.codice[0].descrizione;
           _self.setState(_self.state);
           console.log(_self.state)
         },
@@ -104,12 +109,14 @@ class Step6 extends React.Component{
       break;
       case 'tasse_di_registro':
       case 'oneri_accessori':
+      case 'cauzione_demolizione':
         command = 'addImposta';
       break;
     }
+    console.log(constants.DB_ADDR+command+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&who='+escape(who));
     $.ajax({
         type: 'GET',
-        url: constants.DB_ADDR+''+command+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&who='+escape(who),
+        url: constants.DB_ADDR+command+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&who='+escape(who),
         processData: false,
         contentType: false,
         success: function(data) {
@@ -141,6 +148,7 @@ class Step6 extends React.Component{
       break;
       case 'tasse_di_registro':
       case 'oneri_accessori':
+      case 'cauzione_demolizione':
         entity = 'imposta';
       break;
     }
@@ -187,6 +195,7 @@ class Step6 extends React.Component{
       break;
       case 'tasse_di_registro':
       case 'oneri_accessori':
+      case 'cauzione_demolizione':
         entity = 'imposta';
       break;
     }
@@ -238,6 +247,7 @@ class Step6 extends React.Component{
           _self.state['pertinenza_demaniale'] = '';
           _self.state['tasse_di_registro'] = '';
           _self.state['oneri_accessori'] = '';
+          _self.state['cauzione_demolizione'] = '';
           _self.state['p_usi_vari'] = '';
           _self.state['p_turistico_e_diporto'] = '';
           _self.state['p_pesca_acqua_cantieri'] = '';
@@ -245,6 +255,7 @@ class Step6 extends React.Component{
           _self.state['p_pertinenza_demaniale'] = '';
           _self.state['p_tasse_di_registro'] = '';
           _self.state['p_oneri_accessori'] = '';
+          _self.state['p_cauzione_demolizione'] = '';
           if(parsed.canone !== undefined){
             if(parsed.canone.length === 0){
               _self.state['usi_vari'] = '';
@@ -252,11 +263,13 @@ class Step6 extends React.Component{
               _self.state['pesca_acqua_cantieri'] = '';
               _self.state['regione_campania'] = '';
               _self.state['pertinenza_demaniale'] = '';
+              _self.state['cauzione_demolizione'] = '';
               _self.state['p_usi_vari'] = '';
               _self.state['p_turistico_e_diporto'] = '';
               _self.state['p_pesca_acqua_cantieri'] = '';
               _self.state['p_regione_campania'] = '';
               _self.state['p_pertinenza_demaniale'] = '';
+              _self.state['p_cauzione_demolizione'] = '';
             }else{
               for( var i = 0; i < parsed.canone.length; i++){
                 _self.state[parsed.canone[i].descrizione] = parsed.canone[i].valore;
@@ -269,8 +282,10 @@ class Step6 extends React.Component{
             if(parsed.imposta.length === 0){
               _self.state['tasse_di_registro'] = '';
               _self.state['oneri_accessori'] = '';
+              _self.state['cauzione_demolizione'] = '';
               _self.state['p_tasse_di_registro'] = '';
               _self.state['p_oneri_accessori'] = '';
+              _self.state['p_cauzione_demolizione'] = '';
             }else{
               for( var i = 0; i < parsed.imposta.length; i++){
                 _self.state[parsed.imposta[i].descrizione] = parsed.imposta[i].valore;
@@ -302,7 +317,7 @@ class Step6 extends React.Component{
       return(
         <div style={{marginLeft:'20px'}}>
             <p>Seleziona la tipologia del canone per visualizzare il foglio di calcolo: </p>
-            <FlatButton label="Usi vari" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/><TextField hintText="0.00" ref="usi_vari" value={this.state['usi_vari']} onChange={this.onChange.bind(this, 'usi_vari', 'usi_vari')} style={{width:'90px', marginLeft:'20px'}}/>
+            <FlatButton label="Usi vari" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')} disabled={this.state.uso_scopo!=='usi_vari'}/><TextField hintText="0.00" disabled={this.state.uso_scopo!=='usi_vari'} ref="usi_vari" value={this.state['usi_vari']} onChange={this.onChange.bind(this, 'usi_vari', 'usi_vari')} style={{width:'90px', marginLeft:'20px'}}/>
             {
               this.state['p_usi_vari'] === ''
               ?
@@ -310,7 +325,7 @@ class Step6 extends React.Component{
               :
               <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'usi_vari')}/> <FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'usi_vari')}/></span>
             }<br/>
-            <FlatButton label="Turistico e diporto" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00" value={this.state['turistico_e_diporto']} style={{width:'90px', marginLeft:'20px'}} ref="turistico_e_diporto" onChange={this.onChange.bind(this, 'turistico_e_diporto', 'turistico_e_diporto')}/>
+            <FlatButton label="Turistico e diporto" icon={<Chart />} style={{marginTop:'10px'}} disabled={this.state.uso_scopo!=='turistico_e_diporto'}/><TextField hintText="0.00" disabled={this.state.uso_scopo!=='turistico_e_diporto'} value={this.state['turistico_e_diporto']} style={{width:'90px', marginLeft:'20px'}} ref="turistico_e_diporto" onChange={this.onChange.bind(this, 'turistico_e_diporto', 'turistico_e_diporto')}/>
             {
               this.state['p_turistico_e_diporto'] === ''
               ?
@@ -318,7 +333,7 @@ class Step6 extends React.Component{
               :
               <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'turistico_e_diporto')}/> <FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'turistico_e_diporto')}/></span>
             }<br/>
-          <FlatButton label="Pesca, acqua e cantieri" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00" value={this.state['pesca_acqua_cantieri']} style={{width:'90px', marginLeft:'20px'}} ref="pesca_acqua_cantieri" onChange={this.onChange.bind(this, 'pesca_acqua_cantieri', 'pesca_acqua_cantieri')}/>
+          <FlatButton label="Pesca, acqua e cantieri" icon={<Chart />} style={{marginTop:'10px'}} disabled={this.state.uso_scopo!=='pesca_acqua_cantieri'}/><TextField hintText="0.00" disabled={this.state.uso_scopo!=='pesca_acqua_cantieri'} value={this.state['pesca_acqua_cantieri']} style={{width:'90px', marginLeft:'20px'}} ref="pesca_acqua_cantieri" onChange={this.onChange.bind(this, 'pesca_acqua_cantieri', 'pesca_acqua_cantieri')}/>
             {
               this.state['p_pesca_acqua_cantieri'] === ''
               ?
@@ -326,14 +341,14 @@ class Step6 extends React.Component{
               :
               <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'pesca_acqua_cantieri')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'pesca_acqua_cantieri')}/></span>
             }<br/>
-          <FlatButton label="Regione Campania" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00" value={this.state['regione_campania']} style={{width:'90px', marginLeft:'20px'}} ref="regione_campania" onChange={this.onChange.bind(this, 'regione_campania', 'regione_campania')}/>
+          <FlatButton label="Regione Campania" icon={<Chart />} style={{marginTop:'10px'}} disabled={this.state.uso_scopo!=='regione_campania'}/><TextField hintText="0.00" disabled={this.state.uso_scopo!=='regione_campania'} value={this.state['regione_campania']} style={{width:'90px', marginLeft:'20px'}} ref="regione_campania" onChange={this.onChange.bind(this, 'regione_campania', 'regione_campania')}/>
             {this.state['p_regione_campania'] === ''
               ?
               <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'regione_campania')} disabled={this.state['regione_campania'] === ''}/>
               :
               <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'regione_campania')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'regione_campania')}/></span>
             }<br/>
-          <FlatButton label="Pertinenza Demaniale" icon={<Chart />} style={{marginTop:'10px'}}/><TextField hintText="0.00" value={this.state['pertinenza_demaniale']} style={{width:'90px', marginLeft:'20px'}} ref="pertinenza_demaniale" onChange={this.onChange.bind(this, 'pertinenza_demaniale', 'pertinenza_demaniale')}/>
+          <FlatButton label="Pertinenza Demaniale" icon={<Chart />} style={{marginTop:'10px'}} disabled={this.state.uso_scopo!=='pertinenza_demaniale'}/><TextField hintText="0.00" disabled={this.state.uso_scopo!=='pertinenza_demaniale'} value={this.state['pertinenza_demaniale']} style={{width:'90px', marginLeft:'20px'}} ref="pertinenza_demaniale" onChange={this.onChange.bind(this, 'pertinenza_demaniale', 'pertinenza_demaniale')}/>
             {this.state['p_pertinenza_demaniale'] === ''
               ?
               <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'pertinenza_demaniale')} disabled={this.state['pertinenza_demaniale'] === ''}/>
@@ -355,6 +370,13 @@ class Step6 extends React.Component{
             :
             <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'oneri_accessori')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'oneri_accessori')}/></span>
           }<br/>
+          <FlatButton label="Cauzione per Demolizione" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/> <TextField hintText="0.00" value={this.state['cauzione_demolizione']} ref="cauzione_demolizione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione_demolizione', 'cauzione_demolizione')}/>
+            {this.state['p_cauzione_demolizione'] === ''
+              ?
+              <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'cauzione_demolizione')} disabled={this.state['cauzione_demolizione'] === ''}/>
+              :
+              <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'cauzione_demolizione')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'cauzione_demolizione')}/></span>
+            }<br/>
         <br/>
         </div>
       );

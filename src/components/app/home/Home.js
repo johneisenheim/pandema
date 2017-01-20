@@ -72,8 +72,7 @@ class Home extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('home successs')
-          console.log(parsed);
+          console.log('home successs',parsed);
           _self.setState({
               ..._self.state,
               isLoading : false,
