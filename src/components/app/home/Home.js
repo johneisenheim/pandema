@@ -42,7 +42,8 @@ import {Link} from "react-router";
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 import Select from '../complementars/Select';
-
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
 
@@ -58,6 +59,7 @@ class Home extends React.Component{
     super(props);
     this.state = {
       isLoading : true,
+      open : false,
       data : []
     };
     console.log(constants.DB_ADDR);
@@ -148,6 +150,36 @@ class Home extends React.Component{
 
   }
 
+  handleRequestClose(){
+    this.setState({
+      open: false
+    });
+  }
+
+  onIconMenu(e, k, v){
+    switch(v){
+      case 0:
+        //browserHistory.push('/nuovoabuso');
+        this.refs.nuovoabuso.openModal();
+      break;
+      case 1:
+        this.refs.nuovoabusodropdownA.openModal();
+      break;
+      case 2:
+        this.refs.nuovoabusodropdownB.openModal();
+      break;
+    }
+  }
+
+  /*<RaisedButton
+    label="Aggiungi nuova pratica"
+    containerElement={<Link to="/nuovapratica"/>}
+    backgroundColor ='#4CA7D0'
+    icon={<ContentAdd />}
+    labelStyle={{color:'#FFFFFF'}}
+    style={{marginTop:'10px'}}
+  />*/
+
   render (){
     var tableContents = [];
     if( this.state.isLoading ){
@@ -206,8 +238,6 @@ class Home extends React.Component{
                 <Link to={linkToD} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}><FlatButton label="Gestisci" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/></Link>
               </TableRowColumn>
             </TableRow>
-
-
           );
         }
       }
@@ -215,14 +245,20 @@ class Home extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme}>
           <Box column>
             <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
-              <RaisedButton
-                label="Aggiungi nuova pratica"
-                containerElement={<Link to="/nuovapratica"/>}
-                backgroundColor ='#4CA7D0'
-                icon={<ContentAdd />}
-                labelStyle={{color:'#FFFFFF'}}
-                style={{marginTop:'10px'}}
-              />
+              <Popover
+                open={this.state.open}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose.bind(this)}
+                touchTapCloseDelay={100}
+              >
+                <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
+                  <MenuItem primaryText="Generico" />
+                  <MenuItem primaryText="In Aree in Concessione" />
+                  <MenuItem primaryText="Cod. Nav. 47" />
+                </Menu>
+              </Popover>
             </Box>
               <Paper zDepth={1} style={styles.paper}>
                 <Toolbar style={{backgroundColor:'#4CA7D0'}}>
