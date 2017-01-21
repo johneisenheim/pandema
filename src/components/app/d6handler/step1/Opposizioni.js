@@ -21,15 +21,12 @@ import CircularProgress from 'material-ui/CircularProgress';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/action/note-add';
-import Check from 'material-ui/svg-icons/action/check-circle';
-import TextField from 'material-ui/TextField';
-
 
 import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
-import Download from 'material-ui/svg-icons/file/file-download';
 
-class AvvisoIstruttoria extends React.Component{
+
+class Opposizioni extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -45,10 +42,11 @@ class AvvisoIstruttoria extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1opposizioni?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
+          console.log('opposizioni query ok');
           var parsed = JSON.parse(data);
           console.log(parsed);
           _self.setState({
@@ -64,13 +62,13 @@ class AvvisoIstruttoria extends React.Component{
     });
   }
 
-  _avvisoPubblicazioneFileHandler(e){
+  _opposizioniFileHandler(e){
     var _self = this;
     var formData = new FormData();
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);
-    formData.append('atype', 4);
+    formData.append('atype', 3);
     formData.append('file', this.refs.file.files[0]);
     $.ajax({
         type: 'POST',
@@ -96,17 +94,16 @@ class AvvisoIstruttoria extends React.Component{
     _self.setState({
       ..._self.state,
       isLoading : true,
-      data : []
+      data : null
     })
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1opposizioni?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
-        success: function(data) {
+        success: function(data){
           var parsed = JSON.parse(data);
-          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -146,10 +143,6 @@ class AvvisoIstruttoria extends React.Component{
     }
   }
 
-  downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadD1AvvisoIstruttoria', '_blank')
-  }
-
   render (){
     if( this.state.isLoading ){
       return(
@@ -166,27 +159,26 @@ class AvvisoIstruttoria extends React.Component{
           </TableRow>
         );
       }else{
-          for ( var i = 0; i < this.state.data.length; i++){
-            tableContents.push(
-              <TableRow key={i}>
-                <TableRowColumn>File</TableRowColumn>
-                <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
-                <TableRowColumn>
-                  <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
-                  <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
-                </TableRowColumn>
-              </TableRow>
-            );
-          }
+        for ( var i = 0; i < this.state.data.length; i++){
+          tableContents.push(
+            <TableRow key={i}>
+              <TableRowColumn>File Opposizioni #{i+1}</TableRowColumn>
+              <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
+              <TableRowColumn>
+                <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
+                <IconButton onTouchTap={this.deletePress.bind(this, this.state.data[i].path, this.state.data[i].id)}><Delete color="#909EA2"/></IconButton>
+              </TableRowColumn>
+            </TableRow>
+          );
+        }
       }
       return (
-          <Box column style={{marginTop:'30px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
+          <Box column style={{marginTop:'20px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="File caricato per Avvio Istruttoria" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="Files caricati per Opposizioni" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
-                  <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
-                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
-                    {this.state.data.length == 0 ? <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._avvisoPubblicazioneFileHandler.bind(this)} ref="file"/> : null}
+                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
+                     <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile}  onChange={this._opposizioniFileHandler.bind(this)} ref="file"/>
                   </FlatButton>
                 </ToolbarGroup>
               </Toolbar>
@@ -259,4 +251,4 @@ const styles = {
 };
 
 
-export default AvvisoIstruttoria;
+export default Opposizioni;

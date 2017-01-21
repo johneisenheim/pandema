@@ -185,6 +185,9 @@ class Home extends React.Component{
             case 6:
               linkToD = '/d3shandler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
+            case 7:
+              linkToD = '/d6handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
+            break;
           }
           tableContents.push(
             <TableRow key={i}>

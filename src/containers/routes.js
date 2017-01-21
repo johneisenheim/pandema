@@ -9,6 +9,7 @@ import D3Handler from '../components/app/d3Handler/D3Handler';
 import D4Handler from '../components/app/d4Handler/D4Handler';
 import D5Handler from '../components/app/d5Handler/D5Handler';
 import D3SHandler from '../components/app/d3shandler/D3Shandler';
+import D6Handler from '../components/app/d6handler/D6handler';
 import Admin from '../components/admin/Admin';
 import AvvisoDiniego from '../components/app/forms/AvvisoDiniego';
 import AvvisoPubblicazione from '../components/app/forms/AvvisoPubblicazione';
@@ -47,6 +48,7 @@ module.exports = (
 			<Route path='d4handler/:pid/:dbid' component={D4Handler} />
 			<Route path='d5handler/:pid/:dbid' component={D5Handler} />
 			<Route path='d3shandler/:pid/:dbid' component={D3SHandler} />
+			<Route path='d6handler/:pid/:dbid' component={D6Handler} />
 			<Route path='/avvisodiniego' component={AvvisoDiniego} />
 			<Route path='/gestisciallegati/:pid/:dbid' component={GestisciAllegati} />
 			<Route path='/avvisopubblicazione' component={AvvisoPubblicazione} />

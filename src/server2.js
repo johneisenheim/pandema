@@ -636,8 +636,8 @@ app2.post('/addFile', function(req, res){
         toMiddleware.allegatoType = 3;
       break;
       case 4:
-        file.path = praticaPath+'/d1_avviso_istruttoria.docx';
-        toMiddleware.filepath = praticaPath+'/d1_avviso_istruttoria.docx';
+        file.path = praticaPath+'/d1_avvio_istruttoria.docx';
+        toMiddleware.filepath = praticaPath+'/d1_avvio_istruttoria.docx';
         toMiddleware.allegatoType = 4;
       break;
       case 5:
@@ -877,6 +877,24 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 42;
       break;
+      case 43:
+        var attoFinaleD5Path = praticaPath+'/atto_finale_d5';
+        if(!fs.existsSync(attoFinaleD5Path)){
+          fs.mkdirSync(attoFinaleD5Path);
+        }
+        file.path = attoFinaleD5Path+'/atto_finale_d5_'+Math.floor(new Date() / 1000)+'.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 43;
+      break;
+      case 44:
+        var attiAutorizzazionePath = praticaPath+'/atti_autorizzazione';
+        if(!fs.existsSync(attiAutorizzazionePath)){
+          fs.mkdirSync(attiAutorizzazionePath);
+        }
+        file.path = attiAutorizzazionePath+'/atto_autorizzazione_'+Math.floor(new Date() / 1000)+'.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 44;
+      break;
 
     }
 
@@ -1023,6 +1041,10 @@ app2.get('/downloadRichiestaAdempimenti', function(req, res){
 
 app2.get('/getAttoConcessione', function(req, res){
   middleware.getAttoConcessione(req, res);
+});
+
+app2.get('/getAttoFinaleD5', function(req, res){
+  middleware.getAttoFinaleD5(req, res);
 });
 
 app2.get('/getAttoAutorizzazione', function(req, res){
@@ -1207,6 +1229,10 @@ app2.post('/addNewArt45Registry', function(req,res){
 
 app2.get('/getRegistroArt45', function(req,res){
   middleware.getRegistroArt45(req,res);
+});
+
+app2.get('/getAttiAutorizzazione', function(req, res){
+  middleware.getAttiAutorizzazione(req,res);
 });
 
 

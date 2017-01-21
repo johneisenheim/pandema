@@ -27,9 +27,8 @@ import TextField from 'material-ui/TextField';
 
 import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
-import Download from 'material-ui/svg-icons/file/file-download';
 
-class AttoConcessione extends React.Component{
+class AlternativaDiniego extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -45,10 +44,11 @@ class AttoConcessione extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAttoConcessione?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
+          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
           console.log(parsed);
           _self.setState({
@@ -64,13 +64,13 @@ class AttoConcessione extends React.Component{
     });
   }
 
-  _avvisoPubblicazioneFileHandler(e){
+  _domandeConcorrenzaFileHandler(e){
     var _self = this;
     var formData = new FormData();
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);
-    formData.append('atype', 31);
+    formData.append('atype', 5);
     formData.append('file', this.refs.file.files[0]);
     $.ajax({
         type: 'POST',
@@ -96,15 +96,16 @@ class AttoConcessione extends React.Component{
     _self.setState({
       ..._self.state,
       isLoading : true,
-      data : []
+      data : null
     })
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAttoConcessione?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1alternativadiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
+          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
           console.log(parsed);
           _self.setState({
@@ -146,10 +147,6 @@ class AttoConcessione extends React.Component{
     }
   }
 
-  downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadAttoConcessione', '_blank')
-  }
-
   render (){
     if( this.state.isLoading ){
       return(
@@ -169,7 +166,7 @@ class AttoConcessione extends React.Component{
           for ( var i = 0; i < this.state.data.length; i++){
             tableContents.push(
               <TableRow key={i}>
-                <TableRowColumn>File</TableRowColumn>
+                <TableRowColumn>File Alternativa Diniego #{i+1}</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
@@ -182,11 +179,10 @@ class AttoConcessione extends React.Component{
       return (
           <Box column style={{marginTop:'30px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="File caricato per Avviso Diniego" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="Files caricati per Alternativa Diniego" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
-                  <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
-                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
-                    {this.state.data.length == 0 ? <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._avvisoPubblicazioneFileHandler.bind(this)} ref="file"/> : null}
+                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
+                    <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._domandeConcorrenzaFileHandler.bind(this)} ref="file"/>
                   </FlatButton>
                 </ToolbarGroup>
               </Toolbar>
@@ -259,4 +255,4 @@ const styles = {
 };
 
 
-export default AttoConcessione;
+export default AlternativaDiniego;
