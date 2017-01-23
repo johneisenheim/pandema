@@ -89,6 +89,7 @@ class DropdownB extends React.Component{
       ...this.state,
       isLoading : true
     })
+        console.log('GLOBAL CITY',global.city);
     $.ajax({
         type: 'GET',
         //data: formData,

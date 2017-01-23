@@ -109,7 +109,7 @@ class HandleGestioneAbusi extends React.Component{
                   <PrimoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path} usoscopo={this.state.usoscopo}/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
-                  <SecondoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                  <SecondoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path} usoscopo={this.state.usoscopo}/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginBottom:'30px'}}>
                   <Trasmissione pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>

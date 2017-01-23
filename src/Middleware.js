@@ -1299,7 +1299,7 @@ class Middleware{
         });
       },
       function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
-        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, pratica_pandema_id) VALUES("+_self.connection.escape('ABAC'+req.query.ref)+", 5, 2,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.ref)+")", function(err, rows){
+        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, pratica_pandema_id, comune_id) VALUES("+_self.connection.escape('ABAC'+req.query.ref)+", 5, 2,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.ref)+","+_self.connection.escape(req.query.comune_id)+")", function(err, rows){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
               res.end(JSON.stringify({response : false, err: err}))
@@ -1351,7 +1351,8 @@ class Middleware{
         });
       },
       function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
-        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, pratica_pandema_id) VALUES("+_self.connection.escape('ABART47'+req.query.ref)+", 5, 3,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.ref)+")", function(err, rows){
+        console.log("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, pratica_pandema_id,comune_id) VALUES("+_self.connection.escape('ABART47'+req.query.ref)+", 5, 3,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.ref)+","+")")
+        _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, pratica_pandema_id,comune_id) VALUES("+_self.connection.escape('ABART47'+req.query.ref)+", 5, 3,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.ref)+","+_self.connection.escape(req.query.comune_id)+")", function(err, rows){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
               res.end(JSON.stringify({response : false, err: err}))
