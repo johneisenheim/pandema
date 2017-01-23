@@ -44,6 +44,8 @@ import $ from 'jquery';
 import Select from '../complementars/Select';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
+import DropdownA from './DropdownA';
+import { browserHistory } from 'react-router';
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
 
@@ -157,28 +159,41 @@ class Home extends React.Component{
   }
 
   onIconMenu(e, k, v){
+    console.log('herre', e, k, v)
     switch(v){
       case 0:
-        //browserHistory.push('/nuovoabuso');
-        this.refs.nuovoabuso.openModal();
+        browserHistory.push('/nuovapraticad1');
       break;
       case 1:
-        this.refs.nuovoabusodropdownA.openModal();
+        this.refs.dropdown.setdtype('d2');
       break;
       case 2:
-        this.refs.nuovoabusodropdownB.openModal();
+        this.refs.dropdown.setdtype('d3');
+      break;
+      case 3:
+        this.refs.dropdown.setdtype('d3s');
+      break;
+      case 4:
+        this.refs.dropdown.setdtype('d4');
+      break;
+      case 5:
+        browserHistory.push('/nuovapraticad5');
+      break;
+      case 6:
+        this.refs.dropdown.setdtype('d6');
       break;
     }
   }
 
-  /*<RaisedButton
-    label="Aggiungi nuova pratica"
-    containerElement={<Link to="/nuovapratica"/>}
-    backgroundColor ='#4CA7D0'
-    icon={<ContentAdd />}
-    labelStyle={{color:'#FFFFFF'}}
-    style={{marginTop:'10px'}}
-  />*/
+  handleTouchTap(event){
+    event.preventDefault();
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  /**/
 
   render (){
     var tableContents = [];
@@ -245,6 +260,14 @@ class Home extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme}>
           <Box column>
             <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
+              <RaisedButton
+                label="Aggiungi nuova pratica"
+                backgroundColor ='#4CA7D0'
+                icon={<ContentAdd />}
+                labelStyle={{color:'#FFFFFF'}}
+                style={{marginTop:'10px'}}
+                onTouchTap={this.handleTouchTap.bind(this)}
+              />
               <Popover
                 open={this.state.open}
                 anchorEl={this.state.anchorEl}
@@ -254,9 +277,13 @@ class Home extends React.Component{
                 touchTapCloseDelay={100}
               >
                 <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
-                  <MenuItem primaryText="Generico" />
-                  <MenuItem primaryText="In Aree in Concessione" />
-                  <MenuItem primaryText="Cod. Nav. 47" />
+                  <MenuItem primaryText="D1" />
+                  <MenuItem primaryText="D2" />
+                  <MenuItem primaryText="D3" />
+                  <MenuItem primaryText="D3S" />
+                  <MenuItem primaryText="D4" />
+                  <MenuItem primaryText="D5" />
+                  <MenuItem primaryText="D6" />
                 </Menu>
               </Popover>
             </Box>
@@ -310,6 +337,7 @@ class Home extends React.Component{
                   </TableBody>
                 </Table>
               </Paper>
+              <DropdownA ref="dropdown"/>
             </Box>
         </MuiThemeProvider>
       )

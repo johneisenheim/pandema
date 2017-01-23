@@ -1141,14 +1141,30 @@ class Middleware{
   }
 
   getAbusiGenerici(req,res){
-    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=1 AND abuso.comune_id="+this.connection.escape(req.query.cid), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=1 AND abuso.comune_id="+_self.connection.escape(req.query.cid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+
+        });
+      },
+      function(abusi, _callback){
+        _self.connection.query("SELECT id,descrizione_com FROM codice_uso_scopo", function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response : false, err : err}));
+          }
+          res.end(JSON.stringify({response:true, results : abusi, usoscopo: rows}));
+          _callback(null);
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ]);
   }
 
   getAbusiAree(req, res){
@@ -1163,6 +1179,7 @@ class Middleware{
   }
 
   getAbusiCodNav(req,res){
+    console.log("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=3 AND abuso.comune_id="+this.connection.escape(req.query.cid));
     this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=3 AND abuso.comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
         console.log(err);
@@ -1218,7 +1235,7 @@ class Middleware{
           _callback(null, completePraticaPath, npraticaFolder, abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder,abusiFolder, _callback){
+      function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
         _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, path, comune_id) VALUES("+_self.connection.escape(req.query.pid)+", 5, 1,"+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(req.query.comune_id)+")", function(err, rows){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
@@ -1229,7 +1246,11 @@ class Middleware{
             _callback(null, completePraticaPath, npraticaFolder,abusiFolder);
         });
       },
-      function(completePraticaPath, npraticaFolder,abusiFolder, _callback){
+      function(completePraticaPath, npraticaFolder, abusiFolder, _callback){
+
+        if(!fs.existsSync(abusiFolder)){
+          fs.mkdirSync(abusiFolder);
+        }
 
         if(!fs.existsSync(npraticaFolder)){
           fs.mkdirSync(npraticaFolder);
@@ -1381,14 +1402,30 @@ class Middleware{
   }
 
   getAbusoPath(req,res){
-    this.connection.query("SELECT path FROM abuso WHERE id="+this.connection.escape(req.query.dbid)+" AND pandema_abuso_id="+this.connection.escape(req.query.pid), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT path FROM abuso WHERE id="+_self.connection.escape(req.query.dbid)+" AND pandema_abuso_id="+_self.connection.escape(req.query.pid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+        });
+      },
+      function(path, _callback){
+        _self.connection.query("SELECT id,descrizione_com FROM codice_uso_scopo", function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : path, usoscopo : rows}));
+          _callback(null);
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ]);
   }
 
   getTrasmissione(req,res){
@@ -1744,6 +1781,19 @@ class Middleware{
         return;
       }
       res.end(JSON.stringify({response : true, results : rows}));
+    });
+  }
+
+  getD1s(req,res){
+    this.connection.query("SELECT pratica.pandema_id, pratica.id FROM pratica WHERE comune_id="+this.connection.escape(req.query.cid)+" AND pratica.isArchivio=false AND pratica.tipo_documento_id='1'", function(err, rows){
+      if(err){
+        console.log(err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+
+      res.end(JSON.stringify({response : true, results : rows}));
+
     });
   }
 

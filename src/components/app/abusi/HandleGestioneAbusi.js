@@ -40,9 +40,10 @@ class HandleGestioneAbusi extends React.Component{
         value : 1,
         nPratica : '',
         isLoading : true,
-        path : undefined
+        path : undefined,
+        usoscopo : undefined,
+        open : false
     };
-    console.log('HandleGestioneAbusi() props', props);
   }
 
   componentDidMount(){
@@ -59,7 +60,8 @@ class HandleGestioneAbusi extends React.Component{
           _self.setState({
             ..._self.state,
             isLoading : false,
-            path : parsed.results[0].path
+            path : parsed.results[0].path,
+            usoscopo : parsed.usoscopo
           });
         },
         error : function(err){
@@ -104,7 +106,7 @@ class HandleGestioneAbusi extends React.Component{
                   <Ingiunzione pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
-                  <PrimoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>
+                  <PrimoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path} usoscopo={this.state.usoscopo}/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
                   <SecondoAvviso pid={this.props.params.pid} dbid={this.props.params.dbid} path={this.state.path}/>

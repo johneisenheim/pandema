@@ -40,6 +40,8 @@ import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 import {Link} from "react-router";
 import styles from './AbusoGenerico.css.js';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 
 import SelectAbusi from '../../complementars/SelectAbusi';
 
@@ -50,6 +52,8 @@ class GestioneAbusi extends React.Component{
     super(props);
     this.state = {
       isLoading : true,
+      open: false,
+      usoscopo : [],
       data : []
     };
   }
@@ -64,10 +68,12 @@ class GestioneAbusi extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
+          console.log('abuso parsed',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
-            data : parsed.results
+            data : parsed.results,
+            usoscopo : parsed.usoscopo
           });
         },
         error : function(err){
@@ -93,12 +99,11 @@ class GestioneAbusi extends React.Component{
           contentType: false,
           success: function(data) {
             var parsed = JSON.parse(data);
-            console.log('home successs')
-            console.log(parsed);
             _self.setState({
                 ..._self.state,
                 isLoading : false,
-                data : parsed.results
+                data : parsed.results,
+                usoscopo : parsed.usoscopo
             });
             console.log(parsed);
           },
@@ -117,7 +122,8 @@ class GestioneAbusi extends React.Component{
             _self.setState({
                 ..._self.state,
                 //isLoading : false,
-                data : parsed.results
+                data : parsed.results,
+                usoscopo : parsed.usoscopo
             });
             console.log('searchTableA',parsed);
           },
@@ -129,6 +135,25 @@ class GestioneAbusi extends React.Component{
 
   }
 
+  handleTouchTap(event){
+    event.preventDefault();
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  handleRequestClose(){
+    this.setState({
+      open: false
+    });
+  }
+
+  onIconMenu(e, k, v){
+
+  }
+
+
   render (){
     if(this.state.isLoading){
       return(
@@ -138,7 +163,13 @@ class GestioneAbusi extends React.Component{
       );
     }else{
       var toReturn = [];
+      var usiscopi = [];
       if(this.state.data.length > 0){
+        for(var j = 0; j < this.state.usoscopo.length; j++){
+          usiscopi.push(
+            <MenuItem primaryText={this.state.usoscopo[j].descrizione_com} key={j}/>
+          );
+        }
         for( var i = 0 ; i < this.state.data.length; i++ ){
           toReturn.push(
             <TableRow key={i}>
@@ -149,7 +180,19 @@ class GestioneAbusi extends React.Component{
               <TableRowColumn>{this.state.data[i].primo_avviso == null ? '-' : this.state.data[i].primo_avviso}</TableRowColumn>
               <TableRowColumn>{this.state.data[i].secondo_avviso == null ? '-' : this.state.data[i].secondo_avviso}</TableRowColumn>
               <TableRowColumn style={{ width:'160px' }}>
-                <FlatButton label="Calcola" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
+                <FlatButton label="Calcola" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}} onTouchTap={this.handleTouchTap.bind(this)}/>
+                <Popover
+                  open={this.state.open}
+                  anchorEl={this.state.anchorEl}
+                  anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                  onRequestClose={this.handleRequestClose.bind(this)}
+                  touchTapCloseDelay={100}
+                >
+                  <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
+                    {usiscopi}
+                  </Menu>
+                </Popover>
               </TableRowColumn>
               <TableRowColumn>
                   <IconButton containerElement={<Link to={`/gestisciallegatiabusi/`+this.state.data[i].pandema_abuso_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>

@@ -1235,6 +1235,9 @@ app2.get('/getAttiAutorizzazione', function(req, res){
   middleware.getAttiAutorizzazione(req,res);
 });
 
+app2.get('/getD1s', function(req, res){
+  middleware.getD1s(req,res);
+});
 
 app2.listen(8001, ()=> {
   console.info("Second server is listening to 8001");

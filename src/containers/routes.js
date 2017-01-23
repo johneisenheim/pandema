@@ -13,7 +13,8 @@ import D6Handler from '../components/app/d6handler/D6handler';
 import Admin from '../components/admin/Admin';
 import AvvisoDiniego from '../components/app/forms/AvvisoDiniego';
 import AvvisoPubblicazione from '../components/app/forms/AvvisoPubblicazione';
-import NuovaPratica from '../components/app/forms/NuovaPratica';
+import NuovaPraticaD1 from '../components/app/forms/NuovaPraticaD1';
+import NuovaPraticaD5 from '../components/app/forms/NuovaPraticaD5';
 import NuovaPraticaArchivio from '../components/app/forms/NuovaPraticaArchivio';
 import GestioneAbusi from '../components/app/abusi/GestioneAbusi';
 import HandleGestioneAbusi from '../components/app/abusi/HandleGestioneAbusi';
@@ -52,7 +53,8 @@ module.exports = (
 			<Route path='/avvisodiniego' component={AvvisoDiniego} />
 			<Route path='/gestisciallegati/:pid/:dbid' component={GestisciAllegati} />
 			<Route path='/avvisopubblicazione' component={AvvisoPubblicazione} />
-			<Route path='/nuovapratica' component={NuovaPratica} />
+			<Route path='/nuovapraticad1' component={NuovaPraticaD1} />
+			<Route path='/nuovapraticad5' component={NuovaPraticaD5} />
 			<Route path='/nuovapraticaabusi' component={NuovaPraticaAbusi} />
 			<Route path='/gestioneabusi' component={GestioneAbusi} />
 			<Route path='/handlegestioneabusi/:dbid/:pid' component={HandleGestioneAbusi} />

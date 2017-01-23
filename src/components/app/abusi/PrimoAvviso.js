@@ -29,6 +29,9 @@ import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Download from 'material-ui/svg-icons/file/file-download';
 import Dialog from 'material-ui/Dialog';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
 
 class PrimoAvviso extends React.Component{
 
@@ -38,6 +41,7 @@ class PrimoAvviso extends React.Component{
       isLoading : true,
       data : [],
       file : undefined,
+      open : false,
       opened : false,
       errorText : '',
       checkIconColor : 'lightgrey'
@@ -194,6 +198,24 @@ class PrimoAvviso extends React.Component{
     });
   }
 
+  handleTouchTap(event){
+    event.preventDefault();
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  handleRequestClose(){
+    this.setState({
+      open: false
+    });
+  }
+
+  onIconMenu(e, k, v){
+
+  }
+
   render (){
     const actions = [
       <FlatButton
@@ -218,6 +240,14 @@ class PrimoAvviso extends React.Component{
       )
     }else{
       var tableContents = [];
+      var usiscopi = [];
+      if(this.props.usoscopo !== undefined ){
+        for (var j = 0; j < this.props.usoscopo.length; j++){
+          usiscopi.push(
+            <MenuItem primaryText={this.props.usoscopo[j].descrizione_com} key={j}/>
+          );
+        }
+      }
       if( this.state.data.length == 0 ){
         tableContents.push(
           <TableRow key={0}>
@@ -228,7 +258,7 @@ class PrimoAvviso extends React.Component{
           for ( var i = 0; i < this.state.data.length; i++){
             tableContents.push(
               <TableRow key={i}>
-                <TableRowColumn>File</TableRowColumn>
+                <TableRowColumn>Primo Avviso {i+1}</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
@@ -243,7 +273,23 @@ class PrimoAvviso extends React.Component{
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
                 <ToolbarTitle text="File caricato per Primo Avviso" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
-                  <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
+                  <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.handleTouchTap.bind(this)}/>
+                    { this.props.usoscopo !== undefined ?
+                      <Popover
+                      open={this.state.open}
+                      anchorEl={this.state.anchorEl}
+                      anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                      onRequestClose={this.handleRequestClose.bind(this)}
+                      touchTapCloseDelay={100}
+                    >
+                          <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
+                            {usiscopi}
+                          </Menu>
+                        </Popover>
+                      :
+                      null
+                    }
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0} onTouchTap={this.openModal.bind(this)}/>
                 </ToolbarGroup>

@@ -120,7 +120,7 @@ class Registri extends React.Component{
                   <MenuItem primaryText="Generale delle Concessioni" />
                   <MenuItem primaryText="Istruttorie per Concessioni e Autorizzazioni (ex art.24)" />
                   <MenuItem primaryText="Istruttorie per Autorizzazioni per Nulla Osta(ex art.55)" />
-                  <MenuItem primaryText="Istruttorie per Autorizzazioni per Subingresso(ex art.55)" />
+                  <MenuItem primaryText="Istruttorie per Autorizzazioni per Subingresso(ex art.46)" />
                 </Menu>
               </Popover>
             </Box>
