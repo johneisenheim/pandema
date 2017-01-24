@@ -921,7 +921,13 @@ class Middleware{
   }
 
   updateStatoPratica(req, res){
-    this.connection.query("UPDATE pratica SET stato_pratica_id="+this.connection.escape(req.query.value)+" WHERE pratica.id="+this.connection.escape(req.query.dbid)+" AND pandema_id="+this.connection.escape(req.query.pid), function(err,rows){
+    var query = "";
+    if(parseInt(req.query.value) == 2){
+      //archiviata
+      query = "UPDATE pratica SET stato_pratica_id="+this.connection.escape(req.query.value)+", isArchivio=true WHERE pratica.id="+this.connection.escape(req.query.dbid)+" AND pandema_id="+this.connection.escape(req.query.pid);
+    }else query = "UPDATE pratica SET stato_pratica_id="+this.connection.escape(req.query.value)+" WHERE pratica.id="+this.connection.escape(req.query.dbid)+" AND pandema_id="+this.connection.escape(req.query.pid);
+
+    this.connection.query(query, function(err,rows){
       if(err){
         console.log('Err in changeCompatibility '+ err);
         res.end(JSON.stringify({response: false, err : err}));
