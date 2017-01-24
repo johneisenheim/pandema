@@ -193,6 +193,29 @@ class Home extends React.Component{
     });
   }
 
+  reload(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city),
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          console.log('home successs',parsed);
+          _self.setState({
+              ..._self.state,
+              isLoading : false,
+              data : parsed.results
+          });
+          console.log(parsed);
+        },
+        error : function(err){
+          console.log(err);
+        }
+    });
+  }
+
   /**/
 
   render (){
@@ -241,7 +264,7 @@ class Home extends React.Component{
               <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].pandema_id}</TableRowColumn>
               <TableRowColumn style={{width:'40px', textAlign:'center'}}>{this.state.data[i].descrizione}</TableRowColumn>
               <TableRowColumn style={{width:'100px', textAlign:'center'}}>
-                <Select value={this.state.data[i].stato_pratica_id} pid={this.state.data[i].pandema_id} dbid={this.state.data[i].id} />
+                <Select value={this.state.data[i].stato_pratica_id} pid={this.state.data[i].pandema_id} dbid={this.state.data[i].id} reload={this.reload.bind(this)} />
               </TableRowColumn>
               <TableRowColumn style={{textAlign:'center'}}>{new Date(this.state.data[i].data).toLocaleDateString()}</TableRowColumn>
               <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].nome} {this.state.data[i].cognome}</TableRowColumn>

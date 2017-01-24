@@ -14,6 +14,8 @@ import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 import AnnotazioneRegolarita from './AnnotazioneRegolarita';
 import Revoca from './Revoca';
+import AvvioDecadenza from './AvvioDecadenza';
+import AttoDecadenza from './AttoDecadenza';
 
 class Decadenza extends React.Component{
   constructor(props, context){
@@ -65,6 +67,8 @@ class Decadenza extends React.Component{
               <Box column justifyContent="center" alignItems="center" style={{marginTop:'20px', marginLeft:'20px'}}>
                   <AnnotazioneRegolarita path={this.state.path} pid={this.props.params.pid} dbid={this.props.params.dbid}/>
                   <Revoca path={this.state.path} pid={this.props.params.pid} dbid={this.props.params.dbid}/>
+                  <AvvioDecadenza path={this.state.path} pid={this.props.params.pid} dbid={this.props.params.dbid}/>
+                  <AttoDecadenza path={this.state.path} pid={this.props.params.pid} dbid={this.props.params.dbid}/>
               </Box>
             </Paper>
           </Box>

@@ -920,6 +920,16 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 44;
       break;
+      case 45:
+        file.path = praticaPath+'/avvio_decadenza.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 45;
+      break;
+      case 46:
+        file.path = praticaPath+'/atto_decadenza.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 46;
+      break;
 
     }
 
@@ -1266,6 +1276,14 @@ app2.get('/getD1s', function(req, res){
 
 app2.get('/getAvvioDecadenza', function(req,res){
   middleware.getAvvioDecadenza(req, res);
+});
+
+app2.get('/getAvvioDecadenzaPratica', function(req,res){
+  middleware.getAvvioDecadenzaPratica(req,res);
+})
+
+app2.get('/getAttoDecadenza', function(req,res){
+  middleware.getAttoDecadenza(req,res);
 });
 
 app2.listen(8001, ()=> {

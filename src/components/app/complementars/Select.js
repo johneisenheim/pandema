@@ -11,6 +11,7 @@ class Select extends React.Component{
     this.state = {
       value : this.props.value
     }
+    console.log('SELECT',props)
   }
 
   changePraticaStatus(e,v,m,k,j){
@@ -29,7 +30,8 @@ class Select extends React.Component{
           _self.setState({
             ..._self.state,
             value : j
-          })
+          });
+          _self.props.reload();
           toggleLoader.emit('toggleLoader');
         },
         error : function(err){
