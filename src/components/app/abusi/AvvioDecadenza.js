@@ -29,7 +29,7 @@ import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Download from 'material-ui/svg-icons/file/file-download';
 
-class DecadenzaAbusi extends React.Component{
+class AvvioDecadenza extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -38,7 +38,7 @@ class DecadenzaAbusi extends React.Component{
       data : [],
       file : undefined
     };
-    console.log('DecadenzaAbusi() props', props);
+    console.log('AvvioDecadenza() props', props);
   }
 
   componentDidMount(){
@@ -46,7 +46,7 @@ class DecadenzaAbusi extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getDecadenzaAbusi?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'getDecadenza?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -102,7 +102,7 @@ class DecadenzaAbusi extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getDecadenzaAbusi?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'getDecadenza?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -170,7 +170,7 @@ class DecadenzaAbusi extends React.Component{
           for ( var i = 0; i < this.state.data.length; i++){
             tableContents.push(
               <TableRow key={i}>
-                <TableRowColumn>Avvio Decadenza {i+1}</TableRowColumn>
+                <TableRowColumn>File</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
@@ -183,7 +183,7 @@ class DecadenzaAbusi extends React.Component{
       return (
           <Box column style={{marginTop:'30px', width:'98%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="File caricato per Avvio Decadenza" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="File caricato per Decadenza" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
@@ -260,4 +260,4 @@ const styles = {
 };
 
 
-export default DecadenzaAbusi;
+export default AvvioDecadenza;

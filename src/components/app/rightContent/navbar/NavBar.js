@@ -22,6 +22,8 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import Divider from 'material-ui/Divider';
 import { browserHistory } from 'react-router';
 import WebStorage from 'react-webstorage';
+import Avatar from 'material-ui/Avatar';
+import Box from 'react-layout-components';
 
 //const darkMuiTheme = getMuiTheme(darkBaseTheme);
 
@@ -42,6 +44,7 @@ class NavBar extends React.Component{
           global.city = null;
           webStorage.setItem("pandemawebapp", false);
           webStorage.setItem("pandemawebappcity", null);
+          webStorage.setItem("pandemawebappcityname", null);
           location.reload();
         }
         break;
@@ -51,23 +54,31 @@ class NavBar extends React.Component{
   }
 
   render(){
+    var webStorage = new WebStorage(
+      window.localStorage ||
+      window.sessionStorage
+    );
     return(
       <MuiThemeProvider muiTheme={lightBaseTheme}>
         <AppBar
           title=""
           showMenuIconButton = {false}
           iconElementRight={
-            <IconMenu
-              iconButtonElement={
-                <IconButton><MoreVertIcon /></IconButton>
-              }
-              targetOrigin={{horizontal: 'right', vertical: 'top'}}
-              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-              onItemTouchTap={this.onTouchTap.bind(this)}
-            >
-              <MenuItem key={0} primaryText="Credits" style={{color:'#666666'}}/>
-              <MenuItem key={1} primaryText="Logout" style={{color:'#666666'}}/>
-            </IconMenu>
+            <Box alignItems="center" justifyContent="center">
+              <p style={{color:'#666666', fontSize:'13px'}}>Comune di {webStorage.getItem("pandemawebappcityname")}</p>
+              <IconMenu
+                iconButtonElement={
+                  <IconButton style={{marginTop:'-10px'}}><Avatar size={33}>P</Avatar></IconButton>
+                }
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                onItemTouchTap={this.onTouchTap.bind(this)}
+                style={{marginTop:'5px'}}
+              >
+                <MenuItem key={0} primaryText="Credits" style={{color:'#666666'}}/>
+                <MenuItem key={1} primaryText="Logout" style={{color:'#666666'}}/>
+              </IconMenu>
+            </Box>
           }
 
         />

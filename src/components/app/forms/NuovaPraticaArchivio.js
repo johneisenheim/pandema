@@ -129,6 +129,9 @@ class NuovaPraticaArchivio extends React.Component{
               case 6:
                 browserHistory.push('d3shandler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
               break;
+              case 6:
+                browserHistory.push('d6handler/'+_self.refs.npratica.getValue()+'/'+parsed.id);
+              break;
             }
           },
           error : function(err){
@@ -199,6 +202,7 @@ class NuovaPraticaArchivio extends React.Component{
                     <MenuItem value={4} primaryText="D4" />
                     <MenuItem value={5} primaryText="D5" />
                     <MenuItem value={6} primaryText="D3S" />
+                    <MenuItem value={7} primaryText="D6" />
                   </DropDownMenu>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>

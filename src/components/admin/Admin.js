@@ -19,6 +19,7 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import $ from 'jquery';
 import * as constants from '../../constants';
 
+
 class Admin extends React.Component{
   constructor(props){
     super(props);
@@ -68,13 +69,19 @@ class Admin extends React.Component{
       return;
     }
 
+    var formData = new FormData();
+    formData.append('citta', this.state.citta);
+    formData.append('cap', this.state.cap);
+    formData.append('username', this.state.username);
+    formData.append('password', this.state.password);
+    formData.append('file', this.refs.file.files[0]);
+
     $.ajax({
         type: 'POST',
-        data: {citta : this.state.citta, cap : this.state.cap, username: this.state.username, password : this.state.password},
+        data: formData,
         url: constants.DB_ADDR+'addComune',
         success: function(data) {
             var parsed = JSON.parse(data);
-            console.log(parsed);
             if( parsed.status ){
               if( parsed.message !== '')
                 alert(parsed.message);
@@ -178,6 +185,10 @@ class Admin extends React.Component{
 
   }
 
+  imageChange(){
+
+  }
+
   gotoPandema(){
     browserHistory.push('/');
   }
@@ -278,6 +289,11 @@ class Admin extends React.Component{
                         onChange={this.onPasswordChange.bind(this)}
                       />
                 </Box>
+                <Box column justifyContent="flex-start" alignItems="center">
+                    <FlatButton label="Inserisci Immagine Comune" labelStyle={{color:'#4CA7D0'}} style={{marginTop:'10px'}}>
+                      <input type="file" style={styles.inputFile} onChange={this.imageChange.bind(this)} ref="file"/>
+                    </FlatButton>
+                </Box>
                 <Box column justifyContent="flex-start" alignItems="center" style={{marginTop:'30px'}}>
                   <RaisedButton label="Inserisci" primary={true} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.onSubmit.bind(this)}/>
                   <FlatButton label="Vai a Pandema" labelStyle={{color:'#4CA7D0'}} style={{marginTop:'10px'}} onTouchTap={this.gotoPandema.bind(this)}/>
@@ -326,4 +342,5 @@ const lightBaseTheme = getMuiTheme({
 },{
   userAgent : false
 });
+
 export default Admin;

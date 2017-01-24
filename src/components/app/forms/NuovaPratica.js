@@ -34,6 +34,8 @@ class NuovaPratica extends React.Component{
         name : '',
         cf : '',
         uso : '',
+        email : '',
+        emailpec : '',
         isLoading : true,
         usoscopo : null,
         usoscopovalue : 0
@@ -64,7 +66,7 @@ class NuovaPratica extends React.Component{
   }
 
   onSubmit(){
-    let _nPratica = '', _date = '', _surname = '', _name = '', _cf = '', _uso = '';
+    let _nPratica = '', _date = '', _surname = '', _name = '', _cf = '', _uso = '', _email = '', _emailpec = '';
     let _self = this;
 
     if(this.refs.npratica.getValue() == ''){
@@ -82,13 +84,16 @@ class NuovaPratica extends React.Component{
     if(this.refs.cf.getValue() == ''){
       _cf = 'Questo campo è richiesto!'
     }
+    if(this.refs.email.getValue() == ''){
+      _email = 'Questo campo è richiesto!'
+    }
 
     if(this.refs.date.state == undefined){
       alert("Per favore, seleziona la data");
       return;
     }
 
-    if( _nPratica == '' && _date == '' && _surname == '' && _name == '' && _cf == '' && _uso == ''){
+    if( _nPratica == '' && _date == '' && _surname == '' && _name == '' && _cf == '' && _uso == '' && _email == '' && _emailpec == ''){
       this.setState({
           ...this.state,
           nPratica : _nPratica,
@@ -96,14 +101,16 @@ class NuovaPratica extends React.Component{
           surname : _surname,
           name : _name,
           cf : _cf,
-          uso : _uso
+          uso : _uso,
+          email : _email,
+          emailpec : _emailpec
       });
 
       console.log(JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}))
 
       $.ajax({
           type: 'POST',
-          data: JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}),
+          data: JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value, email : this.refs.email.getValue(), emailpec : this.refs.emailpec.getValue()}),
           url: constants.DB_ADDR+'insertnewpratica',
           processData: false,
           contentType: 'application/json',
@@ -238,6 +245,26 @@ class NuovaPratica extends React.Component{
                       style={{marginLeft:'30px'}}
                       ref="cf"
                       errorText={this.state.cf}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Email:</span></p>
+                  <TextField
+                      id="email"
+                      hintText = "Inserisci email del richiedente"
+                      style={{marginLeft:'30px'}}
+                      ref="email"
+                      errorText={this.state.email}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Email PEC:</span></p>
+                  <TextField
+                      id="emailpec"
+                      hintText = "Inserisci email PEC del richiedente"
+                      style={{marginLeft:'30px'}}
+                      ref="emailpec"
+                      errorText={this.state.emailpec}
                     />
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px', marginBottom:'30px'}}>

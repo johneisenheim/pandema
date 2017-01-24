@@ -70,7 +70,32 @@ app2.post('/login', function(req, res){
 });
 
 app2.post('/addComune', function(req, res){
-  middleware.addComune(req.body.citta, req.body.cap, req.body.username, req.body.password, res);
+  var form = new formidable.IncomingForm();
+  form.multiple = true;
+  var cap = undefined;
+
+  form.parse(req);
+
+  form.on('fileBegin', function(name, file){
+    if(fs.existsSync(__base+'/comuniImages/'+cap+'.png'))
+      res.end(JSON.stringify({status : true, message:'Esiste già un comune con questo CAP inserito!'}));
+      return;
+    file.path = __base+'/comuniImages/'+cap+'.png';
+  });
+
+  form.on('file', function(name, file) {});
+
+  form.on('field', function(name, value){
+    if(name === 'cap')
+      cap = value;
+  });
+
+  form.on('end', function(){
+    //console.log(toDB);
+    middleware.addComune(req.body.citta, req.body.cap, req.body.username, req.body.password, res);
+    //res.end('Ok!');
+  });
+
 });
 
 app2.post('/provafile', function(req, res){
@@ -973,7 +998,7 @@ app2.post('/addFileAbusi', function(req, res){
         toMiddleware.allegatoType = 5;
       break;
       case 6:
-        file.path = praticaPath+'/decadenza_abusi.docx';
+        file.path = praticaPath+'/avvio_decadenza.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 6;
       break;
@@ -983,7 +1008,7 @@ app2.post('/addFileAbusi', function(req, res){
         toMiddleware.allegatoType = 7;
       break;
       case 8:
-        file.path = praticaPath+'/decadenza.docx';
+        file.path = praticaPath+'/atto_definitivo_decadenza.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 8;
       break;
@@ -1239,14 +1264,22 @@ app2.get('/getD1s', function(req, res){
   middleware.getD1s(req,res);
 });
 
+app2.get('/getAvvioDecadenza', function(req,res){
+  middleware.getAvvioDecadenza(req, res);
+});
+
 app2.listen(8001, ()=> {
   console.info("Second server is listening to 8001");
 
   middleware = new Middleware();
   if(middleware.connect()){
-    console.log('Base: '+__base);
     if( !fs.existsSync(__base+'/documents'))
         fs.mkdirSync(__base+'/documents');
+
+    if( !fs.existsSync(__base+'/comuniImages'))
+      fs.mkdirSync(__base+'/comuniImages');
+
+    console.log(__base);
 
     middleware.getAllComuni(function(data){
         if( data == null )

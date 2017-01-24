@@ -216,6 +216,10 @@ class PrimoAvviso extends React.Component{
 
   }
 
+  handleTouchTap2(){
+    console.log(this.props.usoscopo[0].descrizione);
+  }
+
   render (){
     const actions = [
       <FlatButton
@@ -243,9 +247,11 @@ class PrimoAvviso extends React.Component{
       var usiscopi = [];
       if(this.props.usoscopo !== undefined ){
         for (var j = 0; j < this.props.usoscopo.length; j++){
-          usiscopi.push(
-            <MenuItem primaryText={this.props.usoscopo[j].descrizione_com} key={j}/>
-          );
+          if(this.props.usoscopo[j].descrizione_com !== undefined){
+            usiscopi.push(
+              <MenuItem primaryText={this.props.usoscopo[j].descrizione_com} key={j}/>
+            );
+          }
         }
       }
       if( this.state.data.length == 0 ){
@@ -273,8 +279,9 @@ class PrimoAvviso extends React.Component{
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
                 <ToolbarTitle text="File caricato per Primo Avviso" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
-                  <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.handleTouchTap.bind(this)}/>
-                    { this.props.usoscopo !== undefined ?
+                  { this.props.usoscopo[0].descrizione_com !== undefined ?
+                    <div>
+                    <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.handleTouchTap.bind(this)}/>
                       <Popover
                       open={this.state.open}
                       anchorEl={this.state.anchorEl}
@@ -287,8 +294,9 @@ class PrimoAvviso extends React.Component{
                             {usiscopi}
                           </Menu>
                         </Popover>
+                      </div>
                       :
-                      null
+                      <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.handleTouchTap2.bind(this)}/>
                     }
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0} onTouchTap={this.openModal.bind(this)}/>

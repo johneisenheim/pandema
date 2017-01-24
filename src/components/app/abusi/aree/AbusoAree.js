@@ -129,6 +129,10 @@ class GestioneAbusi extends React.Component{
 
   }
 
+  onCalcola(usoscopo){
+    console.log(usoscopo);
+  }
+
   render (){
     if(this.state.isLoading){
       return(
@@ -149,7 +153,7 @@ class GestioneAbusi extends React.Component{
               <TableRowColumn>{this.state.data[i].primo_avviso == null ? '-' : this.state.data[i].primo_avviso}</TableRowColumn>
               <TableRowColumn>{this.state.data[i].secondo_avviso == null ? '-' : this.state.data[i].secondo_avviso}</TableRowColumn>
               <TableRowColumn style={{ width:'160px' }}>
-                <FlatButton label="Calcola" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}}/>
+                <FlatButton label="Calcola" labelStyle={{color:'#0BA1DA'}} style={{marginLeft:'0px'}} onTouchTap={this.onCalcola.bind(this, this.state.data[i].descrizione)}/>
               </TableRowColumn>
               <TableRowColumn>
                 <IconButton>

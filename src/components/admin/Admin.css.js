@@ -28,6 +28,17 @@ const styles = {
   },
   listItem : {
     color : '#ffffff'
+  },
+  inputFile : {
+    cursor: 'pointer',
+    position: 'absolute',
+    top: 5,
+    bottom: 0,
+    right: 0,
+    left: 20,
+    zIndex:3,
+    width: '100%',
+    opacity: 0,
   }
 }
 
