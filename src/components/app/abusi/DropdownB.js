@@ -115,6 +115,18 @@ class DropdownB extends React.Component{
 
   handleModalClose(){}
 
+  _onUpdateInput(searchText, dataSource){
+    if(dataSource.indexOf(searchText) == -1)
+      this.setState({
+        ...this.state,
+        nextDisabled : true
+      });
+    else this.setState({
+      ...this.state,
+      nextDisabled : false
+    });
+  }
+
   onMenuItemTap(name,index){
     if(index !== -1){
       //significa che non ha scritto cose a caso
@@ -169,6 +181,7 @@ class DropdownB extends React.Component{
               fullWidth={true}
               disabled={this.state.data.length == 0}
               onNewRequest={this.onMenuItemTap.bind(this)}
+              onUpdateInput={this._onUpdateInput.bind(this)}
             />
             </Box>
             {this.state.data.length == 0
