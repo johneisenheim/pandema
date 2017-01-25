@@ -277,9 +277,20 @@ class Middleware{
             return;
           }
           console.log('OK!');
-          res.end(JSON.stringify({response : true}));
-          _callback(null);
+
+          _callback(null,completePraticaPath,npraticaFolder);
         });
+      },
+      function(completePraticaPath, npraticaFolder, _callback){
+        if(!fs.existsSync(npraticaFolder)){
+          fs.mkdirSync(npraticaFolder);
+        }
+
+        if(!fs.existsSync(completePraticaPath)){
+          fs.mkdirSync(completePraticaPath);
+        }
+        res.end(JSON.stringify({response : true}));
+        _callback(null);
       }
     ]);
   }

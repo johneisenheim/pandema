@@ -50,7 +50,6 @@ class DropdownA extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('DropdownA', parsed);
           var toPush = [];
           var ids = {};
           for( var i = 0; i < parsed.results.length; i++ ){
@@ -128,6 +127,18 @@ class DropdownA extends React.Component{
 
   handleModalClose(){}
 
+  _onUpdateInput(searchText, dataSource){
+    if(dataSource.indexOf(searchText) == -1)
+      this.setState({
+        ...this.state,
+        nextDisabled : true
+      });
+    else this.setState({
+      ...this.state,
+      nextDisabled : false
+    });
+  }
+
   onMenuItemTap(name,index){
     if(index !== -1){
       //significa che non ha scritto cose a caso
@@ -184,6 +195,7 @@ class DropdownA extends React.Component{
               fullWidth={true}
               disabled={this.state.data.length == 0}
               onNewRequest={this.onMenuItemTap.bind(this)}
+              onUpdateInput={this._onUpdateInput.bind(this)}
             />
             </Box>
             {this.state.data.length == 0
