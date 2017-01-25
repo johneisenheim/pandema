@@ -358,6 +358,11 @@ app2.post('/insertnewpratica', function(req, res){
   middleware.insertnewpratica(req.body,res);
 });
 
+app2.get('/insertnewpraticadropdown', function(req, res){
+  //console.log(req.body);
+  middleware.insertnewpraticadropdown(req,res);
+});
+
 app2.post('/insertnewpraticaarchivio', function(req, res){
   //console.log(req.body);
   middleware.insertnewpraticaarchivio(req.body,res);

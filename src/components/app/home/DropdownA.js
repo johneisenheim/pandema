@@ -99,9 +99,31 @@ class DropdownA extends React.Component{
     this.setState({
       ...this.state,
       isLoading : true
-    })
-    var linkto = this.state.dtype+'handler/'+this.state.selectedPID+'/'+this.state.ids[this.state.selectedPID];
-    browserHistory.push(linkto);
+    });
+    //JOHNEISENHEIM devi inserire la query del tipo insertnewpraticadropdown
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'insertnewpraticadropdown?comune_id='+escape(global.city)+'&tipodocumento='+escape(_self.state.dtype.toUpperCase())+'&npratica='+escape(_self.state.selectedPID)+'&pid='+escape(_self.state.ids[_self.state.selectedPID]),
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          console.log('parsed', parsed.response)
+          if(parsed.response){
+            _self.setState({
+              ..._self.state,
+              isLoading : false
+            });
+            var linkto = _self.state.dtype+'handler/'+_self.state.selectedPID+'/'+_self.state.ids[_self.state.selectedPID];
+            browserHistory.push(linkto);
+          }else alert('Errore', parsed.err);
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
+    });
   }
 
   handleModalClose(){}

@@ -230,6 +230,60 @@ class Middleware{
     ]);
   }
 
+  insertnewpraticadropdown(req,res){
+    var _self = this;
+    var stato_pratica_id = 1;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT citta FROM comune WHERE comune.id="+_self.connection.escape(req.query.comune_id), function(err, rows){
+          var hash = crypto.createHash('md5').update(rows[0].citta+'pandemanellotalassa').digest("hex");
+          _callback(null, hash);
+        })
+      },
+      function(hash, _callback){
+        var npraticaFolder = __base+'/documents/'+hash+'/'+req.query.npratica;
+        var completePraticaPath = npraticaFolder+'/'+req.query.tipodocumento;
+        _self.connection.query("SELECT * FROM pratica WHERE pratica.pandema_id="+_self.connection.escape(req.query.npratica)+" AND pratica.id="+escape(req.query.pid), function(err,rows){
+          if(err){
+            res.end(JSON.stringify({response : false, err: err}))
+            return;
+          }
+          _callback(null, rows, completePraticaPath, npraticaFolder);
+        });
+      },
+      function(d1results, completePraticaPath, npraticaFolder, _callback){
+        var tipo_documento_id = undefined;
+        switch(req.query.tipodocumento){
+          case 'D2':
+            tipo_documento_id = 2;
+          break;
+          case 'D3':
+            tipo_documento_id = 3;
+          break;
+          case 'D4':
+            tipo_documento_id = 4;
+          break;
+          case 'D3S':
+            tipo_documento_id = 6;
+          break;
+          case 'D6':
+            tipo_documento_id = 7;
+          break;
+        }
+        _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, path, email, emailpec, pratica_ref_id) VALUES ("+_self.connection.escape(d1results[0].comune_id)+","+_self.connection.escape(req.query.npratica)+","+_self.connection.escape(d1results[0].nome)+","+_self.connection.escape(d1results[0].cognome)+","+_self.connection.escape(d1results[0].codice_uso_scopo_id)+","+_self.connection.escape(tipo_documento_id)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(d1results[0].cf)+","+_self.connection.escape(d1results[0].data)+","+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(d1results[0].email)+","+_self.connection.escape(d1results[0].emailpec)+","+_self.connection.escape(d1results[0].id)+")", function(err,rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response : false, err: err}))
+            return;
+          }
+          console.log('OK!');
+          res.end(JSON.stringify({response : true}));
+          _callback(null);
+        });
+      }
+    ]);
+  }
+
   insertnewpraticaarchivio(data,res){
     var stato_pratica_id = 1;
     var _self = this;
@@ -589,7 +643,6 @@ class Middleware{
   }
 
   handled1s7(req, res){
-    console.log("SELECT path FROM pratica WHERE id="+this.connection.escape(req.query.id)+" AND pandema_id="+this.connection.escape(req.query.pandema_id))
     this.connection.query("SELECT path FROM pratica WHERE id="+this.connection.escape(req.query.id)+" AND pandema_id="+this.connection.escape(req.query.pandema_id), function(err, rows){
       if(err){
         console.log(err);
