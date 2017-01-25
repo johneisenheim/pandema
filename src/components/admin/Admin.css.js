@@ -1,6 +1,7 @@
 const styles = {
   container : {
-    height : "100vh"
+    height : "100%",
+    width : '100%'
   },
   paper : {
     margin : '10px',

@@ -197,7 +197,7 @@ class Admin extends React.Component{
     if( !this.state.isLogged ){
       return(
         <MuiThemeProvider muiTheme={lightBaseTheme}>
-          <Box column alignItems="center" justifyContent="center" style={{height : '100vh', background:'-webkit-linear-gradient(top, rgba(35,103,163,1) 0%, rgba(102,161,173,1) 100%)'}}>
+          <Box column alignItems="center" justifyContent="center" flex={1} style={{height:'100%'}}>
             <Paper zDepth={1} style={styles.paper}>
               <Box column justifyContent="center" alignItems="center" style={{marginTop:'20px', marginLeft:'20px'}}>
                 <img src = {Logo} style = {styles.logo}/>
@@ -237,7 +237,7 @@ class Admin extends React.Component{
     }else{
       return (
         <MuiThemeProvider muiTheme={lightBaseTheme}>
-          <Box column alignItems="center" justifyContent="center" style={{height : '100vh', background:'-webkit-linear-gradient(top, rgba(35,103,163,1) 0%, rgba(102,161,173,1) 100%)'}}>
+          <Box column alignItems="center" justifyContent="center" flex={1} style={{height:'100%'}}>
             <Paper zDepth={1} style={styles.paper}>
               <Box column justifyContent="center" alignItems="center" style={{marginTop:'20px', marginLeft:'20px'}}>
                 <img src = {Logo} style = {styles.logo}/>

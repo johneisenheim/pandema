@@ -40,9 +40,9 @@ import VisualizzaArt45 from '../components/app/registri/art45/VisualizzaArt45';
 
 module.exports = (
 	<Router history={browserHistory}>
-		<Route path="/admin" component={Admin} />
 		<Route path="/" component={Main}>
 			<IndexRoute component={Home}/>
+			<Route path="/admin" component={Admin} />
 			<Route path='d1handler/:pid/:dbid' component={D1Handler} />
 			<Route path='d2handler/:pid/:dbid' component={D2Handler} />
 			<Route path='d3handler/:pid/:dbid' component={D3Handler} />
