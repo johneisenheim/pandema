@@ -22,6 +22,10 @@ import { browserHistory } from 'react-router';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
+import IntlPolyfill from 'intl';
+var DateTimeFormat = IntlPolyfill.DateTimeFormat;
+require('intl/locale-data/jsonp/it');
+require('intl/locale-data/jsonp/it-IT');
 
 class NuovoArt45 extends React.Component{
   constructor(props, context){
@@ -175,7 +179,7 @@ class NuovoArt45 extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Data:</p>
-                  <DatePicker hintText="Data Richiesta" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"/>
+                  <DatePicker hintText="Data Richiesta" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"  DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Protocollo Richiesta:</span></p>
@@ -199,7 +203,7 @@ class NuovoArt45 extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Data:</p>
-                  <DatePicker hintText="Data Rilascio" id="date_rilascio" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date_rilascio"/>
+                  <DatePicker hintText="Data Rilascio" id="date_rilascio" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date_rilascio"  DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Atto di Concessione Subentro:</span></p>
@@ -213,7 +217,7 @@ class NuovoArt45 extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Data Rilascio Atto:</p>
-                  <DatePicker hintText="Data Rilascio Atto" id="date_rilascio_atto" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date_rilascio_atto"/>
+                  <DatePicker hintText="Data Rilascio Atto" id="date_rilascio_atto" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date_rilascio_atto"  DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Numero Atto Rilascio:</span></p>

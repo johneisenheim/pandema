@@ -23,6 +23,11 @@ import { browserHistory } from 'react-router';
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 
+import IntlPolyfill from 'intl';
+var DateTimeFormat = IntlPolyfill.DateTimeFormat;
+require('intl/locale-data/jsonp/it');
+require('intl/locale-data/jsonp/it-IT');
+
 class NuovoArt24 extends React.Component{
   constructor(props, context){
     super(props, context);
@@ -199,7 +204,7 @@ class NuovoArt24 extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Data:</p>
-                  <DatePicker hintText="Data Richiesta" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"/>
+                  <DatePicker hintText="Data Richiesta" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"  DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Protocollo Richiesta:</span></p>

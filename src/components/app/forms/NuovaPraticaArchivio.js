@@ -22,6 +22,10 @@ import { browserHistory } from 'react-router';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
+import IntlPolyfill from 'intl';
+var DateTimeFormat = IntlPolyfill.DateTimeFormat;
+require('intl/locale-data/jsonp/it');
+require('intl/locale-data/jsonp/it-IT');
 
 class NuovaPraticaArchivio extends React.Component{
   constructor(props, context){
@@ -207,7 +211,7 @@ class NuovaPraticaArchivio extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Data Ricezione:</p>
-                  <DatePicker hintText="Data di Ricezione" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"/>
+                  <DatePicker hintText="Data di Ricezione" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date" DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Cognome Richiedente:</span></p>

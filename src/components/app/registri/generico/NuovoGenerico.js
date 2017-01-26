@@ -22,6 +22,10 @@ import { browserHistory } from 'react-router';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
+import IntlPolyfill from 'intl';
+var DateTimeFormat = IntlPolyfill.DateTimeFormat;
+require('intl/locale-data/jsonp/it');
+require('intl/locale-data/jsonp/it-IT');
 
 class NuovoGenerico extends React.Component{
   constructor(props, context){
@@ -187,7 +191,7 @@ class NuovoGenerico extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Data:</p>
-                  <DatePicker hintText="Data" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"/>
+                  <DatePicker hintText="Data" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date" DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Località:</span></p>
@@ -231,7 +235,7 @@ class NuovoGenerico extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Scadenza:</p>
-                  <DatePicker hintText="Data" id="scadenza" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="scadenza"/>
+                  <DatePicker hintText="Data" id="scadenza" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="scadenza" DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Canone:</span></p>

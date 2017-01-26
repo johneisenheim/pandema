@@ -25,7 +25,7 @@ import WebStorage from 'react-webstorage';
 import Avatar from 'material-ui/Avatar';
 import Box from 'react-layout-components';
 import $ from 'jquery';
-
+import Credits from './Credits';
 //const darkMuiTheme = getMuiTheme(darkBaseTheme);
 
 
@@ -56,6 +56,7 @@ class NavBar extends React.Component{
   onTouchTap(e,v,m,n){
     switch (v.key) {
       case '0':
+          this.refs.credits.openModal();
         break;
       case '1':
         var r = confirm('Sei sicuro di voler effettuare il logout?');
@@ -89,6 +90,7 @@ class NavBar extends React.Component{
       console.log(avatar);
     return(
       <MuiThemeProvider muiTheme={lightBaseTheme}>
+        <div>
         <AppBar
           title=""
           showMenuIconButton = {false}
@@ -111,6 +113,8 @@ class NavBar extends React.Component{
           }
 
         />
+      <Credits ref="credits"/>
+      </div>
       </MuiThemeProvider>
     )
   }

@@ -22,6 +22,10 @@ import { browserHistory } from 'react-router';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
+import IntlPolyfill from 'intl';
+var DateTimeFormat = IntlPolyfill.DateTimeFormat;
+require('intl/locale-data/jsonp/it');
+require('intl/locale-data/jsonp/it-IT');
 
 class NuovaPraticaD1 extends React.Component{
   constructor(props, context){
@@ -179,7 +183,7 @@ class NuovaPraticaD1 extends React.Component{
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p>Data Ricezione:</p>
-                  <DatePicker hintText="Data di Ricezione" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date"/>
+                  <DatePicker hintText="Data di Ricezione" id="date" style={{marginLeft:'30px', color:'#FFFFFF'}} ref="date" DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
                 </Box>
                 <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Cognome Richiedente:</span></p>
@@ -239,7 +243,7 @@ class NuovaPraticaD1 extends React.Component{
                 </Box>
               </Box>
             </Paper>
-            <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'20px'}}>
+            <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'20px', marginBottom:'30px'}}>
               <RaisedButton label="Annulla" primary={false} labelStyle={{color:'#FFFFFF'}} />
               <RaisedButton label="Procedi" primary={true} labelStyle={{color:'#FFFFFF'}} style={{marginLeft:'20px'}} onClick={this.onSubmit.bind(this)}/>
             </Box>

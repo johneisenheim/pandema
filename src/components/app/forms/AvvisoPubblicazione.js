@@ -15,6 +15,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
+import IntlPolyfill from 'intl';
+var DateTimeFormat = IntlPolyfill.DateTimeFormat;
+require('intl/locale-data/jsonp/it');
+require('intl/locale-data/jsonp/it-IT');
 
 var fetch = require('node-fetch');
 
@@ -183,7 +187,7 @@ class AvvisoPubblicazione extends React.Component{
               </Box>
               <Box justifyContent="flex-start" alignItems="center">
                 <p style={{color:'#4A4A4A'}}>in data/</p>
-                <DatePicker id="data_pratica" ref="data_pratica" hintText="Data" style={{marginLeft:'10px'}}/>
+                <DatePicker id="data_pratica" ref="data_pratica" hintText="Data" style={{marginLeft:'10px'}} DateTimeFormat={DateTimeFormat} cancelLabel="Annulla"/>
               </Box><br></br>
               <Box column justifyContent="flex-start" alignItems="center">
                 <p style={{color:'#4A4A4A'}}>AVVISO DI PUBBLICAZIONE DA AFFIGERSI ALL’ALBO DEL COMUNE, SITO ISTITUZIONALE,UFFICIO MARITTIMO DI</p>
