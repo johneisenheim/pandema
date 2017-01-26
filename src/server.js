@@ -69,6 +69,7 @@ try {
 								<meta charset="utf-8" />
 								<title>Pandema | Web Application</title>
 								<link rel="shortcut icon" href="${favicon}" />
+								<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 								<style>${cssModules}</style>
 								<style>
 									.react-layout-components--box {
@@ -80,6 +81,15 @@ try {
 									}
 									.wrapper {
 										position : relative;
+									}
+									.praticaClass {
+										font-family: 'Roboto', sans-serif;
+										font-size : 15px;
+										color : #666666;
+										margin-left : 10px;
+										margin-top : 20px;
+										width : 100%;
+										text-align : left;
 									}
 								</style>
 							</head>

@@ -197,7 +197,7 @@ class D1Handler extends React.Component{
       <MuiThemeProvider muiTheme={lightBaseTheme} >
         <div style={{width : '100%'}}>
           <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow: 'hidden'}}>
-            <p style={{color:'#666666', marginLeft : '10px', marginTop : '20px',fontFamily:'Roboto', width:'100%', textAlign:'left'}}>Pratica n°: <b>{this.props.params.pid}</b></p>
+            <p className="praticaClass">Pratica n°: <b>{this.props.params.pid}</b></p>
             <Paper zDepth={1} style={styles.paper}>
               <Box justifyContent="center" alignItems="center">
                 <Stepper
