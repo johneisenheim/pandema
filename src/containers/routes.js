@@ -9,7 +9,7 @@ import D3Handler from '../components/app/d3Handler/D3Handler';
 import D4Handler from '../components/app/d4Handler/D4Handler';
 import D5Handler from '../components/app/d5Handler/D5Handler';
 import D3SHandler from '../components/app/d3shandler/D3Shandler';
-import D6Handler from '../components/app/d6handler/D6handler';
+import D6Handler from '../components/app/d6handler/D6Handler';
 import Admin from '../components/admin/Admin';
 import AvvisoDiniego from '../components/app/forms/AvvisoDiniego';
 import AvvisoPubblicazione from '../components/app/forms/AvvisoPubblicazione';
