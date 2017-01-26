@@ -34,6 +34,8 @@ class NuovaPraticaD1 extends React.Component{
         name : '',
         cf : '',
         uso : '',
+        email : '',
+        emailpec : '',
         isLoading : true,
         usoscopo : null,
         usoscopovalue : 0
@@ -99,11 +101,9 @@ class NuovaPraticaD1 extends React.Component{
           uso : _uso
       });
 
-      console.log(JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}))
-
       $.ajax({
           type: 'POST',
-          data: JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}),
+          data: JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value, email : this.refs.email.getValue(), emailpec : this.refs.emailpec.getValue()}),
           url: constants.DB_ADDR+'insertnewpratica',
           processData: false,
           contentType: 'application/json',
@@ -211,11 +211,31 @@ class NuovaPraticaD1 extends React.Component{
                       errorText={this.state.cf}
                     />
                 </Box>
-                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px', marginBottom:'30px'}}>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
                   <p style={{marginTop:'30px'}}><span>Codice Uso-Scopo:</span></p>
                     <DropDownMenu value={this.state.usoscopovalue} onChange={this.handleChangeUso.bind(this)} style={{marginTop:'0px'}}>
                         {usoscopo}
                     </DropDownMenu>
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px'}}>
+                  <p style={{marginTop:'30px'}}><span>Email:</span></p>
+                  <TextField
+                      id="email"
+                      hintText = "Inserisci email del richiedente"
+                      style={{marginLeft:'30px'}}
+                      ref="email"
+                      errorText={this.state.email}
+                    />
+                </Box>
+                <Box justifyContent="flex-start" alignItems="center" style={{marginTop:'15px', marginBottom:'30px'}}>
+                  <p style={{marginTop:'30px'}}><span>Email PEC:</span></p>
+                  <TextField
+                      id="emailpec"
+                      hintText = "Inserisci email PEC del richiedente"
+                      style={{marginLeft:'30px'}}
+                      ref="emailpec"
+                      errorText={this.state.emailpec}
+                    />
                 </Box>
               </Box>
             </Paper>

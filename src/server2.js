@@ -42,6 +42,10 @@ app2.use(function (req, res, next) {
 
 });
 
+console.log(__base+'/comuniImages');
+
+app2.use("/comuniImages",express.static(__base+'/comuniImages'));
+
 app2.use(bodyParser.json());// to support JSON-encoded bodies
 app2.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -73,26 +77,38 @@ app2.post('/addComune', function(req, res){
   var form = new formidable.IncomingForm();
   form.multiple = true;
   var cap = undefined;
+  var citta = undefined;
+  var username = undefined;
+  var password = undefined;
 
   form.parse(req);
 
   form.on('fileBegin', function(name, file){
-    if(fs.existsSync(__base+'/comuniImages/'+cap+'.png'))
-      res.end(JSON.stringify({status : true, message:'Esiste già un comune con questo CAP inserito!'}));
+    if(fs.existsSync(__base+'/comuniImages/'+cap+'.png')){
+      res.end(JSON.stringify({status : false, message:'Esiste già un comune con questo CAP inserito!'}));
       return;
+    }
     file.path = __base+'/comuniImages/'+cap+'.png';
   });
 
   form.on('file', function(name, file) {});
 
   form.on('field', function(name, value){
-    if(name === 'cap')
+    if(name === 'cap'){
       cap = value;
+    }else if(name == 'citta'){
+      citta = value;
+    }else if(name == 'username'){
+      username = value;
+    }else if(name == 'password'){
+      password = value;
+    }
   });
 
   form.on('end', function(){
     //console.log(toDB);
-    middleware.addComune(req.body.citta, req.body.cap, req.body.username, req.body.password, res);
+    middleware.addComune(citta, cap, username, password, res);
+    //res.end(JSON.stringify({status : true, message:''}));
     //res.end('Ok!');
   });
 
@@ -1289,6 +1305,10 @@ app2.get('/getAvvioDecadenzaPratica', function(req,res){
 
 app2.get('/getAttoDecadenza', function(req,res){
   middleware.getAttoDecadenza(req,res);
+});
+
+app2.get('/getComuneImage', function(req,res){
+  middleware.getComuneImage(req,res);
 });
 
 app2.listen(8001, ()=> {

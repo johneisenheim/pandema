@@ -24,11 +24,34 @@ import { browserHistory } from 'react-router';
 import WebStorage from 'react-webstorage';
 import Avatar from 'material-ui/Avatar';
 import Box from 'react-layout-components';
+import $ from 'jquery';
 
 //const darkMuiTheme = getMuiTheme(darkBaseTheme);
 
 
 class NavBar extends React.Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      src : ""
+    }
+  }
+
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        url: constants.DB_ADDR+'getComuneImage?cid='+escape(global.city),
+        success: function(data) {
+            console.log('data', data);
+            _self.setState({
+              ..._self.state,
+              src : constants.DB_ADDR+data
+            });
+        }
+    });
+  }
 
   onTouchTap(e,v,m,n){
     switch (v.key) {
@@ -54,10 +77,16 @@ class NavBar extends React.Component{
   }
 
   render(){
+    console.log('In render', this.state.src);
     var webStorage = new WebStorage(
       window.localStorage ||
       window.sessionStorage
     );
+    var avatar = undefined;
+    if(this.state.src == ''){
+      avatar = <Avatar size={33}>P</Avatar>;
+    }else avatar = <Avatar src={this.state.src} size={33}></Avatar>;
+      console.log(avatar);
     return(
       <MuiThemeProvider muiTheme={lightBaseTheme}>
         <AppBar
@@ -68,7 +97,7 @@ class NavBar extends React.Component{
               <p style={{color:'#666666', fontSize:'13px'}}>Comune di {webStorage.getItem("pandemawebappcityname")}</p>
               <IconMenu
                 iconButtonElement={
-                  <IconButton style={{marginTop:'-10px'}}><Avatar size={33}>P</Avatar></IconButton>
+                  <IconButton style={{marginTop:'-10px'}}>{avatar}</IconButton>
                 }
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}

@@ -56,29 +56,31 @@ class Middleware{
             res.end(JSON.stringify({status : false}))
             return;
           }
-          console.log(rows);
+          console.log(rows.length);
           if(rows.length > 0){
             res.end(JSON.stringify({status : true, message:'Esiste già un comune con questo CAP inserito!'}));
             return;
           }
-          _callback(null);
+          _callback(null,'a');
         });
       },
-      function(_callback){
+      function(fake,_callback){
         var hash = crypto.createHash('md5').update(citta+'pandemanellotalassa').digest("hex");
         var folder = __base+'/documents/'+hash;
         if(fs.existsSync(folder)){
           res.end(JSON.stringify({status : true, message:'Esiste già un comune con questo nome inserito!'}));
           return;
         }else{
+          console.log(folder);
           fs.mkdirSync(folder);
-          _callback(null);
+          _callback(null,hash);
         }
       },
-      function(_callback){
-        _self.connection.query("INSERT INTO comune (citta, cap, username, password) VALUES ("+_self.connection.escape(citta)+","+_self.connection.escape(cap)+","+_self.connection.escape(username)+","+_self.connection.escape(password)+")", function(err, rows){
+      function(hash,_callback){
+        var path = 'comuniImages/'+cap+'.png';
+        _self.connection.query("INSERT INTO comune (citta, cap, username, password,path) VALUES ("+_self.connection.escape(citta)+","+_self.connection.escape(cap)+","+_self.connection.escape(username)+","+_self.connection.escape(password)+","+_self.connection.escape(path)+")", function(err, rows){
           if(err){
-            res.end(JSON.stringify({status : false}))
+            res.end(JSON.stringify({status : false, message:err}))
             return;
           }
           res.end(JSON.stringify({status : true, message:''}));
@@ -1942,6 +1944,16 @@ class Middleware{
       res.end(JSON.stringify({response : true, results : rows}));
 
     });
+  }
+
+  getComuneImage(req,res){
+    this.connection.query("SELECT path FROM comune WHERE comune.id="+this.connection.escape(req.query.cid), function(err,rows){
+      if(err){
+        res.end(__base+'/comuniImages/admin.png');
+        return;
+      }
+      res.end(rows[0].path);
+    })
   }
 
 }

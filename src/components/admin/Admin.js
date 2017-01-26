@@ -69,6 +69,8 @@ class Admin extends React.Component{
       return;
     }
 
+    console.log(this.state);
+
     var formData = new FormData();
     formData.append('citta', this.state.citta);
     formData.append('cap', this.state.cap);
@@ -80,6 +82,8 @@ class Admin extends React.Component{
         type: 'POST',
         data: formData,
         url: constants.DB_ADDR+'addComune',
+        processData: false,
+        contentType: false,
         success: function(data) {
             var parsed = JSON.parse(data);
             if( parsed.status ){
@@ -99,7 +103,7 @@ class Admin extends React.Component{
                 })
               }
             }else{
-                alert("C'è stato un errore nell'elaborazione della richiesta. Per favore, riprova!");
+                alert(parsed.message);
             }
         }
     });
