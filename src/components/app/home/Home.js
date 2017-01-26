@@ -46,6 +46,7 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import DropdownA from './DropdownA';
 import { browserHistory } from 'react-router';
+import Mailto from 'react-mailto';
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
 
@@ -259,15 +260,25 @@ class Home extends React.Component{
               linkToD = '/d6handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
           }
+          console.log(this.state.data[i].email);
           tableContents.push(
             <TableRow key={i}>
               <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].pandema_id}</TableRowColumn>
-              <TableRowColumn style={{width:'40px', textAlign:'center'}}>{this.state.data[i].descrizione}</TableRowColumn>
+              <TableRowColumn style={{width:'20px', textAlign:'center'}}>{this.state.data[i].descrizione}</TableRowColumn>
               <TableRowColumn style={{width:'100px', textAlign:'center'}}>
                 <Select value={this.state.data[i].stato_pratica_id} pid={this.state.data[i].pandema_id} dbid={this.state.data[i].id} reload={this.reload.bind(this)} />
               </TableRowColumn>
               <TableRowColumn style={{textAlign:'center'}}>{new Date(this.state.data[i].data).toLocaleDateString()}</TableRowColumn>
               <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].nome} {this.state.data[i].cognome}</TableRowColumn>
+              <TableRowColumn style={{textAlign:'center'}}>{
+                  this.state.data[i].email !== null
+                  ?
+                  <Mailto email={this.state.data[i].email} obfuscate={true}>
+                    {this.state.data[i].email}
+                  </Mailto>
+                  :
+                  "-"}
+              </TableRowColumn>
               <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].descrizione_com}</TableRowColumn>
               <TableRowColumn>
                 <center><IconButton containerElement={<Link to={`/gestisciallegati/`+this.state.data[i].pandema_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton></center>
@@ -346,10 +357,11 @@ class Home extends React.Component{
                   <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                     <TableRow>
                       <TableHeaderColumn style={{textAlign:'center'}}>N°Pratica</TableHeaderColumn>
-                      <TableHeaderColumn style={{width:'40px'}}>Tipo</TableHeaderColumn>
+                      <TableHeaderColumn style={{width:'20px'}}>Tipo</TableHeaderColumn>
                       <TableHeaderColumn style={{width:'100px', textAlign:'center'}}>Stato</TableHeaderColumn>
                       <TableHeaderColumn style={{textAlign:'center'}}>Data Ricezione</TableHeaderColumn>
                       <TableHeaderColumn style={{textAlign:'center'}}>Richiedente</TableHeaderColumn>
+                      <TableHeaderColumn style={{textAlign:'center'}}>Email</TableHeaderColumn>
                       <TableHeaderColumn style={{textAlign:'center'}}>Codice uso/scopo</TableHeaderColumn>
                       <TableHeaderColumn style={{textAlign:'center'}}>Allegati</TableHeaderColumn>
                       <TableHeaderColumn style={{textAlign:'center'}}></TableHeaderColumn>

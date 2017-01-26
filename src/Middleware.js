@@ -208,7 +208,7 @@ class Middleware{
         });
       },
       function(completePraticaPath, npraticaFolder, _callback){
-        _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, path, email, emailpec) VALUES ("+_self.connection.escape(data.comune_id)+","+_self.connection.escape(data.npratica)+","+_self.connection.escape(data.nome)+","+_self.connection.escape(data.cognome)+","+_self.connection.escape(data.uso)+","+_self.connection.escape(data.tipodocumento)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(data.cf)+","+_self.connection.escape(data.data)+","+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(data.email)+","+_self.connection.escape(data.emailpec)+")", function(err, rows, fields){
+        _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, path, email) VALUES ("+_self.connection.escape(data.comune_id)+","+_self.connection.escape(data.npratica)+","+_self.connection.escape(data.nome)+","+_self.connection.escape(data.cognome)+","+_self.connection.escape(data.uso)+","+_self.connection.escape(data.tipodocumento)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(data.cf)+","+_self.connection.escape(data.data)+","+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(data.email)+")", function(err, rows, fields){
             if(err){
               console.log('[d1DBOperations] error: '+ err);
               res.end(JSON.stringify({response : false, err: err}))
@@ -272,7 +272,7 @@ class Middleware{
             tipo_documento_id = 7;
           break;
         }
-        _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, path, email, emailpec, pratica_ref_id) VALUES ("+_self.connection.escape(d1results[0].comune_id)+","+_self.connection.escape(req.query.npratica)+","+_self.connection.escape(d1results[0].nome)+","+_self.connection.escape(d1results[0].cognome)+","+_self.connection.escape(d1results[0].codice_uso_scopo_id)+","+_self.connection.escape(tipo_documento_id)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(d1results[0].cf)+","+_self.connection.escape(d1results[0].data)+","+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(d1results[0].email)+","+_self.connection.escape(d1results[0].emailpec)+","+_self.connection.escape(d1results[0].id)+")", function(err,rows){
+        _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, path, email, pratica_ref_id) VALUES ("+_self.connection.escape(d1results[0].comune_id)+","+_self.connection.escape(req.query.npratica)+","+_self.connection.escape(d1results[0].nome)+","+_self.connection.escape(d1results[0].cognome)+","+_self.connection.escape(d1results[0].codice_uso_scopo_id)+","+_self.connection.escape(tipo_documento_id)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(d1results[0].cf)+","+_self.connection.escape(d1results[0].data)+","+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(d1results[0].email)+","+_self.connection.escape(d1results[0].id)+")", function(err,rows){
           if(err){
             console.log(err);
             res.end(JSON.stringify({response : false, err: err}))
@@ -375,7 +375,7 @@ class Middleware{
   }
 
   getgeneralinfos(req,res){
-    this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
+    this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, pratica.email, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
         console.log(err);
         res.end(JSON.stringify({response: false, err : err}));
