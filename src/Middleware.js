@@ -375,29 +375,58 @@ class Middleware{
   }
 
   getgeneralinfos(req,res){
-    this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, pratica.email, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT COUNT(pratica.id) AS ccount FROM pratica WHERE comune_id="+_self.connection.escape(req.query.cid)+" AND pratica.isArchivio = 0", function(err, rows){
+          if(err){
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+        });
+      },
+      function(count, _callback){
+        var offset = 10 * parseInt(req.query.offset);
+        _self.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, pratica.email, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND comune_id="+_self.connection.escape(req.query.cid)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true, results : rows, count : count}));
+          _callback(null);
+        });
       }
-
-      res.end(JSON.stringify({response : true, results : rows}));
-
-    }); //VG59TQ
+    ]);
+    //VG59TQ
   }
 
   getgeneralinfosArchivio(req,res){
-    this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 1 AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT COUNT(pratica.id) AS ccount FROM pratica WHERE comune_id="+_self.connection.escape(req.query.cid)+" AND pratica.isArchivio = 1", function(err, rows){
+          if(err){
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+        });
+      },
+      function(count, _callback){
+        var offset = 10 * parseInt(req.query.offset);
+        _self.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, pratica.email, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 1 AND comune_id="+_self.connection.escape(req.query.cid)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true, results : rows, count : count}));
+          _callback(null);
+        });
       }
-
-      res.end(JSON.stringify({response : true, results : rows}));
-
-    });
+    ])
   }
 
   d1domandeconcorrenza(req, res){
@@ -1227,7 +1256,8 @@ class Middleware{
     var _self = this;
     async.waterfall([
       function(_callback){
-        _self.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=1 AND abuso.comune_id="+_self.connection.escape(req.query.cid), function(err, rows){
+        var offset = 10 * req.query.offset;
+        _self.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=1 AND abuso.comune_id="+_self.connection.escape(req.query.cid)+" LIMIT 10 OFFSET "+offset, function(err, rows){
           if(err){
             console.log(err);
             res.end(JSON.stringify({response: false, err : err}));
@@ -1243,7 +1273,18 @@ class Middleware{
             console.log(err);
             res.end(JSON.stringify({response : false, err : err}));
           }
-          res.end(JSON.stringify({response:true, results : abusi, usoscopo: rows}));
+          //
+          _callback(null,abusi,rows);
+        });
+      },
+      function(abusi,usoscopo,_callback){
+        _self.connection.query("SELECT COUNT(abuso.id) AS ccount FROM abuso WHERE tipo_abuso_id=1 AND abuso.comune_id="+_self.connection.escape(req.query.cid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : abusi, usoscopo: usoscopo, count : rows}));
           _callback(null);
         });
       }
@@ -1251,25 +1292,64 @@ class Middleware{
   }
 
   getAbusiAree(req, res){
-    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com, codice_uso_scopo.descrizione FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id LEFT JOIN pratica ON abuso.pratica_id = pratica.id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE tipo_abuso_id=2 AND abuso.pratica_id IS NOT NULL AND abuso.comune_id="+this.connection.escape(req.query.cid), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var offset = 10 * req.query.offset;
+        _self.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com, codice_uso_scopo.descrizione FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id LEFT JOIN pratica ON abuso.pratica_id = pratica.id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE tipo_abuso_id=2 AND abuso.pratica_id IS NOT NULL AND abuso.comune_id="+_self.connection.escape(req.query.cid)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+          //res.end(JSON.stringify({response:true, results : rows}));
+        });
+      },
+      function(abusi, _callback){
+        _self.connection.query("SELECT COUNT(abuso.id) AS ccount FROM abuso WHERE tipo_abuso_id=2 AND abuso.pratica_id IS NOT NULL AND abuso.comune_id="+_self.connection.escape(req.query.cid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : abusi, count : rows}));
+          _callback(null);
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ]);
+
   }
 
   getAbusiCodNav(req,res){
-    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com, codice_uso_scopo.descrizione FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id LEFT JOIN pratica ON abuso.pratica_id = pratica.id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE tipo_abuso_id=3 AND abuso.pratica_id IS NOT NULL AND abuso.comune_id="+this.connection.escape(req.query.cid), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var offset = 10 * req.query.offset;
+        _self.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com, codice_uso_scopo.descrizione FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id LEFT JOIN pratica ON abuso.pratica_id = pratica.id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE tipo_abuso_id=3 AND abuso.pratica_id IS NOT NULL AND abuso.comune_id="+_self.connection.escape(req.query.cid)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null,rows);
+          //res.end(JSON.stringify({response:true, results : rows}));
+        });
+      },
+      function(abusi,_callback){
+        _self.connection.query("SELECT COUNT(abuso.id) AS ccount FROM abuso WHERE tipo_abuso_id=3 AND abuso.pratica_id IS NOT NULL AND abuso.comune_id="+_self.connection.escape(req.query.cid), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : abusi, count : rows}));
+          _callback(null);
+          //
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ])
+
   }
 
   getAvvisoIngiunzione(req,res){
@@ -1643,14 +1723,33 @@ class Middleware{
   }
 
   getRegistriGenerico(req,res){
-    this.connection.query("SELECT * FROM registro_generico WHERE comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var offset = 10 * req.query.offset;
+        _self.connection.query("SELECT * FROM registro_generico WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+          //res.end(JSON.stringify({response:true, results : rows}));
+        });
+      },
+      function(registri, _callback){
+        _self.connection.query("SELECT COUNT(id) AS ccount FROM registro_generico WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : registri, count : rows}));
+          _callback(null);
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ])
+
   }
 
   addNewGeneralRegistry(req,res){
@@ -1699,14 +1798,34 @@ class Middleware{
   }
 
   getRegistriArt24(req,res){
-    this.connection.query("SELECT * FROM registro_art24 WHERE comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var offset = 10 * req.query.offset;
+        _self.connection.query("SELECT * FROM registro_art24 WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+          //res.end(JSON.stringify({response:true, results : rows}));
+        });
+      },
+      function(registri, _callback){
+        _self.connection.query("SELECT COUNT(id) AS ccount FROM registro_art24 WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+
+          res.end(JSON.stringify({response:true, results : registri, count : rows}));
+          _callback(null);
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ])
+
   }
 
   addNewArt24Registry(req,res){
@@ -1732,14 +1851,31 @@ class Middleware{
   }
 
   getRegistriArt55(req,res){
-    this.connection.query("SELECT * FROM registro_art55 WHERE comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var offset = 10 * req.query.offset;
+        _self.connection.query("SELECT * FROM registro_art55 WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows);
+        });
+      },
+      function(registri, _callback){
+        _self.connection.query("SELECT count(id) AS ccount FROM registro_art55 WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : registri, count:rows}));
+          _callback(null);
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ]);
   }
 
   getRegistroArt55(req,res){
@@ -1765,14 +1901,32 @@ class Middleware{
   }
 
   getRegistriArt45(req,res){
-    this.connection.query("SELECT * FROM registro_art45 WHERE comune_id="+this.connection.escape(req.query.comune_id), function(err, rows){
-      if(err){
-        console.log(err);
-        res.end(JSON.stringify({response: false, err : err}));
-        return;
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        var offset = 10 * req.query.offset;
+        _self.connection.query("SELECT * FROM registro_art45 WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          _callback(null, rows)
+          //res.end(JSON.stringify({response:true, results : rows}));
+        });
+      },
+      function(registri,_callback){
+        _self.connection.query("SELECT COUNT(id) AS ccount FROM registro_art45 WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
+          if(err){
+            console.log(err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response:true, results : registri, count : rows}));
+          _callback(null);
+        });
       }
-      res.end(JSON.stringify({response:true, results : rows}));
-    });
+    ])
   }
 
   addNewArt45Registry(req,res){

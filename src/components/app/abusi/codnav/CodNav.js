@@ -10,7 +10,7 @@ white, darkBlack, fullBlack,
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
 
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -42,6 +42,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import styles from './CodNav.css.js';
 import SelectAbusi from '../../complementars/SelectAbusi';
 import {Link} from "react-router";
+import Pagination from '../../../Pagination';
 
 
 class CodNav extends React.Component{
@@ -50,7 +51,9 @@ class CodNav extends React.Component{
     super(props);
     this.state = {
       isLoading : true,
-      data : []
+      data : [],
+      offset : 0,
+      count : 0
     };
   }
 
@@ -59,7 +62,7 @@ class CodNav extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAbusiCodNav?cid='+escape(global.city),
+        url: constants.DB_ADDR+'getAbusiCodNav?cid='+escape(global.city)+'&offset='+this.state.offset,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -68,7 +71,8 @@ class CodNav extends React.Component{
           _self.setState({
             ..._self.state,
             isLoading : false,
-            data : parsed.results
+            data : parsed.results,
+            count : parsed.count[0].ccount
           });
         },
         error : function(err){
@@ -89,7 +93,7 @@ class CodNav extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getAbusiCodNav?cid='+escape(global.city),
+          url: constants.DB_ADDR+'getAbusiCodNav?cid='+escape(global.city)+'&offset='+this.state.offset,
           processData: false,
           contentType: false,
           success: function(data) {
@@ -99,7 +103,8 @@ class CodNav extends React.Component{
             _self.setState({
                 ..._self.state,
                 isLoading : false,
-                data : parsed.results
+                data : parsed.results,
+                count : parsed.count[0].ccount
             });
             console.log(parsed);
           },
@@ -130,8 +135,57 @@ class CodNav extends React.Component{
 
   }
 
+  reload(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'getAbusiCodNav?cid='+escape(global.city)+'&offset='+this.state.offset,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          console.log('getAbusiCodNav', parsed)
+          _self.setState({
+            ..._self.state,
+            isLoading : false,
+            data : parsed.results,
+            count : parsed.count[0].ccount
+          });
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
+    });
+  }
+
   onCalcola(usoscopo){
     console.log(usoscopo);
+  }
+
+  onPageRightClick(){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset+1
+    },
+      function(){
+        _self.reload();
+      }
+    );
+  }
+
+  onPageLeftClick(e,v){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset-1
+    },
+      function(){
+        _self.reload();
+      }
+    );
   }
 
   render (){
@@ -223,6 +277,13 @@ class CodNav extends React.Component{
                   <TableBody displayRowCheckbox={false} selectable={false}>
                     {toReturn}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableRowColumn>
+                        <Pagination offset={this.state.offset} limit={10} total={this.state.count} onPageRightClick={this.onPageRightClick.bind(this)} onPageLeftClick={this.onPageLeftClick.bind(this)}/>
+                      </TableRowColumn>
+                    </TableRow>
+                  </TableFooter>
                 </Table>
               </div>
         </MuiThemeProvider>

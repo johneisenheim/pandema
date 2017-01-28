@@ -2,14 +2,14 @@ import React, { PropTypes } from 'react';
 import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import IconButton from 'material-ui/IconButton';
+import Box from 'react-layout-components';
 
 const styles = {
   footerContent: {
     float: 'right'
   },
   footerText: {
-    float: 'right',
-    paddingTop: '16px',
+    paddingTop: '0px',
     height: '16px'
   }
 };
@@ -24,7 +24,8 @@ class Pagination extends React.Component {
     offset: PropTypes.number.isRequired, // current offset
     total: PropTypes.number.isRequired, // total number of rows
     limit: PropTypes.number.isRequired, // num of rows in each page
-    onPageClick: PropTypes.func.isRequired // what to do after clicking page number
+    onPageRightClick: PropTypes.func.isRequired, // what to do after clicking page number
+    onPageLeftClick : PropTypes.func.isRequired
   }
 
   render() {
@@ -32,15 +33,15 @@ class Pagination extends React.Component {
     let { offset, total, limit } = this.props;
 
     return (
-        <div style={styles.footerContent}>
-          <IconButton disabled={offset === 0} onClick={this.props.onPageClick.bind(null, offset - limit)}>
+        <Box alignItems="center" justifyContent="center" style={styles.footerContent}>
+          <IconButton disabled={offset === 0} onTouchTap={this.props.onPageLeftClick.bind(null, offset - limit)}>
             <ChevronLeft/>
           </IconButton>
-          <IconButton disabled={offset + limit >= total} onClick={this.props.onPageClick.bind(null, offset + limit)}>
+          <span style={styles.footerText}>{Math.min((offset + 1), total) + '-' + Math.min((offset + limit), total) + ' di ' + total}</span>
+          <IconButton disabled={offset + limit >= total} onTouchTap={this.props.onPageRightClick.bind(null, offset + limit)}>
             <ChevronRight/>
           </IconButton>
-          {Math.min((offset + 1), total) + '-' + Math.min((offset + limit), total) + ' of ' + total}
-        </div>
+        </Box>
     );
   }
 

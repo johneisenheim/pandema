@@ -10,7 +10,7 @@ white, darkBlack, fullBlack,
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
 
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -47,6 +47,7 @@ import Menu from 'material-ui/Menu';
 import DropdownA from './DropdownA';
 import { browserHistory } from 'react-router';
 import Mailto from 'react-mailto';
+import Pagination from '../../Pagination';
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
 
@@ -63,7 +64,9 @@ class Home extends React.Component{
     this.state = {
       isLoading : true,
       open : false,
-      data : []
+      data : [],
+      offset : 0,
+      count : 0
     };
     console.log(constants.DB_ADDR);
   }
@@ -72,7 +75,7 @@ class Home extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city),
+        url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city)+'&offset='+this.state.offset,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -81,7 +84,8 @@ class Home extends React.Component{
           _self.setState({
               ..._self.state,
               isLoading : false,
-              data : parsed.results
+              data : parsed.results,
+              count : parsed.count[0].ccount
           });
           console.log(parsed);
         },
@@ -112,7 +116,7 @@ class Home extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city),
+          url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city)+'&offset='+this.state.offset,
           processData: false,
           contentType: false,
           success: function(data) {
@@ -122,7 +126,8 @@ class Home extends React.Component{
             _self.setState({
                 ..._self.state,
                 isLoading : false,
-                data : parsed.results
+                data : parsed.results,
+                count : parsed.count[0].ccount
             });
             console.log(parsed);
           },
@@ -198,7 +203,7 @@ class Home extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city),
+        url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city)+'&offset='+this.state.offset,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -207,7 +212,8 @@ class Home extends React.Component{
           _self.setState({
               ..._self.state,
               isLoading : false,
-              data : parsed.results
+              data : parsed.results,
+              count : parsed.count[0].ccount
           });
           console.log(parsed);
         },
@@ -215,6 +221,31 @@ class Home extends React.Component{
           console.log(err);
         }
     });
+  }
+
+  onPageRightClick(){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset+1
+    },
+      function(){
+        console.log('OFFSET',_self.state.offset)
+        _self.reload();
+      }
+    );
+  }
+
+  onPageLeftClick(e,v){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset-1
+    },
+      function(){
+        _self.reload();
+      }
+    );
   }
 
   /**/
@@ -370,6 +401,13 @@ class Home extends React.Component{
                   <TableBody displayRowCheckbox={false} selectable={false}>
                     {tableContents}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableRowColumn>
+                        <Pagination offset={this.state.offset} limit={10} total={this.state.count} onPageRightClick={this.onPageRightClick.bind(this)} onPageLeftClick={this.onPageLeftClick.bind(this)}/>
+                      </TableRowColumn>
+                    </TableRow>
+                  </TableFooter>
                 </Table>
               </Paper>
               <DropdownA ref="dropdown"/>

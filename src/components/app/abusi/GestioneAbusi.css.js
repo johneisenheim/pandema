@@ -12,7 +12,8 @@ const styles = {
   paper3 : {
     marginTop : '30px',
     width : 'auto',
-    height : 'auto'
+    height : 'auto',
+    marginBottom : '30px'
   },
   superheader:{
     color: '#FFFFFF',

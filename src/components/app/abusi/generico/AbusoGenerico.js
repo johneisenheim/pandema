@@ -10,7 +10,7 @@ white, darkBlack, fullBlack,
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
 
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -44,6 +44,7 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 
 import SelectAbusi from '../../complementars/SelectAbusi';
+import Pagination from '../../../Pagination';
 
 
 class GestioneAbusi extends React.Component{
@@ -54,7 +55,9 @@ class GestioneAbusi extends React.Component{
       isLoading : true,
       open: false,
       usoscopo : [],
-      data : []
+      data : [],
+      offset : 0,
+      count : 0
     };
   }
 
@@ -63,7 +66,7 @@ class GestioneAbusi extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'getAbusiGenerici?cid='+escape(global.city),
+        url: constants.DB_ADDR+'getAbusiGenerici?cid='+escape(global.city)+'&offset='+this.state.offset,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -73,7 +76,8 @@ class GestioneAbusi extends React.Component{
             ..._self.state,
             isLoading : false,
             data : parsed.results,
-            usoscopo : parsed.usoscopo
+            usoscopo : parsed.usoscopo,
+            count : parsed.count[0].ccount
           });
         },
         error : function(err){
@@ -94,7 +98,7 @@ class GestioneAbusi extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getAbusiGenerici?cid='+escape(global.city),
+          url: constants.DB_ADDR+'getAbusiGenerici?cid='+escape(global.city)+'&offset='+this.state.offset,
           processData: false,
           contentType: false,
           success: function(data) {
@@ -103,7 +107,8 @@ class GestioneAbusi extends React.Component{
                 ..._self.state,
                 isLoading : false,
                 data : parsed.results,
-                usoscopo : parsed.usoscopo
+                usoscopo : parsed.usoscopo,
+                count : parsed.count[0].ccount
             });
             console.log(parsed);
           },
@@ -135,6 +140,32 @@ class GestioneAbusi extends React.Component{
 
   }
 
+  reload(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'getAbusiGenerici?cid='+escape(global.city)+'&offset='+this.state.offset,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          console.log('abuso parsed',parsed);
+          _self.setState({
+            ..._self.state,
+            isLoading : false,
+            data : parsed.results,
+            usoscopo : parsed.usoscopo,
+            count : parsed.count[0].ccount
+          });
+        },
+        error : function(err){
+          alert('Errore : '+err);
+          console.log(err);
+        }
+    });
+  }
+
   handleTouchTap(event){
     event.preventDefault();
     this.setState({
@@ -151,6 +182,30 @@ class GestioneAbusi extends React.Component{
 
   onIconMenu(e, k, v){
 
+  }
+
+  onPageRightClick(){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset+1
+    },
+      function(){
+        _self.reload();
+      }
+    );
+  }
+
+  onPageLeftClick(e,v){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset-1
+    },
+      function(){
+        _self.reload();
+      }
+    );
   }
 
 
@@ -259,6 +314,13 @@ class GestioneAbusi extends React.Component{
                   <TableBody displayRowCheckbox={false} selectable={false}>
                     {toReturn}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableRowColumn>
+                        <Pagination offset={this.state.offset} limit={10} total={this.state.count} onPageRightClick={this.onPageRightClick.bind(this)} onPageLeftClick={this.onPageLeftClick.bind(this)}/>
+                      </TableRowColumn>
+                    </TableRow>
+                  </TableFooter>
                 </Table>
               </div>
         </MuiThemeProvider>

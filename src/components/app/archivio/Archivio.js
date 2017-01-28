@@ -10,7 +10,7 @@ white, darkBlack, fullBlack,
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
 
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -44,6 +44,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 import Select from '../complementars/Select';
 import { browserHistory } from 'react-router';
+import Pagination from '../../Pagination';
 
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
@@ -60,7 +61,9 @@ class Archivio extends React.Component{
     super(props);
     this.state = {
       isLoading : true,
-      data : []
+      data : [],
+      offset : 0,
+      count : 0
     };
   }
 
@@ -68,7 +71,7 @@ class Archivio extends React.Component{
     var _self = this;
     $.ajax({
         type: 'GET',
-        url: constants.DB_ADDR+'getgeneralinfosArchivio?cid='+escape(global.city),
+        url: constants.DB_ADDR+'getgeneralinfosArchivio?cid='+escape(global.city)+"&offset="+this.state.offset,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -78,7 +81,8 @@ class Archivio extends React.Component{
           _self.setState({
               ..._self.state,
               isLoading : false,
-              data : parsed.results
+              data : parsed.results,
+              count : parsed.count[0].ccount
           });
           console.log(parsed);
         },
@@ -124,7 +128,7 @@ class Archivio extends React.Component{
     if(v === ''){
       $.ajax({
           type: 'GET',
-          url: constants.DB_ADDR+'getgeneralinfosArchivio?cid='+escape(global.city),
+          url: constants.DB_ADDR+'getgeneralinfosArchivio?cid='+escape(global.city)+"&offset="+this.state.offset,
           processData: false,
           contentType: false,
           success: function(data) {
@@ -134,7 +138,8 @@ class Archivio extends React.Component{
             _self.setState({
                 ..._self.state,
                 isLoading : false,
-                data : parsed.results
+                data : parsed.results,
+                count : parsed.count[0].ccount
             });
             console.log(parsed);
           },
@@ -162,7 +167,51 @@ class Archivio extends React.Component{
           }
       });
     }
+  }
 
+  reload(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        url: constants.DB_ADDR+'getgeneralinfosArchivio?cid='+escape(global.city)+"&offset="+this.state.offset,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          _self.setState({
+              ..._self.state,
+              isLoading : false,
+              data : parsed.results
+          });
+        },
+        error : function(err){
+          console.log(err);
+        }
+    });
+  }
+
+  onPageRightClick(){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset+1
+    },
+      function(){
+        _self.reload();
+      }
+    );
+  }
+
+  onPageLeftClick(e,v){
+    var _self = this;
+    this.setState({
+      ...this.state,
+      offset : this.state.offset-1
+    },
+      function(){
+        _self.reload();
+      }
+    );
   }
 
   render (){
@@ -296,6 +345,13 @@ class Archivio extends React.Component{
                   <TableBody displayRowCheckbox={false} selectable={false}>
                     {tableContents}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableRowColumn>
+                        <Pagination offset={this.state.offset} limit={10} total={this.state.count} onPageRightClick={this.onPageRightClick.bind(this)} onPageLeftClick={this.onPageLeftClick.bind(this)}/>
+                      </TableRowColumn>
+                    </TableRow>
+                  </TableFooter>
                 </Table>
               </Paper>
             </Box>
