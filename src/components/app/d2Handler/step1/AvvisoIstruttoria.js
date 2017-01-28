@@ -148,7 +148,7 @@ class AvvisoIstruttoria extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadD1AvvisoIstruttoria', '_blank')
+    window.open(LINKS.avvioistruttoriad2, '_blank')
   }
 
   render (){

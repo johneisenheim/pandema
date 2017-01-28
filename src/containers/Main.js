@@ -13,6 +13,7 @@ import WebStorage from 'react-webstorage';
 import Loadable from 'react-loading-overlay';
 var EventEmitter2 = require('eventemitter2').EventEmitter2;
 import * as constants from '../constants';
+import links from './links';
 
 injectTapEventPlugin();
 
@@ -45,6 +46,7 @@ export default class Main extends React.Component {
 			//webStorage.setItem('chiave', 'valore');
 			global.tryy = 'Hello guys!';
 			global.constants = constants;
+			global.LINKS = links;
 			//global._webStorage = webStorage;
 		}
 	}

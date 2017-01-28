@@ -147,7 +147,7 @@ class AvvisoPubblicazione extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadAvvisoPubblicazione', '_blank')
+    window.open(LINKS.avvisopubblicazioned3, '_blank')
   }
 
   render (){
