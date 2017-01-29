@@ -147,6 +147,10 @@ class AnnotazioneRegolarita extends React.Component{
     }
   }
 
+  downloadModulo(){
+    
+  }
+
   render (){
     if( this.state.isLoading ){
       return(
@@ -179,7 +183,7 @@ class AnnotazioneRegolarita extends React.Component{
       return (
           <Box column style={{marginTop:'30px', width:'97%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="Files caricati per Annotazione Regolarita" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="Files caricati per Annotazione Regolarita" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}} onTouchTap={this.downloadModulo.bind(this)}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
                     <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._domandeConcorrenzaFileHandler.bind(this)} ref="file"/>

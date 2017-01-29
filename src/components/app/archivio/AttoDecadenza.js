@@ -147,7 +147,7 @@ class AttoDecadenza extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadAvvisoDiniego', '_blank')
+    window.open(LINKS.decadenza, '_blank')
   }
 
   render (){

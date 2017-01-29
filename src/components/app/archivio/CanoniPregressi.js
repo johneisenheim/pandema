@@ -33,6 +33,10 @@ class CanoniPregressi extends React.Component{
     });
   }
 
+  downloadPregressi(){
+    window.open(LINKS.canonipregressi, '_blank')
+  }
+
   render(){
     var years = [];
     for (var i = 0; i < 18; i++){
@@ -56,7 +60,7 @@ class CanoniPregressi extends React.Component{
               </DropDownMenu>
             </Box>
             <Box column justifyContent="center" alignItems="center" style={{marginTop:'30px', marginBottom:'30px'}}>
-              <RaisedButton label="Calcola Canone" primary={true} labelStyle={{color:'#FFFFFF'}} />
+              <RaisedButton label="Calcola Canone" primary={true} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadPregressi.bind(this)}/>
               <RaisedButton label="Calcola Tassa Regionale" primary={true} labelStyle={{color:'#FFFFFF'}} style={{marginTop:'20px'}}/>
             </Box>
           </Paper>

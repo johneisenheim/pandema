@@ -147,7 +147,7 @@ class AttoConcessione extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadAttoConcessione', '_blank')
+    window.open(LINKS.concessioned4, '_blank')
   }
 
   render (){

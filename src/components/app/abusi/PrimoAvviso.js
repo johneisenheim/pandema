@@ -128,7 +128,7 @@ class PrimoAvviso extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadAvvisoDiniego', '_blank')
+    window.open(LINKS.primoavviso, '_blank')
   }
 
   handleModalButtonClose(){
@@ -213,11 +213,47 @@ class PrimoAvviso extends React.Component{
   }
 
   onIconMenu(e, k, v){
-
+    switch(v){
+      case 0:
+        window.open(LINKS.usi_vari, '_blank');
+        break;
+      case 1:
+        window.open(LINKS.turistico_e_diporto, '_blank');
+        break;
+      case 2:
+        window.open(LINKS.pesca_acqua_cantieri, '_blank');
+      break;
+      case 3:
+        window.open(LINKS.regione_campania, '_blank');
+      break;
+      case 4:
+        window.open(LINKS.pertinenza_demaniale,'_blank');
+      break;
+    }
   }
 
   handleTouchTap2(){
     console.log(this.props.usoscopo[0].descrizione);
+  }
+
+  downloadExcel(who){
+    switch(who){
+      case 'usi_vari':
+        window.open(LINKS.usi_vari, '_blank');
+        break;
+      case 'turistico_e_diporto':
+        window.open(LINKS.turistico_e_diporto, '_blank');
+        break;
+      case 'pesca_acqua_cantieri':
+        window.open(LINKS.pesca_acqua_cantieri, '_blank');
+      break;
+      case 'regione_campania':
+        window.open(LINKS.regione_campania, '_blank');
+      break;
+      case 'pertinenza_demaniale':
+        window.open(LINKS.pertinenza_demaniale,'_blank');
+      break;
+    }
   }
 
   render (){
@@ -249,7 +285,7 @@ class PrimoAvviso extends React.Component{
         for (var j = 0; j < this.props.usoscopo.length; j++){
           if(this.props.usoscopo[j].descrizione_com !== undefined){
             usiscopi.push(
-              <MenuItem primaryText={this.props.usoscopo[j].descrizione_com} key={j}/>
+              <MenuItem primaryText={this.props.usoscopo[j].descrizione_com} onTouchTap={this.downloadExcel.bind(this, this.props.usoscopo[j].descrizione)} key={j}/>
             );
           }
         }
@@ -296,7 +332,7 @@ class PrimoAvviso extends React.Component{
                         </Popover>
                       </div>
                       :
-                      <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.handleTouchTap2.bind(this)}/>
+                      <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadExcel.bind(this, this.props.usoscopo[0].descrizione)}/>
                     }
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0} onTouchTap={this.openModal.bind(this)}/>

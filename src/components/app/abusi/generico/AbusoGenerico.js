@@ -208,6 +208,26 @@ class GestioneAbusi extends React.Component{
     );
   }
 
+  downloadModulo(who){
+    switch(who){
+      case 'usi_vari':
+        window.open(LINKS.usi_vari, '_blank');
+        break;
+      case 'turistico_e_diporto':
+        window.open(LINKS.turistico_e_diporto, '_blank');
+        break;
+      case 'pesca_acqua_cantieri':
+        window.open(LINKS.pesca_acqua_cantieri, '_blank');
+      break;
+      case 'regione_campania':
+        window.open(LINKS.regione_campania, '_blank');
+      break;
+      case 'pertinenza_demaniale':
+        window.open(LINKS.pertinenza_demaniale,'_blank');
+      break;
+    }
+  }
+
 
   render (){
     if(this.state.isLoading){
@@ -222,7 +242,7 @@ class GestioneAbusi extends React.Component{
       if(this.state.data.length > 0){
         for(var j = 0; j < this.state.usoscopo.length; j++){
           usiscopi.push(
-            <MenuItem primaryText={this.state.usoscopo[j].descrizione_com} key={j}/>
+            <MenuItem primaryText={this.state.usoscopo[j].descrizione_com} onTouchTap={this.downloadModulo.bind(this, this.state.usoscopo[j].descrizione)} key={j}/>
           );
         }
         for( var i = 0 ; i < this.state.data.length; i++ ){

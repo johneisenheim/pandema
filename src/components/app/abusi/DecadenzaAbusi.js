@@ -148,7 +148,7 @@ class DecadenzaAbusi extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadAvvisoDiniego', '_blank')
+    window.open(LINKS.avviodecadenza, '_blank')
   }
 
   render (){

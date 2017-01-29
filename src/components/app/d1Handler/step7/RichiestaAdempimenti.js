@@ -147,7 +147,7 @@ class RichiestaAdempimenti extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadRichiestaAdempimenti', '_blank')
+    window.open(LINKS.adempimentid1, '_blank')
   }
 
   render (){

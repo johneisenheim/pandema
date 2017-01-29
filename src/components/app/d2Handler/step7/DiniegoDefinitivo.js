@@ -147,7 +147,7 @@ class DiniegoDefinitivo extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadAvvisoDiniegoDefinitivo', '_blank')
+    window.open(LINKS.diniegodefinitivo, '_blank')
   }
 
   render (){

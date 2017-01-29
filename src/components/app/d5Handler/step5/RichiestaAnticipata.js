@@ -147,7 +147,7 @@ class RichiestaAnticipata extends React.Component{
   }
 
   downloadModulo(){
-    window.open(constants.DB_ADDR+'downloadRichiestaAdempimenti', '_blank')
+    window.open(LINKS.concessioned5, '_blank')
   }
 
   render (){

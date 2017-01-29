@@ -1268,7 +1268,7 @@ class Middleware{
         });
       },
       function(abusi, _callback){
-        _self.connection.query("SELECT id,descrizione_com FROM codice_uso_scopo", function(err, rows){
+        _self.connection.query("SELECT id, descrizione, descrizione_com FROM codice_uso_scopo", function(err, rows){
           if(err){
             console.log(err);
             res.end(JSON.stringify({response : false, err : err}));
