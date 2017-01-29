@@ -63,11 +63,13 @@ class D1Handler extends React.Component{
   _next (){
     if( this.state.stepIndex == 4){
       if(this.state.endButtonTitle === 'Fine'){
+        window.open(LINKS.diniegodefinitivo, '_blank');
         browserHistory.push('/');
         return;
       }
     }
     if( this.state.stepIndex == 7){
+      window.open(LINKS.concessioned1, '_blank');
       browserHistory.push('/');
       return;
     }

@@ -59,7 +59,9 @@ class D5Handler extends React.Component{
           ...this.state,
           stepIndex : this.state.stepIndex+1
         })
-    }else */if(this.state.stepIndex == 5){
+    }else */
+    if(this.state.stepIndex == 5){
+      window.open(LINKS.concessioned5, '_blank');
       browserHistory.push('/');
     }else{
       this.setState({

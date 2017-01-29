@@ -56,6 +56,7 @@ class D6Handler extends React.Component{
 
   _next (){
     if(this.state.stepIndex == 5){
+      window.open(LINKS.concessioned6, '_blank');
       browserHistory.push('/');
     }else{
       this.setState({

@@ -58,6 +58,7 @@ class D3Handler extends React.Component{
       window.open('https://drive.google.com/open?id=0B5KalOy4omiKWFBWZnhQeWt2Szg');
     }else*/
     if(this.state.stepIndex == 5){
+      window.open(LINKS.concessioned3, '_blank');
       browserHistory.push('/');
     }else{
       this.setState({

@@ -50,13 +50,13 @@ class D4Handler extends React.Component{
       stepIndex : 0,
       finished: false
     }
-    console.log('PARAMS');
   }
 
 
 
   _next (){
     if(this.state.stepIndex == 5){
+      window.open(LINKS.concessioned4, '_blank');
       browserHistory.push('/');
     }else{
       this.setState({

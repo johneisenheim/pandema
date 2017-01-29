@@ -57,7 +57,8 @@ class D2Handler extends React.Component{
 
   _next (){
     if( this.state.stepIndex == 5){
-      browserHistory.push('/')
+      window.open(LINKS.concessioned2, '_blank');
+      browserHistory.push('/');
     }else{
       this.setState({
         stepIndex : this.state.stepIndex+1,
