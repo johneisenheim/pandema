@@ -212,7 +212,7 @@ class SecondoAvviso extends React.Component{
   }
 
   onIconMenu(e, k, v){
-    onIconMenu(e, k, v){
+
       switch(v){
         case 0:
           window.open(LINKS.usi_vari, '_blank');
@@ -230,7 +230,7 @@ class SecondoAvviso extends React.Component{
           window.open(LINKS.pertinenza_demaniale,'_blank');
         break;
       }
-    }
+    
   }
 
   handleTouchTap2(){
