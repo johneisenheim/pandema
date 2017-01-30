@@ -160,8 +160,24 @@ class CodNav extends React.Component{
     });
   }
 
-  onCalcola(usoscopo){
-    console.log(usoscopo);
+  onCalcola(who){
+    switch(who){
+      case 'usi_vari':
+        window.open(LINKS.usi_vari, '_blank');
+        break;
+      case 'turistico_e_diporto':
+        window.open(LINKS.turistico_e_diporto, '_blank');
+        break;
+      case 'pesca_acqua_cantieri':
+        window.open(LINKS.pesca_acqua_cantieri, '_blank');
+      break;
+      case 'regione_campania':
+        window.open(LINKS.regione_campania, '_blank');
+      break;
+      case 'pertinenza_demaniale':
+        window.open(LINKS.pertinenza_demaniale,'_blank');
+      break;
+    }
   }
 
   onPageRightClick(){
