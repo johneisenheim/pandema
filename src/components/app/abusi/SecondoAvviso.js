@@ -45,6 +45,7 @@ class SecondoAvviso extends React.Component{
       errorText : '',
       checkIconColor : 'lightgrey'
     };
+    console.log('secondo avviso props', props);
   }
 
   componentDidMount(){
@@ -230,7 +231,7 @@ class SecondoAvviso extends React.Component{
           window.open(LINKS.pertinenza_demaniale,'_blank');
         break;
       }
-    
+
   }
 
   handleTouchTap2(){
@@ -333,7 +334,7 @@ class SecondoAvviso extends React.Component{
                         </Popover>
                       </div>
                       :
-                      <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadExcel.bind(this,this.props.usoscopo[j].descrizione)}/>
+                      <FlatButton label="Calcola Indennità" icon={<Calculate style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadExcel.bind(this,this.props.usoscopo[0].descrizione)}/>
                     }
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0} onTouchTap={this.openModal.bind(this)}/>
