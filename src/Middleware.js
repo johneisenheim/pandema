@@ -2008,7 +2008,7 @@ class Middleware{
   }
 
   searchTableE(req,res){
-    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=3 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+") AND comune_id="+this.connection.query(req.query.cid), function(err, rows){
+    this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=3 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+") AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
         ;
         res.end(JSON.stringify({response: false, err : err}));
