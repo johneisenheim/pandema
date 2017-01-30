@@ -50,7 +50,6 @@ class AvvisoPubblicazione extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -58,8 +57,7 @@ class AvvisoPubblicazione extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -107,7 +105,6 @@ class AvvisoPubblicazione extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -115,8 +112,7 @@ class AvvisoPubblicazione extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

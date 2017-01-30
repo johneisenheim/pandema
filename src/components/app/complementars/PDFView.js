@@ -16,7 +16,7 @@ class PDFView extends React.Component{
           console.log(data);
         },
         error : function(err){
-          console.log(err);
+          ;
         }
     });
   }

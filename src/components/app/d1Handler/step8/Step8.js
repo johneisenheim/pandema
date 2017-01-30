@@ -33,7 +33,6 @@ class Step5 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           if( parsed.results.length == 0 ){
             _self.setState({
               ..._self.state,
@@ -62,11 +61,9 @@ class Step5 extends React.Component{
             _self.state.data = parsed.results;
             _self.setState(_self.state);
           }
-          console.log(_self.state);
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -98,9 +95,8 @@ class Step5 extends React.Component{
 
         },
         error : function(err){
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           toggleLoader.emit('toggleLoader');
-          console.log(err);
         }
     });
   }
@@ -117,7 +113,6 @@ class Step5 extends React.Component{
     if(this.state.isNumeroPagineDefined){
       command = constants.DB_ADDR+'updateNumeroPagine'+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&iid='+escape(_self.state.numeroPagineID);
     }else command = constants.DB_ADDR+'addNumeroPagine'+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value);
-    console.log()
     $.ajax({
         type: 'GET',
         url: command,
@@ -130,9 +125,8 @@ class Step5 extends React.Component{
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
         }
     });
   }
@@ -147,8 +141,6 @@ class Step5 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('reload');
-          console.log(parsed);
           if( parsed.results.length == 0 ){
             _self.setState({
               ..._self.state,
@@ -180,8 +172,7 @@ class Step5 extends React.Component{
 
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

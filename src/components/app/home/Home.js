@@ -68,7 +68,6 @@ class Home extends React.Component{
       offset : 0,
       count : 0
     };
-    console.log(constants.DB_ADDR);
   }
 
   componentDidMount(){
@@ -80,17 +79,16 @@ class Home extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('home successs',parsed);
           _self.setState({
               ..._self.state,
               isLoading : false,
               data : parsed.results,
               count : parsed.count[0].ccount
           });
-          console.log(parsed);
+          ;
         },
         error : function(err){
-          console.log(err);
+          ;
         }
     });
   }
@@ -100,9 +98,7 @@ class Home extends React.Component{
   }
 
   changePraticaStatus(e,v,a,b){
-    console.log(a);
     this.refs.status.props.value = a;
-    console.log(this.refs.status);
   }
 
   onSearchChange(e,v){
@@ -121,18 +117,17 @@ class Home extends React.Component{
           contentType: false,
           success: function(data) {
             var parsed = JSON.parse(data);
-            console.log('home successs')
-            console.log(parsed);
+            ;
             _self.setState({
                 ..._self.state,
                 isLoading : false,
                 data : parsed.results,
                 count : parsed.count[0].ccount
             });
-            console.log(parsed);
+            ;
           },
           error : function(err){
-            console.log(err);
+            ;
           }
       });
     }else{
@@ -148,10 +143,9 @@ class Home extends React.Component{
                 //isLoading : false,
                 data : parsed.results
             });
-            console.log('searchTableA',parsed);
           },
           error : function(err){
-            console.log(err);
+            ;
           }
       });
     }
@@ -165,7 +159,6 @@ class Home extends React.Component{
   }
 
   onIconMenu(e, k, v){
-    console.log('herre', e, k, v)
     switch(v){
       case 0:
         browserHistory.push('/nuovapraticad1');
@@ -208,17 +201,16 @@ class Home extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('home successs',parsed);
           _self.setState({
               ..._self.state,
               isLoading : false,
               data : parsed.results,
               count : parsed.count[0].ccount
           });
-          console.log(parsed);
+          ;
         },
         error : function(err){
-          console.log(err);
+          ;
         }
     });
   }
@@ -230,7 +222,6 @@ class Home extends React.Component{
       offset : this.state.offset+1
     },
       function(){
-        console.log('OFFSET',_self.state.offset)
         _self.reload();
       }
     );
@@ -291,7 +282,7 @@ class Home extends React.Component{
               linkToD = '/d6handler/'+this.state.data[i].pandema_id+'/'+this.state.data[i].id;
             break;
           }
-          console.log(this.state.data[i].email);
+
           tableContents.push(
             <TableRow key={i}>
               <TableRowColumn style={{textAlign:'center'}}>{this.state.data[i].pandema_id}</TableRowColumn>

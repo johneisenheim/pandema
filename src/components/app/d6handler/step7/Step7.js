@@ -32,7 +32,6 @@ class Step7 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('D4 Step7',parsed);
           if(parsed.imposta !== undefined){
             for( var i = 0; i < parsed.imposta.length; i++){
               _self.state[parsed.imposta[i].descrizione] = parsed.imposta[i].valore;
@@ -45,8 +44,8 @@ class Step7 extends React.Component{
           _self.setState(_self.state);
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -91,15 +90,15 @@ class Step7 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
+          ;
         }
     });
   }
@@ -131,15 +130,15 @@ class Step7 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
+          ;
         }
     });
   }
@@ -169,15 +168,15 @@ class Step7 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
+          ;
         }
     });
   }
@@ -217,11 +216,10 @@ class Step7 extends React.Component{
           _self.state.isLoading = false;
           _self.state.data = parsed;
           _self.setState(_self.state);
-          console.log(_self.state);
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }

@@ -48,7 +48,6 @@ class CanoniPregressi extends React.Component{
         <MenuItem value={i} primaryText={txt} />
       );
     }
-    console.log('years',years);
     return(
       <MuiThemeProvider muiTheme={lightBaseTheme} >
         <Box column justifyContent="center" alignItems="center" style={{height:'100%', width:'100%'}}>

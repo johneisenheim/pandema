@@ -64,7 +64,7 @@ class NuovaPratica extends React.Component{
           });
         },
         error : function(err){
-          console.log(err);
+          ;
         }
     });
   }
@@ -110,8 +110,6 @@ class NuovaPratica extends React.Component{
           emailpec : _emailpec
       });
 
-      console.log(JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value}))
-
       $.ajax({
           type: 'POST',
           data: JSON.stringify({comune_id: global.city, npratica : this.refs.npratica.getValue(), nome : this.refs.name.getValue(), cognome : this.refs.surname.getValue(), uso: this.state.usoscopovalue, cf : this.refs.cf.getValue(), data : new Date(this.refs.date.state.date), tipodocumento : this.state.value, email : this.refs.email.getValue(), emailpec : this.refs.emailpec.getValue()}),
@@ -148,7 +146,7 @@ class NuovaPratica extends React.Component{
           },
           error : function(err){
             toggleLoader.emit('toggleLoader');
-            console.log(err);
+            ;
           }
       });
       toggleLoader.emit('toggleLoader');

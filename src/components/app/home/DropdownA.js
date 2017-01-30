@@ -64,8 +64,8 @@ class DropdownA extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -78,7 +78,6 @@ class DropdownA extends React.Component{
   }
 
   setdtype(type){
-    console.log(type);
     this.setState({
       ...this.state,
       dtype : type,
@@ -108,7 +107,6 @@ class DropdownA extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('parsed', parsed.response)
           if(parsed.response){
             _self.setState({
               ..._self.state,
@@ -119,8 +117,8 @@ class DropdownA extends React.Component{
           }else alert('Errore', parsed.err);
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }

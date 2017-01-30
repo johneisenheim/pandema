@@ -48,8 +48,6 @@ class DropdownA extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getDInfosForAbusi');
-          console.log(parsed);
           var toPush = [];
           for( var i = 0; i < parsed.results.length; i++ ){
             toPush.push(parsed.results[i].pandema_id);
@@ -65,8 +63,7 @@ class DropdownA extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -109,8 +106,7 @@ class DropdownA extends React.Component{
           browserHistory.push(link);
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

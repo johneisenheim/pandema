@@ -69,8 +69,6 @@ class Admin extends React.Component{
       return;
     }
 
-    console.log(this.state);
-
     var formData = new FormData();
     formData.append('citta', this.state.citta);
     formData.append('cap', this.state.cap);

@@ -15,7 +15,6 @@ class App extends React.Component{
 
   constructor(props, context) {
     super(props, context);
-    console.log('App props',props);
     if(props.location.pathname.includes('d1handler') || props.location.pathname.includes('d2handler') || props.location.pathname.includes('d3handler')
     || props.location.pathname.includes('d4handler') || props.location.pathname.includes('d5handler') || props.location.pathname.includes('d3shandler')
     || props.location.pathname.includes('gestisciallegati')){

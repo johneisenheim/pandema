@@ -31,7 +31,7 @@ class Step7 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           _self.praticaPath = parsed.results[0].path;
           _self.setState({
             ..._self.state,
@@ -39,8 +39,8 @@ class Step7 extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }

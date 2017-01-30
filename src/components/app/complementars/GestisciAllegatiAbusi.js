@@ -44,9 +44,6 @@ class GestisciAllegatiAbusi extends React.Component{
         open : false,
         checkColor : '#D6D6D6'
     };
-
-    console.log(this.props);
-
   }
 
   componentDidMount(){
@@ -57,9 +54,7 @@ class GestisciAllegatiAbusi extends React.Component{
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('success');
           var parsed = JSON.parse(data);
-          console.log('GestisciAllegatiAbusi()',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -67,7 +62,7 @@ class GestisciAllegatiAbusi extends React.Component{
           })
         },
         error : function(err){
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -85,11 +80,10 @@ class GestisciAllegatiAbusi extends React.Component{
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('success '+data);
           _self.eyePressEnd(data);
         },
         error : function(err){
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -152,7 +146,6 @@ class GestisciAllegatiAbusi extends React.Component{
   }
 
   openDialog(){
-    console.log('open');
     this.setState({
       ...this.state,
       open : true

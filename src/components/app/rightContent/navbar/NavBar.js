@@ -44,7 +44,6 @@ class NavBar extends React.Component{
         type: 'GET',
         url: constants.DB_ADDR+'getComuneImage?cid='+escape(global.city),
         success: function(data) {
-            console.log('data', data);
             _self.setState({
               ..._self.state,
               src : constants.DB_ADDR+data
@@ -78,7 +77,6 @@ class NavBar extends React.Component{
   }
 
   render(){
-    console.log('In render', this.state.src);
     var webStorage = new WebStorage(
       window.localStorage ||
       window.sessionStorage
@@ -87,7 +85,6 @@ class NavBar extends React.Component{
     if(this.state.src == ''){
       avatar = <Avatar size={33}>P</Avatar>;
     }else avatar = <Avatar src={this.state.src} size={33}></Avatar>;
-      console.log(avatar);
     return(
       <MuiThemeProvider muiTheme={lightBaseTheme}>
         <div>

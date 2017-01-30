@@ -24,8 +24,6 @@ class Altro extends React.Component{
       data : []
     };
     this.praticaPath = undefined;
-    console.log('altripareri', this.props.dbid)
-    console.log('altripareri', this.props.pid)
   }
 
   componentDidMount(){
@@ -46,8 +44,7 @@ class Altro extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -132,8 +129,7 @@ class Altro extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

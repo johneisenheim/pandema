@@ -45,7 +45,6 @@ class SecondoAvviso extends React.Component{
       errorText : '',
       checkIconColor : 'lightgrey'
     };
-    console.log('secondo avviso props', props);
   }
 
   componentDidMount(){
@@ -58,7 +57,6 @@ class SecondoAvviso extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getPrimoAvviso',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -66,8 +64,7 @@ class SecondoAvviso extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -87,7 +84,6 @@ class SecondoAvviso extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getPrimoAvviso',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -95,8 +91,7 @@ class SecondoAvviso extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -235,7 +230,7 @@ class SecondoAvviso extends React.Component{
   }
 
   handleTouchTap2(){
-    console.log(this.props.usoscopo[0].descrizione);
+    //console.log(this.props.usoscopo[0].descrizione);
   }
 
   downloadExcel(who){

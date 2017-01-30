@@ -64,7 +64,7 @@ class NuovaPraticaD1 extends React.Component{
           });
         },
         error : function(err){
-          console.log(err);
+          ;
         }
     });
   }
@@ -118,7 +118,7 @@ class NuovaPraticaD1 extends React.Component{
           },
           error : function(err){
             toggleLoader.emit('toggleLoader');
-            console.log(err);
+            ;
           }
       });
       toggleLoader.emit('toggleLoader');

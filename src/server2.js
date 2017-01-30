@@ -606,7 +606,7 @@ app2.get('/downloadZip', function(req, res){
 
     // good practice to catch this error explicitly
     archive.on('error', function(err) {
-      console.log(err);
+      ;
     });
 
     archive.pipe(output);

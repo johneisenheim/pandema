@@ -48,9 +48,7 @@ class AttiCessioneFitto extends React.Component{
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
-          console.log(parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -58,8 +56,8 @@ class AttiCessioneFitto extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -105,7 +103,6 @@ class AttiCessioneFitto extends React.Component{
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('domandeconcorrenza query ok');
           var parsed = JSON.parse(data);
           _self.setState({
             ..._self.state,
@@ -114,8 +111,7 @@ class AttiCessioneFitto extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

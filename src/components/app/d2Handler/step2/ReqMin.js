@@ -62,8 +62,8 @@ class ReqMin extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -179,7 +179,7 @@ class ReqMin extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           _self.praticaPath = parsed.path;
           for( var i = 0; i < parsed.results.length; i++ ){
             if( _self.state[parsed.results[i].tipo_descrizione] !== undefined ){
@@ -193,8 +193,8 @@ class ReqMin extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }

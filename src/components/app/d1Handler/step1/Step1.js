@@ -63,8 +63,7 @@ class Step1 extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -101,8 +100,7 @@ class Step1 extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
 

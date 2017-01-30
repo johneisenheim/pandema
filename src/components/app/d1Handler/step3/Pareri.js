@@ -66,8 +66,7 @@ class Pareri extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -193,7 +192,6 @@ class Pareri extends React.Component{
         success: function(data) {
           var parsed = JSON.parse(data);
           _self.praticaPath = parsed.path;
-          console.log(parsed);
           for( var i = 0; i < parsed.results.length; i++ ){
             if( _self.state[parsed.results[i].tipo_descrizione] !== undefined ){
               _self.state[parsed.results[i].tipo_descrizione] = 'Caricato';
@@ -206,8 +204,7 @@ class Pareri extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

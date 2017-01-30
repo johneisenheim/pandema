@@ -117,8 +117,8 @@ class NuovoArt45 extends React.Component{
             browserHistory.push('/registri');
           },
           error : function(err){
-            alert('Errore : '+err);
-            console.log(err);
+            alert("Errore : "+ JSON.stringify(err));
+            ;
             toggleLoader.emit('toggleLoader');
           }
       });

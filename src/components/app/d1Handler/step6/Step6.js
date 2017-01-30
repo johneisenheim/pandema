@@ -44,7 +44,6 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('CODICE USO SCOPO',parsed);
           if(parsed.canone !== undefined){
             for( var i = 0; i < parsed.canone.length; i++){
               _self.state[parsed.canone[i].descrizione] = parsed.canone[i].valore;
@@ -63,11 +62,9 @@ class Step6 extends React.Component{
           _self.state.data = parsed;
           _self.state.uso_scopo = parsed.codice[0].descrizione;
           _self.setState(_self.state);
-          console.log(_self.state)
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -140,15 +137,13 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
         }
     });
   }
@@ -187,15 +182,13 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
         }
     });
   }
@@ -233,15 +226,13 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
         }
     });
   }
@@ -318,8 +309,7 @@ class Step6 extends React.Component{
           _self.setState(_self.state);
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

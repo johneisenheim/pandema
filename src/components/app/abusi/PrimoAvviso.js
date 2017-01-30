@@ -58,7 +58,6 @@ class PrimoAvviso extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getPrimoAvviso',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -66,8 +65,7 @@ class PrimoAvviso extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -87,7 +85,6 @@ class PrimoAvviso extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getPrimoAvviso',parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -95,8 +92,7 @@ class PrimoAvviso extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -233,7 +229,7 @@ class PrimoAvviso extends React.Component{
   }
 
   handleTouchTap2(){
-    console.log(this.props.usoscopo[0].descrizione);
+    //console.log(this.props.usoscopo[0].descrizione);
   }
 
   downloadExcel(who){

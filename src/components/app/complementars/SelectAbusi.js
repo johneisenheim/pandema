@@ -33,8 +33,7 @@ class SelectAbusi extends React.Component{
           toggleLoader.emit('toggleLoader');
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
           toggleLoader.emit('toggleLoader');
         }
     });

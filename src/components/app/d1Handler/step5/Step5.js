@@ -28,8 +28,6 @@ class Step5 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('parsed');
-          console.log(parsed.results[0].stato_pratica_id);
           if( Number(parsed.results[0].stato_pratica_id) === 3){
             _self.props.changeEndButtonTitleInNext();
           }else{
@@ -42,8 +40,7 @@ class Step5 extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }
@@ -74,8 +71,7 @@ class Step5 extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
 

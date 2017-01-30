@@ -73,7 +73,6 @@ export default class Main extends React.Component {
 			}
 		})
 		global.city = webStorage.getItem('pandemawebappcity');
-		console.log('In main, global.city è ', global.city)
 		if(ws === 'true' && global.city !== null){
 			this.logged = true;
 		}else{

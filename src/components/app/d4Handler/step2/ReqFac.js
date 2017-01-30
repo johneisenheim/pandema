@@ -36,8 +36,6 @@ class ReqFac extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('req fac');
-          console.log(parsed);
           _self.praticaPath = parsed.path;
           _self.setState({
             ..._self.state,
@@ -46,8 +44,8 @@ class ReqFac extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -123,8 +121,6 @@ class ReqFac extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('req fac');
-          console.log(parsed);
           _self.praticaPath = parsed.path;
           _self.setState({
             ..._self.state,
@@ -133,8 +129,7 @@ class ReqFac extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

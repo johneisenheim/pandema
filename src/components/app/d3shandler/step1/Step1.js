@@ -62,8 +62,8 @@ class Step1 extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -139,7 +139,6 @@ class Step1 extends React.Component{
       var allegato_id = this.state.data.filter(function(v) {
           return v.tipo_descrizione === filename; // Filter out the appropriate one
       })[0].id;
-      console.log(allegato_id);
       $.ajax({
           type: 'GET',
           url: constants.DB_ADDR+'deleteDocument?allegatoID='+escape(allegato_id)+'&path='+escape(this.praticaPath+'/'+filename+'.docx'),
@@ -180,7 +179,7 @@ class Step1 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           _self.praticaPath = parsed.path;
           for( var i = 0; i < parsed.results.length; i++ ){
             if( _self.state[parsed.results[i].tipo_descrizione] !== undefined ){
@@ -194,8 +193,8 @@ class Step1 extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }

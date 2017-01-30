@@ -65,7 +65,6 @@ class Art45 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('generico', parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -74,8 +73,8 @@ class Art45 extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -96,18 +95,17 @@ class Art45 extends React.Component{
           contentType: false,
           success: function(data) {
             var parsed = JSON.parse(data);
-            console.log('home successs')
-            console.log(parsed);
+            ;
             _self.setState({
                 ..._self.state,
                 isLoading : false,
                 data : parsed.results,
                 count : parsed.count[0].ccount
             });
-            console.log(parsed);
+            ;
           },
           error : function(err){
-            console.log(err);
+            ;
           }
       });
     }else{
@@ -123,10 +121,9 @@ class Art45 extends React.Component{
                 //isLoading : false,
                 data : parsed.results
             });
-            console.log('searchTableA',parsed);
           },
           error : function(err){
-            console.log(err);
+            ;
           }
       });
     }
@@ -143,7 +140,6 @@ class Art45 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('generico', parsed);
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -152,8 +148,8 @@ class Art45 extends React.Component{
           });
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }

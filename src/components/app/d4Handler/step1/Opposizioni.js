@@ -46,9 +46,8 @@ class Opposizioni extends React.Component{
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log('opposizioni query ok');
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -56,8 +55,8 @@ class Opposizioni extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -111,8 +110,8 @@ class Opposizioni extends React.Component{
           })
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }

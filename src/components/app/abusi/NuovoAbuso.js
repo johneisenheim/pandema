@@ -80,8 +80,7 @@ class NuovoAbuso extends React.Component{
           //vai a quello nuovo
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
         }
     });
   }

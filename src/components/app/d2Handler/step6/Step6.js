@@ -37,7 +37,6 @@ class Step6 extends React.Component{
 
   componentDidMount(){
     var _self = this;
-    console.log(constants.DB_ADDR+'handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid);
     $.ajax({
         type: 'GET',
         url: constants.DB_ADDR+'handled1s6?pid='+_self.props.pid+'&dbid='+_self.props.dbid,
@@ -45,7 +44,6 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('CODICE USO SCOPO',parsed);
           if(parsed.canone !== undefined){
             for( var i = 0; i < parsed.canone.length; i++){
               _self.state[parsed.canone[i].descrizione] = parsed.canone[i].valore;
@@ -64,11 +62,10 @@ class Step6 extends React.Component{
           _self.state.data = parsed;
           _self.state.uso_scopo = parsed.codice[0].descrizione;
           _self.setState(_self.state);
-          console.log(_self.state)
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
@@ -113,7 +110,6 @@ class Step6 extends React.Component{
         command = 'addImposta';
       break;
     }
-    console.log(constants.DB_ADDR+command+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&who='+escape(who));
     $.ajax({
         type: 'GET',
         url: constants.DB_ADDR+command+'?pid='+_self.props.pid+'&dbid='+_self.props.dbid+'&value='+escape(value)+'&who='+escape(who),
@@ -121,15 +117,15 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
+          ;
         }
     });
   }
@@ -168,15 +164,15 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
+          ;
         }
     });
   }
@@ -214,15 +210,15 @@ class Step6 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
+          ;
           toggleLoader.emit('toggleLoader');
           _self.reload();
         },
         error : function(err){
           toggleLoader.emit('toggleLoader');
-          alert('Errore : '+err);
+          alert("Errore : "+ JSON.stringify(err));
           _self.reload();
-          console.log(err);
+          ;
         }
     });
   }
@@ -297,11 +293,10 @@ class Step6 extends React.Component{
           _self.state.isLoading = false;
           _self.state.data = parsed;
           _self.setState(_self.state);
-          console.log(_self.state);
         },
         error : function(err){
-          alert('Errore : '+err);
-          console.log(err);
+          alert("Errore : "+ JSON.stringify(err));
+          ;
         }
     });
   }
