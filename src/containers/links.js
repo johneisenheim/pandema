@@ -41,6 +41,10 @@ var links = {
   'tasse_di_registro' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQTE52RWRMQmE0YVk',
   'imposta_bollo' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQZlJZR3YyS0dicUE',
   'cauzione' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQRFVXcGVONDhuc0U',
-  'cauzione_art' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQSGJoVXJzM0w5Z0k'
+  'cauzione_art' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQSGJoVXJzM0w5Z0k',
+  'i_turistico_e_diporto': 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQTzQ2TF9rY2E5RVE',
+  'i_usi_vari' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQbGdwbk0wS2wzd2M',
+  'i_pertinenza_demaniale' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQODh3R3JnM2JDT0U',
+  'i_pesca_acqua_cantieri' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQRFFoZUNBYXowNVU'
 };
 export default links;

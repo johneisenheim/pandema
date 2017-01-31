@@ -17,7 +17,7 @@ import {Router, Route, browserHistory} from "react-router";
 import DrawerStore from '../../../stores/DrawerStore';
 import actions from '../../../actions/actions.js';
 import {Link} from "react-router";
-
+import Box from 'react-layout-components';
 
 
 class Sidebar extends React.Component{
@@ -51,9 +51,9 @@ class Sidebar extends React.Component{
 
   render(){
     return (
-            <div style={styles.drawer}>
+            <Box column alignItems="center" justifyContent="flex-start" style={styles.drawer}>
               <center><img src = {LogoWhite} style = {styles.logo}/></center>
-              <List ref = "menu">
+              <List ref = "menu" style={{width:'100%'}}>
                 <Link to="/" style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}>
                   <ListItem primaryText="Provvedimenti"
                     style={{backgroundColor:this.state.values[0]!=='' ? this.state.values[0] : '', fontSize:'14px', fontWeight:'500', height:'60px'}}
@@ -95,7 +95,10 @@ class Sidebar extends React.Component{
                 />
               </Link>
               </List>
-          </div>
+              <Box alignSelf="flex-end">
+                <p>Hello!</p>
+              </Box>
+          </Box>
     )
   }
 

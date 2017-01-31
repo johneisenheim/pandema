@@ -213,7 +213,7 @@ class Art45 extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme}>
           <div>
                 <Toolbar style={{backgroundColor:'#4CA7D0'}}>
-                  <ToolbarTitle text="Registro Pratiche Istruttorie Autorizzazioni per Subingresso (ex art.46)" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                  <ToolbarTitle text="Registro Autorizzazioni per subingresso/affidamento (art. 45bis e 46)" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                   <ToolbarGroup>
                     <FontIcon className="muidocs-icon-custom-sort" />
                     <ToolbarSeparator style={{backgroundColor:'rgba(255,255,255,0.4)'}}/>

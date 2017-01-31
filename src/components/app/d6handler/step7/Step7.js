@@ -16,10 +16,10 @@ class Step7 extends React.Component{
       data : [],
       tasse_di_registro : '',
       oneri_accessori : '',
-      cauzione_demolizione : '',
+      cauzione : '',
       p_tasse_di_registro : '',
       p_oneri_accessori : '',
-      p_cauzione_demolizione : '',
+      p_cauzione : '',
     }
   }
 
@@ -79,7 +79,7 @@ class Step7 extends React.Component{
     switch(who){
       case 'tasse_di_registro':
       case 'oneri_accessori':
-      case 'cauzione_demolizione' :
+      case 'cauzione' :
         command = 'addImposta';
       break;
     }
@@ -110,7 +110,7 @@ class Step7 extends React.Component{
     switch(who){
       case 'tasse_di_registro':
       case 'oneri_accessori':
-      case 'cauzione_demolizione' :
+      case 'cauzione' :
         entity = 'imposta';
       break;
     }
@@ -196,15 +196,15 @@ class Step7 extends React.Component{
           var parsed = JSON.parse(data);
           _self.state['tasse_di_registro'] = '';
           _self.state['oneri_accessori'] = '';
-          _self.state['cauzione_demolizione'] = '';
+          _self.state['cauzione'] = '';
           if(parsed.imposta !== undefined){
             if(parsed.imposta.length === 0){
               _self.state['tasse_di_registro'] = '';
               _self.state['oneri_accessori'] = '';
-              _self.state['cauzione_demolizione'] = '';
+              _self.state['cauzione'] = '';
               _self.state['p_tasse_di_registro'] = '';
               _self.state['p_oneri_accessori'] = '';
-              _self.state['p_cauzione_demolizione'] = '';
+              _self.state['p_cauzione'] = '';
             }else{
               for( var i = 0; i < parsed.imposta.length; i++){
                 _self.state[parsed.imposta[i].descrizione] = parsed.imposta[i].valore;
@@ -249,12 +249,12 @@ class Step7 extends React.Component{
             :
             <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'oneri_accessori')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'oneri_accessori')}/></span>
           }<br/>
-          <FlatButton label="Cauzione per Demolizione" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/> <TextField hintText="0.00" value={this.state['cauzione_demolizione']} ref="cauzione_demolizione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione_demolizione', 'cauzione_demolizione')}/>
-            {this.state['p_cauzione_demolizione'] === ''
+          <FlatButton label="Cauzione" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/> <TextField hintText="0.00" value={this.state['cauzione']} ref="cauzione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione', 'cauzione')}/>
+            {this.state['p_cauzione'] === ''
               ?
-              <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'cauzione_demolizione')} disabled={this.state['cauzione_demolizione'] === ''}/>
+              <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'cauzione')} disabled={this.state['cauzione'] === ''}/>
               :
-              <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'cauzione_demolizione')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'cauzione_demolizione')}/></span>
+              <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'cauzione')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'cauzione')}/></span>
             }<br/>
         <br/>
         </div>

@@ -205,6 +205,8 @@ class Archivio extends React.Component{
     );
   }
 
+  /*<MenuItem key={1} primaryText="Procedimento Decadenza" />*/
+
   render (){
     var tableContents = [];
     if( this.state.isLoading ){
@@ -265,7 +267,6 @@ class Archivio extends React.Component{
                     onItemTouchTap={this.onRequestChange.bind(this,this.state.data[i].pandema_id,this.state.data[i].id, linkToD)}
                   >
                   <MenuItem key={0} primaryText="Gestione Annuale" />
-                  <MenuItem key={1} primaryText="Procedimento Decadenza" />
                   <MenuItem key={2} primaryText="Controllo Canoni Pregressi" />
                 </IconMenu>
               </TableRowColumn>

@@ -305,7 +305,7 @@ class Step4 extends React.Component{
           _self.state.isLoading = false;
           _self.state.data = parsed;
           _self.setState(_self.state);
-          
+
         },
         error : function(err){
           alert("Errore : "+ JSON.stringify(err));
@@ -337,6 +337,9 @@ class Step4 extends React.Component{
       break;
       case 'cauzione_art_38':
         window.open(LINKS.cauzione_art,'_blank');
+      break;
+      case 'cauzione_demolizione':
+        window.open(LINKS.cauzione,'_blank');
       break;
       default:
 
@@ -407,6 +410,14 @@ class Step4 extends React.Component{
           :
           <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'oneri_accessori')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'oneri_accessori')}/></span>
         }<br/>
+      <FlatButton label="Cauzione per demolizione" icon={<Chart />} style={{marginTop:'10px'}} onTouchTap={this.downloadModulo.bind(this,'cauzione_demolizione')}/> <TextField hintText="0.00" value={this.state['cauzione_demolizione']} ref="cauzione_demolizione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione_demolizione', 'cauzione_demolizione')}/>
+            {this.state['cauzione_demolizione'] === ''
+              ?
+              <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'cauzione_demolizione')} disabled={this.state['cauzione_demolizione'] === ''}/>
+              :
+              <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'cauzione_demolizione')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'cauzione_demolizione')}/></span>
+            }<br/>
+        <br/>
           <FlatButton label="Cauzione Atti art.38" icon={<Chart />} style={{marginTop:'10px'}} onTouchTap={this.downloadModulo.bind(this,'cauzione_art_38')}/> <TextField hintText="0.00" value={this.state['cauzione_art_38']} ref="cauzione_art_38" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione_art_38', 'cauzione_art_38')}/>
             {this.state['cauzione_art_38'] === ''
               ?
@@ -414,7 +425,6 @@ class Step4 extends React.Component{
               :
               <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'cauzione_art_38')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'cauzione_art_38')}/></span>
             }<br/>
-        <br/>
         </div>
       );
     }

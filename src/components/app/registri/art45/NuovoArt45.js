@@ -152,7 +152,7 @@ class NuovoArt45 extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme} >
           <Box column justifyContent="center" alignItems="center" style={{height:'100%', width : '100%'}}>
             <Paper zDepth={1} style={styles.paper}>
-              <h3 style={{textAlign:'center', width : '100%'}}>Inserimento in Registro Istruttorie per Autorizzazioni per Subingresso(ex art.46)</h3>
+              <h3 style={{textAlign:'center', width : '100%'}}>Inserimento Registro Autorizzazioni per subingresso/affidamento (art. 45bis e 46)</h3>
               <Box justifyContent="center" alignItems="center">
                 <div style={{width:'30%', height : '1px', backgroundColor : '#4CA7D0'}}></div>
               </Box>

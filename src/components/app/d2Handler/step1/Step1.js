@@ -32,6 +32,7 @@ import AlternativaDiniego from './AlternativaDiniego';
 import AvvisoPubblicazione from './AvvisoPubblicazione';
 import AvvisoDiniego from './AvvisoDiniego';
 import DiniegoDefinitivo from './DiniegoDefinitivo';
+import AvvisoIstruttoria from './AvvisoIstruttoria';
 
 class Step1 extends React.Component{
 
@@ -152,6 +153,7 @@ class Step1 extends React.Component{
           <AvvisoPubblicazione pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <DomandeConcorrenza pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
           <Opposizioni pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath}/>
+          <AvvisoIstruttoria pid={this.props.pid} dbid={this.props.dbid} path={this.praticaPath} />
         </div>
       );
     }else if(this.state.compatibility === 0){

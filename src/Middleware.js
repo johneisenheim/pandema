@@ -1786,6 +1786,17 @@ class Middleware{
     });
   }
 
+  annotazioneIrregolaritaAbusi(req,res){
+    this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=9", function(err, rows){
+      if(err){
+        ;
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response:true, results : rows}));
+    });
+  }
+
   revoca(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=40", function(err, rows){
       if(err){
@@ -2108,6 +2119,17 @@ class Middleware{
       }
       res.end(rows[0].path);
     })
+  }
+
+  getRefAbuso(req,res){
+    console.log("SELECT id, pandema_abuso_id FROM abuso WHERE pratica_id="+this.connection.escape(req.query.dbid)+" AND pratica_pandema_id="+this.connection.escape(req.query.pid));
+    this.connection.query("SELECT id, pandema_abuso_id FROM abuso WHERE pratica_id="+this.connection.escape(req.query.dbid)+" AND pratica_pandema_id="+this.connection.escape(req.query.pid), function(err,rows){
+      if(err){
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
+      }
+      res.end(JSON.stringify({response : true, results : rows}));
+    });
   }
 
 }

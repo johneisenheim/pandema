@@ -45,6 +45,8 @@ import WebStorage from 'react-webstorage';
 import AvvisoPubblicazione from '../forms/AvvisoPubblicazione';
 import { browserHistory } from 'react-router';
 import $ from 'jquery';
+import CircularProgress from 'material-ui/CircularProgress';
+import {Link} from "react-router";
 
 class D1Handler extends React.Component{
 
@@ -56,8 +58,44 @@ class D1Handler extends React.Component{
       finished: false,
       modalContent : null,
       modalTitle : '',
-      endButtonTitle : 'Avanti'
+      endButtonTitle : 'Avanti',
+      loading : true,
+      ref_abuso_dbid : undefined,
+      ref_abuso_pid : undefined,
     }
+    console.log(props);
+  }
+
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'getRefAbuso?dbid='+escape(_self.props.params.dbid)+'&pid='+escape(_self.props.params.pid),
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          console.log(parsed);
+          if(parsed.results.length == 0){
+            _self.setState({
+              ..._self.state,
+              loading : false
+            })
+          }else{
+            _self.setState({
+              ..._self.state,
+              loading : false,
+              ref_abuso_dbid : parsed.results[0].id,
+              ref_abuso_pid : parsed.results[0].pandema_abuso_id
+            })
+          }
+
+        },
+        error : function(err){
+          alert("Errore : "+ JSON.stringify(err));
+        }
+    });
   }
 
   _next (){
@@ -195,101 +233,110 @@ class D1Handler extends React.Component{
       />,
     ];
 
-    return (
-      <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <div style={{width : '100%'}}>
-          <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow: 'hidden'}}>
-            <p className="praticaClass">Pratica n°: <b>{this.props.params.pid}</b></p>
-            <Paper zDepth={1} style={styles.paper}>
-              <Box justifyContent="center" alignItems="center">
-                <Stepper
-                  activeStep={this.state.stepIndex}
-                  linear={false}
-                  style={{marginTop:'0px', width : '100%'}}
-                  ref="stepper"
-                >
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
-                      Verifica di compatibilità
-                    </StepButton>
-                  </Step>
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton ref="2" onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
-                      Istruttoria
-                    </StepButton>
-                  </Step>
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Richiesta Pareri
-                    </StepButton>
-                  </Step>
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Approvazione
-                    </StepButton>
-                  </Step>
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Scelta dell'atto
-                    </StepButton>
-                  </Step>
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Rilascio dell'atto
-                    </StepButton>
-                  </Step>
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Richiesta Adempimenti
-                    </StepButton>
-                  </Step>
-                  <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Fine
-                    </StepButton>
-                  </Step>
-                </Stepper>
-              </Box>
-              <Box>
-                {this.getStepContent(this.state.stepIndex)}
-              </Box>
-                <div style={{marginTop:'20px', width:'auto'}}>
-                  <div style={{position:'relative', width : '230px', marginRight : '20px', float:'right'}}>
-                  <FlatButton
-                     label="indietro"
-                     disabled={this.state.stepIndex === 0}
-                     onTouchTap={this._prev.bind(this)}
-                     primary={false}
-                     icon ={<PrevIcon />}
-                   />
-                   <FlatButton
-                     label={this.state.stepIndex < 7 ? this.state.endButtonTitle : 'Fine'}
-                     primary={false}
-                     onTouchTap={this._next.bind(this)}
-                     labelPosition="before"
-                     icon={<NextIcon />}
-                   />
-                 </div>
-                </div>
-            </Paper>
-          </Box>
-          <Dialog
-              title={this.state.modalTitle}
-              actions={actions}
-              modal={false}
-              open={this.state.opened}
-              onRequestClose={this.handleModalClose.bind(this)}
-              autoScrollBodyContent={true}
-              autoDetectWindowHeight={true}
-              contentStyle={{width : '80%', maxWidth : 'none', height : '100%', maxHeight : 'none'}}
-              titleStyle={{color:'#4988A9', textAlign:'center'}}
-            >
-            {this.getModalContent()}
-          </Dialog>
-        </div>
-      </MuiThemeProvider>
+    if(this.state.loading){
+      return(
+        <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
+          <CircularProgress size={30}/>
+        </Box>
+      )
+    }else{
+      return (
+        <MuiThemeProvider muiTheme={lightBaseTheme} >
+          <div style={{width : '100%'}}>
+            <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow: 'hidden'}}>
+              <p className="praticaClass">Pratica n°: <b>{this.props.params.pid}</b></p>
+              {this.state.ref_abuso_dbid !== undefined ? <p className="praticaClass">Abuso Ref: <Link to={`/handlegestioneabusi/`+this.state.ref_abuso_dbid+'/'+this.state.ref_abuso_pid} style={{color: '#666666', fontWeight : 'bold', textDecoration:'none'}} activeStyle={{color: '#666666', fontWeight : 'bold'}}>{this.state.ref_abuso_pid}</Link></p> : null}
+              <Paper zDepth={1} style={styles.paper}>
+                <Box justifyContent="center" alignItems="center">
+                  <Stepper
+                    activeStep={this.state.stepIndex}
+                    linear={false}
+                    style={{marginTop:'0px', width : '100%'}}
+                    ref="stepper"
+                  >
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
+                        Verifica di compatibilità
+                      </StepButton>
+                    </Step>
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton ref="2" onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
+                        Istruttoria
+                      </StepButton>
+                    </Step>
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Richiesta Pareri
+                      </StepButton>
+                    </Step>
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Approvazione
+                      </StepButton>
+                    </Step>
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Scelta dell'atto
+                      </StepButton>
+                    </Step>
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Rilascio dell'atto
+                      </StepButton>
+                    </Step>
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Richiesta Adempimenti
+                      </StepButton>
+                    </Step>
+                    <Step style={{width : '13%', textOverflow : 'ellipsis'}}>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Fine
+                      </StepButton>
+                    </Step>
+                  </Stepper>
+                </Box>
+                <Box>
+                  {this.getStepContent(this.state.stepIndex)}
+                </Box>
+                  <div style={{marginTop:'20px', width:'auto'}}>
+                    <div style={{position:'relative', width : '230px', marginRight : '20px', float:'right'}}>
+                    <FlatButton
+                       label="indietro"
+                       disabled={this.state.stepIndex === 0}
+                       onTouchTap={this._prev.bind(this)}
+                       primary={false}
+                       icon ={<PrevIcon />}
+                     />
+                     <FlatButton
+                       label={this.state.stepIndex < 7 ? this.state.endButtonTitle : 'Fine'}
+                       primary={false}
+                       onTouchTap={this._next.bind(this)}
+                       labelPosition="before"
+                       icon={<NextIcon />}
+                     />
+                   </div>
+                  </div>
+              </Paper>
+            </Box>
+            <Dialog
+                title={this.state.modalTitle}
+                actions={actions}
+                modal={false}
+                open={this.state.opened}
+                onRequestClose={this.handleModalClose.bind(this)}
+                autoScrollBodyContent={true}
+                autoDetectWindowHeight={true}
+                contentStyle={{width : '80%', maxWidth : 'none', height : '100%', maxHeight : 'none'}}
+                titleStyle={{color:'#4988A9', textAlign:'center'}}
+              >
+              {this.getModalContent()}
+            </Dialog>
+          </div>
+        </MuiThemeProvider>
 
-    )
+      );
+    }
   }
 
 }

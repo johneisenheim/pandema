@@ -888,11 +888,11 @@ app2.post('/addFile', function(req, res){
         toMiddleware.allegatoType = 38;
       break;
       case 39:
-        var annotazioneRegolaritaPath = praticaPath+'/annotazione_regolarita';
+        var annotazioneRegolaritaPath = praticaPath+'/annotazioni_irregolarita';
         if(!fs.existsSync(annotazioneRegolaritaPath)){
           fs.mkdirSync(annotazioneRegolaritaPath);
         }
-        file.path = annotazioneRegolaritaPath+'/regolarita_'+Math.floor(new Date() / 1000)+'.docx';
+        file.path = annotazioneRegolaritaPath+'/irregolarita_'+Math.floor(new Date() / 1000)+'.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 39;
       break;
@@ -1042,6 +1042,15 @@ app2.post('/addFileAbusi', function(req, res){
         file.path = praticaPath+'/atto_definitivo_decadenza.docx';
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 8;
+      break;
+      case 9:
+        var annotazioneIrregolaritaPath = praticaPath+'/annotazioni_irregolarita';
+        if(!fs.existsSync(annotazioneIrregolaritaPath)){
+          fs.mkdirSync(annotazioneIrregolaritaPath);
+        }
+        file.path = annotazioneIrregolaritaPath+'/irregolarita_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 9;
       break;
     }
   });
@@ -1209,6 +1218,10 @@ app2.get('/annotazioneRegolarita', function(req,res){
   middleware.annotazioneRegolarita(req,res);
 });
 
+app2.get('/annotazioneIrregolaritaAbusi', function(req,res){
+  middleware.annotazioneIrregolaritaAbusi(req,res);
+});
+
 app2.get('/revoca', function(req,res){
   middleware.revoca(req,res);
 });
@@ -1309,6 +1322,10 @@ app2.get('/getAttoDecadenza', function(req,res){
 
 app2.get('/getComuneImage', function(req,res){
   middleware.getComuneImage(req,res);
+});
+
+app2.get('/getRefAbuso', function(req,res){
+  middleware.getRefAbuso(req,res);
 });
 
 app2.listen(8001, ()=> {

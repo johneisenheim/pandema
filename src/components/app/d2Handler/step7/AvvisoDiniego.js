@@ -29,7 +29,7 @@ import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Download from 'material-ui/svg-icons/file/file-download';
 
-class AvvisoIstruttoria extends React.Component{
+class AvvisoDiniego extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -45,7 +45,7 @@ class AvvisoIstruttoria extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1avvisodiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -68,7 +68,7 @@ class AvvisoIstruttoria extends React.Component{
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);
-    formData.append('atype', 4);
+    formData.append('atype', 6);
     formData.append('file', this.refs.file.files[0]);
     $.ajax({
         type: 'POST',
@@ -99,7 +99,7 @@ class AvvisoIstruttoria extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'d1avvisoistruttoria?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'d1avvisodiniego?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
@@ -118,7 +118,6 @@ class AvvisoIstruttoria extends React.Component{
 
   eyePress(id){
     window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
-    //window.location.href= constants.DB_ADDR+'see?a='+address;
   }
 
   deletePress(path, allegato_id){
@@ -144,7 +143,7 @@ class AvvisoIstruttoria extends React.Component{
   }
 
   downloadModulo(){
-    window.open(LINKS.avvioistruttoriad2, '_blank')
+    window.open(LINKS.avvisodiniego, '_blank')
   }
 
   render (){
@@ -166,7 +165,7 @@ class AvvisoIstruttoria extends React.Component{
           for ( var i = 0; i < this.state.data.length; i++){
             tableContents.push(
               <TableRow key={i}>
-                <TableRowColumn>Avvio Istruttoria {i+1}</TableRowColumn>
+                <TableRowColumn>Avviso di Diniego {i+1}</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
@@ -179,7 +178,7 @@ class AvvisoIstruttoria extends React.Component{
       return (
           <Box column style={{marginTop:'30px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="File caricato per Avvio Istruttoria" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="File caricato per Avviso Diniego" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
                   <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
                   <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
@@ -256,4 +255,4 @@ const styles = {
 };
 
 
-export default AvvisoIstruttoria;
+export default AvvisoDiniego;

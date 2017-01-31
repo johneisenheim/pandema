@@ -14,6 +14,7 @@ import Loadable from 'react-loading-overlay';
 var EventEmitter2 = require('eventemitter2').EventEmitter2;
 import * as constants from '../constants';
 import links from './links';
+import config from './config';
 
 injectTapEventPlugin();
 
@@ -47,6 +48,7 @@ export default class Main extends React.Component {
 			global.tryy = 'Hello guys!';
 			global.constants = constants;
 			global.LINKS = links;
+			global.CONFIG = config;
 			//global._webStorage = webStorage;
 		}
 	}

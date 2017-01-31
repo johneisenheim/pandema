@@ -209,23 +209,23 @@ class SecondoAvviso extends React.Component{
 
   onIconMenu(e, k, v){
 
-      switch(v){
-        case 0:
-          window.open(LINKS.usi_vari, '_blank');
-          break;
-        case 1:
-          window.open(LINKS.turistico_e_diporto, '_blank');
-          break;
-        case 2:
-          window.open(LINKS.pesca_acqua_cantieri, '_blank');
+    switch(v){
+      case 0:
+        window.open(LINKS.i_usi_vari, '_blank');
         break;
-        case 3:
-          window.open(LINKS.regione_campania, '_blank');
+      case 1:
+        window.open(LINKS.i_turistico_e_diporto, '_blank');
         break;
-        case 4:
-          window.open(LINKS.pertinenza_demaniale,'_blank');
-        break;
-      }
+      case 2:
+        window.open(LINKS.i_pesca_acqua_cantieri, '_blank');
+      break;
+      case 3:
+        window.open(LINKS.i_regione_campania, '_blank');
+      break;
+      case 4:
+        window.open(LINKS.i_pertinenza_demaniale,'_blank');
+      break;
+    }
 
   }
 

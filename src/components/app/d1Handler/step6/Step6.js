@@ -21,7 +21,7 @@ class Step6 extends React.Component{
       pertinenza_demaniale : '',
       tasse_di_registro : '',
       oneri_accessori : '',
-      cauzione_demolizione : '',
+      cauzione : '',
       p_usi_vari : '',
       p_turistico_e_diporto : '',
       p_pesca_acqua_cantieri : '',
@@ -29,7 +29,7 @@ class Step6 extends React.Component{
       p_pertinenza_demaniale : '',
       p_tasse_di_registro : '',
       p_oneri_accessori : '',
-      p_cauzione_demolizione : '',
+      p_cauzione : '',
       data : [],
       uso_scopo : undefined
     }
@@ -91,7 +91,7 @@ class Step6 extends React.Component{
       break;
       case 'oneri_accessori':
       break;
-      case 'cauzione_demolizione':
+      case 'cauzione':
         window.open(LINKS.cauzione,'_blank');
       break;
       default:
@@ -125,7 +125,7 @@ class Step6 extends React.Component{
       break;
       case 'tasse_di_registro':
       case 'oneri_accessori':
-      case 'cauzione_demolizione':
+      case 'cauzione':
         command = 'addImposta';
       break;
     }
@@ -162,7 +162,7 @@ class Step6 extends React.Component{
       break;
       case 'tasse_di_registro':
       case 'oneri_accessori':
-      case 'cauzione_demolizione':
+      case 'cauzione':
         entity = 'imposta';
       break;
     }
@@ -207,7 +207,7 @@ class Step6 extends React.Component{
       break;
       case 'tasse_di_registro':
       case 'oneri_accessori':
-      case 'cauzione_demolizione':
+      case 'cauzione':
         entity = 'imposta';
       break;
     }
@@ -257,7 +257,7 @@ class Step6 extends React.Component{
           _self.state['pertinenza_demaniale'] = '';
           _self.state['tasse_di_registro'] = '';
           _self.state['oneri_accessori'] = '';
-          _self.state['cauzione_demolizione'] = '';
+          _self.state['cauzione'] = '';
           _self.state['p_usi_vari'] = '';
           _self.state['p_turistico_e_diporto'] = '';
           _self.state['p_pesca_acqua_cantieri'] = '';
@@ -265,7 +265,7 @@ class Step6 extends React.Component{
           _self.state['p_pertinenza_demaniale'] = '';
           _self.state['p_tasse_di_registro'] = '';
           _self.state['p_oneri_accessori'] = '';
-          _self.state['p_cauzione_demolizione'] = '';
+          _self.state['p_cauzione'] = '';
           if(parsed.canone !== undefined){
             if(parsed.canone.length === 0){
               _self.state['usi_vari'] = '';
@@ -273,13 +273,13 @@ class Step6 extends React.Component{
               _self.state['pesca_acqua_cantieri'] = '';
               _self.state['regione_campania'] = '';
               _self.state['pertinenza_demaniale'] = '';
-              _self.state['cauzione_demolizione'] = '';
+              _self.state['cauzione'] = '';
               _self.state['p_usi_vari'] = '';
               _self.state['p_turistico_e_diporto'] = '';
               _self.state['p_pesca_acqua_cantieri'] = '';
               _self.state['p_regione_campania'] = '';
               _self.state['p_pertinenza_demaniale'] = '';
-              _self.state['p_cauzione_demolizione'] = '';
+              _self.state['p_cauzione'] = '';
             }else{
               for( var i = 0; i < parsed.canone.length; i++){
                 _self.state[parsed.canone[i].descrizione] = parsed.canone[i].valore;
@@ -292,10 +292,10 @@ class Step6 extends React.Component{
             if(parsed.imposta.length === 0){
               _self.state['tasse_di_registro'] = '';
               _self.state['oneri_accessori'] = '';
-              _self.state['cauzione_demolizione'] = '';
+              _self.state['cauzione'] = '';
               _self.state['p_tasse_di_registro'] = '';
               _self.state['p_oneri_accessori'] = '';
-              _self.state['p_cauzione_demolizione'] = '';
+              _self.state['p_cauzione'] = '';
             }else{
               for( var i = 0; i < parsed.imposta.length; i++){
                 _self.state[parsed.imposta[i].descrizione] = parsed.imposta[i].valore;
@@ -378,12 +378,12 @@ class Step6 extends React.Component{
             :
             <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'oneri_accessori')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'oneri_accessori')}/></span>
           }<br/>
-          <FlatButton label="Cauzione per Demolizione" icon={<Chart />} style={{marginTop:'10px'}} onTouchTap={this.downloadModulo.bind(this,'cauzione_demolizione')}/> <TextField hintText="0.00" value={this.state['cauzione_demolizione']} ref="cauzione_demolizione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione_demolizione', 'cauzione_demolizione')}/>
-            {this.state['p_cauzione_demolizione'] === ''
+          <FlatButton label="Cauzione" icon={<Chart />} style={{marginTop:'10px'}} onTouchTap={this.downloadModulo.bind(this,'cauzione')}/> <TextField hintText="0.00" value={this.state['cauzione']} ref="cauzione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione', 'cauzione')}/>
+            {this.state['p_cauzione'] === ''
               ?
-              <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'cauzione_demolizione')} disabled={this.state['cauzione_demolizione'] === ''}/>
+              <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'cauzione')} disabled={this.state['cauzione'] === ''}/>
               :
-              <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'cauzione_demolizione')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'cauzione_demolizione')}/></span>
+              <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'cauzione')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'cauzione')}/></span>
             }<br/>
         <br/>
         </div>
