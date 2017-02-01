@@ -138,6 +138,7 @@ class GestisciAllegati extends React.Component{
       });
       return;
     }
+    toggleLoader.emit('toggleLoader');
     var _self = this;
     $.ajax({
         type: 'GET',
@@ -152,9 +153,11 @@ class GestisciAllegati extends React.Component{
             ..._self.state,
             dynamicTables : tables
           });
+          toggleLoader.emit('toggleLoader');
         },
         error : function(err){
           alert("Errore : "+ JSON.stringify(err));
+          toggleLoader.emit('toggleLoader');
         }
     });
   }

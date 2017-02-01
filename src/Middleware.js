@@ -340,13 +340,19 @@ class Middleware{
         }
         _self.connection.query("INSERT INTO pratica (comune_id, pandema_id, nome, cognome, codice_uso_scopo_id, tipo_documento_id, stato_pratica_id, cf, data, path, email, pratica_ref_id) VALUES ("+_self.connection.escape(d1results[0].comune_id)+","+_self.connection.escape(req.query.npratica)+","+_self.connection.escape(d1results[0].nome)+","+_self.connection.escape(d1results[0].cognome)+","+_self.connection.escape(d1results[0].codice_uso_scopo_id)+","+_self.connection.escape(tipo_documento_id)+","+_self.connection.escape(stato_pratica_id)+","+_self.connection.escape(d1results[0].cf)+","+_self.connection.escape(d1results[0].data)+","+_self.connection.escape(completePraticaPath)+","+_self.connection.escape(d1results[0].email)+","+_self.connection.escape(d1results[0].id)+")", function(err,rows){
           if(err){
-            ;
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
-          console.log('OK!');
-
-          _callback(null,completePraticaPath,npraticaFolder);
+          _callback(null,completePraticaPath,npraticaFolder, rows.insertId);
+        });
+      },
+      function(completePraticaPath, npraticaFolder, lastID, _callback){
+        _self.connection.query("UPDATE pratica SET pandema_id="+_self.connection.escape(req.query.npratica+""+lastID)+" WHERE id="+_self.connection.escape(lastID), function(err, rows){
+          if(err){
+            res.end(JSON.stringify({response : false, err: err}))
+            return;
+          }
+          _callback(completePraticaPath, npraticaFolder);
         });
       },
       function(completePraticaPath, npraticaFolder, _callback){
@@ -1613,7 +1619,7 @@ class Middleware{
       },
       function(npraticaFolder, abusiFolder, lastID, _callback){
         var completePraticaPath = npraticaFolder+'/'+req.query.ref+'_'+lastID;
-        _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+'_'+lastID)+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
+        _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+""+lastID)+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
           if(err){
             res.end(JSON.stringify({response : false, err: err}))
             return;
