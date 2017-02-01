@@ -47,6 +47,7 @@ import { browserHistory } from 'react-router';
 import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 import {Link} from "react-router";
+import SelectRefs from '../complementars/SelectRefs';
 
 class D1Handler extends React.Component{
 
@@ -60,10 +61,8 @@ class D1Handler extends React.Component{
       modalTitle : '',
       endButtonTitle : 'Avanti',
       loading : true,
-      ref_abuso_dbid : undefined,
-      ref_abuso_pid : undefined,
+      ref_abusi : []
     }
-    console.log(props);
   }
 
   componentDidMount(){
@@ -86,8 +85,7 @@ class D1Handler extends React.Component{
             _self.setState({
               ..._self.state,
               loading : false,
-              ref_abuso_dbid : parsed.results[0].id,
-              ref_abuso_pid : parsed.results[0].pandema_abuso_id
+              ref_abusi : parsed.results
             })
           }
 
@@ -240,12 +238,16 @@ class D1Handler extends React.Component{
         </Box>
       )
     }else{
+      /*var abusi = [];
+      for (var i = 0; i < this.state.ref_abusi.length; i++){
+        abusi.push(<Link key={i} to={`/handlegestioneabusi/`+this.state.ref_abusi[i].id+'/'+this.state.ref_abusi[i].pandema_abuso_id} style={{color: '#666666', fontWeight : 'bold', textDecoration:'none'}} activeStyle={{color: '#666666', fontWeight : 'bold'}}>{this.state.ref_abusi[i].pandema_abuso_id} </Link>)
+      }*/
       return (
         <MuiThemeProvider muiTheme={lightBaseTheme} >
           <div style={{width : '100%'}}>
             <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow: 'hidden'}}>
               <p className="praticaClass">Pratica n°: <b>{this.props.params.pid}</b></p>
-              {this.state.ref_abuso_dbid !== undefined ? <p className="praticaClass">Abuso Ref: <Link to={`/handlegestioneabusi/`+this.state.ref_abuso_dbid+'/'+this.state.ref_abuso_pid} style={{color: '#666666', fontWeight : 'bold', textDecoration:'none'}} activeStyle={{color: '#666666', fontWeight : 'bold'}}>{this.state.ref_abuso_pid}</Link></p> : null}
+              {this.state.ref_abusi.length > 0 ? <Box alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}><Box><p className="praticaClass" style={{marginLeft:'5px'}}>Abusi Associati:</p><SelectRefs abusi={this.state.ref_abusi}/></Box></Box>: null}
               <Paper zDepth={1} style={styles.paper}>
                 <Box justifyContent="center" alignItems="center">
                   <Stepper

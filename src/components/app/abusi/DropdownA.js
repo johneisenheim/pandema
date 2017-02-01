@@ -48,6 +48,7 @@ class DropdownA extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
+          console.log(parsed);
           var toPush = [];
           for( var i = 0; i < parsed.results.length; i++ ){
             toPush.push(parsed.results[i].pandema_id);
@@ -96,13 +97,14 @@ class DropdownA extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
+          console.log('PARSEEEED', parsed)
           _self.setState({
             ..._self.state,
             isLoading : false,
             opened : false
           });
           //vai a quello nuovo
-          var link = '/handlegestioneabusi/'+parsed.id+'/ABAC'+_self.state.pratica_abuso;
+          var link = '/handlegestioneabusi/'+parsed.id+'/'+_self.state.pratica_abuso+"_"+parsed.id;
           browserHistory.push(link);
         },
         error : function(err){

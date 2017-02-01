@@ -32,12 +32,9 @@ import Attach from 'material-ui/svg-icons/editor/attach-file';
 import Check from 'material-ui/svg-icons/action/check-circle';
 import Dialog from 'material-ui/Dialog';
 
-import SelectRefsAllegati from './SelectRefsAllegati';
-import DynamicTable from './DynamicTable';
-
 import $ from 'jquery';
 
-class GestisciAllegati extends React.Component{
+class DynamicTable extends React.Component{
   constructor(props, context){
     super(props, context);
 
@@ -46,42 +43,13 @@ class GestisciAllegati extends React.Component{
         results : [],
         open : false,
         checkColor : '#D6D6D6',
-        abusi : [],
-        dynamicTables : []
+        abusi : []
     };
-  }
-
-  componentDidMount(){
-    var _self = this;
-    $.ajax({
-        type: 'GET',
-        url: constants.DB_ADDR+'getAllegatiPratica?praticaID='+_self.props.params.dbid+'&pandemaPraticaID='+_self.props.params.pid,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          var parsed = JSON.parse(data);
-          console.log(parsed);
-          _self.setState({
-            ..._self.state,
-            isLoading : false,
-            results : parsed.results,
-            abusi : parsed.abusi
-          })
-        },
-        error : function(err){
-          alert("Errore : "+ JSON.stringify(err));
-        }
-    });
-  }
-
-  eyePress(id){
-    window.open(constants.DB_ADDR+'downloadFile?id='+id,'_blank');
   }
 
   createTable(){
     var tableContents =[];
-
-    if( this.state.results.length == 0 ){
+    if( this.props.abusi.length == 0 ){
       return (
         <TableRow key={0}>
           <TableRowColumn></TableRowColumn>
@@ -90,13 +58,13 @@ class GestisciAllegati extends React.Component{
         </TableRow>
       );
     }
-    for( var i = 0; i < this.state.results.length; i++ ){
+    for( var i = 0; i < this.props.abusi.length; i++ ){
       tableContents.push(
         <TableRow key={i}>
-          <TableRowColumn>{this.state.results[i].descrizione}</TableRowColumn>
-          <TableRowColumn>{new Date(this.state.results[i].data_creazione).toLocaleDateString()}</TableRowColumn>
+          <TableRowColumn>{this.props.abusi[i].descrizione_com}</TableRowColumn>
+          <TableRowColumn>{new Date(this.props.abusi[i].data_creazione).toLocaleDateString()}</TableRowColumn>
           <TableRowColumn>
-            <IconButton onTouchTap={this.eyePress.bind(this, this.state.results[i].allegato_id)}><Download color="#909EA2"/></IconButton>
+            <IconButton onTouchTap={this.eyePressAbusi.bind(this, this.props.abusi[i].id)}><Download color="#909EA2"/></IconButton>
           </TableRowColumn>
         </TableRow>
       );
@@ -104,78 +72,17 @@ class GestisciAllegati extends React.Component{
     return tableContents;
   }
 
-  createTable2(){
-    var tableContents =[];
-
-    if( this.state.abusi.length == 0 ){
-      return (
-        <TableRow key={0}>
-          <TableRowColumn></TableRowColumn>
-          <TableRowColumn>Nessun dato presente.</TableRowColumn>
-          <TableRowColumn></TableRowColumn>
-        </TableRow>
-      );
-    }
-    for( var i = 0; i < this.state.abusi.length; i++){
-      tableContents.push(
-        <TableRow key={i}>
-          <TableRowColumn>{this.state.abusi[i].descrizione_com}</TableRowColumn>
-          <TableRowColumn>{new Date(this.state.abusi[i].data_creazione).toLocaleDateString()}</TableRowColumn>
-          <TableRowColumn>
-            <IconButton onTouchTap={this.eyePress.bind(this, this.state.abusi[i].id)}><Download color="#909EA2"/></IconButton>
-          </TableRowColumn>
-        </TableRow>
-      );
-    }
-    return tableContents;
-  }
-
-  createDynamicTable(dbid, pid){
-    if(dbid === undefined && pid === undefined){
-      this.setState({
-        ...this.state,
-        dynamicTables : []
-      });
-      return;
-    }
-    var _self = this;
-    $.ajax({
-        type: 'GET',
-        url: constants.DB_ADDR+'getAllegatiAbusi?praticaID='+dbid+'&pandemaPraticaID='+pid,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          var parsed = JSON.parse(data);
-          var tables = [];
-          tables.push(<DynamicTable key={0} abusi={parsed.results} name={pid}/>);
-          _self.setState({
-            ..._self.state,
-            dynamicTables : tables
-          });
-        },
-        error : function(err){
-          alert("Errore : "+ JSON.stringify(err));
-        }
-    });
+  eyePressAbusi(id){
+    window.open(constants.DB_ADDR+'downloadFileAbuso?id='+id,'_blank');
   }
 
   render(){
-    if(this.state.isLoading){
-      return(
-        <MuiThemeProvider muiTheme={lightBaseTheme} >
-          <Box column justifyContent="center" alignItems="center" style={{height:'100vh'}}>
-              <CircularProgress size={50} color="#4CA7D0"/>
-          </Box>
-        </MuiThemeProvider>
-      );
-    }else{
       return(
         <MuiThemeProvider muiTheme={lightBaseTheme} >
           <Box column justifyContent="center" alignItems="center" style={{height:'100%'}}>
-            {this.state.abusi.length > 0 ? <Box alignItems="flex-start" justifyContent="flex-start" style={{width:'100%',marginLeft:'5px'}}><Box style={{marginTop:'20px'}}><p className="praticaClass">Files Abusi Associati per la pratica:</p><SelectRefsAllegati createTable={this.createDynamicTable.bind(this)} abusi={this.state.abusi}/></Box></Box>: null}
             <Paper zDepth={1} style={styles.paper}>
               <Toolbar style={{backgroundColor:'#4CA7D0'}}>
-                <ToolbarTitle text={"Allegati per la pratica "+this.props.params.pid} style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text={"Allegati Abuso "+this.props.name} style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
               </Toolbar>
               <Table selectable={false}>
                 <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -186,24 +93,20 @@ class GestisciAllegati extends React.Component{
                   </TableRow>
                 </TableHeader>
                 <TableBody displayRowCheckbox={false} selectable={false}>
-                  {this.state.isLoading ? null : this.createTable()}
+                  {this.createTable()}
                 </TableBody>
               </Table>
             </Paper>
-            <Box>
-              {this.state.dynamicTables.length > 0 ? this.state.dynamicTables : null}
-            </Box>
           </Box>
         </MuiThemeProvider>
       );
     }
-  }
 }
 
 const styles = {
   paper : {
     margin : '10px',
-    marginTop : '20px',
+    marginTop : '30px',
     width : 'auto',
     height : 'auto'
   },
@@ -250,4 +153,4 @@ const lightBaseTheme = getMuiTheme({
   userAgent : false
 });
 
-export default GestisciAllegati;
+export default DynamicTable;

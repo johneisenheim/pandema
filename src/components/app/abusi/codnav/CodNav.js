@@ -209,7 +209,7 @@ class CodNav extends React.Component{
         for( var i = 0 ; i < this.state.data.length; i++ ){
           toReturn.push(
             <TableRow key={i}>
-              <TableRowColumn style={{ width:'80px' }}>{this.state.data[i].pratica_pandema_id}</TableRowColumn>
+              <TableRowColumn style={{ width:'80px' }}>{this.state.data[i].pandema_abuso_id}</TableRowColumn>
               <TableRowColumn style={{textAlign:'center'}}>
                 <SelectAbusi value={this.state.data[i].stato_pratica_abuso_id} pid={this.state.data[i].pandema_abuso_id} dbid={this.state.data[i].id}/>
               </TableRowColumn>

@@ -90,6 +90,7 @@ try {
 										margin-top : 20px;
 										width : 100%;
 										text-align : left;
+										word-wrap: break-word;
 									}
 								</style>
 							</head>
