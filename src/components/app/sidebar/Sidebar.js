@@ -53,7 +53,7 @@ class Sidebar extends React.Component{
     return (
             <Box column alignItems="center" justifyContent="flex-start" style={styles.drawer}>
               <center><img src = {LogoWhite} style = {styles.logo}/></center>
-              <List ref = "menu" style={{width:'100%'}}>
+              <List ref = "menu" style={{width:'100%', flex:'1 0 0px'}}>
                 <Link to="/" style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}>
                   <ListItem primaryText="Provvedimenti"
                     style={{backgroundColor:this.state.values[0]!=='' ? this.state.values[0] : '', fontSize:'14px', fontWeight:'500', height:'60px'}}
@@ -95,8 +95,8 @@ class Sidebar extends React.Component{
                 />
               </Link>
               </List>
-              <Box alignSelf="flex-end">
-                <p>Hello!</p>
+              <Box alignSelf="center" justifyContent="center">
+                <p className="version">v. 1.0.0</p>
               </Box>
           </Box>
     )

@@ -92,6 +92,11 @@ try {
 										text-align : left;
 										word-wrap: break-word;
 									}
+									.version {
+										font-family: 'Roboto', sans-serif;
+										font-size : 12px;
+										color : #FFFFFF;
+									}
 								</style>
 							</head>
 							<body style="width:100%; height:100%;margin:0px;">
