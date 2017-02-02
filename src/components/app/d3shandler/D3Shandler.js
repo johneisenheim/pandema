@@ -43,6 +43,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import {Link} from "react-router";
 import SelectRefs from '../complementars/SelectRefs';
 
+import Intermezzo from './intermezzo/Intermezzo';
+
 class D3SHandler extends React.Component{
 
   constructor(props, context) {
@@ -53,12 +55,45 @@ class D3SHandler extends React.Component{
       finished: false,
       modalContent : null,
       modalTitle : '',
-      endButtonTitle : 'Avanti'
+      endButtonTitle : 'Avanti',
+      ref_abusi : []
     }
   }
 
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'getRefAbuso?dbid='+escape(_self.props.params.dbid)+'&pid='+escape(_self.props.params.pid),
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          if(parsed.results.length == 0){
+            _self.setState({
+              ..._self.state,
+              loading : false
+            })
+          }else{
+            _self.setState({
+              ..._self.state,
+              loading : false,
+              ref_abusi : parsed.results
+            })
+          }
+
+        },
+        error : function(err){
+          alert("Errore : "+ JSON.stringify(err));
+        }
+    });
+  }
+
   _next (){
-    if(this.state.stepIndex == 1 ){
+    if(this.state.endButtonTitle == 'Fine'){
+      browserHistory.push('/');
+    }else if(this.state.stepIndex == 2 ){
       if(this.refs.step2.tellChoiceToFather() == 2){
         alert("Pratica Archiviata! Se è necessaria documentazione aggiuntiva, richiedere pratica di tipo D3");
         browserHistory.push('/');
@@ -75,7 +110,8 @@ class D3SHandler extends React.Component{
     this.setState({
       ...this.state,
       stepIndex : this.state.stepIndex-1,
-      finished: this.state.finished
+      finished: this.state.finished,
+      endButtonTitle : 'Avanti'
     });
   }
 
@@ -111,6 +147,9 @@ class D3SHandler extends React.Component{
         return <Step1 ref="step1" pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 1:
+        return <Intermezzo pid={this.props.params.pid} dbid={this.props.params.dbid} changeEndButtonTitleInEnd={this.changeEndButtonTitleInEnd.bind(this)} changeEndButtonTitleInNext={this.changeEndButtonTitleInNext.bind(this)}/>;
+        break;
+      case 2:
         return <Step2 ref="step2" pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
     }
@@ -187,6 +226,11 @@ class D3SHandler extends React.Component{
                     </StepButton>
                   </Step>
                   <Step>
+                    <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
+                      Scelta dell'atto
+                    </StepButton>
+                  </Step>
+                  <Step>
                     <StepButton ref="2" onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                       Rilascio atto
                     </StepButton>
@@ -206,7 +250,7 @@ class D3SHandler extends React.Component{
                      icon ={<PrevIcon />}
                    />
                    <FlatButton
-                     label={this.state.stepIndex == 1 ? 'Fine': 'Avanti'}
+                     label={this.state.stepIndex < 2 ? this.state.endButtonTitle: 'Fine'}
                      primary={false}
                      onTouchTap={this._next.bind(this)}
                      labelPosition="before"
