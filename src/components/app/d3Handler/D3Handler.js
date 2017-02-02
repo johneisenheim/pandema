@@ -40,6 +40,9 @@ import Step8 from './step8/Step8';
 
 import actions from '../../../actions/actions';
 import { browserHistory } from 'react-router';
+import CircularProgress from 'material-ui/CircularProgress';
+import {Link} from "react-router";
+import SelectRefs from '../complementars/SelectRefs';
 
 
 class D3Handler extends React.Component{
@@ -50,7 +53,40 @@ class D3Handler extends React.Component{
 
   state = {
     stepIndex : 0,
-    finished: false
+    finished: false,
+    loading : true,
+    ref_abusi : []
+  }
+
+  componentDidMount(){
+    var _self = this;
+    $.ajax({
+        type: 'GET',
+        //data: formData,
+        url: constants.DB_ADDR+'getRefAbuso?dbid='+escape(_self.props.params.dbid)+'&pid='+escape(_self.props.params.pid),
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var parsed = JSON.parse(data);
+          console.log(parsed);
+          if(parsed.results.length == 0){
+            _self.setState({
+              ..._self.state,
+              loading : false
+            })
+          }else{
+            _self.setState({
+              ..._self.state,
+              loading : false,
+              ref_abusi : parsed.results
+            })
+          }
+
+        },
+        error : function(err){
+          alert("Errore : "+ JSON.stringify(err));
+        }
+    });
   }
 
   _next (){
@@ -100,77 +136,86 @@ class D3Handler extends React.Component{
   }
 
   render (){
-    return (
-      <MuiThemeProvider muiTheme={lightBaseTheme} >
-        <div style={{width : '100%'}}>
-          <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'hidden'}}>
-            <p style={{color:'#666666', marginLeft : '10px', marginTop : '20px',fontFamily:'Roboto', width:'100%', textAlign:'left'}}>Pratica n°: <b>{this.props.params.pid}</b></p>
-            <Paper zDepth={1} style={styles.paper}>
-              <Box justifyContent="center" alignItems="center">
-                <Stepper
-                  activeStep={this.state.stepIndex}
-                  linear={false}
-                  style={{marginTop:'0px'}}
-                >
-                  <Step>
-                    <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
-                      Verifica di compatibilità
-                    </StepButton>
-                  </Step>
-                  <Step>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Richiesta Pareri
-                    </StepButton>
-                  </Step>
-                  <Step>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Approvazione
-                    </StepButton>
-                  </Step>
-                  <Step>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Rilascio dell'atto
-                    </StepButton>
-                  </Step>
-                  <Step>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Richiesta Adempimenti
-                    </StepButton>
-                  </Step>
-                  <Step>
-                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Fine
-                    </StepButton>
-                  </Step>
-                </Stepper>
-              </Box>
-              <Box>
-                {this.getStepContent(this.state.stepIndex)}
-              </Box>
-              <div style={{marginTop:'20px', width:'auto'}}>
-                <div style={{position:'relative', width : '230px', marginRight : '20px', float:'right'}}>
-                <FlatButton
-                   label="indietro"
-                   disabled={this.state.stepIndex === 0}
-                   onTouchTap={this._prev.bind(this)}
-                   primary={false}
-                   icon ={<PrevIcon />}
-                 />
-                 <FlatButton
-                   label={this.state.stepIndex === 5 ? 'Fine' : 'Avanti'}
-                   primary={false}
-                   onTouchTap={this._next.bind(this)}
-                   labelPosition="before"
-                   icon={<NextIcon />}
-                 />
+    if(this.state.loading){
+      return(
+        <Box alignItems="center" justifyContent="center" style={{width:'100%', height : '300px'}}>
+          <CircularProgress size={30}/>
+        </Box>
+      )
+    }else{
+      return (
+        <MuiThemeProvider muiTheme={lightBaseTheme} >
+          <div style={{width : '100%'}}>
+            <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'hidden'}}>
+              <p style={{color:'#666666', marginLeft : '10px', marginTop : '20px',fontFamily:'Roboto', width:'100%', textAlign:'left'}}>Pratica n°: <b>{this.props.params.pid}</b></p>
+              {this.state.ref_abusi.length > 0 ? <Box alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}><Box><p className="praticaClass" style={{marginLeft:'5px'}}>Abusi Associati:</p><SelectRefs abusi={this.state.ref_abusi}/></Box></Box>: null}
+              <Paper zDepth={1} style={styles.paper}>
+                <Box justifyContent="center" alignItems="center">
+                  <Stepper
+                    activeStep={this.state.stepIndex}
+                    linear={false}
+                    style={{marginTop:'0px'}}
+                  >
+                    <Step>
+                      <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
+                        Verifica di compatibilità
+                      </StepButton>
+                    </Step>
+                    <Step>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Richiesta Pareri
+                      </StepButton>
+                    </Step>
+                    <Step>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Approvazione
+                      </StepButton>
+                    </Step>
+                    <Step>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Rilascio dell'atto
+                      </StepButton>
+                    </Step>
+                    <Step>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Richiesta Adempimenti
+                      </StepButton>
+                    </Step>
+                    <Step>
+                      <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                        Fine
+                      </StepButton>
+                    </Step>
+                  </Stepper>
+                </Box>
+                <Box>
+                  {this.getStepContent(this.state.stepIndex)}
+                </Box>
+                <div style={{marginTop:'20px', width:'auto'}}>
+                  <div style={{position:'relative', width : '230px', marginRight : '20px', float:'right'}}>
+                  <FlatButton
+                     label="indietro"
+                     disabled={this.state.stepIndex === 0}
+                     onTouchTap={this._prev.bind(this)}
+                     primary={false}
+                     icon ={<PrevIcon />}
+                   />
+                   <FlatButton
+                     label={this.state.stepIndex === 5 ? 'Fine' : 'Avanti'}
+                     primary={false}
+                     onTouchTap={this._next.bind(this)}
+                     labelPosition="before"
+                     icon={<NextIcon />}
+                   />
+               </div>
              </div>
-           </div>
-            </Paper>
-          </Box>
-        </div>
-      </MuiThemeProvider>
+              </Paper>
+            </Box>
+          </div>
+        </MuiThemeProvider>
 
-    )
+      )
+    }
   }
 
 }

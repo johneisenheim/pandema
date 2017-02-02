@@ -39,6 +39,10 @@ import WebStorage from 'react-webstorage';
 import { browserHistory } from 'react-router';
 import $ from 'jquery';
 
+import CircularProgress from 'material-ui/CircularProgress';
+import {Link} from "react-router";
+import SelectRefs from '../complementars/SelectRefs';
+
 class D3SHandler extends React.Component{
 
   constructor(props, context) {
@@ -168,6 +172,7 @@ class D3SHandler extends React.Component{
         <div style={{width : '100%'}}>
           <Box column id="a" justifyContent="center" alignItems="center" style={{height:'100%', width: '100%', overflow:'hidden'}}>
             <p style={{color:'#666666', marginLeft : '10px', marginTop : '20px',fontFamily:'Roboto', width:'100%', textAlign:'left'}}>Pratica n°: <b>{this.props.params.pid}</b></p>
+            {this.state.ref_abusi.length > 0 ? <Box alignItems="flex-start" justifyContent="flex-start" style={{width:'100%'}}><Box><p className="praticaClass" style={{marginLeft:'5px'}}>Abusi Associati:</p><SelectRefs abusi={this.state.ref_abusi}/></Box></Box>: null}
             <Paper zDepth={1} style={styles.paper}>
               <Box justifyContent="center" alignItems="center">
                 <Stepper
