@@ -27,8 +27,9 @@ import TextField from 'material-ui/TextField';
 
 import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 import Delete from 'material-ui/svg-icons/action/delete';
+import Download from 'material-ui/svg-icons/file/file-download';
 
-class AttiCessioneFitto extends React.Component{
+class AvvisoDiniegoFinale extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -44,13 +45,11 @@ class AttiCessioneFitto extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'d4atticessionefitto?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'getAvvisoDiniegoFinale?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
-
           var parsed = JSON.parse(data);
-          ;
           _self.setState({
             ..._self.state,
             isLoading : false,
@@ -59,18 +58,17 @@ class AttiCessioneFitto extends React.Component{
         },
         error : function(err){
           alert("Errore : "+ JSON.stringify(err));
-          ;
         }
     });
   }
 
-  _domandeConcorrenzaFileHandler(e){
+  _avvisoPubblicazioneFileHandler(e){
     var _self = this;
     var formData = new FormData();
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);
-    formData.append('atype', 32);
+    formData.append('atype', 47);
     formData.append('file', this.refs.file.files[0]);
     $.ajax({
         type: 'POST',
@@ -96,16 +94,15 @@ class AttiCessioneFitto extends React.Component{
     _self.setState({
       ..._self.state,
       isLoading : true,
-      data : null
+      data : []
     })
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'d4atticessionefitto?pid='+this.props.pid+'&dbid='+this.props.dbid,
+        url: constants.DB_ADDR+'getAvvisoDiniegoFinale?pid='+this.props.pid+'&dbid='+this.props.dbid,
         processData: false,
         contentType: false,
         success: function(data) {
-
           var parsed = JSON.parse(data);
           _self.setState({
             ..._self.state,
@@ -115,7 +112,6 @@ class AttiCessioneFitto extends React.Component{
         },
         error : function(err){
           alert("Errore : "+ JSON.stringify(err));
-          ;
         }
     });
   }
@@ -146,6 +142,10 @@ class AttiCessioneFitto extends React.Component{
     }
   }
 
+  downloadModulo(){
+    window.open(LINKS.avvisodiniego, '_blank')
+  }
+
   render (){
     if( this.state.isLoading ){
       return(
@@ -165,7 +165,7 @@ class AttiCessioneFitto extends React.Component{
           for ( var i = 0; i < this.state.data.length; i++){
             tableContents.push(
               <TableRow key={i}>
-                <TableRowColumn>File #{i+1}</TableRowColumn>
+                <TableRowColumn>Avviso di Diniego {i+1}</TableRowColumn>
                 <TableRowColumn>{new Date(this.state.data[i].data_creazione).toLocaleDateString()}</TableRowColumn>
                 <TableRowColumn>
                   <IconButton onTouchTap={this.eyePress.bind(this, this.state.data[i].id)}><Eye color="#909EA2"/></IconButton>
@@ -176,12 +176,13 @@ class AttiCessioneFitto extends React.Component{
           }
       }
       return (
-          <Box column style={{marginTop:'0px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
+          <Box column style={{marginTop:'30px', width:'100%'}} alignItems="flex-start" justifyContent="flex-start">
               <Toolbar style={{backgroundColor:'#4CA7D0', width:'100%'}}>
-                <ToolbarTitle text="Atti di  Cessione o fitto di azienda o Locazione di azienda" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
+                <ToolbarTitle text="File caricato per Avviso Diniego" style={{color:'#FFFFFF', textAlign:'center', fontSize:'15px'}}/>
                 <ToolbarGroup style={{marginRight:'0px'}}>
-                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}}>
-                    <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._domandeConcorrenzaFileHandler.bind(this)} ref="file"/>
+                  <FlatButton label="Scarica il modulo" icon={<Download style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} onTouchTap={this.downloadModulo.bind(this)}/>
+                  <FlatButton label="Allega File" icon={<Attach style={{fill:'#FFFFFF'}}/>} style={{marginTop:'10px', marginRight:'0px'}} labelStyle={{color:'#FFFFFF'}} disabled={this.state.data.length > 0}>
+                    {this.state.data.length == 0 ? <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={styles.inputFile} onChange={this._avvisoPubblicazioneFileHandler.bind(this)} ref="file"/> : null}
                   </FlatButton>
                 </ToolbarGroup>
               </Toolbar>
@@ -254,4 +255,4 @@ const styles = {
 };
 
 
-export default AttiCessioneFitto;
+export default AvvisoDiniegoFinale;

@@ -37,10 +37,11 @@ import Step5 from './step5/Step5';
 import Step6 from './step6/Step6';
 import Step7 from './step7/Step7';
 import Step8 from './step8/Step8';
+import Intermezzo from './intermezzo/Intermezzo';
 
 import actions from '../../../actions/actions';
 import { browserHistory } from 'react-router';
-
+import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 import {Link} from "react-router";
 import SelectRefs from '../complementars/SelectRefs';
@@ -54,7 +55,8 @@ class D4Handler extends React.Component{
       stepIndex : 0,
       finished: false,
       loading : true,
-      ref_abusi : []
+      ref_abusi : [],
+      endButtonTitle : 'Avanti'
     }
   }
 
@@ -90,22 +92,9 @@ class D4Handler extends React.Component{
   }
 
   _next (){
-    /*if(this.state.stepIndex == 3){
-      window.open('https://drive.google.com/open?id=0B5KalOy4omiKWFBWZnhQeWt2Szg');
-    }else*/
-    if(this.state.stepIndex == 5){
-      window.open(LINKS.concessioned3, '_blank');
+    if(this.state.endButtonTitle === 'Fine'){
       browserHistory.push('/');
-    }else{
-      this.setState({
-        stepIndex : this.state.stepIndex+1,
-        finished: this.state.finished
-      });
-    }
-  }
-
-  _next (){
-    if(this.state.stepIndex == 5){
+    }else if(this.state.stepIndex == 6){
       window.open(LINKS.concessioned4, '_blank');
       browserHistory.push('/');
     }else{
@@ -119,9 +108,25 @@ class D4Handler extends React.Component{
   _prev(){
     this.setState({
       stepIndex : this.state.stepIndex-1,
-      finished: this.state.finished
+      finished: this.state.finished,
+      endButtonTitle : 'Avanti'
     });
   }
+
+  changeEndButtonTitleInEnd(){
+    this.setState({
+      ...this.state,
+      endButtonTitle : 'Fine'
+    });
+  }
+
+  changeEndButtonTitleInNext(){
+    this.setState({
+      ...this.state,
+      endButtonTitle : 'Avanti'
+    });
+  }
+
 
   getStepContent(index){
     switch (index) {
@@ -135,12 +140,15 @@ class D4Handler extends React.Component{
         return <Step4 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 3:
-        return <Step6 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
+        return <Intermezzo pid={this.props.params.pid} dbid={this.props.params.dbid} changeEndButtonTitleInEnd={this.changeEndButtonTitleInEnd.bind(this)} changeEndButtonTitleInNext={this.changeEndButtonTitleInNext.bind(this)}/>;
         break;
       case 4:
-        return <Step7 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
+        return <Step6 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 5:
+        return <Step7 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
+        break;
+      case 6:
         return <Step8 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       default:
@@ -169,32 +177,37 @@ class D4Handler extends React.Component{
                   linear={false}
                   style={{marginTop:'0px'}}
                 >
-                  <Step>
+                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                       Preistruttoria
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Istruttoria
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Verifica Documentazione
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                      Scelta dell'atto
+                    </StepButton>
+                  </Step>
+                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Approvazione
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Imposte
                     </StepButton>
                   </Step>
-                  <Step>
+                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Fine
                     </StepButton>
@@ -214,7 +227,7 @@ class D4Handler extends React.Component{
                    icon ={<PrevIcon />}
                  />
                  <FlatButton
-                   label={this.state.stepIndex === 5 ? 'Fine' : 'Avanti'}
+                   label={this.state.stepIndex < 6 ? this.state.endButtonTitle : 'Fine'}
                    primary={false}
                    onTouchTap={this._next.bind(this)}
                    labelPosition="before"

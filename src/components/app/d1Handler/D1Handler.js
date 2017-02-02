@@ -120,7 +120,8 @@ class D1Handler extends React.Component{
     this.setState({
       ...this.state,
       stepIndex : this.state.stepIndex-1,
-      finished: this.state.finished
+      finished: this.state.finished,
+      endButtonTitle : 'Avanti'
     });
   }
 

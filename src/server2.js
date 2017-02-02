@@ -951,6 +951,16 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 46;
       break;
+      case 47:
+        file.path = praticaPath+'/avviso_diniego_finale.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 47;
+      break;
+      case 48:
+        file.path = praticaPath+'/diniego_definitivo_finale.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 48;
+      break;
 
     }
 
@@ -1326,6 +1336,14 @@ app2.get('/getComuneImage', function(req,res){
 
 app2.get('/getRefAbuso', function(req,res){
   middleware.getRefAbuso(req,res);
+});
+
+app2.get('/getAvvisoDiniegoFinale', function(req,res){
+  middleware.getAvvisoDiniegoFinale(req,res);
+});
+
+app2.get('/getDiniegoDefinivoFinale', function(req,res){
+  middleware.getDiniegoDefinivoFinale(req,res);
 });
 
 app2.listen(8001, ()=> {

@@ -9,7 +9,7 @@ import Box from 'react-layout-components';
 import AvvisoDiniegoFinale from './AvvisoDiniegoFinale';
 import DiniegoDefinitivoFinale from './DiniegoDefinitivoFinale';
 
-class Step5 extends React.Component{
+class Intermezzo extends React.Component{
 
   constructor(props,context){
     super(props, context);
@@ -152,4 +152,4 @@ const styles = {
   },
 }
 
-export default Step5;
+export default Intermezzo;
