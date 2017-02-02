@@ -104,7 +104,8 @@ class Archivio extends React.Component{
         browserHistory.push(link);
       break;
       case '1':
-        browserHistory.push('/decadenza/'+v+'/'+k);
+        browserHistory.push('/annuali/'+v+'/'+k)
+        //browserHistory.push('/decadenza/'+v+'/'+k);
       break;
       case '2':
         browserHistory.push('/canone');
@@ -266,7 +267,8 @@ class Archivio extends React.Component{
                     iconStyle={{width:'20px', height : '20px', color:'#0BA1DA'}}
                     onItemTouchTap={this.onRequestChange.bind(this,this.state.data[i].pandema_id,this.state.data[i].id, linkToD)}
                   >
-                  <MenuItem key={0} primaryText="Gestione Annuale" />
+                  <MenuItem key={0} primaryText="Fascicolo" />
+                  <MenuItem key={1} primaryText="Gestione Annuale" />
                   <MenuItem key={2} primaryText="Controllo Canoni Pregressi" />
                 </IconMenu>
               </TableRowColumn>

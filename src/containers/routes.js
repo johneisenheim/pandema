@@ -35,6 +35,7 @@ import NuovoArt55 from '../components/app/registri/art55/NuovoArt55';
 import VisualizzaArt55 from '../components/app/registri/art55/VisualizzaArt55';
 import NuovoArt45 from '../components/app/registri/art45/NuovoArt45';
 import VisualizzaArt45 from '../components/app/registri/art45/VisualizzaArt45';
+import Annuali from '../components/app/archivio/Annuali';
 
 
 
@@ -73,6 +74,7 @@ module.exports = (
 			<Route path='/nuovapraticaarchivio' component={NuovaPraticaArchivio} />
 			<Route path='/canone' component={CanoniPregressi} />
 			<Route path='/decadenza/:pid/:dbid' component={Decadenza} />
+			<Route path='/annuali/:pid/:dbid' component={Annuali} />
 		</Route>
 	</Router>
 );

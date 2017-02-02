@@ -961,6 +961,42 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 48;
       break;
+      case 49:
+        var adempimentiArchivioPath = praticaPath+'/adempimenti_annuali';
+        if(!fs.existsSync(adempimentiArchivioPath)){
+          fs.mkdirSync(adempimentiArchivioPath);
+        }
+        file.path = adempimentiArchivioPath+'/adempimento_annuale_'+Math.floor(new Date() / 1000)+'.docx';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 49;
+      break;
+      case 50:
+        var ricevutaCanonePath = praticaPath+'/ricevute_annuali';
+        if(!fs.existsSync(ricevutaCanonePath)){
+          fs.mkdirSync(ricevutaCanonePath);
+        }
+        file.path = ricevutaCanonePath+'/ricevuta_annuale_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 50;
+      break;
+      case 51:
+        var ricevuteSpesePath = praticaPath+'/ricevute_spese';
+        if(!fs.existsSync(ricevuteSpesePath)){
+          fs.mkdirSync(ricevuteSpesePath);
+        }
+        file.path = ricevuteSpesePath+'/ricevuta_spesa_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 51;
+      break;
+      case 52:
+        var attestatoCauzionePath = praticaPath+'/attestati_cauzione';
+        if(!fs.existsSync(attestatoCauzionePath)){
+          fs.mkdirSync(attestatoCauzionePath);
+        }
+        file.path = attestatoCauzionePath+'/attestato_cauzione_'+Math.floor(new Date() / 1000)+'.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 52;
+      break;
 
     }
 
@@ -1345,6 +1381,27 @@ app2.get('/getAvvisoDiniegoFinale', function(req,res){
 app2.get('/getDiniegoDefinivoFinale', function(req,res){
   middleware.getDiniegoDefinivoFinale(req,res);
 });
+
+app2.get('/getAdempimentiAnnuali', function(req,res){
+  middleware.getAdempimentiAnnuali(req,res);
+});
+
+app2.get('/getRicevuteCanone', function(req,res){
+  middleware.getRicevuteCanone(req,res);
+});
+
+app2.get('/getRicevuteSpese', function(req,res){
+  middleware.getRicevuteSpese(req,res);
+});
+
+app2.get('/getAttestatoCauzione', function(req,res){
+  middleware.getAttestatoCauzione(req,res);
+});
+
+app2.get('/getAnnualiPath', function(req,res){
+  middleware.getAnnualiPath(req,res);
+});
+
 
 app2.listen(8001, ()=> {
   console.info("Second server is listening to 8001");
