@@ -29,7 +29,7 @@ var links = {
   'avvioingiunzione' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQb0c2TjNuZXVJb3c',
   'ingiunzionetipo' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQeEF3RkpDZHQxTUU',
   'primoavviso' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQZncyeENqMUtiSjg',
-  'secondoavviso' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQM1JLNkhSZ2pDZmM',
+  'secondoavviso' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQa0REelR5UDRGT2M',
   'chiusura' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQNFpLb1hIdjJyMEk',
   'trasmissione' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQMjBzTGh2RkNrWWM',
   'canonipregressi' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQUkdGSjhZRXNlNTQ',
