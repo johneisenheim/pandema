@@ -143,7 +143,7 @@ class AdempimentiAnuali extends React.Component{
   }
 
   downloadModulo(){
-    window.open(LINKS.diniegodefinitivo, '_blank')
+    window.open(LINKS.adempimenti_annuali, '_blank')
   }
 
   render (){

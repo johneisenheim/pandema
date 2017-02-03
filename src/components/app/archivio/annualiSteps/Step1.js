@@ -27,22 +27,64 @@ import $ from 'jquery';
 import CircularProgress from 'material-ui/CircularProgress';
 import AdempimentiAnuali from './AdempimentiAnuali';
 
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
 class Step1 extends React.Component{
 
   constructor(props, context) {
     super(props, context);
     this.state = {
       isLoading : true,
-      compatibility : -1
+      value : null
     };
 
   }
 
   componentDidMount(){}
 
+  handleChange(event, index, value){
+    this.setState({
+      ...this.state,
+      value : value
+    }, function(){
+      switch(value){
+        case null:
+        break;
+        case 0:
+          window.open(LINKS.usi_vari_base, '_blank');
+        break;
+        case 1:
+          window.open(LINKS.turistico_e_diporto_base, '_blank');
+        break;
+        case 2:
+          window.open(LINKS.pesca_acqua_cantieri_base, '_blank');
+        break;
+        case 3:
+          window.open(LINKS.regione_campania_base, '_blank');
+        break;
+      }
+    });
+  }
+
   render (){
       return (
           <div style={{marginLeft:'20px', width : '100%', marginRight:'20px'}}>
+            <Box alignItems="center" justifyContent="flex-start">
+              <span style={{marginTop:'25px'}}>Scarica i files:</span>
+                <SelectField
+                  floatingLabelText="Seleziona il file"
+                  value={this.state.value}
+                  onChange={this.handleChange.bind(this)}
+                  style={{marginLeft:'20px'}}
+                >
+                  <MenuItem value={null} primaryText="" />
+                  <MenuItem value={0} primaryText="Usi Vari" />
+                  <MenuItem value={1} primaryText="Turistico e Diporto" />
+                  <MenuItem value={1} primaryText="Pesca Acquacoltura e Cantieri" />
+                  <MenuItem value={1} primaryText="Regione Campania" />
+                </SelectField>
+            </Box>
             <AdempimentiAnuali pid={this.props.pid} dbid={this.props.dbid} path={this.props.path}/>
           </div>
       );

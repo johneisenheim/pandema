@@ -45,6 +45,12 @@ var links = {
   'i_turistico_e_diporto': 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQTzQ2TF9rY2E5RVE',
   'i_usi_vari' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQbGdwbk0wS2wzd2M',
   'i_pertinenza_demaniale' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQODh3R3JnM2JDT0U',
-  'i_pesca_acqua_cantieri' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQRFFoZUNBYXowNVU'
+  'i_pesca_acqua_cantieri' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQRFFoZUNBYXowNVU',
+  'adempimenti_annuali': 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQdl8wck5Kc3VqOUU',
+  'trasmissione_canone' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQMjBzTGh2RkNrWWM',
+  'usi_vari_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQekctaXltOFZqRUE',
+  'turistico_e_diporto_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQUENvSTQxZnUxWmc',
+  'pesca_acqua_cantieri_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQMWVPQTVqVzRSZWc',
+  'regione_campania_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQNzlBZmx5dmw5Smc'
 };
 export default links;
