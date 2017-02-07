@@ -48,6 +48,7 @@ import DropdownA from './DropdownA';
 import { browserHistory } from 'react-router';
 import Mailto from 'react-mailto';
 import Pagination from '../../Pagination';
+import WebStorage from 'react-webstorage';
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
 
@@ -72,6 +73,10 @@ class Home extends React.Component{
 
   componentDidMount(){
     var _self = this;
+    var webStorage = new WebStorage(
+      window.localStorage ||
+      window.sessionStorage
+    );
     $.ajax({
         type: 'GET',
         url: constants.DB_ADDR+'getgeneralinfos?cid='+escape(global.city)+'&offset='+this.state.offset,

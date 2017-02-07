@@ -189,7 +189,7 @@ class Step4 extends React.Component{
           <RadioButtonGroup name="shipSpeed" onChange={this._onRadioChange.bind(this)}>
             <RadioButton
               value="0"
-              label="Cessione o fitto di un'azienda, con subingresso a favore del concessionario o locatorio di azienda"
+              label="Cessione o fitto di un'azienda, con subingresso a favore del concessionario o locazione di azienda"
               style={{marginTop : '15px'}}
             />
             <RadioButton

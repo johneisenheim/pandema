@@ -13,9 +13,33 @@ var path = require('path');
 var mime = require('mime');
 
 var archiver = require('archiver');
+var jwt = require('jwt-simple');
 
 
 var app2 = express();
+var secret = 'lovesthedevilcountingteardropsintherain';
+
+var bunyan = require('bunyan');
+var log = bunyan.createLogger({
+  name: 'pandema',
+  src : false,
+  streams : [
+    {
+      type: 'rotating-file',
+      level: 'error',
+      path: __base+'/pandema-error.log',
+      period: '1d',   // daily rotation
+      count: 30       // keep 3 back copies
+    },
+    {
+      type: 'rotating-file',
+      level: 'info',
+      path: __base+'/pandema-info.log',
+      period: '1d',   // daily rotation
+      count: 30       // keep 3 back copies
+    }
+  ]
+});
 
 var middleware;
 
@@ -42,8 +66,6 @@ app2.use(function (req, res, next) {
 
 });
 
-console.log(__base+'/comuniImages');
-
 app2.use("/comuniImages",express.static(__base+'/comuniImages'));
 
 app2.use(bodyParser.json());// to support JSON-encoded bodies
@@ -67,7 +89,10 @@ app2.get('/', (req, res)=>{
 
 app2.post('/login', function(req, res){
   var callback = function(obj){
-    console.log('callback from middleware '+ JSON.stringify(obj));
+    var payload = { user: obj.res[0].id };
+    if(obj.status){
+      obj.token = jwt.encode(payload, secret);
+    }
     res.end(JSON.stringify(obj));
   }
   middleware.login(req.body.username, req.body.password, callback);
@@ -376,7 +401,9 @@ app2.post('/insertnewpratica', function(req, res){
 
 app2.get('/insertnewpraticadropdown', function(req, res){
   //console.log(req.body);
-  middleware.insertnewpraticadropdown(req,res);
+  var decode = jwt.decode(req.query.token, secret);
+  log.info('[%s][insertnewpraticadropdown][user:%s]Add new pratica dropdown.', new Date().toUTCString(),decode.user);
+  middleware.insertnewpraticadropdown(req,res, decode.user);
 });
 
 app2.post('/insertnewpraticaarchivio', function(req, res){
@@ -385,9 +412,10 @@ app2.post('/insertnewpraticaarchivio', function(req, res){
 });
 
 app2.get('/handled1s1', function(req, res){
-    console.log('here');
     middleware.handled1s1(req, res);
 });
+
+//+'&token='+webStorage.getItem("pandemawebtoken")var decode = jwt.decode(req.query.token, secret);
 
 app2.get('/getgeneralinfos', function(req, res){
   middleware.getgeneralinfos(req,res);
@@ -1404,9 +1432,9 @@ app2.get('/getAnnualiPath', function(req,res){
 
 
 app2.listen(8001, ()=> {
-  console.info("Second server is listening to 8001");
 
-  middleware = new Middleware();
+  //QUI VA INSERITO BUYMAN
+  middleware = new Middleware(log);
   if(middleware.connect()){
     if( !fs.existsSync(__base+'/documents'))
         fs.mkdirSync(__base+'/documents');

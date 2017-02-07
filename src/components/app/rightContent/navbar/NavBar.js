@@ -68,6 +68,7 @@ class NavBar extends React.Component{
           webStorage.setItem("pandemawebapp", false);
           webStorage.setItem("pandemawebappcity", null);
           webStorage.setItem("pandemawebappcityname", null);
+          webStorage.setItem("pandemawebtoken", null);
           location.reload();
         }
         break;

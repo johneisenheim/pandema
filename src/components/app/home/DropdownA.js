@@ -22,6 +22,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 
 import { browserHistory } from 'react-router';
 import $ from 'jquery';
+import WebStorage from 'react-webstorage';
 
 class DropdownA extends React.Component{
 
@@ -99,14 +100,18 @@ class DropdownA extends React.Component{
       isLoading : true
     });
     //JOHNEISENHEIM devi inserire la query del tipo insertnewpraticadropdown
+    var webStorage = new WebStorage(
+      window.localStorage ||
+      window.sessionStorage
+    );
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'insertnewpraticadropdown?comune_id='+escape(global.city)+'&tipodocumento='+escape(_self.state.dtype.toUpperCase())+'&npratica='+escape(_self.state.selectedPID)+'&pid='+escape(_self.state.ids[_self.state.selectedPID]),
+        url: constants.DB_ADDR+'insertnewpraticadropdown?comune_id='+escape(global.city)+'&tipodocumento='+escape(_self.state.dtype.toUpperCase())+'&npratica='+escape(_self.state.selectedPID)+'&pid='+escape(_self.state.ids[_self.state.selectedPID])+'&token='+escape(webStorage.getItem("pandemawebtoken")),
         processData: false,
         contentType: false,
         success: function(data) {
-          var parsed = JSON.parse(data);
+          var parsed = JSON.parse(data);  
           if(parsed.response){
             _self.setState({
               ..._self.state,

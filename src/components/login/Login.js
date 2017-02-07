@@ -15,6 +15,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import $ from 'jquery';
 import WebStorage from 'react-webstorage';
 import { browserHistory } from 'react-router';
+import jwt from 'jwt-simple';
 
 class Login extends React.Component {
 
@@ -58,6 +59,7 @@ class Login extends React.Component {
                     webStorage.setItem("pandemawebapp", true);
                     webStorage.setItem("pandemawebappcity", parsed.res[0].id);
                     webStorage.setItem("pandemawebappcityname", parsed.res[0].citta);
+                    webStorage.setItem("pandemawebtoken", parsed.token);
                     location.reload();
                     //_self.handler();
                     //_self.history.push('/');
