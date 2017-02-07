@@ -360,16 +360,16 @@ class Middleware{
         });
       },
       function(completePraticaPath, npraticaFolder, lastID, _callback){
-        _self.connection.query("UPDATE pratica SET pandema_id="+_self.connection.escape(req.query.npratica+""+lastID)+" WHERE id="+_self.connection.escape(lastID), function(err, rows){
+        _self.connection.query("UPDATE pratica SET pandema_id="+_self.connection.escape(req.query.npratica+"_"+lastID+req.query.tipodocumento)+" WHERE id="+_self.connection.escape(lastID), function(err, rows){
           if(err){
             log.error('[insertnewpraticadropdown callback 4]Error: %s',err);
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
-          _callback(null,completePraticaPath, npraticaFolder);
+          _callback(null,completePraticaPath, npraticaFolder, lastID);
         });
       },
-      function(completePraticaPath, npraticaFolder, _callback){
+      function(completePraticaPath, npraticaFolder, lastID, _callback){
         if(!fs.existsSync(npraticaFolder)){
           fs.mkdirSync(npraticaFolder);
         }
@@ -377,7 +377,7 @@ class Middleware{
         if(!fs.existsSync(completePraticaPath)){
           fs.mkdirSync(completePraticaPath);
         }
-        res.end(JSON.stringify({response : true}));
+        res.end(JSON.stringify({response : true, lastID : lastID , lastIDcom: lastID+req.query.tipodocumento}));
         _callback(null);
       }
     ]);
@@ -1636,7 +1636,7 @@ class Middleware{
       },
       function(npraticaFolder, abusiFolder, lastID, _callback){
         var completePraticaPath = npraticaFolder+'/'+req.query.ref+'_'+lastID;
-        _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+""+lastID)+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
+        _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+"_"+lastID+"AB")+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
           if(err){
             res.end(JSON.stringify({response : false, err: err}))
             return;
@@ -1708,7 +1708,7 @@ class Middleware{
       },
       function(npraticaFolder, abusiFolder, lastID, _callback){
         var completePraticaPath = npraticaFolder+'/'+req.query.ref+'_'+lastID;
-        _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+'_'+lastID)+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
+        _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+'_'+lastID+"AB")+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
           if(err){
             res.end(JSON.stringify({response : false, err: err}))
             return;

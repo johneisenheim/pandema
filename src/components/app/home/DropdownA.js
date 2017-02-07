@@ -111,13 +111,14 @@ class DropdownA extends React.Component{
         processData: false,
         contentType: false,
         success: function(data) {
-          var parsed = JSON.parse(data);  
+          var parsed = JSON.parse(data);
           if(parsed.response){
             _self.setState({
               ..._self.state,
               isLoading : false
             });
-            var linkto = _self.state.dtype+'handler/'+_self.state.selectedPID+'/'+_self.state.ids[_self.state.selectedPID];
+            var linkto = _self.state.dtype+'handler/'+_self.state.selectedPID+'_'+parsed.lastIDcom+'/'+parsed.lastID;
+            console.log(linkto)
             browserHistory.push(linkto);
           }else alert('Errore', parsed.err);
         },

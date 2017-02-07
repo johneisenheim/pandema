@@ -104,7 +104,7 @@ class DropdownA extends React.Component{
             opened : false
           });
           //vai a quello nuovo
-          var link = '/handlegestioneabusi/'+parsed.id+'/'+_self.state.pratica_abuso+"_"+parsed.id;
+          var link = '/handlegestioneabusi/'+parsed.id+'/'+_self.state.pratica_abuso+"_"+parsed.id+"AB";
           browserHistory.push(link);
         },
         error : function(err){

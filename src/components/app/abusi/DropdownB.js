@@ -102,7 +102,7 @@ class DropdownB extends React.Component{
             opened : false
           });
           //vai a quello nuovo
-          var link = '/handleart47/'+parsed.id+'/'+_self.state.pratica_abuso+"_"+parsed.id;
+          var link = '/handleart47/'+parsed.id+'/'+_self.state.pratica_abuso+"_"+parsed.id+"AB";
           browserHistory.push(link);
         },
         error : function(err){
