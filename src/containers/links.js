@@ -51,6 +51,7 @@ var links = {
   'usi_vari_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQekctaXltOFZqRUE',
   'turistico_e_diporto_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQUENvSTQxZnUxWmc',
   'pesca_acqua_cantieri_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQMWVPQTVqVzRSZWc',
-  'regione_campania_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQNzlBZmx5dmw5Smc'
+  'regione_campania_base' : 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQNzlBZmx5dmw5Smc',
+  'regionale_canoni_pregressi': 'https://drive.google.com/uc?export=download&id=0B4zcgePlMtqQQWRidnlmUEpCeEU'
 };
 export default links;
