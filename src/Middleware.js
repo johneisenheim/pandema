@@ -1518,6 +1518,7 @@ class Middleware{
   getDInfosForAbusi(req,res){
     this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id AND pratica.comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
+        log.error('[getDInfosForAbusi]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1604,7 +1605,7 @@ class Middleware{
       function(hash, _callback){
         _self.connection.query("SELECT descrizione FROM tipo_abuso WHERE id="+_self.connection.escape(2), function(err, rows){
           if(err){
-            console.log('[d1DBOperations] error: '+ err);
+            log.error('[addNewAbusoAree callback 1]Error: %s',err);
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
@@ -1616,7 +1617,7 @@ class Middleware{
       function(npraticaFolder, abusiFolder, _callback){
         _self.connection.query("SELECT id FROM pratica WHERE pandema_id="+_self.connection.escape(req.query.ref), function(err, rows){
           if(err){
-            console.log('[d1DBOperations] error: '+ err);
+            log.error('[addNewAbusoAree callback 2]Error: %s',err);
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
@@ -1626,7 +1627,7 @@ class Middleware{
       function(npraticaFolder, abusiFolder, ids, _callback){
         _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, pratica_id, pratica_pandema_id, comune_id) VALUES("+_self.connection.escape(req.query.ref+Date.now())+", 5, 2,"+_self.connection.escape(ids[0].id)+","+_self.connection.escape(req.query.ref)+","+_self.connection.escape(req.query.comune_id)+")", function(err, rows){
             if(err){
-              console.log('[d1DBOperations] error: '+ err);
+              log.error('[addNewAbusoAree callback 3]Error: %s',err);
               res.end(JSON.stringify({response : false, err: err}))
               return;
             }
@@ -1638,6 +1639,7 @@ class Middleware{
         var completePraticaPath = npraticaFolder+'/'+req.query.ref+'_'+lastID;
         _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+"_"+lastID+"AB")+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
           if(err){
+            log.error('[addNewAbusoAree callback 4]Error: %s',err);
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
@@ -1676,7 +1678,7 @@ class Middleware{
       function(hash, _callback){
         _self.connection.query("SELECT descrizione FROM tipo_abuso WHERE id="+_self.connection.escape(3), function(err, rows){
           if(err){
-            console.log('[d1DBOperations] error: '+ err);
+            log.error('[addNewAbusoCodNav callback 1]Error: %s',err);
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
@@ -1688,7 +1690,7 @@ class Middleware{
       function(npraticaFolder, abusiFolder, _callback){
         _self.connection.query("SELECT id FROM pratica WHERE pandema_id="+_self.connection.escape(req.query.ref), function(err, rows){
           if(err){
-            console.log('[d1DBOperations] error: '+ err);
+            log.error('[addNewAbusoCodNav callback 2]Error: %s',err);
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
@@ -1698,7 +1700,7 @@ class Middleware{
       function(npraticaFolder, abusiFolder, ids, _callback){
         _self.connection.query("INSERT INTO abuso (pandema_abuso_id, stato_pratica_abuso_id, tipo_abuso_id, pratica_id, pratica_pandema_id, comune_id) VALUES("+_self.connection.escape(req.query.ref+Date.now())+", 5, 3,"+_self.connection.escape(ids[0].id)+","+_self.connection.escape(req.query.ref)+","+_self.connection.escape(req.query.comune_id)+")", function(err, rows){
             if(err){
-              console.log('[d1DBOperations] error: '+ err);
+              log.error('[addNewAbusoCodNav callback 3]Error: %s',err);
               res.end(JSON.stringify({response : false, err: err}))
               return;
             }
@@ -1710,6 +1712,7 @@ class Middleware{
         var completePraticaPath = npraticaFolder+'/'+req.query.ref+'_'+lastID;
         _self.connection.query("UPDATE abuso SET pandema_abuso_id = "+_self.connection.escape(req.query.ref+'_'+lastID+"AB")+", path="+_self.connection.escape(completePraticaPath)+" WHERE id="+_self.connection.escape(lastID), function(err,rows){
           if(err){
+            log.error('[addNewAbusoCodNav callback 4]Error: %s',err);
             res.end(JSON.stringify({response : false, err: err}))
             return;
           }
@@ -1738,7 +1741,7 @@ class Middleware{
   getPrimoAvviso(req,res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=3", function(err, rows){
       if(err){
-        ;
+        log.error('[getPrimoAvviso]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1749,7 +1752,7 @@ class Middleware{
   getSecondoAvviso(req,res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=4", function(err, rows){
       if(err){
-        ;
+        log.error('[getSecondoAvviso]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1763,7 +1766,7 @@ class Middleware{
       function(_callback){
         _self.connection.query("SELECT path FROM abuso WHERE id="+_self.connection.escape(req.query.dbid)+" AND pandema_abuso_id="+_self.connection.escape(req.query.pid), function(err, rows){
           if(err){
-            ;
+            log.error('[getAbusoPath callback 1]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -1773,7 +1776,7 @@ class Middleware{
       function(path, _callback){
         _self.connection.query("SELECT pratica_id FROM abuso WHERE id="+_self.connection.escape(req.query.dbid)+" AND pandema_abuso_id="+_self.connection.escape(req.query.pid), function(err, rows){
           if(err){
-            ;
+            log.error('[getAbusoPath callback 2]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -1785,7 +1788,7 @@ class Middleware{
           //signfiica che è un abuso generico
           _self.connection.query("SELECT id,descrizione_com FROM codice_uso_scopo", function(err, rows){
             if(err){
-              ;
+              log.error('[getAbusoPath callback 3]Error: %s',err);
               res.end(JSON.stringify({response: false, err : err}));
               return;
             }
@@ -1796,7 +1799,7 @@ class Middleware{
           //significa che è codnav o aree in concessione
           _self.connection.query("SELECT codice_uso_scopo.descrizione FROM pratica LEFT JOIN abuso ON abuso.pratica_id = pratica.id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE abuso.id="+_self.connection.escape(req.query.dbid)+" AND abuso.pandema_abuso_id="+_self.connection.escape(req.query.pid), function(err, rows){
             if(err){
-              ;
+              log.error('[getAbusoPath callback 4]Error: %s',err);
               res.end(JSON.stringify({response: false, err : err}));
               return;
             }
@@ -1811,7 +1814,7 @@ class Middleware{
   getTrasmissione(req,res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=5", function(err, rows){
       if(err){
-        ;
+        log.error('[getTrasmissione]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1822,7 +1825,7 @@ class Middleware{
   getAbusoStati(req,res){
     this.connection.query("SELECT id, descrizione_com FROM stato_pratica_abuso", function(err, rows){
       if(err){
-        ;
+        log.error('[getAbusoStati]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1833,8 +1836,9 @@ class Middleware{
   updateStatoAbuso(req,res){
     this.connection.query("UPDATE abuso SET stato_pratica_abuso_id ="+this.connection.escape(value)+" WHERE id="+this.connection.escape(data.dbid)+" AND pandema_abuso_id="+this.connection.escape(data.pid), function(err, rows){
       if(err){
-        console.log('Err in 2 '+ err);
-        return callback(err);
+        log.error('[updateStatoAbuso]Error: %s',err);
+        res.end(JSON.stringify({response: false, err : err}));
+        return;
       }
       res.end(JSON.stringify({response:true}));
     });
@@ -1843,7 +1847,7 @@ class Middleware{
   getDecadenzaAbusi(req,res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=6", function(err, rows){
       if(err){
-        ;
+        log.error('[getDecadenzaAbusi]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1854,7 +1858,7 @@ class Middleware{
   getChiusuraPratica(req, res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=7", function(err, rows){
       if(err){
-        ;
+        log.error('[getChiusuraPratica]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1865,7 +1869,7 @@ class Middleware{
   getDecadenza(req, res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=8", function(err, rows){
       if(err){
-        ;
+        log.error('[getDecadenza]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1876,7 +1880,7 @@ class Middleware{
   getAvvioDecadenza(req, res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=10", function(err, rows){
       if(err){
-        ;
+        log.error('[getAvvioDecadenza]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1887,7 +1891,7 @@ class Middleware{
   getAvvioDecadenzaPratica(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=45", function(err, rows){
       if(err){
-        ;
+        log.error('[getAvvioDecadenzaPratica]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1902,7 +1906,7 @@ class Middleware{
         var offset = 10 * req.query.offset;
         _self.connection.query("SELECT * FROM registro_generico WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriGenerico callback 1]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -1913,7 +1917,7 @@ class Middleware{
       function(registri, _callback){
         _self.connection.query("SELECT COUNT(id) AS ccount FROM registro_generico WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriGenerico callback 2]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -1926,10 +1930,9 @@ class Middleware{
   }
 
   addNewGeneralRegistry(req,res){
-    console.log(req.body);
     this.connection.query("INSERT INTO registro_generico(comune_id, n_ordine, localita, superficie, data, durata_mesi, scadenza, canone, quietanza, pertinenza, annotazioni, concessionario,scopo) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.localita)+","+this.connection.escape(req.body.superficie)+","+this.connection.escape(req.body.data)+","+this.connection.escape(req.body.durata)+","+this.connection.escape(req.body.scadenza)+","+this.connection.escape(req.body.canone)+","+this.connection.escape(req.body.quietanza)+","+this.connection.escape(req.body.pertinenza)+","+this.connection.escape(req.body.annotazioni)+","+this.connection.escape(req.body.concessionario)+","+this.connection.escape(req.body.scopo)+")", function(err, rows){
       if(err){
-        ;
+        log.error('[addNewGeneralRegistry]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1940,7 +1943,7 @@ class Middleware{
   getRegistroGenerico(req,res){
     this.connection.query("SELECT * FROM registro_generico WHERE id="+this.connection.escape(req.query.id), function(err, rows){
       if(err){
-        ;
+        log.error('[getRegistroGenerico]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1951,7 +1954,7 @@ class Middleware{
   annotazioneRegolarita(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=39", function(err, rows){
       if(err){
-        ;
+        log.error('[annotazioneRegolarita]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1962,7 +1965,7 @@ class Middleware{
   annotazioneIrregolaritaAbusi(req,res){
     this.connection.query("SELECT abuso_ha_allegato_abuso.allegato_abuso_id AS phaID, allegato_abuso.id, allegato_abuso.data_creazione, allegato_abuso.descrizione, allegato_abuso.path, tipo_allegato_abuso.descrizione_com FROM abuso_ha_allegato_abuso LEFT JOIN allegato_abuso ON abuso_ha_allegato_abuso.allegato_abuso_id = allegato_abuso.id LEFT JOIN tipo_allegato_abuso ON allegato_abuso.tipo_allegato_abuso_id = tipo_allegato_abuso.id WHERE abuso_ha_allegato_abuso.abuso_id ="+this.connection.escape(req.query.dbid)+" AND abuso_ha_allegato_abuso.pandema_abuso_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato_abuso.id=9", function(err, rows){
       if(err){
-        ;
+        log.error('[annotazioneIrregolaritaAbusi]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1973,7 +1976,7 @@ class Middleware{
   revoca(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=40", function(err, rows){
       if(err){
-        ;
+        log.error('[revoca]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -1988,7 +1991,7 @@ class Middleware{
         var offset = 10 * req.query.offset;
         _self.connection.query("SELECT * FROM registro_art24 WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriArt24 callback 1]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -1999,7 +2002,7 @@ class Middleware{
       function(registri, _callback){
         _self.connection.query("SELECT COUNT(id) AS ccount FROM registro_art24 WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriArt24 callback 2]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -2015,7 +2018,7 @@ class Middleware{
   addNewArt24Registry(req,res){
     this.connection.query("INSERT INTO registro_art24(comune_id, n_ordine, richiedente, data_richiesta, protocollo_richiesta, scopo, area_coperta, area_scoperta, volumetria, codice_comune, sezione, foglio, particella, subalterni, annotazioni) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.richiedente)+","+this.connection.escape(req.body.data)+","+this.connection.escape(req.body.protocollo_richiesta)+","+this.connection.escape(req.body.scopo)+","+this.connection.escape(req.body.area_coperta)+","+this.connection.escape(req.body.area_scoperta)+","+this.connection.escape(req.body.volumetria)+","+this.connection.escape(req.body.codice_comune)+","+this.connection.escape(req.body.sezione)+","+this.connection.escape(req.body.foglio)+","+this.connection.escape(req.body.particella)+","+this.connection.escape(req.body.subalterni)+","+this.connection.escape(req.body.annotazioni)+")", function(err, rows){
       if(err){
-        ;
+        log.error('[addNewArt24Registry]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2026,7 +2029,7 @@ class Middleware{
   getRegistroArt24(req,res){
     this.connection.query("SELECT * FROM registro_art24 WHERE id="+this.connection.escape(req.query.id), function(err, rows){
       if(err){
-        ;
+        log.error('[getRegistroArt24]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2041,7 +2044,7 @@ class Middleware{
         var offset = 10 * req.query.offset;
         _self.connection.query("SELECT * FROM registro_art55 WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriArt55 callback 1]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -2051,7 +2054,7 @@ class Middleware{
       function(registri, _callback){
         _self.connection.query("SELECT count(id) AS ccount FROM registro_art55 WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriArt55 callback 2]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -2065,7 +2068,7 @@ class Middleware{
   getRegistroArt55(req,res){
     this.connection.query("SELECT * FROM registro_art55 WHERE id="+this.connection.escape(req.query.id), function(err, rows){
       if(err){
-        ;
+        log.error('[getRegistroArt55]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2076,7 +2079,7 @@ class Middleware{
   addNewArt55Registry(req,res){
     this.connection.query("INSERT INTO registro_art55(comune_id, n_ordine, richiedente, data_richiesta, protocollo_richiesta, scopo, volumetria, codice_comune, sezione, foglio, particella, subalterni, annotazioni, data_rilascio, num_repertori, data_registrazione) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.richiedente)+","+this.connection.escape(req.body.data_richiesta)+","+this.connection.escape(req.body.protocollo_richiesta)+","+this.connection.escape(req.body.scopo)+","+this.connection.escape(req.body.volumetria)+","+this.connection.escape(req.body.codice_comune)+","+this.connection.escape(req.body.sezione)+","+this.connection.escape(req.body.foglio)+","+this.connection.escape(req.body.particella)+","+this.connection.escape(req.body.subalterni)+","+this.connection.escape(req.body.annotazioni)+","+this.connection.escape(req.body.data_rilascio)+","+this.connection.escape(req.body.num_repertori)+","+this.connection.escape(req.body.data_registrazione)+")", function(err, rows){
       if(err){
-        ;
+        log.error('[addNewArt55Registry]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2091,7 +2094,7 @@ class Middleware{
         var offset = 10 * req.query.offset;
         _self.connection.query("SELECT * FROM registro_art45 WHERE comune_id="+_self.connection.escape(req.query.comune_id)+" LIMIT 10 OFFSET "+offset, function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriArt45 callback 1]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -2102,7 +2105,7 @@ class Middleware{
       function(registri,_callback){
         _self.connection.query("SELECT COUNT(id) AS ccount FROM registro_art45 WHERE comune_id="+_self.connection.escape(req.query.comune_id), function(err, rows){
           if(err){
-            ;
+            log.error('[getRegistriArt45 callback 2]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
             return;
           }
@@ -2116,7 +2119,7 @@ class Middleware{
   addNewArt45Registry(req,res){
     this.connection.query("INSERT INTO registro_art45(comune_id, n_ordine, richiedente, data_richiesta, protocollo_richiesta, causale_autorizzazione, atto_concessione_subentro, num_atto_rilascio, data_atto_rilascio, pratica_concessione_riferimento) VALUES("+this.connection.escape(req.body.comune_id)+","+this.connection.escape(req.body.nordine)+","+this.connection.escape(req.body.richiedente)+","+this.connection.escape(req.body.data_richiesta)+","+this.connection.escape(req.body.protocollo_richiesta)+","+this.connection.escape(req.body.causale_autorizzazione)+","+this.connection.escape(req.body.atto_concessione_subentro)+","+this.connection.escape(req.body.num_atto_rilascio)+","+this.connection.escape(req.body.data_atto_rilascio)+","+this.connection.escape(req.body.pratica_concessione_riferimento)+")", function(err, rows){
       if(err){
-        ;
+        log.error('[addNewArt45Registry]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2127,7 +2130,7 @@ class Middleware{
   getRegistroArt45(req,res){
     this.connection.query("SELECT * FROM registro_art45 WHERE id="+this.connection.escape(req.query.id), function(err, rows){
       if(err){
-        ;
+        log.error('[getRegistroArt45]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2140,7 +2143,7 @@ class Middleware{
     //console.log("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+')');
     this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 0 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+') AND pratica.comune_id='+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableA]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2155,7 +2158,7 @@ class Middleware{
     //console.log("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 1 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.tipo_documento_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.codice_uso_scopo_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.stato_pratica_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+")");
     this.connection.query("SELECT pratica.id, pratica.pandema_id, pratica.tipo_documento_id, tipo_documento.descrizione, pratica.nome, pratica.cognome, pratica.codice_uso_scopo_id, pratica.stato_pratica_id, pratica.data, stato_pratica.descrizione AS stato_pratica_desc, stato_pratica.id AS st_pratica_id, codice_uso_scopo.descrizione_com FROM pratica LEFT JOIN tipo_documento ON tipo_documento.id = pratica.tipo_documento_id LEFT JOIN stato_pratica ON stato_pratica.id = pratica.stato_pratica_id LEFT JOIN codice_uso_scopo ON pratica.codice_uso_scopo_id = codice_uso_scopo.id WHERE pratica.isArchivio = 1 AND (pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.tipo_documento_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR tipo_documento.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.nome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.cognome LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.codice_uso_scopo_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.stato_pratica_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica.data LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.descrizione LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica.id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR codice_uso_scopo.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+") AND pratica.comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableB]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2168,7 +2171,7 @@ class Middleware{
   searchTableC(req,res){
     this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=1 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+") AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableC]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2181,7 +2184,7 @@ class Middleware{
   searchTableD(req,res){
     this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=2 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+") AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableD]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2194,7 +2197,7 @@ class Middleware{
   searchTableE(req,res){
     this.connection.query("SELECT abuso.*, stato_pratica_abuso.descrizione_com FROM abuso LEFT JOIN stato_pratica_abuso ON abuso.stato_pratica_abuso_id = stato_pratica_abuso.id WHERE tipo_abuso_id=3 AND (abuso.pandema_abuso_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR abuso.pratica_pandema_id LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR stato_pratica_abuso.descrizione_com LIKE "+this.connection.escape('%'+req.query.search+'%')+") AND comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableE]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2207,7 +2210,7 @@ class Middleware{
   searchTableF(req,res){
     this.connection.query("SELECT * FROM registro_generico WHERE comune_id="+this.connection.escape(req.query.cid)+" AND ( n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR scadenza LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR concessionario LIKE "+this.connection.escape('%'+req.query.search+'%')+") AND registro_generico.comune_id="+this.connection.escape(req.query.cid), function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableF]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2221,7 +2224,7 @@ class Middleware{
   searchTableG(req,res){
     this.connection.query("SELECT * FROM registro_art24 WHERE comune_id="+this.connection.escape(req.query.cid)+" AND (n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR richiedente LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR data_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR protocollo_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR annotazioni LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableG]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2235,7 +2238,7 @@ class Middleware{
   searchTableH(req,res){
     this.connection.query("SELECT * FROM registro_art55 WHERE comune_id="+this.connection.escape(req.query.cid)+" AND (n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR richiedente LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR data_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR protocollo_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR annotazioni LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableH]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2249,7 +2252,7 @@ class Middleware{
   searchTableI(req,res){
     this.connection.query("SELECT * FROM registro_art45 WHERE comune_id="+this.connection.escape(req.query.cid)+" AND (n_ordine LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR richiedente LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR data_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR protocollo_richiesta LIKE "+this.connection.escape('%'+req.query.search+'%')+" OR pratica_concessione_riferimento LIKE "+this.connection.escape('%'+req.query.search+'%')+")", function(err, rows){
       if(err){
-        ;
+        log.error('[searchTableI]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2263,7 +2266,7 @@ class Middleware{
   getAttiAutorizzazione(req, res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=44", function(err, rows){
       if(err){
-        ;
+        log.error('[getAttiAutorizzazione]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2274,7 +2277,7 @@ class Middleware{
   getD1s(req,res){
     this.connection.query("SELECT pratica.pandema_id, pratica.id FROM pratica WHERE comune_id="+this.connection.escape(req.query.cid)+" AND pratica.tipo_documento_id='1'", function(err, rows){
       if(err){
-        ;
+        log.error('[getD1s]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2297,6 +2300,7 @@ class Middleware{
   getRefAbuso(req,res){
     this.connection.query("SELECT id, pandema_abuso_id FROM abuso WHERE pratica_id="+this.connection.escape(req.query.dbid)+" AND pratica_pandema_id="+this.connection.escape(req.query.pid), function(err,rows){
       if(err){
+        log.error('[getRefAbuso]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2307,7 +2311,7 @@ class Middleware{
   getAvvisoDiniegoFinale(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=47", function(err, rows){
       if(err){
-        ;
+        log.error('[getAvvisoDiniegoFinale]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2318,7 +2322,7 @@ class Middleware{
   getDiniegoDefinivoFinale(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=48", function(err, rows){
       if(err){
-        ;
+        log.error('[getDiniegoDefinivoFinale]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2329,7 +2333,7 @@ class Middleware{
   getAdempimentiAnnuali(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=49", function(err, rows){
       if(err){
-        ;
+        log.error('[getAdempimentiAnnuali]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2340,7 +2344,7 @@ class Middleware{
   getRicevuteCanone(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=50", function(err, rows){
       if(err){
-        ;
+        log.error('[getRicevuteCanone]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2351,7 +2355,7 @@ class Middleware{
   getRicevuteSpese(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=51", function(err, rows){
       if(err){
-        ;
+        log.error('[getRicevuteSpese]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2362,7 +2366,7 @@ class Middleware{
   getAttestatoCauzione(req,res){
     this.connection.query("SELECT pratica_ha_allegato.allegato_id AS phaID, allegato.id, allegato.data_creazione, allegato.descrizione, allegato.path, tipo_allegato.descrizione_com FROM pratica_ha_allegato LEFT JOIN allegato ON pratica_ha_allegato.allegato_id = allegato.id LEFT JOIN tipo_allegato ON allegato.tipo_allegato_id = tipo_allegato.id WHERE pratica_ha_allegato.pratica_id ="+this.connection.escape(req.query.dbid)+" AND pratica_ha_allegato.pratica_pandema_id="+this.connection.escape(req.query.pid)+" AND tipo_allegato.id=52", function(err, rows){
       if(err){
-        ;
+        log.error('[getAttestatoCauzione]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
@@ -2373,7 +2377,7 @@ class Middleware{
   getAnnualiPath(req,res){
     this.connection.query("SELECT path FROM pratica WHERE id="+this.connection.escape(req.query.dbid)+" AND pandema_id="+this.connection.escape(req.query.pid), function(err, rows){
       if(err){
-        ;
+        log.error('[getAnnualiPath]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
