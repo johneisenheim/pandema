@@ -81,8 +81,8 @@ class Step1 extends React.Component{
                   <MenuItem value={null} primaryText="" />
                   <MenuItem value={0} primaryText="Usi Vari" />
                   <MenuItem value={1} primaryText="Turistico e Diporto" />
-                  <MenuItem value={1} primaryText="Pesca Acquacoltura e Cantieri" />
-                  <MenuItem value={1} primaryText="Regione Campania" />
+                  <MenuItem value={2} primaryText="Pesca Acquacoltura e Cantieri" />
+                  <MenuItem value={3} primaryText="Regione Campania" />
                 </SelectField>
             </Box>
             <AdempimentiAnuali pid={this.props.pid} dbid={this.props.dbid} path={this.props.path}/>

@@ -1,8 +1,0 @@
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":2300,"level":30,"msg":"[Tue Feb 07 2017 18:05:21 GMT+0100 (CET)][insertnewpraticadropdown][user:1]Add new pratica dropdown.","time":"2017-02-07T17:05:21.093Z","v":0}
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":2888,"level":30,"msg":"[Tue, 07 Feb 2017 17:12:31 GMT][insertnewpraticadropdown][user:1]Add new pratica dropdown.","time":"2017-02-07T17:12:31.765Z","v":0}
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":583,"level":50,"msg":"[getAllComuni]Error: Error: connect ENOENT /Applications/MAMP/tmp/mysql/mysql.sock","time":"2017-02-07T18:15:23.415Z","v":0}
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":1863,"level":30,"msg":"[Tue, 07 Feb 2017 18:33:19 GMT][insertnewpraticadropdown][user:1]Add new pratica dropdown.","time":"2017-02-07T18:33:19.907Z","v":0}
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":2594,"level":30,"msg":"[Tue, 07 Feb 2017 18:48:59 GMT][insertnewpraticadropdown][user:1]Add new pratica dropdown.","time":"2017-02-07T18:48:59.731Z","v":0}
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":2711,"level":30,"msg":"[Tue, 07 Feb 2017 18:51:18 GMT][insertnewpraticadropdown][user:1]Add new pratica dropdown.","time":"2017-02-07T18:51:18.554Z","v":0}
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":2817,"level":30,"msg":"[Tue, 07 Feb 2017 18:53:51 GMT][insertnewpraticadropdown][user:1]Add new pratica dropdown.","time":"2017-02-07T18:53:51.428Z","v":0}
-{"name":"pandema","hostname":"MacBook-Pro-di-Nello.local","pid":3125,"level":30,"msg":"[Tue, 07 Feb 2017 19:00:34 GMT][insertnewpraticadropdown][user:1]Add new pratica dropdown.","time":"2017-02-07T19:00:34.635Z","v":0}
