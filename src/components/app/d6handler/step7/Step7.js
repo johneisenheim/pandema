@@ -50,13 +50,13 @@ class Step7 extends React.Component{
     });
   }
 
-  _goToPage(who){
-    switch (who) {
-      case 'a':
-        window.open('https://docs.google.com/spreadsheets/d/1J2koBB4QvH1KnqWzp_65pumns3lrIU2WDGJ-JuqVI3Q/pub?output=xlsx');
-        break;
-      default:
-
+  onDownloadModulo(who){
+    switch(who){
+      case 'tasse_di_registro':
+        window.open(LINKS.tasse_di_registro, '_blank');
+      break;
+      case 'oneri_accessori':
+      break;
     }
   }
 
@@ -235,14 +235,14 @@ class Step7 extends React.Component{
       return(
         <div style={{marginLeft:'20px'}}>
             <br/><p>Fornisci informazioni su:</p>
-            <FlatButton label="Tasse di Registro" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/><TextField hintText="0.00" value={this.state['tasse_di_registro']} ref="tasse_di_registro" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'tasse_di_registro', 'tasse_di_registro')}/>
+            <FlatButton label="Tasse di Registro" icon={<Chart />} style={{marginTop:'10px'}} onClick={this.onDownloadModulo.bind(this,'tasse_di_registro')}/><TextField hintText="0.00" value={this.state['tasse_di_registro']} ref="tasse_di_registro" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'tasse_di_registro', 'tasse_di_registro')}/>
             {this.state['p_tasse_di_registro'] === ''
               ?
               <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'tasse_di_registro')} disabled={this.state['tasse_di_registro'] === ''}/>
               :
               <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'tasse_di_registro')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'tasse_di_registro')}/></span>
             }<br/>
-          <FlatButton label="Oneri Accessori" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/> <TextField hintText="0.00" value={this.state['oneri_accessori']} ref="oneri_accessori" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'oneri_accessori', 'oneri_accessori')}/>
+          <FlatButton label="Oneri Accessori" icon={<Chart />} style={{marginTop:'10px'}} onClick={this.onDownloadModulo.bind(this,'oneri_accessori')}/> <TextField hintText="0.00" value={this.state['oneri_accessori']} ref="oneri_accessori" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'oneri_accessori', 'oneri_accessori')}/>
           {this.state['p_oneri_accessori'] === ''
             ?
             <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'oneri_accessori')} disabled={this.state['oneri_accessori'] === ''}/>
