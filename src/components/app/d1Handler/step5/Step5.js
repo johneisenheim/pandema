@@ -31,7 +31,6 @@ class Step5 extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log('getStatoPratica', parsed)
           if( Number(parsed.results[0].stato_pratica_id) === 3){
             _self.props.changeEndButtonTitleInNext();
           }else{

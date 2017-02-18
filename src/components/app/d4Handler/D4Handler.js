@@ -38,6 +38,7 @@ import Step6 from './step6/Step6';
 import Step7 from './step7/Step7';
 import Step8 from './step8/Step8';
 import Intermezzo from './intermezzo/Intermezzo';
+import Imposte from './imposte/Imposte';
 
 import actions from '../../../actions/actions';
 import { browserHistory } from 'react-router';
@@ -70,7 +71,6 @@ class D4Handler extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           if(parsed.results.length == 0){
             _self.setState({
               ..._self.state,
@@ -94,7 +94,7 @@ class D4Handler extends React.Component{
   _next (){
     if(this.state.endButtonTitle === 'Fine'){
       browserHistory.push('/');
-    }else if(this.state.stepIndex == 6){
+    }else if(this.state.stepIndex == 7){
       window.open(LINKS.concessioned4, '_blank');
       browserHistory.push('/');
     }else{
@@ -149,6 +149,9 @@ class D4Handler extends React.Component{
         return <Step7 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       case 6:
+        return <Imposte pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
+        break;
+      case 7:
         return <Step8 pid={this.props.params.pid} dbid={this.props.params.dbid}/>;
         break;
       default:
@@ -177,37 +180,42 @@ class D4Handler extends React.Component{
                   linear={false}
                   style={{marginTop:'0px'}}
                 >
-                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={(e) => e.preventDefault()} style={{cursor:'default', backgroundColor:'transparent'}}>
                       Preistruttoria
                     </StepButton>
                   </Step>
-                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Istruttoria
                     </StepButton>
                   </Step>
-                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
-                      Verifica Documentazione
+                      Verifica Doc.
                     </StepButton>
                   </Step>
-                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Scelta dell'atto
                     </StepButton>
                   </Step>
-                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Approvazione
                     </StepButton>
                   </Step>
-                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Imposte
                     </StepButton>
                   </Step>
-                  <Step style={{width : '14%', textOverflow : 'ellipsis'}}>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
+                    <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
+                      Bolli
+                    </StepButton>
+                  </Step>
+                  <Step style={{width : '12.5%', textOverflow : 'ellipsis'}}>
                     <StepButton onClick={() => console.log('step click')} style={{cursor:'default', backgroundColor:'transparent'}} >
                       Fine
                     </StepButton>
@@ -227,7 +235,7 @@ class D4Handler extends React.Component{
                    icon ={<PrevIcon />}
                  />
                  <FlatButton
-                   label={this.state.stepIndex < 6 ? this.state.endButtonTitle : 'Fine'}
+                   label={this.state.stepIndex < 7 ? this.state.endButtonTitle : 'Fine'}
                    primary={false}
                    onTouchTap={this._next.bind(this)}
                    labelPosition="before"

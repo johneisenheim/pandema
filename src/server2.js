@@ -1152,6 +1152,10 @@ app2.get('/updateBollo', function(req, res){
   middleware.updateBollo(req,res);
 });
 
+app2.get('/deleteBollo', function(req, res){
+  middleware.deleteBollo(req,res);
+});
+
 app2.get('/addNumeroPagine', function(req, res){
   middleware.addNumeroPagine(req,res);
 });

@@ -1158,12 +1158,12 @@ class Middleware{
         var value = 0;
         if( req.query.value == Number(2) ){
           tipo_imposta_id = 2;
-          value = 2.0;
+          value = req.query.tot;
         }else if(req.query.value == Number(3)){
           tipo_imposta_id = 3;
-          value = 16.0;
+          value = req.query.tot;
         }
-        _self.connection.query("INSERT INTO imposta (valore,tipo_imposta_id) VALUES("+_self.connection.escape(tipo_imposta_id)+","+_self.connection.escape(value)+")", function(err,rows){
+        _self.connection.query("INSERT INTO imposta (valore,tipo_imposta_id) VALUES("+_self.connection.escape(value)+","+_self.connection.escape(tipo_imposta_id)+")", function(err,rows){
           if(err){
             log.error('[addBollo callback 1]Error: %s',err);
             res.end(JSON.stringify({response: false, err : err}));
@@ -1187,14 +1187,41 @@ class Middleware{
   }
 
   updateBollo(req, res){
-    this.connection.query("UPDATE imposta SET tipo_imposta_id="+this.connection.escape(req.query.value)+" WHERE id="+this.connection.escape(req.query.iid), function(err, rows){
+    var _self = this;
+    this.connection.query("UPDATE imposta SET valore="+this.connection.escape(req.query.value)+" WHERE id="+this.connection.escape(req.query.iid), function(err, rows){
       if(err){
         log.error('[updateBollo]Error: %s',err);
         res.end(JSON.stringify({response: false, err : err}));
         return;
       }
-      res.end(JSON.stringify({response : true, results : rows}));
+      res.end(JSON.stringify({response : true}));
     });
+  }
+
+  deleteBollo(req,res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("DELETE FROM imposta WHERE id="+_self.connection.escape(req.query.iid), function(err, rows){
+          if(err){
+            log.error('[deleteBollo]Error: %s',err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true}));
+        });
+      },
+      function(_callback){
+        _self.connection.query("DELETE FROM pratica_ha_imposta WHERE imposta_id="+_self.connection.escape(req.query.iid), function(err, rows){
+          if(err){
+            log.error('[deleteBollo]Error: %s',err);
+            res.end(JSON.stringify({response: false, err : err}));
+            return;
+          }
+          res.end(JSON.stringify({response : true}));
+        });
+      }
+    ]);
   }
 
   addNumeroPagine(req, res){

@@ -19,7 +19,8 @@ class Step5 extends React.Component{
       impostaID : undefined,
       numeroPagineID : undefined,
       data : [],
-      numero_pagine : ''
+      numero_pagine : '',
+      totale : undefined
     }
   }
 
@@ -37,7 +38,9 @@ class Step5 extends React.Component{
             _self.setState({
               ..._self.state,
               isLoading : false,
-              isBolloDefined : false
+              isBolloDefined : false,
+              isNumeroPagineDefined : false,
+              totale : undefined
             });
             return;
           }
@@ -105,7 +108,7 @@ class Step5 extends React.Component{
     var _self = this;
     var value = parseFloat(this.refs.numero_pagine.getValue());
     if(isNaN(value)){
-      alert("Devi inserire un numero del formato x.xx");
+      alert("Devi inserire un numero nel campo specificato");
       return;
     }
     toggleLoader.emit('toggleLoader');
@@ -145,7 +148,8 @@ class Step5 extends React.Component{
             _self.setState({
               ..._self.state,
               isLoading : false,
-              isBolloDefined : false
+              isBolloDefined : false,
+              isNumeroPagineDefined : false
             });
             return;
           }
@@ -192,6 +196,7 @@ class Step5 extends React.Component{
         </Box>
       );
     }else{
+      var totale = undefined;
       return(
         <div style={{marginLeft:'20px'}}>
             <p>Una volta scaricato l'atto, per favore compila i seguenti campi: </p>
@@ -200,17 +205,20 @@ class Step5 extends React.Component{
               <TextField hintText="Numero pagine atto" ref="numero_pagine" style={{ marginLeft:'30px', width:'180px'}} value={this.state.numero_pagine} onChange={this.onChangeTextField.bind(this)}/>
               <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '20px', marginTop:'5px'}} onTouchTap={this.onConfirm.bind(this,'numero_pagine')} disabled={this.state['numero_pagine'] === ''}/>
             </Box>
-            <RadioButtonGroup name="shipSpeed" defaultSelected={this.state.value} onChange={this.onChangeHandler.bind(this)} style={{marginTop:'20px'}}>
-              <RadioButton
-                value={2}
-                label="Imposta di bollo (2.00€)"
-                style={{marginBottom:'10px'}}
-              />
-              <RadioButton
-                value={3}
-                label="Imposta di bollo (16.00€)"
-              />
-            </RadioButtonGroup>
+            {this.state.isNumeroPagineDefined ?
+              <RadioButtonGroup name="shipSpeed" defaultSelected={this.state.value} onChange={this.onChangeHandler.bind(this)} style={{marginTop:'20px'}}>
+                <RadioButton
+                  value={2}
+                  label="Imposta di bollo (2.00€)"
+                  style={{marginBottom:'10px'}}
+                />
+                <RadioButton
+                  value={3}
+                  label="Imposta di bollo (16.00€)"
+                />
+              </RadioButtonGroup>
+              : null}
+            {this.state.isBolloDefined && this.state.isNumeroPagineDefined ? <p>Totale:</p> : null}
         </div>
       );
     }

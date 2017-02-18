@@ -44,7 +44,6 @@ class HandleArt47 extends React.Component{
 
   componentDidMount(){
     var _self = this;
-    console.log(this.props.params.pid, this.props.params.dbid);
     $.ajax({
         type: 'GET',
         //data: formData,

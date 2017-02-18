@@ -7,7 +7,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Chart from 'material-ui/svg-icons/editor/insert-chart';
 
 //https://docs.google.com/spreadsheets/d/1J2koBB4QvH1KnqWzp_65pumns3lrIU2WDGJ-JuqVI3Q/pubhtml?gid=0&single=true
-class Step5 extends React.Component{
+class Imposte extends React.Component{
 
   constructor(props, context) {
     super(props, context);
@@ -421,4 +421,4 @@ class Step5 extends React.Component{
 
 }
 
-export default Step5;
+export default Imposte;

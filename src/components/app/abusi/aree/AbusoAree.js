@@ -67,7 +67,6 @@ class GestioneAbusi extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed)
           _self.setState({
             ..._self.state,
             isLoading : false,

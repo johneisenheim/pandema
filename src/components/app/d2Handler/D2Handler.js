@@ -73,7 +73,6 @@ class D2Handler extends React.Component{
         contentType: false,
         success: function(data) {
           var parsed = JSON.parse(data);
-          console.log(parsed);
           if(parsed.results.length == 0){
             _self.setState({
               ..._self.state,
