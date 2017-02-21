@@ -57,6 +57,9 @@ class Step7 extends React.Component{
       break;
       case 'oneri_accessori':
       break;
+      case 'cauzione':
+        window.open(LINKS.cauzione, '_blank');
+      break;
     }
   }
 
@@ -249,7 +252,7 @@ class Step7 extends React.Component{
             :
             <span><FlatButton label="Modifica" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onModify.bind(this,'oneri_accessori')}/><FlatButton label="Elimina" backgroundColor='#FFFFFF' style={{marginLeft: '10px', color:'red'}} onTouchTap={this.onDelete.bind(this,'oneri_accessori')}/></span>
           }<br/>
-          <FlatButton label="Cauzione" icon={<Chart />} style={{marginTop:'10px'}} onClick={this._goToPage.bind(this,'a')}/> <TextField hintText="0.00" value={this.state['cauzione']} ref="cauzione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione', 'cauzione')}/>
+        <FlatButton label="Cauzione" icon={<Chart />} style={{marginTop:'10px'}} onClick={this.onDownloadModulo.bind(this,'cauzione')}/> <TextField hintText="0.00" value={this.state['cauzione']} ref="cauzione" style={{ marginLeft:'20px', width:'90px'}} onChange={this.onChange.bind(this, 'cauzione', 'cauzione')}/>
             {this.state['p_cauzione'] === ''
               ?
               <FlatButton label="Conferma" backgroundColor='#FFFFFF' style={{marginLeft: '30px'}} onTouchTap={this.onConfirm.bind(this,'cauzione')} disabled={this.state['cauzione'] === ''}/>
