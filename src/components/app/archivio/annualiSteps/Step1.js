@@ -63,6 +63,9 @@ class Step1 extends React.Component{
         case 3:
           window.open(LINKS.regione_campania_base, '_blank');
         break;
+        case 4:
+          window.open(LINKS.pertinenza_demaniale_base, '_blank');
+        break;
       }
     });
   }
@@ -83,6 +86,7 @@ class Step1 extends React.Component{
                   <MenuItem value={1} primaryText="Turistico e Diporto" />
                   <MenuItem value={2} primaryText="Pesca Acquacoltura e Cantieri" />
                   <MenuItem value={3} primaryText="Regione Campania" />
+                  <MenuItem value={4} primaryText="Pertinenza Demaniale" />
                 </SelectField>
             </Box>
             <AdempimentiAnuali pid={this.props.pid} dbid={this.props.dbid} path={this.props.path}/>
