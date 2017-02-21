@@ -221,7 +221,7 @@ class GestioneAbusi extends React.Component{
               </TableRowColumn>
               <TableRowColumn>
                 <IconButton>
-                  <Folder color={'#909EA2'}/>
+                  <IconButton containerElement={<Link to={`/gestisciallegatiabusi/`+this.state.data[i].pandema_abuso_id+'/'+this.state.data[i].id} style={{color: 'white', textDecoration:'none'}} activeStyle={{color: 'white'}}></Link>}><Folder color={'#909EA2'}/></IconButton>
                 </IconButton>
               </TableRowColumn>
               <TableRowColumn>
