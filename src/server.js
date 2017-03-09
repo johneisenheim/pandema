@@ -16,14 +16,14 @@ import server2 from './server2';
 try {
 	const app      = koa();
 	const hostname = process.env.HOSTNAME || "localhost";
-	const port     = process.env.PORT || 80;
+	const port     = process.env.PORT || 8000;
 	let   routes   = routesContainer;
 
 	app.use(koaStatic("static"));
 
 	app.use(function *(next) {
 		yield ((callback) => {
-			const webserver = __PRODUCTION__ ? "" : `//${this.hostname}:80`;
+			const webserver = __PRODUCTION__ ? "" : `//${this.hostname}:8080`;
 			const location  = this.path;
 
 			ReactRouter.match({routes, location}, (error, redirectLocation, renderProps) => {
