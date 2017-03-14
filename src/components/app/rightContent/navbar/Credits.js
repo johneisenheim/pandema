@@ -61,6 +61,8 @@ class Credits extends React.Component{
 
   handleModalClose(){}
 
+  //59C2E6
+
   render (){
     const actions = [
       <FlatButton
@@ -87,7 +89,7 @@ class Credits extends React.Component{
           >
           <Box column alignItems="center" justifyContent="center">
             <Box alignItems="center" justifyContent="center">
-              <Box alignItems="center" justifyContent="center" style={{backgroundColor:'#59C2E6', width : '120px', height:'120px', borderRadius:'60px',marginTop:'20px'}}>
+              <Box alignItems="center" justifyContent="center" style={{backgroundColor:'#FFFFFF', width : '120px', height:'120px', borderRadius:'60px',marginTop:'20px'}}>
                 <img src={PandemaLogo} style={{width:'110px', height:'110px', borderRadius:'60px'}}/>
               </Box>
             </Box>
