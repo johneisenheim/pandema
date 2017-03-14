@@ -19,6 +19,7 @@ import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import AutoComplete from 'material-ui/AutoComplete';
 import Mailto from 'react-mailto';
+import PandemaLogo from '../../../../../static/pandemaLogo.png';
 
 
 
@@ -87,7 +88,7 @@ class Credits extends React.Component{
           <Box column alignItems="center" justifyContent="center">
             <Box alignItems="center" justifyContent="center">
               <Box alignItems="center" justifyContent="center" style={{backgroundColor:'#59C2E6', width : '120px', height:'120px', borderRadius:'60px',marginTop:'20px'}}>
-                <img src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/14517518_10209321749193686_1727240140625966384_n.jpg?oh=a01a06af4749c48fa83e54e49a053b2c&oe=591A1B1E" style={{width:'110px', height:'110px', borderRadius:'60px'}}/>
+                <img src={PandemaLogo} style={{width:'110px', height:'110px', borderRadius:'60px'}}/>
               </Box>
             </Box>
             <p style={{textAlign : 'center', fontSize : '14px', color : '#666666'}}>Pandema è stato sviluppato da Nello Saulino, per conto della società Talassa s.r.l.</p>
