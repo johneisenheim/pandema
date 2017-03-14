@@ -19,7 +19,7 @@ import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import AutoComplete from 'material-ui/AutoComplete';
 import Mailto from 'react-mailto';
-import PandemaLogo from '../../../../../static/pandemaLogo.png';
+import PandemaLogo from '../../../../../static/pandemalogo.png';
 
 
 
