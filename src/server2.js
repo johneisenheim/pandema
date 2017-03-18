@@ -46,8 +46,8 @@ var middleware;
 app2.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    //res.setHeader('Access-Control-Allow-Origin', 'http://139.162.162.26:8000');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+    //res.setHeader('Access-Control-Allow-Origin', 'http://139.162.162.26:80');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:80');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
