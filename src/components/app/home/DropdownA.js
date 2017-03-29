@@ -107,7 +107,7 @@ class DropdownA extends React.Component{
     $.ajax({
         type: 'GET',
         //data: formData,
-        url: constants.DB_ADDR+'insertnewpraticadropdown?comune_id='+escape(global.city)+'&tipodocumento='+escape(_self.state.dtype.toUpperCase())+'&npratica='+escape(_self.state.selectedPID)+'&pid='+escape(_self.state.ids[_self.state.selectedPID])+'&token='+escape(webStorage.getItem("pandemawebtoken")),
+        url: constants.DB_ADDR+'insertnewpraticadropdown?comune_id='+escape(global.city)+'&tipodocumento='+escape(_self.state.dtype.toUpperCase())+'&npratica='+escape(_self.state.selectedPID)+'&pid='+escape(_self.state.ids[_self.state.selectedPID]),
         processData: false,
         contentType: false,
         success: function(data) {

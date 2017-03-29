@@ -40,18 +40,44 @@ class Middleware{
     });
   }
 
-  login(username, password, callback){
-    this.connection.query("SELECT id,citta FROM comune WHERE username="+this.connection.escape(username)+" AND password="+this.connection.escape(password), function(err, res){
-      if(err){
-        log.error('[login]Error: %s',err);
-        callback({status : false, error : err, res : null});
-        return;
+  login(username, password, callback, res){
+
+    var _self = this;
+
+    async.waterfall([
+
+      function(_callback){
+        //console.log("SELECT comune_id FROM utente WHERE username="+_self.connection.escape(username)+" AND password="+_self.connection.escape(password))
+        _self.connection.query("SELECT comune_id FROM utente WHERE username="+_self.connection.escape(username)+" AND password="+_self.connection.escape(password), function(err, rows){
+          if(err){
+            log.error('[login]Error: %s',err);
+            res.end(JSON.stringify({status : false, error : err, res : null}));
+            return;
+          }
+          if( rows.length == 0 ){
+            res.end(JSON.stringify({status:true, error:'Username e/o password non trovati!', res: []}));
+            return;
+          }
+          _callback(null, rows);
+        });
+      },
+      function(id, _callback){
+        console.log("SELECT id, citta FROM comune WHERE id="+id[0].comune_id);
+        _self.connection.query("SELECT id, citta FROM comune WHERE id="+id[0].comune_id, function(err, rows){
+          if(err){
+            log.error('[login]Error: %s',err);
+            res.end(JSON.stringify({status : false, error : err, res : null}));
+            return;
+          }
+          res.end(JSON.stringify({status : true, error : null, res : rows}));
+          _callback(null);
+        });
       }
-      callback({status : true, error : null, res : res});
-    });
+    ]);
+
   }
 
-  addComune(citta, cap, username, password,res){
+  addComune(citta, cap, res){
     var _self = this;
     async.waterfall([
       function(_callback){
@@ -61,7 +87,6 @@ class Middleware{
             res.end(JSON.stringify({status : false}))
             return;
           }
-          console.log(rows.length);
           if(rows.length > 0){
             res.end(JSON.stringify({status : true, message:'Esiste già un comune con questo CAP inserito!'}));
             return;
@@ -76,14 +101,13 @@ class Middleware{
           res.end(JSON.stringify({status : true, message:'Esiste già un comune con questo nome inserito!'}));
           return;
         }else{
-          console.log(folder);
           fs.mkdirSync(folder);
           _callback(null,hash);
         }
       },
       function(hash,_callback){
         var path = 'comuniImages/'+cap+'.png';
-        _self.connection.query("INSERT INTO comune (citta, cap, username, password,path) VALUES ("+_self.connection.escape(citta)+","+_self.connection.escape(cap)+","+_self.connection.escape(username)+","+_self.connection.escape(password)+","+_self.connection.escape(path)+")", function(err, rows){
+        _self.connection.query("INSERT INTO comune (citta, cap ,path) VALUES ("+_self.connection.escape(citta)+","+_self.connection.escape(cap)+","+_self.connection.escape(path)+")", function(err, rows){
           if(err){
             log.error('[addComune]Error: %s',err);
             res.end(JSON.stringify({status : false, message:err}))
@@ -94,6 +118,50 @@ class Middleware{
         });
       }
     ]);
+  }
+
+  addUser(req, res){
+    var _self = this;
+    async.waterfall([
+      function(_callback){
+        _self.connection.query("SELECT username FROM utente WHERE username="+_self.connection.escape(req.query.username), function(err, rows){
+          if(err){
+            log.error('[addUser]Error: %s',err);
+            res.end(JSON.stringify({status : false}));
+            return;
+          }
+          if(rows.length > 0){
+            //utente già esistente
+            res.end(JSON.stringify({status : true, message:'Esiste già un utente con questo username'}));
+            return;
+          }
+          _callback(null, 'a');
+        });
+      },
+      function(fake, _callback){
+        _self.connection.query("INSERT INTO utente (nome, cognome, username, password, comune_id) VALUES("+_self.connection.escape(req.query.nome)+","+_self.connection.escape(req.query.cognome)+","+_self.connection.escape(req.query.username)+","+_self.connection.escape(req.query.password)+","+_self.connection.escape(req.query.comune_id)+")", function(err, rows){
+          if(err){
+            log.error('[addUser2]Error: %s',err);
+            res.end(JSON.stringify({status : false}));
+            return;
+          }
+          res.end(JSON.stringify({status : true, message:'Utente inserito'}));
+          _callback(null);
+        });
+      }
+    ])
+  }
+
+  getAllComuniIDs(req,res){
+    this.connection.query("SELECT id FROM comune", function(err, rows){
+      if(err){
+        log.error('[getAllComuniIDs]Error: %s',err);
+        res.end(JSON.stringify({status : false}));
+        return;
+      }
+      res.end(JSON.stringify({status : true, res: rows}));
+      _callback(null);
+    });
   }
 
   getAllComuni(callback){
@@ -309,7 +377,7 @@ class Middleware{
     ]);
   }
 
-  insertnewpraticadropdown(req,res, user){
+  insertnewpraticadropdown(req,res){
     var _self = this;
     var stato_pratica_id = 1;
     async.waterfall([
@@ -465,6 +533,7 @@ class Middleware{
     var _self = this;
     async.waterfall([
       function(_callback){
+        //console.log("SELECT COUNT(pratica.id) AS ccount FROM pratica WHERE comune_id="+_self.connection.escape(req.query.cid)+" AND pratica.isArchivio = 0")
         _self.connection.query("SELECT COUNT(pratica.id) AS ccount FROM pratica WHERE comune_id="+_self.connection.escape(req.query.cid)+" AND pratica.isArchivio = 0", function(err, rows){
           if(err){
             log.error('[getgeneralinfos callback 1]Error: %s',err);

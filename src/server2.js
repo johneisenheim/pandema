@@ -47,7 +47,7 @@ app2.use(function (req, res, next) {
 
     // Website you wish to allow to connect
     //res.setHeader('Access-Control-Allow-Origin', 'http://139.162.162.26:80');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:80');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -95,7 +95,7 @@ app2.post('/login', function(req, res){
     }
     res.end(JSON.stringify(obj));
   }
-  middleware.login(req.body.username, req.body.password, callback);
+  middleware.login(req.body.username, req.body.password, callback, res);
 });
 
 app2.post('/addComune', function(req, res){
@@ -103,16 +103,14 @@ app2.post('/addComune', function(req, res){
   form.multiple = true;
   var cap = undefined;
   var citta = undefined;
-  var username = undefined;
-  var password = undefined;
 
   form.parse(req);
 
   form.on('fileBegin', function(name, file){
-    if(fs.existsSync(__base+'/comuniImages/'+cap+'.png')){
+    /*if(fs.existsSync(__base+'/comuniImages/'+cap+'.png')){
       res.end(JSON.stringify({status : false, message:'Esiste già un comune con questo CAP inserito!'}));
       return;
-    }
+    }*/
     file.path = __base+'/comuniImages/'+cap+'.png';
   });
 
@@ -123,16 +121,12 @@ app2.post('/addComune', function(req, res){
       cap = value;
     }else if(name == 'citta'){
       citta = value;
-    }else if(name == 'username'){
-      username = value;
-    }else if(name == 'password'){
-      password = value;
     }
   });
 
   form.on('end', function(){
     //console.log(toDB);
-    middleware.addComune(citta, cap, username, password, res);
+    middleware.addComune(citta, cap, res);
     //res.end(JSON.stringify({status : true, message:''}));
     //res.end('Ok!');
   });
@@ -150,6 +144,14 @@ app2.post('/provafile', function(req, res){
   });
 
 });
+
+app2.get('/addUser', function(req,res){
+  middleware.addUser(req,res);
+})
+
+app2.get('/getAllComuniIDs', function(req,res){
+  middleware.getAllComuniIDs(req,res);
+})
 
 app2.post('/handled1', function(req, res){
   var form = new formidable.IncomingForm();
@@ -401,9 +403,9 @@ app2.post('/insertnewpratica', function(req, res){
 
 app2.get('/insertnewpraticadropdown', function(req, res){
   //console.log(req.body);
-  var decode = jwt.decode(req.query.token, secret);
-  log.info('[%s][insertnewpraticadropdown][user:%s]Add new pratica dropdown.', new Date().toUTCString(),decode.user);
-  middleware.insertnewpraticadropdown(req,res, decode.user);
+  //var decode = jwt.decode(req.query.token, secret);
+  //log.info('[%s][insertnewpraticadropdown][user:%s]Add new pratica dropdown.', new Date().toUTCString(),decode.user);
+  middleware.insertnewpraticadropdown(req,res);
 });
 
 app2.post('/insertnewpraticaarchivio', function(req, res){

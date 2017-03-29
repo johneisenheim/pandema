@@ -41,6 +41,7 @@ export default class Main extends React.Component {
 
 		if (__CLIENT__) {
 			console.log("Hello client");
+			console.log("HELLO THERE");
 			global.toggleLoader = new EventEmitter2();
 			global.myGlobalVariable = 'Cane';
 			//webStorage.setItem('chiave', 'valore');
@@ -73,6 +74,7 @@ export default class Main extends React.Component {
 			}
 		})
 		global.city = webStorage.getItem('pandemawebappcity');
+		console.log(global.city);
 		if(ws === 'true' && global.city !== null){
 			this.logged = true;
 		}else{
@@ -101,9 +103,9 @@ export default class Main extends React.Component {
 
 	 */
 	render () {
-		if( this.logged == null )
+		if( this.logged == null ){
  		 return <div></div>;
- 	 	else if(this.logged)
+ 	 	}else if(this.logged)
  			return (
 				<div>
 					<Loadable

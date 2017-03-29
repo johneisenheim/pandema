@@ -59,7 +59,7 @@ class Login extends React.Component {
                     webStorage.setItem("pandemawebapp", true);
                     webStorage.setItem("pandemawebappcity", parsed.res[0].id);
                     webStorage.setItem("pandemawebappcityname", parsed.res[0].citta);
-                    webStorage.setItem("pandemawebtoken", parsed.token);
+                    //webStorage.setItem("pandemawebtoken", parsed.token);
                     location.reload();
                     //_self.handler();
                     //_self.history.push('/');
