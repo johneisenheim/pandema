@@ -16,6 +16,8 @@ import $ from 'jquery';
 import WebStorage from 'react-webstorage';
 import { browserHistory } from 'react-router';
 import jwt from 'jwt-simple';
+import PropTypes from 'prop-types';
+import {version} from '../../../version';
 
 class Login extends React.Component {
 
@@ -34,15 +36,18 @@ class Login extends React.Component {
   }
 
   childContextTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: PropTypes.object
   }
 
   signin () {
-    let _self = this.props;
+    var _self = this;
     if(this.refs.usernameField.getValue() === '' || this.refs.passwordField.getValue() === '' ){
       actions.toggleTextFieldStatus(this.refs.usernameField.getValue(), this.refs.passwordField.getValue());
     }else{
-
+        this.setState({
+          ...this.state,
+          spinnerStatus : 'visible'
+        })
         //actions.startLoading();
         $.ajax({
 						type: 'POST',
@@ -59,15 +64,28 @@ class Login extends React.Component {
                     webStorage.setItem("pandemawebapp", true);
                     webStorage.setItem("pandemawebappcity", parsed.res[0].id);
                     webStorage.setItem("pandemawebappcityname", parsed.res[0].citta);
+                    webStorage.setItem("pandemaversion", version);
+                    console.log(webStorage.getItem("pandemawebapp"));
+                    console.log(webStorage.getItem("pandemawebappcity"));
+                    console.log(webStorage.getItem("pandemawebappcityname"));
+                    console.log(webStorage.getItem("pandemaversion"));
                     //webStorage.setItem("pandemawebtoken", parsed.token);
                     location.reload();
                     //_self.handler();
                     //_self.history.push('/');
                   }else{
                     alert("Username o password errati!");
+                     _self.setState({
+                      ..._self.state,
+                      spinnerStatus : 'hidden'
+                    })                                      
                   }
                 }else{
                     alert("C'è stato un errore nell'elaborazione della richiesta. Per favore, riprova!");
+                    _self.setState({
+                      ..._self.state,
+                      spinnerStatus : 'hidden'
+                    })
                 }
             }
         });
@@ -86,7 +104,7 @@ class Login extends React.Component {
   showItemToLog(){
     if(this.state.spinnerStatus==='visible')
       return (
-        <CircularProgress size={1} style={{marginBottom:'30px', marginTop:'21px'}}/>
+        <CircularProgress size={30} style={{marginBottom:'30px', marginTop:'21px'}}/>
       );
     else return(
       <RaisedButton label="Accedi" primary={true} style={styles.button} onClick={this.signin.bind(this)} disabled={this.state.buttonDisabled}/>

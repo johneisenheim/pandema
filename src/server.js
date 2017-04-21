@@ -6,12 +6,12 @@ import React from "react";
 import ReactDOM from "react-dom/server";
 import * as ReactRouter from "react-router";
 import Transmit from "react-transmit";
+
 import routesContainer from "containers/routes";
 import favicon from "favicon.ico";
 
-import express from 'express';
-
 import server2 from './server2';
+import PropTypes from 'prop-types';
 
 try {
 	const app      = koa();
@@ -23,7 +23,7 @@ try {
 
 	app.use(function *(next) {
 		yield ((callback) => {
-			const webserver = __PRODUCTION__ ? "" : `//${this.hostname}:8000`;
+			const webserver = __PRODUCTION__ ? "" : `//${this.hostname}:8080`;
 			const location  = this.path;
 
 			ReactRouter.match({routes, location}, (error, redirectLocation, renderProps) => {
@@ -41,8 +41,8 @@ try {
 
 				const StyleProvider = React.createClass({
 					childContextTypes:{
-						styles:    React.PropTypes.array,
-						insertCss: React.PropTypes.func
+						styles:    PropTypes.array,
+						insertCss: PropTypes.func
 					},
 
 					getChildContext () {
@@ -60,7 +60,7 @@ try {
 				Transmit.renderToString(StyleProvider, renderProps).then(({reactString, reactData}) => {
 					let cssModules = "";
 
-					Object.keys(styles).forEach((style) => { cssModules += styles[style]; });
+					//Object.keys(styles).forEach((style) => { cssModules += styles[style]; });
 
 					let template = (
 						`<!doctype html>
@@ -70,7 +70,6 @@ try {
 								<title>Pandema | Web Application</title>
 								<link rel="shortcut icon" href="${favicon}" />
 								<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-								<style>${cssModules}</style>
 								<style>
 									.react-layout-components--box {
 									  display: -webkit-box;

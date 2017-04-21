@@ -18,6 +18,7 @@ import DrawerStore from '../../../stores/DrawerStore';
 import actions from '../../../actions/actions.js';
 import {Link} from "react-router";
 import Box from 'react-layout-components';
+import {version} from '../../../../version';
 
 
 class Sidebar extends React.Component{
@@ -96,7 +97,7 @@ class Sidebar extends React.Component{
               </Link>
               </List>
               <Box alignSelf="center" justifyContent="center">
-                <p className="version">v. 1.0.0</p>
+                <p className="version">v. {version}</p>
               </Box>
           </Box>
     )

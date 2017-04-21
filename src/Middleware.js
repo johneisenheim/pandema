@@ -14,7 +14,7 @@ class Middleware{
       user     : 'root',
       password : 'root',
       database : 'pandema',
-      //socketPath : '/Applications/MAMP/tmp/mysql/mysql.sock'
+      socketPath : '/opt/lampp/var/mysql/mysql.sock'
     });
     log = _log;
   }

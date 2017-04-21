@@ -1,10 +1,10 @@
 import express from 'express';
 import Middleware from './Middleware';
-import PDFs from '../pdfs/PDFs.js';
+//import PDFs from '../pdfs/PDFs.js';
 import fs from 'fs-extra';
 import crypto from 'crypto';
 require('magic-globals');
-var pdfs = new PDFs();
+//var pdfs = new PDFs();
 var bodyParser = require('body-parser');
 var formidable = require('formidable');
 var util = require('util');
@@ -80,7 +80,7 @@ app2.get('/avvisopubblicazione', (req, res)=>{
     console.log('PDF done!');
     res.download('test_complete.pdf');
   };
-  pdfs.fillAvvisoPubblicazione(JSON.parse(req.query.data), cllb);
+  //pdfs.fillAvvisoPubblicazione(JSON.parse(req.query.data), cllb);
 });
 
 app2.get('/', (req, res)=>{
@@ -195,7 +195,7 @@ app2.post('/handled1', function(req, res){
         var cllb = function(){
           console.log('PDF done!');
         };
-        pdfs.fillAvvisoPubblicazione(name, folder, npratica, 'D1', JSON.parse(value), cllb);
+        //pdfs.fillAvvisoPubblicazione(name, folder, npratica, 'D1', JSON.parse(value), cllb);
       }
       //if per i vari pdf
       if( name === 'canone'){
@@ -278,7 +278,7 @@ app2.post('/handled2', function(req, res){
         var cllb = function(){
           console.log('PDF done!');
         };
-        pdfs.fillAvvisoPubblicazione(name, folder, npratica, 'D2', JSON.parse(value), cllb);
+        //pdfs.fillAvvisoPubblicazione(name, folder, npratica, 'D2', JSON.parse(value), cllb);
       }
       //if per i vari pdf
       if( name === 'canone'){

@@ -1,21 +1,18 @@
 import React from "react";
-import InlineCss from "react-inline-css";
-import Transmit from "react-transmit";
 
-import favicon from "favicon.ico";
-
-//import MyPaper from "../components/Paper";
-
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import Login from "../components/login/Login";
-import App from "../components/app/App";
 import WebStorage from 'react-webstorage';
 import Loadable from 'react-loading-overlay';
 var EventEmitter2 = require('eventemitter2').EventEmitter2;
 import * as constants from '../constants';
 import links from './links';
+import App from "../components/app/App";
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import Login from "../components/login/Login";
+import {version} from '../../version';
 
 injectTapEventPlugin();
+
+
 
 /**
  * Main React application entry-point for both the server and client.
@@ -36,19 +33,13 @@ export default class Main extends React.Component {
 	componentWillMount () {
 		if (__SERVER__) {
 			console.log("Hello server");
-			global.myServerVariable = 'Gatto';
 		}
 
 		if (__CLIENT__) {
 			console.log("Hello client");
-			console.log("HELLO THERE");
 			global.toggleLoader = new EventEmitter2();
-			global.myGlobalVariable = 'Cane';
-			//webStorage.setItem('chiave', 'valore');
-			global.tryy = 'Hello guys!';
 			global.constants = constants;
-			global.LINKS = links;
-			//global._webStorage = webStorage;
+			//global.LINKS = links;
 		}
 	}
 
@@ -58,7 +49,6 @@ export default class Main extends React.Component {
 			window.sessionStorage
 		);
 		var _self = this;
-		//webStorage.setItem('_pandema', 'false');
 		var ws = webStorage.getItem('pandemawebapp');
 		toggleLoader.on('toggleLoader', function(){
 			if(_self.state.loading){
@@ -74,9 +64,23 @@ export default class Main extends React.Component {
 			}
 		})
 		global.city = webStorage.getItem('pandemawebappcity');
-		console.log(global.city);
-		if(ws === 'true' && global.city !== null){
+		if(ws === 'true' && global.city !== null && webStorage.getItem('pandemawebappcityname') !== null && webStorage.getItem('pandemaversion') !== null){
+			//console.log(webStorage.getItem('pandemawebappcityname'))
+			var _city = webStorage.getItem('pandemawebappcityname');
+			var goodCity = _city.replace(/\s/g,'').toLowerCase();
+			try{
+				var links = require('../../links/'+goodCity).default;
+				global.LINKS = links;
+				//console.log(global.LINKS)
+			}catch(ex){
+				var links = require('../../links/links').default;
+				global.LINKS = links;
+				//console.log('catch',global.LINKS)
+			}
 			this.logged = true;
+			if(webStorage.getItem('pandemaversion') !== version){
+				this.logged = false;
+			}
 		}else{
 			this.logged = false;
 		}
@@ -100,12 +104,12 @@ export default class Main extends React.Component {
 
 	/**
 	 * Runs on server and client.
-
 	 */
 	render () {
+
 		if( this.logged == null ){
  		 return <div></div>;
- 	 	}else if(this.logged)
+		}else if(this.logged)
  			return (
 				<div>
 					<Loadable
@@ -122,4 +126,5 @@ export default class Main extends React.Component {
 		);
  	 	else return (<div><Login {...this.props} handler={this.logMeIn.bind(this)} /></div>);
 	}
+	
 }

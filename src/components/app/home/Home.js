@@ -52,11 +52,32 @@ import WebStorage from 'react-webstorage';
 
 //67B8DD 67B3DD 62ABD3 73B7DD 4CA7D0 909EA2
 
+//icon={<ContentAdd />}
+
 //"/home/d1handler"
 
 /*<FloatingActionButton mini={true} style={{marginRight:'15px'}} primary={true} iconStyle={{fill:'#FFFFFF'}} backgroundColor='#4CA7D0' containerElement={<Link to="/nuovapratica"></Link>}>
     <ContentAdd/>
 </FloatingActionButton>*/
+
+/*<Popover
+                open={this.state.open}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose.bind(this)}
+                touchTapCloseDelay={100}
+              >
+                <Menu onItemTouchTap={this.onIconMenu.bind(this)}>
+                  <MenuItem primaryText="D1" />
+                  <MenuItem primaryText="D2" />
+                  <MenuItem primaryText="D3" />
+                  <MenuItem primaryText="D3S" />
+                  <MenuItem primaryText="D4" />
+                  <MenuItem primaryText="D5" />
+                  <MenuItem primaryText="D6" />
+                </Menu>
+              </Popover>*/ 
 
 class Home extends React.Component{
 
@@ -321,6 +342,7 @@ class Home extends React.Component{
         <MuiThemeProvider muiTheme={lightBaseTheme}>
           <Box column>
             <Box alignItems="center" justifyContent="flex-end" style={{marginTop:'15px'}}>
+              <div>
               <RaisedButton
                 label="Aggiungi nuova pratica"
                 backgroundColor ='#4CA7D0'
@@ -347,6 +369,8 @@ class Home extends React.Component{
                   <MenuItem primaryText="D6" />
                 </Menu>
               </Popover>
+              
+              </div>
             </Box>
               <Paper zDepth={1} style={styles.paper}>
                 <Toolbar style={{backgroundColor:'#4CA7D0'}}>

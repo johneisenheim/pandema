@@ -4,11 +4,12 @@ import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {lightBlue200, lightBlue300, lightBlueA100} from 'material-ui/styles/colors';
+import PropTypes from 'prop-types';
 
 
 class MyPaper extends React.Component {
   childContextTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: PropTypes.object
   }
   render(){
     return (
