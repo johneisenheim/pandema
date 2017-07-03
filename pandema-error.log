@@ -1,0 +1,1 @@
+{"name":"pandema","hostname":"nello-HP-250-G5-Notebook-PC","pid":21656,"level":50,"msg":"[addFile callback 1]Error: Error: ER_BAD_NULL_ERROR: Column 'tipo_allegato_id' cannot be null","time":"2017-07-03T20:42:44.916Z","v":0}

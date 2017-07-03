@@ -64,6 +64,7 @@ class AlternativaDiniego extends React.Component{
   _domandeConcorrenzaFileHandler(e){
     var _self = this;
     var formData = new FormData();
+    console.log('pid', this.props.pid, this.props.dbid, this.props.path)
     formData.append('pid', this.props.pid);
     formData.append('dbid', this.props.dbid);
     formData.append('path', this.props.path);

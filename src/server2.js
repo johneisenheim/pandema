@@ -1027,6 +1027,11 @@ app2.post('/addFile', function(req, res){
         toMiddleware.filepath = file.path;
         toMiddleware.allegatoType = 52;
       break;
+      case 53:
+        file.path = praticaPath+'/istanza_privato.pdf';
+        toMiddleware.filepath = file.path;
+        toMiddleware.allegatoType = 53;
+      break;
 
     }
 

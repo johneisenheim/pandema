@@ -359,7 +359,7 @@ class Middleware{
               res.end(JSON.stringify({response : false, err: err}))
               return;
             }
-            res.end(JSON.stringify({response : true, id: rows.insertId}))
+            res.end(JSON.stringify({response : true, id: rows.insertId, path: npraticaFolder}))
             _callback(null, completePraticaPath, npraticaFolder);
         });
       },
